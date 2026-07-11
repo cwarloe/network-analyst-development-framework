@@ -1,0 +1,31 @@
+name: Research question
+description: Propose a scoped question for evidence collection
+title: "[Research]: "
+labels: [research]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: State one answerable question.
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Decision relevance
+      description: Explain which framework decision this could inform.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and criteria
+      description: Include boundaries and proposed inclusion or exclusion criteria.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Known evidence and gaps
+      description: Link known sources and identify uncertainty or contrary evidence.

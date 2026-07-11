@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.tmp
+*.log
+secrets.*
+.env
+.env.*
+!.env.example

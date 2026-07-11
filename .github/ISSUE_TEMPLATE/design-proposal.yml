@@ -1,0 +1,29 @@
+name: Design proposal
+description: Submit a Design Studio proposal for evidence and decision review
+title: "[Proposal]: "
+labels: [proposal]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the proposal without presenting it as an accepted decision.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and assumptions
+      description: Link evidence records and label unsupported assumptions.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and tradeoffs
+    validations:
+      required: true
+  - type: textarea
+    id: questions
+    attributes:
+      label: Unresolved questions
