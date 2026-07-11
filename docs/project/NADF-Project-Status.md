@@ -4,9 +4,9 @@
 
 - **Document owner:** NADF Orchestrator / Chief Program Manager
 - **Maintained by:** NADF Orchestrator / Chief Program Manager
-- **Last updated:** 2026-07-10
-- **Repository status:** Initial project-status artifact; review pending
-- **Review status:** Unknown — reviewer and review date not yet established
+- **Last updated:** 2026-07-11
+- **Repository status:** Merged through pull request #1
+- **Review status:** Merged — no separate reviewer or review date is recorded in this artifact
 - **Project phase:** Research and repository initialization ([repository README](../../README.md))
 - **Next scheduled review:** Unknown — not yet scheduled
 
@@ -74,7 +74,7 @@ No evidence records are currently indexed ([evidence index](../research/EVIDENCE
 
 | Artifact | Intended path | Lifecycle state | Source | Repository status | Required review | Next action |
 |---|---|---|---|---|---|---|
-| NADF project status | `docs/project/NADF-Project-Status.md` | In Review (provisional) | Initial project-status request | Created on dedicated branch | Maintainer review | Review this initial coordination artifact |
+| NADF project status | `docs/project/NADF-Project-Status.md` | Merged | Initial project-status request | Merged through pull request #1 | Complete through normal pull request workflow | Maintain as source-backed project coordination changes occur |
 
 ## Risks and Blockers
 
@@ -141,7 +141,7 @@ Updates must preserve links to the relevant repository evidence, issue, pull req
 - **Initial creation date:** 2026-07-10
 - **Initial author or agent:** Codex, acting on the source request
 - **Source request:** User-provided request to create the initial NADF project-status artifact
-- **Related issue or pull request:** Unresolved — pull request planned
+- **Related issue or pull request:** Pull request #1
 
 ### Revision History
 
