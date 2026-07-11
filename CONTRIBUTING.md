@@ -2,6 +2,7 @@
 
 ## Before opening a change
 
+- Document architectural changes in `governance/decisions/` before changing curriculum artifacts.
 - Search existing issues, evidence entries, and ADRs.
 - Open a research question for claims that require investigation.
 - Use a Design Studio handoff for architectural material developed outside this repository.
