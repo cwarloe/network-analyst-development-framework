@@ -1,8 +1,10 @@
 # Network Analyst Development Framework
 
-An evidence-based research and documentation project for developing the Network Analyst Development Framework (NADF).
+The Network Analyst Development Framework (NADF) develops Network Analysts who operate effectively as members of a cyber defense team.
 
-The architectural vision is developed separately in the Design Studio. This repository is the system of record for reviewed evidence, traceable claims, architectural decision records, and approved documentation. It does not treat unreviewed design discussion as settled architecture.
+The Design Studio owns the architecture. Research reports provide the evidence base, and the Curriculum Studio implements the approved architecture. This repository is the system of record for reviewed evidence, traceable claims, architectural decision records, and approved documentation. It does not treat unreviewed design discussion as settled architecture.
+
+TOMs, COMs, PCAPs, scenarios, and datasets are reusable assets. They are not required components of every module.
 
 ## Project status
 
@@ -16,6 +18,9 @@ No framework architecture has been approved yet. Proposed architecture should en
 - `docs/decisions/`: accepted and proposed architectural decision records (ADRs)
 - `docs/framework/`: approved framework documentation
 - `docs/design-studio/`: dated transfers from the separate Design Studio
+- `curriculum/`: Curriculum Studio implementation artifacts
+- `assets/`: reusable scenarios, TOMs, COMs, PCAPs, telemetry, detections, and job aids
+- `governance/`: decisions, change logs, and quality reviews
 - `templates/`: reusable research and decision templates
 - `.github/`: contribution and review workflows
 
