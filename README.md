@@ -36,4 +36,6 @@ Design Studio outputs are inputs, not repository truth. Each handoff should be d
 
 ## License
 
-No license has been selected. Until one is added, copyright remains with the repository owner and reuse rights are not granted.
+Except where otherwise noted, this project is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](LICENSE).
+
+You may share and adapt the material with attribution for noncommercial purposes. If you distribute adapted material, you must license it under the same terms. Commercial use is not granted by this license and requires separate permission from the copyright holder.

@@ -5,6 +5,7 @@
 - Search existing issues, evidence entries, and ADRs.
 - Open a research question for claims that require investigation.
 - Use a Design Studio handoff for architectural material developed outside this repository.
+- By submitting a contribution, you agree that it may be distributed under the repository's CC BY-NC-SA 4.0 license.
 
 ## Evidence requirements
 
