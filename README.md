@@ -1,16 +1,16 @@
 # Network Analyst Development Framework
 
-The Network Analyst Development Framework (NADF) develops Network Analysts who operate effectively as members of a cyber defense team.
+The Network Analyst Development Framework (NADF) is an expertise-development architecture centered on developing network analysts who operate effectively as members of a cyber defense team. The network analyst is its primary development target; adjacent cybersecurity roles are interfaces unless a future architectural decision explicitly expands NADF's primary scope.
 
 The Design Studio owns the architecture. Research reports provide the evidence base, and the Curriculum Studio implements the approved architecture. This repository is the system of record for reviewed evidence, traceable claims, architectural decision records, and approved documentation. It does not treat unreviewed design discussion as settled architecture.
 
-TOMs, COMs, PCAPs, scenarios, and datasets are reusable assets. They are not required components of every module.
+Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios, PCAPs, datasets, and other reusable assets may support analyst development, but they do not define NADF's primary identity.
 
 ## Project status
 
-**Phase:** research and repository initialization
+**Phase:** architecture decision development
 
-No framework architecture has been approved yet. Proposed architecture should enter through an issue or pull request and cite supporting evidence.
+[ADR-0001](docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and has not been accepted wholesale as framework architecture. ADR-0001 does not authorize curriculum, framework implementation, additional research, TOM/COM architecture, or engineering implementation.
 
 ## Repository map
 
