@@ -4,7 +4,7 @@
 
 **Architecture decision development.**
 
-[ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. Current work sequences the remaining consequential architectural decisions without broadening ADR-0001 or resolving its explicit non-decisions by implication.
+[ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) now proposes a deliberate multi-view posture without a universal root; it is not yet accepted.
 
 ## Architecture state
 
@@ -20,12 +20,13 @@
 
 - Sequence the next consequential architectural decision from Architecture Baseline v0.2.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
+- Review proposed ADR-0002 without treating its posture or any historical view as accepted architecture.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Select the next consequential architectural decision after ADR-0001 while preserving every explicit non-decision and evidence qualification.
+Review and disposition proposed ADR-0002 while preserving its explicit non-decisions and all evidence qualifications.
 
 ## Paused or unauthorized work
 
@@ -45,12 +46,14 @@ ADR-0001 does not authorize:
 - R002-dependent high-consequence claims remain qualified.
 - Architecture Baseline v0.2 remains a governed proposal, not accepted framework architecture.
 - ADR-0001 decides identity and primary target only; all explicit non-decisions in the ADR remain unresolved.
+- ADR-0002 remains proposed and does not govern NADF unless accepted.
 - Consequential architectural decisions require an ADR under [Governance](../GOVERNANCE.md).
 - Curriculum implements accepted architecture and does not redefine it.
 
 ## Authoritative references
 
 - [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md)
+- [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md)
 - [ADR index](../docs/decisions/README.md)
 - [Repository overview](../README.md)
 - [Governance](../GOVERNANCE.md)
