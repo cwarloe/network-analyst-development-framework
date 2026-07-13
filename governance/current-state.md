@@ -6,12 +6,16 @@
 
 [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) establishes a deliberate multi-view architecture posture without a universal root.
 
+[ADR-0003](../docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md) establishes a lightweight portfolio, concern, and flow interpretation without creating mandatory structure or process.
+
 ## Architecture state
 
 - **First accepted architectural decision:** ADR-0001.
 - **Second accepted architectural decision:** ADR-0002.
+- **Third accepted architectural decision:** ADR-0003.
 - **Primary identity:** NADF is an expertise-development architecture centered on the network analyst role.
 - **Architecture posture:** NADF supports multiple governed, fit-for-purpose views and does not require one universal root.
+- **View interpretation:** Portfolio, concern, and flow are complementary navigational lenses, not mandatory structures or competing hierarchies.
 - **Primary development target:** The network analyst.
 - **Adjacent roles:** Interfaces unless a future decision explicitly expands NADF's primary scope.
 - **Supporting elements:** Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios, and reusable assets may support analyst development but do not define NADF's primary identity.
@@ -20,14 +24,14 @@
 
 ## Active work
 
-- Sequence the next consequential architectural decision after ADR-0002.
+- Sequence the next consequential architectural decision after ADR-0003.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Select the next consequential architectural decision while preserving ADR-0002's explicit non-decisions and all evidence qualifications.
+Select the next consequential architectural decision while preserving accepted ADR explicit non-decisions and all evidence qualifications.
 
 ## Paused or unauthorized work
 
@@ -48,6 +52,7 @@ ADR-0001 does not authorize:
 - Architecture Baseline v0.2 remains a governed proposal, not accepted framework architecture.
 - ADR-0001 decides identity and primary target only; all explicit non-decisions in the ADR remain unresolved.
 - ADR-0002 governs NADF's architecture posture but does not select, accept, or implement the views themselves.
+- ADR-0003 governs the lightweight relationship among portfolio, concern, and flow views without requiring artifacts, classifications, schemas, handoffs, approvals, or conformance stages.
 - Consequential architectural decisions require an ADR under [Governance](../GOVERNANCE.md).
 - Curriculum implements accepted architecture and does not redefine it.
 
@@ -55,6 +60,7 @@ ADR-0001 does not authorize:
 
 - [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md)
 - [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md)
+- [ADR-0003](../docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md)
 - [ADR index](../docs/decisions/README.md)
 - [Repository overview](../README.md)
 - [Governance](../GOVERNANCE.md)
