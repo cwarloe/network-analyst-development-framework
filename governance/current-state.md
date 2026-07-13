@@ -6,6 +6,8 @@
 
 [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) establishes a deliberate multi-view architecture posture without a universal root.
 
+[ADR-0003](../docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md) proposes a lightweight portfolio, concern, and flow interpretation. It is not yet accepted and creates no mandatory structure or process.
+
 ## Architecture state
 
 - **First accepted architectural decision:** ADR-0001.
@@ -20,14 +22,14 @@
 
 ## Active work
 
-- Sequence the next consequential architectural decision after ADR-0002.
+- Review proposed ADR-0003 as the next consequential architectural decision after ADR-0002.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Select the next consequential architectural decision while preserving ADR-0002's explicit non-decisions and all evidence qualifications.
+Review and disposition proposed ADR-0003 while preserving ADR-0002's explicit non-decisions and all evidence qualifications.
 
 ## Paused or unauthorized work
 
@@ -48,6 +50,7 @@ ADR-0001 does not authorize:
 - Architecture Baseline v0.2 remains a governed proposal, not accepted framework architecture.
 - ADR-0001 decides identity and primary target only; all explicit non-decisions in the ADR remain unresolved.
 - ADR-0002 governs NADF's architecture posture but does not select, accept, or implement the views themselves.
+- ADR-0003 remains proposed and does not govern the relationship among views unless accepted.
 - Consequential architectural decisions require an ADR under [Governance](../GOVERNANCE.md).
 - Curriculum implements accepted architecture and does not redefine it.
 
@@ -55,6 +58,7 @@ ADR-0001 does not authorize:
 
 - [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md)
 - [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md)
+- [ADR-0003](../docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md)
 - [ADR index](../docs/decisions/README.md)
 - [Repository overview](../README.md)
 - [Governance](../GOVERNANCE.md)
