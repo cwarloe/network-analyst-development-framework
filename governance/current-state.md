@@ -2,54 +2,59 @@
 
 ## Current operational phase
 
-**Architecture baseline acceptance readiness.**
+**Architecture decision development.**
 
-The current orchestration task is to determine the disposition of the completed Design Studio proposal. This phase label coordinates current work; it does not imply architectural acceptance.
+[ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. Current work sequences the remaining consequential architectural decisions without broadening ADR-0001 or resolving its explicit non-decisions by implication.
 
 ## Architecture state
 
-- **Current architecture proposal:** [NADF Architecture Baseline v0.2 — Proposed](../docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md)
-- **Governing baseline:** None yet.
-- **Historical baseline:** [NADF Architecture Baseline transfer dated 2026-07-10](../docs/design-studio/2026-07-10-nadf-architecture-baseline.md)
+- **First accepted architectural decision:** ADR-0001.
+- **Primary identity:** NADF is an expertise-development architecture centered on the network analyst role.
+- **Primary development target:** The network analyst.
+- **Adjacent roles:** Interfaces unless a future decision explicitly expands NADF's primary scope.
+- **Supporting elements:** Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios, and reusable assets may support analyst development but do not define NADF's primary identity.
+- **Governed Design Studio proposal:** [Architecture Baseline v0.2](../docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md) remains accepted with conditions as the governed Design Studio baseline proposal; it is not accepted wholesale as framework architecture.
+- **Historical baseline:** [Architecture Baseline transfer dated 2026-07-10](../docs/design-studio/2026-07-10-nadf-architecture-baseline.md).
 
 ## Active work
 
-- Repository current-state restoration.
-- R001–R003 reconciliation provenance recovery. The v0.2 proposal records the reconciliation package as an accepted input, but the corresponding repository evidence records and provenance are not present in the [Evidence Index](../docs/research/EVIDENCE_INDEX.md). Recovery must preserve this uncertainty and must not reconstruct missing evidence by assumption.
+- Sequence the next consequential architectural decision from Architecture Baseline v0.2.
+- Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
+
+R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Orchestrator review of Architecture Baseline v0.2 for acceptance, bounded revision, or continued proposed status.
+Select the next consequential architectural decision after ADR-0001 while preserving every explicit non-decision and evidence qualification.
 
 ## Paused or unauthorized work
 
-Unless explicitly assigned or authorized, do not begin:
+ADR-0001 does not authorize:
 
-- new research;
-- R002 evidence remediation;
-- new architecture synthesis;
-- ADR drafting;
-- framework promotion;
 - curriculum implementation;
-- model-driven generation work;
-- TOM/COM definition;
-- tool and telemetry baseline work.
+- framework implementation or promotion;
+- additional research or R002 evidence remediation;
+- TOM/COM architecture;
+- engineering implementation;
+- model-driven generation work; or
+- architecture synthesis or ADR drafting beyond an assigned decision.
 
 ## Binding constraints
 
-- Architecture Baseline v0.2 is proposed, not governing architecture.
-- The 2026-07-10 Architecture Baseline is a historical Design Studio transfer.
-- Research evidence, interpretation, architectural proposal, and accepted decision must remain distinct.
-- Missing R001–R003 repository provenance must not be silently treated as complete.
-- Consequential architectural decisions require explicit Orchestrator disposition and, where appropriate under [Governance](../GOVERNANCE.md), an ADR.
-- No ADRs are currently recorded in the [ADR index](../docs/decisions/README.md), and no approved framework baseline is present.
+- Research evidence, interpretation, architectural proposal, and accepted decision remain distinct.
+- R002-dependent high-consequence claims remain qualified.
+- Architecture Baseline v0.2 remains a governed proposal, not accepted framework architecture.
+- ADR-0001 decides identity and primary target only; all explicit non-decisions in the ADR remain unresolved.
+- Consequential architectural decisions require an ADR under [Governance](../GOVERNANCE.md).
+- Curriculum implements accepted architecture and does not redefine it.
 
-## Authoritative orchestration references
+## Authoritative references
 
-- [Repository overview and phase](../README.md)
+- [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md)
+- [ADR index](../docs/decisions/README.md)
+- [Repository overview](../README.md)
 - [Governance](../GOVERNANCE.md)
 - [NADF Project Status](../docs/project/NADF-Project-Status.md)
-- [Architecture Baseline v0.2 — Proposed](../docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md)
-- [Historical Architecture Baseline transfer](../docs/design-studio/2026-07-10-nadf-architecture-baseline.md)
-- [ADR index](../docs/decisions/README.md)
+- [Architecture Baseline v0.2](../docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md)
+- [Architecture Baseline v0.2 Orchestrator Review](../docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md)
 - [Evidence Index](../docs/research/EVIDENCE_INDEX.md)
