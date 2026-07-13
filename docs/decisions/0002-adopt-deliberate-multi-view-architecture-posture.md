@@ -1,6 +1,7 @@
 # ADR-0002: Adopt a deliberate multi-view architecture posture without a universal root
 
-- **Status:** proposed
+- **Status:** accepted
+- **Accepted:** 2026-07-12
 - **Date:** 2026-07-12
 - **Owners:** Integrated NADF Project Director / Design Studio (proposal); NADF Maintainer (disposition)
 - **Related decisions:**

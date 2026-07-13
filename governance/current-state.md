@@ -4,12 +4,14 @@
 
 **Architecture decision development.**
 
-[ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) now proposes a deliberate multi-view posture without a universal root; it is not yet accepted.
+[ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) establishes a deliberate multi-view architecture posture without a universal root.
 
 ## Architecture state
 
 - **First accepted architectural decision:** ADR-0001.
+- **Second accepted architectural decision:** ADR-0002.
 - **Primary identity:** NADF is an expertise-development architecture centered on the network analyst role.
+- **Architecture posture:** NADF supports multiple governed, fit-for-purpose views and does not require one universal root.
 - **Primary development target:** The network analyst.
 - **Adjacent roles:** Interfaces unless a future decision explicitly expands NADF's primary scope.
 - **Supporting elements:** Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios, and reusable assets may support analyst development but do not define NADF's primary identity.
@@ -18,15 +20,14 @@
 
 ## Active work
 
-- Sequence the next consequential architectural decision from Architecture Baseline v0.2.
+- Sequence the next consequential architectural decision after ADR-0002.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
-- Review proposed ADR-0002 without treating its posture or any historical view as accepted architecture.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Review and disposition proposed ADR-0002 while preserving its explicit non-decisions and all evidence qualifications.
+Select the next consequential architectural decision while preserving ADR-0002's explicit non-decisions and all evidence qualifications.
 
 ## Paused or unauthorized work
 
@@ -46,7 +47,7 @@ ADR-0001 does not authorize:
 - R002-dependent high-consequence claims remain qualified.
 - Architecture Baseline v0.2 remains a governed proposal, not accepted framework architecture.
 - ADR-0001 decides identity and primary target only; all explicit non-decisions in the ADR remain unresolved.
-- ADR-0002 remains proposed and does not govern NADF unless accepted.
+- ADR-0002 governs NADF's architecture posture but does not select, accept, or implement the views themselves.
 - Consequential architectural decisions require an ADR under [Governance](../GOVERNANCE.md).
 - Curriculum implements accepted architecture and does not redefine it.
 
