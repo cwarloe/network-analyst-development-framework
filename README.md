@@ -8,7 +8,7 @@ Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios,
 
 ## Project status
 
-**Phase:** architecture decision development
+**Phase:** architecture development and practical validation
 
 [ADR-0001](docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and has not been accepted wholesale as framework architecture. ADR-0001 does not authorize curriculum, framework implementation, additional research, TOM/COM architecture, or engineering implementation.
 

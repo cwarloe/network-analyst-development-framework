@@ -2,7 +2,7 @@
 
 ## Current operational phase
 
-**Architecture decision development.**
+**Architecture development and practical validation.**
 
 [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) establishes a deliberate multi-view architecture posture without a universal root.
 
@@ -24,14 +24,14 @@
 
 ## Active work
 
-- Sequence the next consequential architectural decision after ADR-0003.
+- Evaluate the [proposed Network Analyst Capability Model v0.1](../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) through practical use.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Select the next consequential architectural decision while preserving accepted ADR explicit non-decisions and all evidence qualifications.
+Use Capability Model v0.1 against representative work and revise it only where practical use exposes gaps, overlap, or ambiguity.
 
 ## Paused or unauthorized work
 
@@ -61,6 +61,7 @@ ADR-0001 does not authorize:
 - [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md)
 - [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md)
 - [ADR-0003](../docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md)
+- [Network Analyst Capability Model v0.1 — Proposed](../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md)
 - [ADR index](../docs/decisions/README.md)
 - [Repository overview](../README.md)
 - [Governance](../GOVERNANCE.md)
