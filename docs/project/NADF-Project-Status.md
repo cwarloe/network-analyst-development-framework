@@ -6,8 +6,8 @@
 - **Maintained by:** NADF Orchestrator / Chief Program Manager
 - **Last updated:** 2026-07-12
 - **Repository status:** Current through accepted ADR-0003
-- **Review status:** Current through accepted ADR-0003
-- **Project phase:** Architecture decision development ([repository README](../../README.md))
+- **Review status:** Capability Model v0.1 proposed for practical evaluation
+- **Project phase:** Architecture development and practical validation ([repository README](../../README.md))
 - **Next scheduled review:** Unknown — not yet scheduled
 
 ## Purpose
@@ -28,19 +28,19 @@ The repository does not currently define a general operational status vocabulary
 
 ## Current Project Phase
 
-- **Current phase:** Architecture decision development ([repository README](../../README.md))
+- **Current phase:** Architecture development and practical validation ([repository README](../../README.md))
 - **Phase objective:** Sequence consequential architectural decisions from the governed baseline proposal through accepted ADRs
 - **Entry conditions:** ADR-0001, ADR-0002, and ADR-0003 accepted; Architecture Baseline v0.2 preserved as the governed Design Studio proposal
 - **Exit conditions:** Unknown — not yet established in a source record
 - **Current assessment:** [ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and is not accepted wholesale as framework architecture.
-- **Known dependencies:** The next consequential decision must preserve accepted ADR explicit non-decisions and all R002 evidence qualifications
+- **Known dependencies:** Capability Model v0.1 remains a proposed working model; completeness, proficiency, assessment validity, and role boundaries remain unresolved
 
 ## Active Workstreams
 
 | Workstream | Owner | Current objective | Status | Dependencies | Blockers | Next action | Source or tracking reference |
 |---|---|---|---|---|---|---|---|
-| Program coordination | Integrated NADF Project Director | Sequence the next consequential architectural decision | Active (provisional) | Accepted ADR-0001, ADR-0002, ADR-0003, and governed Design Studio baseline proposal | None recorded | Present the maintainer with the next-decision brief | [ADR-0003](../decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md) |
-| Design Studio | NADF Design Studio | Preserve Architecture Baseline v0.2 as the current governed proposal | Complete (provisional) | R001–R003 reconciliation | Acceptance conditions and unresolved architectural questions remain | Await the next Orchestrator assignment | [Architecture Baseline v0.2](../design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md) |
+| Program coordination | Integrated NADF Project Director | Turn accepted architecture into useful working models | Active (provisional) | Accepted ADR-0001 through ADR-0003 | None recorded | Evaluate Capability Model v0.1 through practical use | [Capability Model v0.1](../design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) |
+| Design Studio | Integrated NADF Design Studio | Develop and test a usable network-analyst capability model | Active (provisional) | Accepted ADRs and qualified R001–R003 evidence | Completeness and external validation remain unresolved | Revise only where practical use exposes a material issue | [Capability Model v0.1](../design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) |
 | Research | Unknown | Maintain the assessed R001–R003 evidence record and qualifications | Complete (provisional) | Recovered reconciliation provenance | R002 citation and claim-to-source remediation remains deferred | Perform no further research without assignment | [Evidence index](../research/EVIDENCE_INDEX.md) |
 | Curriculum Studio | Unknown | No curriculum implementation authorized | Deferred (provisional) | Accepted framework architecture | No framework architecture has been accepted | Await approved architecture | [Orchestrator review](../design-studio/2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md) |
 | Repository / Codex | Codex | Maintain the integrated project workspace and source-backed repository state | Active (provisional) | Accepted decisions and approved repository tasks | None recorded | Keep current-state records aligned with accepted decisions | [Current state](../../governance/current-state.md) |
@@ -82,6 +82,7 @@ The evidence index records R001, R002, R002-RAR, R003, and RR-G2 as assessed ([e
 | ADR-0001 | `docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md` | accepted | Maintainer-accepted architectural decision | Recorded through the ADR-0001 acceptance change | Complete through normal pull request workflow | Govern subsequent architecture decisions without broadening explicit non-decisions |
 | ADR-0002 | `docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md` | accepted | Maintainer-accepted architectural decision | Recorded through the ADR-0002 acceptance change | Complete through normal pull request workflow | Govern subsequent view decisions without resolving explicit non-decisions |
 | ADR-0003 | `docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md` | accepted | Maintainer-accepted architectural decision | Recorded through the ADR-0003 acceptance change | Complete through normal pull request workflow | Apply as lightweight navigation without adding process |
+| Capability Model v0.1 | `docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md` | proposed working model | Accepted ADRs and existing R001–R003 evidence | Proposed through the capability-model change | Practical evaluation | Do not treat as a validated taxonomy or assessment standard |
 
 ## Risks and Blockers
 
@@ -101,17 +102,17 @@ The evidence index records R001, R002, R002-RAR, R003, and RR-G2 as assessed ([e
 
 ### Highest-priority action
 
-Select the next consequential architectural decision using ADR-0001 through ADR-0003 as governing constraints.
+Evaluate Capability Model v0.1 against representative work before adding formal structure.
 
 ### Next three actions
 
-1. Present a concise maintainer decision brief for the recommended next architectural choice.
-2. Prepare the selected decision as a focused ADR after maintainer direction.
-3. Preserve all Architecture Baseline v0.2 conditions, accepted ADR explicit non-decisions, and evidence qualifications.
+1. Apply the model to representative work products or scenario outlines.
+2. Revise statements only where use exposes gaps, overlap, or ambiguity.
+3. Decide whether assessment-evidence modeling is the next useful deliverable.
 
 ### Waiting on
 
-Maintainer selection of the next consequential architectural option after receiving the decision brief.
+No maintainer input is currently required.
 
 ### Recently completed
 
@@ -174,3 +175,4 @@ Updates must preserve links to the relevant repository evidence, issue, pull req
 | 2026-07-12 | Codex | Recorded accepted ADR-0002 and returned the project to decision sequencing | ADR-0002 acceptance change |
 | 2026-07-12 | Codex | Prepared proposed ADR-0003 for a lightweight portfolio, concern, and flow interpretation | ADR-0003 preparation change |
 | 2026-07-12 | Codex | Recorded accepted ADR-0003 and returned the project to decision sequencing | ADR-0003 acceptance change |
+| 2026-07-12 | Codex | Proposed Network Analyst Capability Model v0.1 and moved active work into practical model evaluation | Capability Model v0.1 change |
