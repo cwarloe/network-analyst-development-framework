@@ -5,8 +5,8 @@
 - **Document owner:** NADF Orchestrator / Chief Program Manager
 - **Maintained by:** NADF Orchestrator / Chief Program Manager
 - **Last updated:** 2026-07-12
-- **Repository status:** Current through accepted ADR-0001
-- **Review status:** Current through accepted ADR-0001
+- **Repository status:** Current through accepted ADR-0002
+- **Review status:** Current through accepted ADR-0002
 - **Project phase:** Architecture decision development ([repository README](../../README.md))
 - **Next scheduled review:** Unknown — not yet scheduled
 
@@ -30,16 +30,16 @@ The repository does not currently define a general operational status vocabulary
 
 - **Current phase:** Architecture decision development ([repository README](../../README.md))
 - **Phase objective:** Sequence consequential architectural decisions from the governed baseline proposal through accepted ADRs
-- **Entry conditions:** ADR-0001 accepted; Architecture Baseline v0.2 preserved as the governed Design Studio proposal
+- **Entry conditions:** ADR-0001 and ADR-0002 accepted; Architecture Baseline v0.2 preserved as the governed Design Studio proposal
 - **Exit conditions:** Unknown — not yet established in a source record
 - **Current assessment:** [ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and is not accepted wholesale as framework architecture.
-- **Known dependencies:** The next consequential architectural decision must preserve ADR-0001's explicit non-decisions and all R002 evidence qualifications
+- **Known dependencies:** The next consequential decision must preserve ADR-0001 and ADR-0002 explicit non-decisions and all R002 evidence qualifications
 
 ## Active Workstreams
 
 | Workstream | Owner | Current objective | Status | Dependencies | Blockers | Next action | Source or tracking reference |
 |---|---|---|---|---|---|---|---|
-| Program coordination | Integrated NADF Project Director | Sequence the next consequential architectural decision | Active (provisional) | Accepted ADR-0001 and governed Design Studio baseline proposal | None recorded | Present the maintainer with the next-decision brief | [ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) |
+| Program coordination | Integrated NADF Project Director | Sequence the next consequential architectural decision | Active (provisional) | Accepted ADR-0001, accepted ADR-0002, and governed Design Studio baseline proposal | None recorded | Present the maintainer with the next-decision brief | [ADR-0002](../decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) |
 | Design Studio | NADF Design Studio | Preserve Architecture Baseline v0.2 as the current governed proposal | Complete (provisional) | R001–R003 reconciliation | Acceptance conditions and unresolved architectural questions remain | Await the next Orchestrator assignment | [Architecture Baseline v0.2](../design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md) |
 | Research | Unknown | Maintain the assessed R001–R003 evidence record and qualifications | Complete (provisional) | Recovered reconciliation provenance | R002 citation and claim-to-source remediation remains deferred | Perform no further research without assignment | [Evidence index](../research/EVIDENCE_INDEX.md) |
 | Curriculum Studio | Unknown | No curriculum implementation authorized | Deferred (provisional) | Accepted framework architecture | No framework architecture has been accepted | Await approved architecture | [Orchestrator review](../design-studio/2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md) |
@@ -48,11 +48,12 @@ The repository does not currently define a general operational status vocabulary
 
 ## Decision and ADR Register
 
-[ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision and is indexed in the [ADR index](../decisions/README.md).
+[ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) and [ADR-0002](../decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) are accepted architectural decisions and are indexed in the [ADR index](../decisions/README.md).
 
 | Item | Decision question | Status | Owner | Dependencies | ADR reference | Next action | Source |
 |---|---|---|---|---|---|---|---|
 | ADR-0001 | Adopt NADF as an expertise-development architecture centered on the network analyst role | accepted | NADF Project Director / Maintainer | Architecture Baseline v0.2 and qualified R001–R003 evidence | [ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) | Use the accepted identity to govern subsequent decisions | [ADR index](../decisions/README.md) |
+| ADR-0002 | Adopt a deliberate multi-view posture without a universal root | accepted | Integrated NADF Project Director / Maintainer | ADR-0001 and Architecture Baseline v0.2 | [ADR-0002](../decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) | Use the accepted posture to govern subsequent view decisions | [ADR index](../decisions/README.md) |
 
 ## Research Register
 
@@ -78,6 +79,7 @@ The evidence index records R001, R002, R002-RAR, R003, and RR-G2 as assessed ([e
 | Architecture Baseline v0.2 Orchestrator review | `docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md` | Accepted with conditions as a governed proposal | NADF Project Orchestrator disposition | Merged through pull request #6 | Complete through normal pull request workflow | Use as the governing source for next-decision preparation |
 | Architecture Baseline v0.2 proposed | `docs/design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md` | Accepted with conditions as a governed proposal | NADF Design Studio synthesis and Orchestrator disposition | Merged through pull request #6 | Complete through normal pull request workflow | Do not treat as accepted framework architecture |
 | ADR-0001 | `docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md` | accepted | Maintainer-accepted architectural decision | Recorded through the ADR-0001 acceptance change | Complete through normal pull request workflow | Govern subsequent architecture decisions without broadening explicit non-decisions |
+| ADR-0002 | `docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md` | accepted | Maintainer-accepted architectural decision | Recorded through the ADR-0002 acceptance change | Complete through normal pull request workflow | Govern subsequent view decisions without resolving explicit non-decisions |
 
 ## Risks and Blockers
 
@@ -97,13 +99,13 @@ The evidence index records R001, R002, R002-RAR, R003, and RR-G2 as assessed ([e
 
 ### Highest-priority action
 
-Select the next consequential architectural decision from Architecture Baseline v0.2 using ADR-0001 as the governing identity and scope constraint.
+Select the next consequential architectural decision using ADR-0001 and ADR-0002 as governing constraints.
 
 ### Next three actions
 
 1. Present a concise maintainer decision brief for the recommended next architectural choice.
 2. Prepare the selected decision as a focused ADR after maintainer direction.
-3. Preserve all Architecture Baseline v0.2 conditions, ADR-0001 explicit non-decisions, and evidence qualifications.
+3. Preserve all Architecture Baseline v0.2 conditions, accepted ADR explicit non-decisions, and evidence qualifications.
 
 ### Waiting on
 
@@ -115,6 +117,7 @@ Maintainer selection of the next consequential architectural option after receiv
 - Architecture Baseline v0.2 disposition merged through pull request #6.
 - Architecture Baseline v0.2 accepted with conditions as the current governed Design Studio baseline proposal.
 - ADR-0001 accepted as NADF's first architectural decision.
+- ADR-0002 accepted as NADF's deliberate multi-view architecture posture.
 
 ### Deferred work
 
@@ -164,3 +167,5 @@ Updates must preserve links to the relevant repository evidence, issue, pull req
 | 2026-07-10 | Codex | Created initial coordination artifact | Unresolved — pull request planned |
 | 2026-07-12 | Codex | Reconciled project status with merged research provenance and Architecture Baseline v0.2 disposition records | Pull requests #5 and #6 |
 | 2026-07-12 | Codex | Recorded accepted ADR-0001 and moved the project into architecture decision development | ADR-0001 acceptance change |
+| 2026-07-12 | Codex | Prepared proposed ADR-0002 for a deliberate multi-view posture | ADR-0002 preparation change |
+| 2026-07-12 | Codex | Recorded accepted ADR-0002 and returned the project to decision sequencing | ADR-0002 acceptance change |
