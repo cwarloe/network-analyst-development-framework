@@ -1,6 +1,7 @@
 # ADR-0003: Use a lightweight portfolio, concern, and flow view interpretation
 
-- **Status:** proposed
+- **Status:** accepted
+- **Accepted:** 2026-07-12
 - **Date:** 2026-07-12
 - **Owners:** Integrated NADF Project Director / Design Studio (proposal); NADF Maintainer (disposition)
 - **Related decisions:**
