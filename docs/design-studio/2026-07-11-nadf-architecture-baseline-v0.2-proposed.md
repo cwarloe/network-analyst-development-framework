@@ -6,19 +6,20 @@
 |---|---|
 | Artifact | NADF Architecture Baseline v0.2 |
 | Owning studio | NADF Design Studio |
-| Status | **PROPOSED — FOR ORCHESTRATOR ARCHITECTURAL REVIEW** |
-| Architecture approval status | **Not accepted architecture unless and until approved through governance** |
+| Status | **ACCEPTED WITH CONDITIONS — GOVERNED DESIGN BASELINE PROPOSAL** |
+| Architecture approval status | **Not accepted framework architecture** |
 | ADR status | **No ADR created or drafted** |
 | Research status | No new research conducted |
 | Curriculum status | No curriculum implementation authorized |
 | Engineering status | No Engineering changes authorized |
 | Primary predecessor | `docs/design-studio/2026-07-10-nadf-architecture-baseline.md` |
-| Research input | Accepted NADF Research Reconciliation Package covering R001, R002, and R003 |
+| Research input | [Recovered Gate G2 Research Reconciliation Package covering R001–R003; provenance partially recovered and conditions preserved](../research/2026-07-11-r001-r003-reconciliation-provenance-recovery.md) |
 | Gate input | Gate G2 — **PASS WITH CONDITIONS** |
+| Orchestrator disposition | [Accepted with conditions as the current governed Design Studio baseline proposal](2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md) |
 | Design Studio synthesis date | 2026-07-11 |
 | Timezone | America/Boise |
 
-> **Governance status:** This document is a Design Studio proposal. It synthesizes the preserved Architecture Baseline with the accepted R001–R003 Research Reconciliation Package and the Gate G2 disposition of **PASS WITH CONDITIONS**. It does not, by itself, approve architecture, create an ADR, authorize Engineering work, modify `docs/framework/`, or authorize curriculum implementation.
+> **Governance status:** This document is accepted with conditions only as the current governed Design Studio baseline proposal. It synthesizes the preserved Architecture Baseline with the [recovered Gate G2 Research Reconciliation Package covering R001–R003, whose provenance is partially recovered and whose conditions remain preserved](../research/2026-07-11-r001-r003-reconciliation-provenance-recovery.md). It is **not accepted framework architecture** and does not create an ADR, authorize Engineering work, modify `docs/framework/`, or authorize curriculum implementation. See the [Orchestrator review record](2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md).
 
 ---
 
@@ -107,7 +108,7 @@ The predecessor baseline intentionally left the relationship among those formula
 
 ## 2.2 Research Reconciliation input
 
-The accepted Research Reconciliation Package concluded that R001, R002, and R003 provide substantial directional support for an NADF concerned with:
+The [recovered Gate G2 Research Reconciliation Package covering R001–R003, with provenance partially recovered and conditions preserved](../research/2026-07-11-r001-r003-reconciliation-provenance-recovery.md), concluded that the research provides substantial directional support for an NADF concerned with:
 
 - expertise rather than recall;
 - structured, causal, and revisable mental models;
@@ -1307,7 +1308,7 @@ No ADR is created or drafted here.
 
 The prior baseline preserved research relationships and gaps.
 
-v0.2 incorporates the accepted R001–R003 reconciliation and explicitly distinguishes:
+v0.2 incorporates the [recovered Gate G2 Research Reconciliation Package covering R001–R003, with provenance partially recovered and conditions preserved](../research/2026-07-11-r001-r003-reconciliation-provenance-recovery.md), and explicitly distinguishes:
 
 - strong directional support;
 - partial support;
@@ -1576,9 +1577,9 @@ This proposal is intentionally sufficient to clarify the current architectural d
 
 # 19. Return to Orchestrator
 
-**Design Studio disposition:** Proposed NADF Architecture Baseline v0.2 is complete for Orchestrator architectural review.
+**Orchestrator disposition:** **ACCEPTED WITH CONDITIONS** as the current governed Design Studio baseline proposal. It remains **not accepted framework architecture**. See the [Orchestrator review record](2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md).
 
-The Orchestrator should determine the next governance action.
+The first ADR-ready decision is the architectural identity and primary scope of NADF. No ADR is created or accepted by this disposition.
 
 This proposal does not:
 
