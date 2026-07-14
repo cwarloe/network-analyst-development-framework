@@ -4,10 +4,10 @@
 
 - **Document owner:** NADF Orchestrator / Chief Program Manager
 - **Maintained by:** NADF Orchestrator / Chief Program Manager
-- **Last updated:** 2026-07-12
-- **Repository status:** Current through accepted ADR-0003
-- **Review status:** Capability Model v0.1 and Assessment Evidence Model v0.1 proposed for practical use
-- **Project phase:** Architecture development and practical validation ([repository README](../../README.md))
+- **Last updated:** 2026-07-13
+- **Repository status:** Current through the first experimental curriculum pilot
+- **Review status:** Working capability and evidence models applied in one bounded pilot
+- **Project phase:** Architecture development, practical validation, and bounded curriculum piloting ([repository README](../../README.md))
 - **Next scheduled review:** Unknown — not yet scheduled
 
 ## Purpose
@@ -28,8 +28,8 @@ The repository does not currently define a general operational status vocabulary
 
 ## Current Project Phase
 
-- **Current phase:** Architecture development and practical validation ([repository README](../../README.md))
-- **Phase objective:** Sequence consequential architectural decisions from the governed baseline proposal through accepted ADRs
+- **Current phase:** Architecture development, practical validation, and bounded curriculum piloting ([repository README](../../README.md))
+- **Phase objective:** Test accepted direction and working models through useful practical work without prematurely expanding process or scope
 - **Entry conditions:** ADR-0001, ADR-0002, and ADR-0003 accepted; Architecture Baseline v0.2 preserved as the governed Design Studio proposal
 - **Exit conditions:** Unknown — not yet established in a source record
 - **Current assessment:** [ADR-0001](../decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and is not accepted wholesale as framework architecture.
@@ -42,7 +42,7 @@ The repository does not currently define a general operational status vocabulary
 | Program coordination | Integrated NADF Project Director | Turn accepted architecture into useful working models | Active (provisional) | Accepted ADR-0001 through ADR-0003 | None recorded | Apply the capability-to-task-to-evidence chain in practical work | [Assessment Evidence Model v0.1](../design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md) |
 | Design Studio | Integrated NADF Design Studio | Develop and test usable capability and evidence models | Active (provisional) | Accepted ADRs and qualified R001–R003 evidence | Completeness and external validation remain unresolved | Formalize further only where use exposes a material need | [Capability Model v0.1](../design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) |
 | Research | Unknown | Maintain the assessed R001–R003 evidence record and qualifications | Complete (provisional) | Recovered reconciliation provenance | R002 citation and claim-to-source remediation remains deferred | Perform no further research without assignment | [Evidence index](../research/EVIDENCE_INDEX.md) |
-| Curriculum Studio | Unknown | No curriculum implementation authorized | Deferred (provisional) | Accepted framework architecture | No framework architecture has been accepted | Await approved architecture | [Orchestrator review](../design-studio/2026-07-11-nadf-architecture-baseline-v0.2-orchestrator-review.md) |
+| Curriculum Studio | Integrated NADF Curriculum Studio | Implement and learn from one bounded performance pilot | Active (provisional) | Accepted ADRs and working capability/evidence models | No learner-use evidence yet | Use the pilot and revise only where use exposes a material need | [Encrypted outbound traffic pilot](../../curriculum/pilots/encrypted-outbound-traffic/README.md) |
 | Repository / Codex | Codex | Maintain the integrated project workspace and source-backed repository state | Active (provisional) | Accepted decisions and approved repository tasks | None recorded | Keep current-state records aligned with accepted decisions | [Current state](../../governance/current-state.md) |
 | Validation and quality review | Unknown | Preserve evidence and acceptance qualifications | Awaiting Input (provisional) | Future architectural decisions and validation assignments | No validation assignment recorded | Await explicit assignment | [Architecture Baseline v0.2](../design-studio/2026-07-11-nadf-architecture-baseline-v0.2-proposed.md) |
 
@@ -68,7 +68,7 @@ The evidence index records R001, R002, R002-RAR, R003, and RR-G2 as assessed ([e
 
 | Artifact ID | Artifact type | Title or scope | Status | Architecture dependency | Research dependency | Review status | Next action |
 |---|---|---|---|---|---|---|---|
-| Placeholder | Unknown | Unknown — no curriculum artifact recorded | Unknown | Unknown | Unknown | Unknown | Add only when an artifact has a source record |
+| PILOT-001 | Self-guided performance experience | Encrypted outbound traffic: decide before you disrupt | Experimental | Accepted ADRs and working capability/evidence models | Qualified R001–R003 evidence | Repository and simulated learner-path review | Gather learner-use evidence before broader curriculum expansion |
 
 ## Repository and Ingestion Register
 
@@ -90,7 +90,7 @@ The evidence index records R001, R002, R002-RAR, R003, and RR-G2 as assessed ([e
 | ID | Risk or blocker | Category | Severity | Owner | Mitigation or required action | Downstream impact |
 |---|---|---|---|---|---|---|
 | R-001 | R002-dependent conclusions remain qualified because citation alignment, source quality, and claim-to-source traceability require future remediation | Evidence | Unknown | Unknown | Preserve qualifications; remediate only with explicit Orchestrator authorization | Limits doctrinal and high-consequence architectural claims |
-| R-002 | Architecture Baseline v0.2 is not accepted wholesale as framework architecture, and ADR-0001 does not authorize implementation | Governance | Unknown | NADF Project Director / Maintainer | Continue governing consequential choices through focused ADRs | Blocks framework and curriculum implementation |
+| R-002 | Architecture Baseline v0.2 is not accepted wholesale as framework architecture, and one bounded pilot does not authorize broader implementation | Governance | Unknown | NADF Project Director / Maintainer | Use the pilot without inferring acceptance of unresolved architecture or broader curriculum scope | Limits expansion beyond the pilot |
 
 ## Cross-Studio Handoffs
 
@@ -123,10 +123,11 @@ No maintainer input is currently required.
 - ADR-0001 accepted as NADF's first architectural decision.
 - ADR-0002 accepted as NADF's deliberate multi-view architecture posture.
 - ADR-0003 accepted as NADF's lightweight portfolio, concern, and flow interpretation.
+- First experimental curriculum pilot implemented from the working capability and evidence models.
 
 ### Deferred work
 
-- Curriculum implementation.
+- Curriculum implementation beyond the authorized experimental pilot.
 - Framework implementation or promotion.
 - Additional research and R002 remediation.
 - TOM/COM architecture.

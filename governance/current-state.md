@@ -2,7 +2,7 @@
 
 ## Current operational phase
 
-**Architecture development and practical validation.**
+**Architecture development, practical validation, and bounded curriculum piloting.**
 
 [ADR-0001](../docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) establishes NADF's primary architectural identity and development target. [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md) establishes a deliberate multi-view architecture posture without a universal root.
 
@@ -25,19 +25,20 @@
 ## Active work
 
 - Use the [proposed Network Analyst Capability Model v0.1](../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) with the [proposed Assessment Evidence Model v0.1](../docs/design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md) in practical architecture and task design.
+- Use the [encrypted outbound traffic pilot](../curriculum/pilots/encrypted-outbound-traffic/README.md) to learn whether the working models support a useful learner experience without treating one pilot as a validated curriculum.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Apply the capability-to-task-to-evidence chain in the next real design task; formalize scoring, levels, or schemas only if a demonstrated consumer requires them.
+Use the first pilot and revise only where learner use exposes a material need; formalize scoring, levels, schemas, or a broader curriculum only if a demonstrated consumer requires them.
 
 ## Paused or unauthorized work
 
 ADR-0001 does not authorize:
 
-- curriculum implementation;
+- curriculum implementation beyond the authorized experimental pilot;
 - framework implementation or promotion;
 - additional research or R002 evidence remediation;
 - TOM/COM architecture;
