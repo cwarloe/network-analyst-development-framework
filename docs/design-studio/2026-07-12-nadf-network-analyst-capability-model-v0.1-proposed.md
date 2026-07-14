@@ -217,3 +217,4 @@ Formalization should occur only when practical use demonstrates a need.
 | Date | Validation slice | Result |
 |---|---|---|
 | 2026-07-13 | [Encrypted outbound traffic](2026-07-13-encrypted-outbound-traffic-capability-validation-slice.md) | The model described the work without structural revision. Learning/model revision and audience adaptation were not observable in the single initial-assessment sample; these are sampling limits rather than model defects. |
+| 2026-07-13 | [DNS failure and model revision](2026-07-13-dns-failure-model-revision-capability-validation-slice.md) | Feedback, new evidence, an observed outcome, a transfer check, and two audience-specific products made LR-1 through LR-4 and CT-2 observable. No structural revision was required. |
