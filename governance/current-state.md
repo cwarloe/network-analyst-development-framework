@@ -24,14 +24,14 @@
 
 ## Active work
 
-- Evaluate the [proposed Network Analyst Capability Model v0.1](../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) through practical use.
+- Use the [proposed Network Analyst Capability Model v0.1](../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) with the [proposed Assessment Evidence Model v0.1](../docs/design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md) in practical architecture and task design.
 - Maintain traceability from accepted decisions to the qualified R001–R003 evidence record.
 
 R001–R003 provenance recovery is complete. Its evidence and provenance qualifications remain binding.
 
 ## Next priority
 
-Use Capability Model v0.1 against representative work and revise it only where practical use exposes gaps, overlap, or ambiguity.
+Apply the capability-to-task-to-evidence chain in the next real design task; formalize scoring, levels, or schemas only if a demonstrated consumer requires them.
 
 ## Paused or unauthorized work
 
@@ -62,6 +62,7 @@ ADR-0001 does not authorize:
 - [ADR-0002](../docs/decisions/0002-adopt-deliberate-multi-view-architecture-posture.md)
 - [ADR-0003](../docs/decisions/0003-use-lightweight-portfolio-concern-flow-view-interpretation.md)
 - [Network Analyst Capability Model v0.1 — Proposed](../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md)
+- [Assessment Evidence Model v0.1 — Proposed](../docs/design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md)
 - [ADR index](../docs/decisions/README.md)
 - [Repository overview](../README.md)
 - [Governance](../GOVERNANCE.md)
