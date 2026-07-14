@@ -8,9 +8,9 @@ Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios,
 
 ## Project status
 
-**Phase:** architecture development and practical validation
+**Phase:** architecture development, practical validation, and bounded curriculum piloting
 
-[ADR-0001](docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and has not been accepted wholesale as framework architecture. ADR-0001 does not authorize curriculum, framework implementation, additional research, TOM/COM architecture, or engineering implementation.
+[ADR-0001](docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and has not been accepted wholesale as framework architecture. One [experimental curriculum pilot](curriculum/pilots/encrypted-outbound-traffic/README.md) is authorized as a bounded practical use of the working capability and evidence models; it does not authorize a broader curriculum, framework implementation, additional research, TOM/COM architecture, or engineering implementation.
 
 ## Repository map
 
