@@ -211,3 +211,9 @@ Do not use v0.1 as:
 Before adding formal levels, schemas, or a larger taxonomy, apply v0.1 to a small set of representative work products or scenario outlines. Revise statements that fail to distinguish meaningful performance, duplicate one another, or leave important analyst work undescribed.
 
 Formalization should occur only when practical use demonstrates a need.
+
+## Validation history
+
+| Date | Validation slice | Result |
+|---|---|---|
+| 2026-07-13 | [Encrypted outbound traffic](2026-07-13-encrypted-outbound-traffic-capability-validation-slice.md) | The model described the work without structural revision. Learning/model revision and audience adaptation were not observable in the single initial-assessment sample; these are sampling limits rather than model defects. |
