@@ -30,18 +30,9 @@ See the [project status and roadmap](docs/project/NADF-Project-Status.md) for cu
 
 ## Working method
 
-1. Define a research question before collecting sources.
-2. Record each source in the evidence register with provenance and quality notes.
-3. Separate sourced facts, interpretations, and proposals.
-4. Synthesize evidence against a specific question.
-5. Optionally capture consequential decisions in ADRs when preserving rationale is useful.
-6. Merge framework documentation only after evidence and decision links are reviewable.
+Contributions follow three steps: **draft and propose** a pull request, **practical peer review** for technical accuracy and training value, then **merge and adopt**. No prior authorization or ADR is required to begin drafting. See [Governance](GOVERNANCE.md) and [Contributing](CONTRIBUTING.md).
 
-See [Research protocol](docs/research/PROTOCOL.md), [Contributing](CONTRIBUTING.md), and [Governance](GOVERNANCE.md).
-
-## Design Studio handoff
-
-Design Studio outputs are preserved as historical context. They do not supersede the active training architecture baseline.
+Research is a supporting process rather than the repository's main activity. When a contribution rests on a claim that needs investigation, frame the question first, record sources with provenance and quality notes, keep facts separate from interpretation, and synthesize against the question. See the [research protocol](docs/research/PROTOCOL.md).
 
 ## License
 
