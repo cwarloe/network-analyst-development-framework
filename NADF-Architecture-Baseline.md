@@ -3,10 +3,21 @@
 ## Status & Overview
 
 - **Artifact:** NADF Training Architecture Baseline
+- **Version:** 1.0
+- **Date:** 2026-08-18
 - **Status:** Active governing baseline
 - **Scope:** Authoritative architecture for Network Analyst Development Framework training, curriculum, and practical exercise development
 
-This is NADF's single active governing training architecture baseline. Existing [research](docs/research/), [ADRs](docs/decisions/), and [Design Studio artifacts](docs/design-studio/) remain available as historical records and supporting context.
+This is NADF's single active governing training architecture baseline. The [research record](docs/research/) remains NADF's standing evidence base. Existing [ADRs](docs/decisions/) and [Design Studio artifacts](docs/design-studio/) are retained as historical records of how this baseline was reached.
+
+## Standing Qualifications
+
+These carry forward from the evidence base and bind claims made from this baseline. They are short by design; simplifying the process does not relax them.
+
+- The principles and concerns below are research-supported direction combined with architectural judgment. R001–R003 support the broad direction; they do not validate this specific decomposition, and no external role standard or practitioner population has confirmed its completeness.
+- R002-dependent high-consequence and doctrinal claims remain qualified pending citation alignment and claim-to-source remediation.
+- No proficiency levels, mastery thresholds, scoring, or assessment validity are established. NADF describes a designed approach to developing and evidencing analyst capability; it does not yet claim to measure expertise.
+- The boundary between network analysis, troubleshooting, threat hunting, incident response, and detection engineering remains unsettled.
 
 ## 1. Purpose & Identity
 
@@ -82,3 +93,12 @@ These functions operate dynamically and adaptively depending on task complexity 
 - **Integrate Authentic PCAPs & Telemetry:** Ensure exercises reflect authentic network behaviors, protocol interactions, and operational edge cases.
 
 The Curriculum Studio's current development priority is **C001 – Foundations of Network Analysis**.
+
+## 6. Active Implementing Models
+
+Two working models implement this baseline and remain active. They are the most practically tested artifacts in the repository and are not superseded by it:
+
+- [Network Analyst Capability Model v0.1](docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md) — six capability domains describing what a network analyst can demonstrate. Implements Concerns A, C, and D and gives §4's analytical functions their capability expression. Validated against two design slices.
+- [Assessment Evidence Model v0.1](docs/design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md) — eight evidence families (EF-1 through EF-8), minimum task conditions, and review questions. Implements Concern E.
+
+Use both when authoring modules and exercises: the capability model to check that a task exercises integrated performance, the evidence model to check that the resulting work product can actually show it. Revise them where authoring exposes a real gap. Do not add scoring, levels, or schemas without a demonstrated consumer.

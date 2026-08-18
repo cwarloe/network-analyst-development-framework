@@ -1,18 +1,19 @@
 ## Purpose
 
-## Related issues, evidence, and ADRs
+## Related issues and evidence
 
 ## Type of change
 
+- [ ] Training module, walkthrough, or lab exercise
+- [ ] Framework or baseline documentation
 - [ ] Research or evidence
 - [ ] Decision record
-- [ ] Framework documentation
 - [ ] Repository maintenance
 
 ## Review checklist
 
-- [ ] Facts, interpretations, and proposals are distinguishable.
-- [ ] Material claims have traceable sources.
-- [ ] Contrary evidence and limitations are represented.
-- [ ] Relevant indexes and cross-links are updated.
+- [ ] **Technical accuracy:** captures, telemetry details, and protocol behaviors are correct.
+- [ ] **Training value:** the change builds analyst mental models, troubleshooting capability, or evidence-based reasoning.
+- [ ] Material claims have traceable sources, and limitations are represented.
+- [ ] Claims stay inside the baseline's Standing Qualifications.
 - [ ] No secrets, private transcripts, or restricted material are included.

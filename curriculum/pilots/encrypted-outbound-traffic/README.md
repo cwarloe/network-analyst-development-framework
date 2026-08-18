@@ -39,3 +39,7 @@ Do not search for the fictional company, product, domain, or address. They inten
 ## Stop point
 
 Complete and save your initial work product before opening `feedback-and-transfer.md`. The later evidence is deliberately unavailable during the initial decision.
+
+---
+
+**Running this pilot?** Record what you learn in [run records](run-records.md) before revising the pilot or the models it implements.

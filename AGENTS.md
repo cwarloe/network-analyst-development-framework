@@ -10,20 +10,20 @@
 - Do not advance through a list of unresolved questions merely because the list exists. Make a decision when it unblocks valuable work or prevents a credible material risk.
 - Stop expanding work when the likely value of more process or documentation is lower than its cost.
 - GitHub is the durable system of record and rollback mechanism; it is not a reason to manufacture extra workflow.
-- Read current-state records before beginning work and do not restart completed work.
-- Preserve evidence qualifications and explicit non-decisions.
+- Read the active governing documents before beginning work — the [training architecture baseline](NADF-Architecture-Baseline.md), [governance guide](GOVERNANCE.md), and [project status and roadmap](docs/project/NADF-Project-Status.md) — and do not restart completed work.
+- Preserve the baseline's Standing Qualifications. Simplifying process does not license stronger claims than the evidence supports.
 
 ## Responsibility Boundaries
 
 - Research evaluates evidence and does not silently create architecture.
-- Architecture interprets evidence and records only consequential, durable decisions as ADRs.
-- Curriculum implements accepted architecture and does not redefine it.
+- Architecture interprets evidence; the training architecture baseline is where durable architectural direction lives.
+- Curriculum implements the active baseline and does not redefine it.
 - Routine interpretation, editing, organization, and implementation do not require separate internal-role approval when Codex can verify the result directly.
 - Do not ask the maintainer to relay information between internal roles.
 
 ## Decision and Documentation Thresholds
 
-- Use an ADR only for a consequential choice with meaningful downstream coupling, material alternatives, or significant reversal cost.
+- ADRs are optional. Write one only when preserving the rationale, alternatives, and consequences of a consequential choice has lasting value; otherwise record the reasoning in the pull request.
 - Record routine, low-risk, reversible choices in the relevant artifact, commit, or pull-request summary instead of a separate governance record.
 - When the maintainer has already approved an outcome, record the resulting lifecycle state directly. Do not create proposal-and-acceptance cycles solely for ceremony.
 - Keep decision records as short as the risk and reasoning allow.
@@ -48,6 +48,8 @@ Escalate to the maintainer only for:
 When escalation is necessary, provide a concise decision brief containing the decision, recommendation, meaningful alternatives, and consequences. Accept clear natural-language direction; do not require the maintainer to repeat a scripted approval phrase.
 
 ## Repository Workflow
+
+Follow the three-step workflow in [GOVERNANCE.md](GOVERNANCE.md): draft and propose, practical peer review, merge and adopt.
 
 - Never commit directly to the default branch.
 - Use a focused feature branch for repository changes.

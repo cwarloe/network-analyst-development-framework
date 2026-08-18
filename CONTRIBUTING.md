@@ -2,10 +2,9 @@
 
 ## Before opening a change
 
-- Document architectural changes in `governance/decisions/` before changing curriculum artifacts.
-- Search existing issues, evidence entries, and ADRs.
+- Check the change against the [training architecture baseline](NADF-Architecture-Baseline.md). No prior authorization or ADR is required to begin drafting.
+- Search existing issues and evidence entries.
 - Open a research question for claims that require investigation.
-- Use a Design Studio handoff for architectural material developed outside this repository.
 - By submitting a contribution, you agree that it may be distributed under the repository's CC BY-NC-SA 4.0 license.
 
 ## Evidence requirements
@@ -16,8 +15,8 @@ Every evidence entry must include provenance, access date, relevance, limitation
 
 ## Pull requests
 
-- Keep changes focused on one research question, decision, or documentation concern.
-- Link related issues, evidence IDs, and ADRs.
+- Keep changes focused on one module, exercise, research question, or documentation concern.
+- Link related issues and evidence IDs.
 - Describe contrary evidence and unresolved uncertainty.
 - Update indexes when adding evidence, decisions, or framework documents.
 - Do not include secrets, private conversation transcripts, or restricted source material.
@@ -32,4 +31,6 @@ Every evidence entry must include provenance, access date, relevance, limitation
 
 ## Review standard
 
-A reviewer should be able to trace a framework claim to evidence, see how limitations were considered, and identify the decision that authorized it.
+Review a contribution for two things: **technical accuracy** — are the captures, telemetry details, and protocol behaviors correct? — and **training value** — does it build analyst mental models, troubleshooting capability, and evidence-based reasoning?
+
+Beyond that, a reviewer should be able to trace a material framework claim to evidence and see how its limitations were considered.
