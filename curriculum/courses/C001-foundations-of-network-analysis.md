@@ -5,7 +5,7 @@
 - **Artifact:** Course outline
 - **Version:** 0.1 — outline only
 - **Date:** 2026-08-18
-- **Status:** Draft for review. No module content, exercise, or dataset is authored yet.
+- **Status:** Draft for review. M1 and M8 are authored; M2–M7 and M9 are outline only.
 - **Implements:** [NADF Active Training Architecture Baseline](../../NADF-Architecture-Baseline.md), [Capability Model v0.1](../../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md), [Assessment Evidence Model v0.1](../../docs/design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md)
 
 C001 is NADF's entry course. It develops an analyst who can look at network activity, explain what is happening and why it matters, and produce a defensible assessment that another person can act on.
@@ -30,14 +30,14 @@ Capability IDs reference Capability Model v0.1. Evidence families (EF) reference
 
 | # | Module | Technical spine | Analytical development | Capability IDs | Work product | EF |
 |---|---|---|---|---|---|---|
-| M1 | What the analyst is for | The decision an analyst serves; where analysis sits in a cyber defense team | Separating observation, interpretation, and judgment as a working habit, applied to one small case | OE-2, IR-1 | One-paragraph assessment of a supplied miniature case | EF-1, EF-2 |
+| M1 | [What the analyst is for](../modules/C001-M1-what-the-analyst-is-for.md) | The decision an analyst serves; where analysis sits in a cyber defense team | Separating observation, interpretation, and judgment as a working habit, applied to one small case | OE-2, IR-1 | One-paragraph assessment of a supplied miniature case | EF-1, EF-2 |
 | M2 | Reading a conversation | Hosts, services, ports, sessions; layers as a reasoning tool rather than a memorization ladder | Framing a question about an unfamiliar exchange; describing before concluding | OC-1, OC-2, OE-1 | Narrated walkthrough of one capture: who talked to whom, and why | EF-1, EF-2 |
 | M3 | Names and expectations | DNS resolution, caching, TTLs, resolver paths; what healthy name resolution looks like | Establishing expected behavior and legitimate variation before deviation has meaning | OC-3, OE-1 | Written baseline description of normal resolution for a given environment | EF-2, EF-3 |
 | M4 | What encryption hides | HTTP and TLS; handshake metadata, SNI, certificates; the boundary of what is observable | Reasoning from partial evidence; naming the limits of a source | OC-2, OE-4 | Assessment of an encrypted exchange stating explicitly what cannot be determined | EF-2, EF-5 |
 | M5 | Vantage point and evidence | Capture vs. flow vs. logs vs. endpoint telemetry; sensor placement, retention, gaps | Evidence planning: choosing sources for a question and knowing what each cannot answer | OE-3, OE-4, OE-5 | Evidence plan for a supplied question, with prioritization and rationale | EF-4, EF-5 |
 | M6 | When it breaks | Latency, loss, path behavior, MTU and fragmentation, policy effects | Causal models, competing explanations, discriminating tests, revising when a prediction fails | OC-4, IR-2, IR-3, IR-5, IR-6 | Diagnosis of a failure with alternatives considered and the discriminating evidence named | EF-3, EF-4, EF-8 |
 | M7 | When it's suspicious | Beaconing, tunneling, staging and exfiltration shapes; peer comparison and history | Resisting indicator-first labeling; holding benign and malicious explanations open together | IR-2, IR-4, IR-5, OC-3 | Assessment of ambiguous activity that argues both explanations before choosing | EF-3, EF-4, EF-6 |
-| M8 | Judgment and handoff | Escalation paths, adjacent roles, proportionate action | Calibrated confidence; recommending action sized to evidence and risk; role boundaries | JU-1, JU-2, JU-3, JU-4, CT-1, CT-2, CT-3, CT-4 | Two products from one analysis: a peer handoff and a leadership summary | EF-6, EF-7 |
+| M8 | [Judgment and handoff](../modules/C001-M8-judgment-and-handoff.md) | Escalation paths, adjacent roles, proportionate action | Calibrated confidence; recommending action sized to evidence and risk; role boundaries | JU-1, JU-2, JU-3, JU-4, CT-1, CT-2, CT-3, CT-4 | Two products from one analysis: a peer handoff and a leadership summary | EF-6, EF-7 |
 | M9 | Capstone and transfer | Integrated scenario, then an unrelated situation | Performing the whole chain unaided, then carrying the reasoning to changed technology | All domains, esp. LR-1 – LR-4 | Full assessment, revision under new evidence, and a transfer response | EF-1 – EF-8 |
 
 ## The capstone already exists
@@ -47,6 +47,10 @@ M9 does not need to be authored from scratch. [PILOT-001 — Encrypted outbound 
 This has a useful consequence for sequencing: running the pilot now, before M1–M8 exist, tests the course's endpoint first. Whatever the pilot's [run records](../pilots/encrypted-outbound-traffic/run-records.md) expose about the capability and evidence models will be cheaper to fix now than after eight modules are written against them.
 
 The pilot's DNS fragmentation transfer case also belongs to M6's subject matter and can seed that module's worked example.
+
+## Authoring status
+
+M1 and M8 are authored. They are the two modules with no dataset dependency, and they bracket the course: M1 establishes the habit the whole sequence rests on, M8 the product it builds toward. Writing the ends first also tests the outline from both directions before the middle is committed to.
 
 ## Dataset and lab dependencies
 
