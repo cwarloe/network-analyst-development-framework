@@ -2,17 +2,21 @@
 
 The Network Analyst Development Framework (NADF) is an expertise-development architecture centered on developing network analysts who operate effectively as members of a cyber defense team. The network analyst is its primary development target; adjacent cybersecurity roles are interfaces unless a future architectural decision explicitly expands NADF's primary scope.
 
-The Design Studio owns the architecture. Research reports provide the evidence base, and the Curriculum Studio implements the approved architecture. This repository is the system of record for reviewed evidence, traceable claims, architectural decision records, and approved documentation. It does not treat unreviewed design discussion as settled architecture.
+The [NADF Active Training Architecture Baseline](NADF-Architecture-Baseline.md) is the single active governing training architecture baseline. The Curriculum Studio implements it, with **C001 – Foundations of Network Analysis** as its current development priority. Existing research, ADRs, and Design Studio artifacts are preserved as historical records and supporting context.
 
 Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios, PCAPs, datasets, and other reusable assets may support analyst development, but they do not define NADF's primary identity.
 
 ## Project status
 
-**Phase:** architecture development, practical validation, and bounded curriculum piloting
+**Phase:** active curriculum and practical exercise development
 
-[ADR-0001](docs/decisions/0001-adopt-expertise-development-network-analyst-architecture.md) is NADF's first accepted architectural decision. Architecture Baseline v0.2 remains the governed Design Studio baseline proposal and has not been accepted wholesale as framework architecture. One [experimental curriculum pilot](curriculum/pilots/encrypted-outbound-traffic/README.md) is authorized as a bounded practical use of the working capability and evidence models; it does not authorize a broader curriculum, framework implementation, additional research, TOM/COM architecture, or engineering implementation.
+See the [project status and roadmap](docs/project/NADF-Project-Status.md) for current workstreams and priorities.
 
 ## Repository map
+
+- [GOVERNANCE.md](GOVERNANCE.md): active contributor and decision workflow
+- [NADF-Architecture-Baseline.md](NADF-Architecture-Baseline.md): single active governing training architecture baseline
+- [docs/project/NADF-Project-Status.md](docs/project/NADF-Project-Status.md): active project status and roadmap
 
 - `docs/research/`: research questions, evidence, and syntheses
 - `docs/decisions/`: accepted and proposed architectural decision records (ADRs)
@@ -30,14 +34,14 @@ Content, protocols, tools, procedures, labs, assessments, TOMs, COMs, scenarios,
 2. Record each source in the evidence register with provenance and quality notes.
 3. Separate sourced facts, interpretations, and proposals.
 4. Synthesize evidence against a specific question.
-5. Capture consequential decisions in ADRs.
+5. Optionally capture consequential decisions in ADRs when preserving rationale is useful.
 6. Merge framework documentation only after evidence and decision links are reviewable.
 
 See [Research protocol](docs/research/PROTOCOL.md), [Contributing](CONTRIBUTING.md), and [Governance](GOVERNANCE.md).
 
 ## Design Studio handoff
 
-Design Studio outputs are inputs, not repository truth. Each handoff should be dated, identify its source conversation, list unresolved questions, and distinguish proposals from decisions. Use `templates/design-studio-handoff.md`.
+Design Studio outputs are preserved as historical context. They do not supersede the active training architecture baseline.
 
 ## License
 

@@ -1,6 +1,8 @@
 # Architectural Decision Records
 
-ADRs preserve the context and evidence behind consequential decisions. Copy `templates/adr.md` into this directory and name it `NNNN-short-title.md`.
+These ADRs are preserved as historical records. The [NADF Active Training Architecture Baseline](../../NADF-Architecture-Baseline.md) is the single active governing training architecture baseline.
+
+New ADRs are optional for consequential decisions where preserving rationale, alternatives, and consequences is useful. Copy `templates/adr.md` into this directory and name it `NNNN-short-title.md`.
 
 | ID | Decision | Status | Date |
 |---|---|---|---|
