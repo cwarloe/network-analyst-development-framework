@@ -17,14 +17,11 @@ See the [project status and roadmap](docs/project/NADF-Project-Status.md) for cu
 - [GOVERNANCE.md](GOVERNANCE.md): active contributor and decision workflow
 - [NADF-Architecture-Baseline.md](NADF-Architecture-Baseline.md): single active governing training architecture baseline
 - [docs/project/NADF-Project-Status.md](docs/project/NADF-Project-Status.md): active project status and roadmap
-
+- `curriculum/`: courses, modules, labs, assessments, and pilots
+- `assets/`: reusable scenarios, PCAPs, telemetry, detections, and job aids
 - `docs/research/`: research questions, evidence, and syntheses
-- `docs/decisions/`: accepted and proposed architectural decision records (ADRs)
-- `docs/framework/`: approved framework documentation
-- `docs/design-studio/`: dated transfers from the separate Design Studio
-- `curriculum/`: Curriculum Studio implementation artifacts
-- `assets/`: reusable scenarios, TOMs, COMs, PCAPs, telemetry, detections, and job aids
-- `governance/`: decisions, change logs, and quality reviews
+- `docs/decisions/`: architectural decision records, retained as historical records
+- `docs/design-studio/`: dated Design Studio transfers, retained as historical records
 - `templates/`: reusable research and decision templates
 - `.github/`: contribution and review workflows
 
