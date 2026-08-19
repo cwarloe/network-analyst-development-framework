@@ -42,11 +42,14 @@ Also watch, rather than change: **lessons 02–04 may be overloading novices wit
 
 Do these after the first run. The run may show none of them is the binding constraint.
 
-## 5. Map the capability model against an external role standard
+## 5. Act on the role-standard mapping
 
-The [Standing Qualifications](docs/architecture.md) admit that no external role standard has confirmed the capability model's completeness. The NICE Framework's Cyber Defense Analyst role publishes Task, Knowledge and Skill statements, free, and mapping 27 statements against them is about a day.
+Done — [R007](docs/research/R007-nice-role-mapping.md) mapped the capability model against the NICE Defensive Cybersecurity role. The analytical spine corresponds, which is the first external support this model has had. What remains is acting on the gaps:
 
-All three possible outcomes are useful: correspondence is the first external support the model has had; NADF statements with no counterpart are candidates for design judgment mistaken for role reality; NICE statements with no counterpart are coverage holes. The last is the one worth wanting.
+- **Name the excluded clusters in the Standing Qualifications.** Signature work, malware handling and incident resolution are deliberate exclusions. Vulnerability management and security-control evaluation — about a fifth of the role — are undeclared ones. Partly done; the boundary decisions themselves are still open.
+- **Decide about longitudinal work.** The role includes trend analysis, posture reporting and continuous monitoring. Every lesson here is a single moment. [R005](docs/research/R005-instructional-design-review.md) reached the same gap from the instructional side, which is the strongest signal in either record. A trend or comparison element inside an existing lesson would test whether it matters, without a tenth lesson.
+- **Revisit the basis labels** on LR-1 to LR-4 and JU-2/JU-4. No external role standard asserts them, so RS/AJ may be generous.
+- **Verify against NIST's own file.** The mapping used a community mirror because `nist.gov`, `niccs.cisa.gov` and `catalog.data.gov` are unreachable from the build environment. Anyone with normal internet access can confirm it in minutes.
 
 ## 6. Answer two remaining design questions
 
