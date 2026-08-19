@@ -105,55 +105,67 @@ $ tshark -r assets/pcaps/04-tls.pcap -Y "tcp.stream==1 && tls.handshake.type==11
 
 Nothing was attacked. Nobody hid anything from you deliberately. A server chose a newer protocol version, which is the correct and recommended thing for it to do, and a category of evidence you were relying on ceased to exist.
 
-## The same two connections, in Security Onion's logs
+## The same two connections, in Security Onion
 
-Everything above came from the packets. Now run Zeek over the same file and look at what an analyst in Hunt or Kibana would actually have:
+Everything above came from the packets. Now look at what an analyst in Hunt or Kibana would actually have.
 
-```
-zeek -C -r assets/pcaps/04-tls.pcap
-```
-
-`ssl.log`, two rows — one per connection:
+Two documents with `event.dataset: ssl`, one per connection:
 
 ```
-id.resp_h       version  cipher                                  server_name                      cert_chain_fps      sni_matches_cert
-198.51.100.20   TLSv12   TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384   files.contoso-internal.example   a2ff156e37cff8c6…   T
-198.51.100.30   TLSv13   TLS_AES_256_GCM_SHA384                  files.contoso-internal.example   -                   -
+destination.ip     198.51.100.20                             198.51.100.30
+ssl.version        TLSv12                                    TLSv13
+ssl.cipher         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384     TLS_AES_256_GCM_SHA384
+ssl.curve          x25519                                    x25519
+ssl.server_name    files.contoso-internal.example            files.contoso-internal.example
+ssl.established    true                                      true
+tls.server.hash.sha256   a2ff156e37cff8c67f1d0979fec6584b…   —
 ```
 
-Read the last two columns. For the TLS 1.2 connection, Zeek recorded a certificate fingerprint and was able to check that the requested hostname matched the certificate. For the TLS 1.3 connection, both fields are `-`. Not false. **Absent.** Zeek could not see a certificate to fingerprint, so there was nothing to match against.
+Read the last field. For the TLS 1.2 connection, Security Onion has a certificate fingerprint. For the TLS 1.3 connection it has nothing. Not false. **Absent.** There was no certificate visible to fingerprint.
 
-Then count the rows in each log:
-
-```
-conn.log    2 rows
-ssl.log     2 rows
-x509.log    1 row
-```
-
-`x509.log` is where certificate detail lives — subject, issuer, validity, key length, whether the cert is a CA. It is what almost every certificate-based detection and dashboard is built on. Two TLS connections went past the sensor, both presenting the same certificate, and **one of them produced a row**:
+Then count documents by dataset:
 
 ```
-certificate.subject   CN=files.contoso-internal.example,O=Contoso Ltd,L=Portland,ST=Oregon,C=US
-certificate.issuer    CN=files.contoso-internal.example,O=Contoso Ltd,L=Portland,ST=Oregon,C=US
-certificate.key_alg   rsaEncryption   2048 bits
-san.dns               files.contoso-internal.example
-basic_constraints.ca  T
+event.dataset: conn     2 documents
+event.dataset: ssl      2 documents
+event.dataset: x509     1 document
 ```
 
-Subject equals issuer, right there in a searchable field. Anyone hunting for self-signed certificates finds this in one query.
+`x509` is where certificate detail lives — subject, issuer, validity, key length, whether the certificate is a CA. It is what almost every certificate-based detection and dashboard is built on. Two TLS connections went past the sensor, both presenting the same certificate, and **one of them produced a document**:
+
+```
+x509.certificate.subject          CN=files.contoso-internal.example,O=Contoso Ltd,L=Portland,ST=Oregon,C=US
+x509.certificate.issuer           CN=files.contoso-internal.example,O=Contoso Ltd,L=Portland,ST=Oregon,C=US
+x509.certificate.key.algorithm    rsaEncryption
+x509.certificate.key.length       2048
+x509.san_dns                      files.contoso-internal.example
+x509.basic_constraints.ca         true
+hash.sha256                       a2ff156e37cff8c67f1d0979fec6584b…
+```
+
+Subject equals issuer, right there in a searchable field. Anyone hunting self-signed certificates finds this in one query: `x509.certificate.subject:x509.certificate.issuer` in spirit, or more practically a scripted comparison over the index.
 
 And finds nothing at all for `198.51.100.30`, which is presenting the identical certificate.
 
-This is the practical shape of the problem. It is not that TLS 1.3 makes analysis impossible. It is that **an entire log source silently thins out**, while every query you run against it keeps returning confident, correct, incomplete results. `conn.log` still has both connections. `ssl.log` still has both. `x509.log` has half of what you would expect, and nothing anywhere reports a gap.
+This is the practical shape of the problem. It is not that TLS 1.3 makes analysis impossible. It is that **an entire data source silently thins out**, while every query you run against it keeps returning confident, correct, incomplete results. `conn` still has both connections. `ssl` still has both. `x509` has half of what you would expect, and nothing anywhere reports a gap.
+
+### A smaller version of the same problem, one layer up
+
+Zeek writes a field called `sni_matches_cert` in `ssl.log` — its own check of whether the requested hostname matched the certificate presented. Useful, and for our TLS 1.2 connection it says `T`.
+
+**Security Onion's ingest pipeline does not carry that field.** It is not renamed, it is dropped. So it does not exist in Elasticsearch and you cannot search or alert on it, no matter what Zeek observed.
+
+That is worth sitting with, because it is the lesson's own argument arriving from an unexpected direction. Encryption removed the certificate from the wire. **The pipeline removed a field from the index.** Neither was an attack, both narrowed what you can ask, and only one of them is even visible from inside the SIEM.
+
+> **Running Zeek yourself?** `zeek -C -r assets/pcaps/04-tls.pcap` writes `ssl.log` and `x509.log` with Zeek's names — `version`, `cipher`, `server_name`, `cert_chain_fps`, `certificate.subject` — and it *will* include `sni_matches_cert`, because nothing has dropped it yet. [The mapping is here](field-names.md).
 
 ## What survives
 
 Not nothing. Compare the two ClientHellos:
 
 ```
-frame 4    server_name: files.contoso-internal.example
-frame 18   server_name: files.contoso-internal.example
+frame 4    server_name: files.contoso-internal.example     (ssl.server_name)
+frame 18   server_name: files.contoso-internal.example     (ssl.server_name)
 ```
 
 **SNI is in the clear in both.** The client has to tell the server which host it wants before encryption is negotiated, so the hostname leaks in TLS 1.3 exactly as it did in TLS 1.2. Encrypted Client Hello exists to close this and is not in use here.
@@ -192,7 +204,7 @@ Address all of these inside that structure:
 1. You have been told both connections carry the same certificate. **Prove it from the capture, or explain precisely why you cannot.** Then say what a reader of your assessment should conclude about any other claim you make that rests on the same kind of evidence.
 2. A colleague says stream 1 is more suspicious than stream 0, because "we can't see anything in it." Respond.
 3. The certificate in stream 0 is self-signed. State what that does and does not tell you, and what you would want to know before treating it as a finding.
-4. Your organization has a detection that alerts on self-signed certificates, built on `x509.log`. Describe exactly what it does against this capture — how many of the two connections it evaluates, and what it reports. Then describe what happens to it as the estate moves to TLS 1.3, and say what you would monitor to notice that happening.
+4. Your organization has a detection that alerts on self-signed certificates, built on `event.dataset: x509`. Describe exactly what it does against this capture — how many of the two connections it evaluates, and what it reports. Then describe what happens to it as the estate moves to TLS 1.3, and say what you would monitor to notice that happening.
 5. Stream 0 has 130 and 132 bytes of application data; stream 1's opaque records are 1038, 281 and 69 bytes. Can you conclude the requests differed? Justify carefully.
 6. Name the one field that leaks the destination hostname in both streams, say why it must, and say what would remove it.
 

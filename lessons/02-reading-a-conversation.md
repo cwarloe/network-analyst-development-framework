@@ -27,44 +27,58 @@ It is checked two ways before it ships: Wireshark must dissect it cleanly, and Z
 
 ## Start where you would actually start
 
-In a Security Onion deployment you do not open Wireshark first. You start in Hunt or Kibana, looking at what Zeek already made of the traffic. Run Zeek over the file yourself and you get the same logs Security Onion would index:
+In a Security Onion deployment you do not open Wireshark first. You start in Hunt or Kibana, looking at what Zeek already made of the traffic and Elasticsearch already indexed.
+
+Search for this host's connections and you get one document per conversation. The fields, as Security Onion names them:
 
 ```
-zeek -C -r assets/pcaps/02-conversation.pcap
+event.dataset      conn                    conn
+log.id.uid         CwlV971jSsZWObrEKd      Cd2hCo1PXGfUinZyj2
+source.ip          192.0.2.10              192.0.2.10
+source.port        42876                   42886
+destination.ip     198.51.100.20           198.51.100.20
+destination.port   80                      80
+network.transport  tcp                     tcp
+network.protocol   http                    http
+event.duration     0.004038                0.000184
+client.bytes       151                     149
+server.bytes       207                     144
+connection.state   SF                      SF
 ```
 
-`conn.log` is the index of every conversation Zeek saw. Trimmed to the columns that matter here:
+Two conversations. Same client, same server, same service. Read the fields you will use for the rest of your career:
+
+- **`source.ip` / `source.port`** — who started it, and from which ephemeral port. Different port each time: **these are two separate conversations, not one.**
+- **`destination.ip` / `destination.port`** — who was contacted, on which service port.
+- **`connection.state: SF`** — normal establishment and normal teardown. Both sides said hello and both said goodbye. Security Onion also carries `connection.state_description`, which spells it out: *Normal SYN/FIN completion*.
+- **`client.bytes` / `server.bytes`** — 151 out, 207 back; then 149 out, 144 back. Note the direction words: `client` is whoever opened the connection, which is not always the interesting party.
+- **`log.id.uid`** — the identifier tying this document to every other log Zeek wrote about the same conversation. It is how you pivot.
+
+Take that `log.id.uid` and search for it again. This time you get the HTTP document:
 
 ```
-ts                 uid                  id.orig_h   id.orig_p  id.resp_h      id.resp_p  proto  service  duration  orig_bytes  resp_bytes  conn_state
-1787116835.000541  CwlV971jSsZWObrEKd   192.0.2.10  42876      198.51.100.20  80         tcp    http     0.004038  151         207         SF
-1787116835.404821  Cd2hCo1PXGfUinZyj2   192.0.2.10  42886      198.51.100.20  80         tcp    http     0.000184  149         144         SF
+event.dataset                 http                            http
+log.id.uid                    CwlV971jSsZWObrEKd              Cd2hCo1PXGfUinZyj2
+http.method                   GET                             GET
+http.virtual_host             files.contoso-internal.example  files.contoso-internal.example
+http.uri                      /api/v2/export?page=1           /api/v2/admin/users
+http.useragent                contoso-sync/3.2                contoso-sync/3.2
+http.request.body.length      0                               0
+http.response.body.length     90                              44
+http.status_code              200                             403
+http.status_message           OK                              Forbidden
 ```
 
-Two conversations. Same client, same server, same service. Read the columns you will use for the rest of your career:
-
-- **`id.orig_h` / `id.orig_p`** — who started it, and from which ephemeral port. Different port each time: **these are two separate conversations, not one.**
-- **`id.resp_h` / `id.resp_p`** — who was contacted, on which service port.
-- **`conn_state: SF`** — normal establishment and normal teardown. Both sides said hello and both said goodbye.
-- **`orig_bytes` / `resp_bytes`** — 151 out, 207 back; then 149 out, 144 back.
-- **`uid`** — the identifier that ties this row to every other log Zeek wrote about the same conversation. It is how you pivot.
-
-Follow that `uid` into `http.log`:
+Now put the two side by side, because the whole lesson is sitting in that comparison:
 
 ```
-uid                  method  host                             uri                     request_body_len  response_body_len  status_code  status_msg
-CwlV971jSsZWObrEKd   GET     files.contoso-internal.example   /api/v2/export?page=1   0                 90                 200          OK
-Cd2hCo1PXGfUinZyj2   GET     files.contoso-internal.example   /api/v2/admin/users     0                 44                 403          Forbidden
+conn   connection.state:   SF     SF      <- both conversations completed normally
+http   http.status_code:   200    403     <- one request succeeded, one was refused
 ```
 
-Now look at the two logs side by side, because the whole lesson is sitting in that comparison:
+**Security Onion is telling you two different things about the same second conversation, and both are true.** That is not a contradiction to resolve. It is two layers reporting on their own business, and the rest of this lesson is about learning to keep them apart.
 
-```
-conn.log   conn_state:  SF     SF          <- both conversations completed normally
-http.log   status_code: 200    403         <- one request succeeded, one was refused
-```
-
-**Zeek is telling you two different things about the same second conversation, and both are true.** That is not a contradiction to resolve. It is two layers reporting on their own business, and the rest of this lesson is about learning to keep them apart.
+> **Running Zeek yourself?** `zeek -C -r assets/pcaps/02-conversation.pcap` writes `conn.log` and `http.log` with Zeek's own field names — `id.orig_h` rather than `source.ip`, `conn_state` rather than `connection.state`. Same data, one stage earlier in the pipeline. [The mapping is here](field-names.md).
 
 ## The shape of a conversation
 
@@ -94,7 +108,7 @@ Three phases, and you should be able to point at each one:
 
 ## What the packets add that the log did not
 
-The Zeek log told you 151 bytes went out. The packets tell you what they were:
+The log told you 151 bytes went out in `client.bytes`. The packets tell you what they were:
 
 ```
 GET /api/v2/export?page=1 HTTP/1.1
@@ -135,8 +149,8 @@ Or in Wireshark: right-click any frame from 11 onward → Follow → TCP Stream.
 Write **half a page** that answers all of the following. Every answer is checkable against the file, so check it.
 
 1. **Narrate the conversation** the way the first one was narrated above: one sentence, no judgment, naming who asked what of whom and what came back.
-2. **Is this the same conversation as the first one, continued?** Justify your answer by pointing at a specific field.
-3. **You already know from `http.log` that this request was refused.** Prove it from the packets alone — name the frame and the bytes. Then answer, separately: did the TCP connection succeed? Say which specific evidence answers which question, and why one cannot substitute for the other.
+2. **Is this the same conversation as the first one, continued?** Justify your answer by pointing at a specific field, and name it as Security Onion would.
+3. **You already know from `http.status_code` that this request was refused.** Prove it from the packets alone — name the frame and the bytes. Then answer, separately: did the TCP connection succeed? Say which specific evidence answers which question, and why one cannot substitute for the other.
 4. **Who closed the connection, and does it differ from the first conversation?**
 5. **The response was 144 bytes against the first response's 207.** Before looking, write down at least two explanations a smaller response could have. Then look, and say which one it was and what distinguished it. The point is the habit of generating alternatives before checking, not the answer.
 6. **What did the client do differently between the two conversations?** There is more than one answer.
@@ -146,11 +160,11 @@ Write **half a page** that answers all of the following. Every answer is checkab
 
 Question 3 is the lesson.
 
-The second conversation completes perfectly. Handshake, request, response, clean teardown, `conn_state: SF` in Zeek's log — by every measure at the transport layer, it worked. And the application said **403 Forbidden**.
+The second conversation completes perfectly. Handshake, request, response, clean teardown, `connection.state: SF` — by every measure at the transport layer, it worked. And the application said **403 Forbidden**.
 
 Both statements are true, at different layers. An analyst who collapses them into one verdict will be wrong in one direction or the other:
 
-- Read only the Zeek `conn_state`, and you report a successful connection to a service. True, and it hides that access was refused.
+- Read only `connection.state`, and you report a successful connection to a service. True, and it hides that access was refused.
 - Read only the HTTP status, and you report a failure. True, and it hides that the network delivered everything correctly and the refusal was a deliberate decision by the application.
 
 "Did it work?" is not one question. It is a question per layer, and the layers can disagree. Getting into the habit of asking *which layer are you asking about* is worth more than any amount of protocol memorisation.
