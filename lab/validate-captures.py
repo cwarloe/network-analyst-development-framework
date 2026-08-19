@@ -17,7 +17,7 @@ synthesised in a lab or taken off a production tap.
 
     python3 lab/validate-captures.py assets/pcaps
 """
-import json, os, shutil, subprocess, sys, tempfile
+import json, os, shutil, struct, subprocess, sys, tempfile
 
 # What each capture must yield. Zeek log -> minimum row count, plus fields
 # that must be populated on at least one row.
@@ -68,6 +68,60 @@ def sh(cmd, **kw):
     return subprocess.run(cmd, capture_output=True, text=True, **kw)
 
 
+def _cksum(data):
+    if len(data) % 2:
+        data += b"\x00"
+    s = sum(struct.unpack(f">{len(data)//2}H", data))
+    while s >> 16:
+        s = (s & 0xFFFF) + (s >> 16)
+    return (~s) & 0xFFFF
+
+
+def check_checksums(path):
+    """Verify IP and TCP/UDP checksums without asking a tool.
+
+    This exists because tshark 4.2.2 and tshark 4.0.17 disagreed about the
+    same file: one reported every UDP checksum good, the other reported every
+    one bad, and independent arithmetic showed the second was right. A gate
+    that trusts a single tool's verdict is only as strong as that tool's
+    version. Arithmetic does not have versions.
+    """
+    data = open(path, "rb").read()
+    off, n, bad = 24, 0, 0
+    while off + 16 <= len(data):
+        _, _, cl, _ = struct.unpack("<IIII", data[off:off + 16])
+        pkt = data[off + 16:off + 16 + cl]
+        off += 16 + cl
+        if len(pkt) < 34 or struct.unpack(">H", pkt[12:14])[0] != 0x0800:
+            continue
+        o = 14
+        ihl = (pkt[o] & 0x0F) * 4
+        t = o + ihl
+        proto = pkt[o + 9]
+        n += 1
+        hdr = bytearray(pkt[o:o + ihl])
+        stored_ip = struct.unpack(">H", bytes(hdr[10:12]))[0]
+        hdr[10:12] = b"\x00\x00"
+        if stored_ip != _cksum(bytes(hdr)):
+            bad += 1
+            continue
+        if proto not in (6, 17):
+            continue
+        seglen = struct.unpack(">H", pkt[o + 2:o + 4])[0] - ihl
+        if t + seglen > len(pkt):          # truncated capture, cannot verify
+            continue
+        coff = t + (16 if proto == 6 else 6)
+        stored = struct.unpack(">H", pkt[coff:coff + 2])[0]
+        if proto == 17 and stored == 0:    # UDP checksum is optional over IPv4
+            continue
+        seg = bytearray(pkt[t:t + seglen])
+        seg[coff - t:coff - t + 2] = b"\x00\x00"
+        pseudo = pkt[o + 12:o + 20] + bytes([0, proto]) + struct.pack(">H", seglen)
+        if stored != (_cksum(pseudo + bytes(seg)) or 0xFFFF):
+            bad += 1
+    return [f"{bad} of {n} packets have checksums that do not verify"] if bad else []
+
+
 def check_tshark(path, protocols):
     """Wireshark's dissector must recognise the traffic and find no damage."""
     problems = []
@@ -93,11 +147,26 @@ def check_tshark(path, protocols):
     return problems
 
 
+ZEEK_PATHS = ["/opt/zeek-install/bin/zeek", "/usr/local/zeek/bin/zeek",
+              "/opt/zeek/bin/zeek", "/usr/bin/zeek"]
+
+
+def find_zeek():
+    """Zeek is rarely on PATH -- it installs to its own prefix."""
+    cand = os.environ.get("ZEEK") or shutil.which("zeek")
+    if cand and os.path.exists(cand):
+        return cand
+    for p in ZEEK_PATHS:
+        if os.path.exists(p):
+            return p
+    return None
+
+
 def check_zeek(path, expected):
     """Zeek must produce the logs Security Onion would index."""
-    zeek = shutil.which("zeek") or "/opt/zeek-install/bin/zeek"
-    if not os.path.exists(zeek):
-        return ["zeek not installed - THIS IS THE CHECK THAT MATTERS, install it"]
+    zeek = find_zeek()
+    if not zeek:
+        return ["zeek not found - THIS IS THE CHECK THAT MATTERS. Set $ZEEK or see lab/README.md"]
 
     problems = []
     with tempfile.TemporaryDirectory() as d:
@@ -133,6 +202,11 @@ def main(directory):
     if not caps:
         sys.exit(f"no captures in {directory}")
 
+    zeek = find_zeek()
+    ver = sh([zeek, "--version"]).stdout.strip().splitlines()[0] if zeek else "not found"
+    tsv = sh(["tshark", "--version"]).stdout.split("\n")[0] if shutil.which("tshark") else "not found"
+    print(f"zeek:   {ver}\ntshark: {tsv}")
+
     failed = False
     for cap in caps:
         path = os.path.join(directory, cap)
@@ -141,6 +215,12 @@ def main(directory):
         if not spec:
             print(f"  {YELLOW}?{RESET} no expectations defined - add it to EXPECTED")
             continue
+
+        problems = check_checksums(path)
+        print(f"  {RED + 'FAIL' + RESET if problems else GREEN + 'ok  ' + RESET}  checksums (computed here, not asked)")
+        for p in problems:
+            print(f"         - {p}")
+        failed |= bool(problems)
 
         problems = check_tshark(path, spec["tshark_protocols"])
         print(f"  {RED + 'FAIL' + RESET if problems else GREEN + 'ok  ' + RESET}  wireshark dissection")

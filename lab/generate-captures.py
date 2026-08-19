@@ -91,6 +91,7 @@ def gen_dns():
             pass
         time.sleep(0.3)
     stop(cap)
+    fix_checksums(path)
     print("dns  ->", path)
 
 
@@ -476,6 +477,42 @@ def gen_suspicious():
               {8201: "198.51.100.60", 8202: "198.51.100.70",
                8203: "198.51.100.90", 8053: "198.51.100.80"}, udp_ports={8053})
     print("susp ->", out)
+
+
+def fix_checksums(path):
+    """Recompute IP and UDP/TCP checksums in place.
+
+    Captures taken on a live interface carry whatever the capture point saw,
+    which is not always a valid checksum -- offload and intermediate rewriting
+    both leave the field wrong on the wire we record. Wireshark then marks
+    every packet red and a learner spends the lesson on an artefact.
+
+    The loopback captures get this for free from anonymize(). The DNS capture
+    is not rewritten, so it needs the repair on its own.
+    """
+    data = open(path, "rb").read()
+    off, out = 24, [data[:24]]
+    while off + 16 <= len(data):
+        ts, tus, cl, ol = struct.unpack("<IIII", data[off:off + 16])
+        pkt = bytearray(data[off + 16:off + 16 + cl])
+        off += 16 + cl
+        if len(pkt) > 14 and struct.unpack(">H", pkt[12:14])[0] == 0x0800:
+            o = 14
+            ihl = (pkt[o] & 0x0F) * 4
+            t = o + ihl
+            proto = pkt[o + 9]
+            pkt[o + 10:o + 12] = b"\x00\x00"
+            pkt[o + 10:o + 12] = struct.pack(">H", cksum(bytes(pkt[o:o + ihl])))
+            if proto in (6, 17):
+                seglen = struct.unpack(">H", pkt[o + 2:o + 4])[0] - ihl
+                coff = t + (16 if proto == 6 else 6)
+                pkt[coff:coff + 2] = b"\x00\x00"
+                pseudo = bytes(pkt[o + 12:o + 20]) + bytes([0, proto]) \
+                    + struct.pack(">H", seglen)
+                c = cksum(pseudo + bytes(pkt[t:t + seglen]))
+                pkt[coff:coff + 2] = struct.pack(">H", c or 0xFFFF)
+        out.append(struct.pack("<IIII", ts, tus, len(pkt), ol) + bytes(pkt))
+    open(path, "wb").write(b"".join(out))
 
 
 # -------------------------------------------------------------- anonymize ---

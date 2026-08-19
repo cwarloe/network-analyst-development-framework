@@ -17,10 +17,11 @@ The traffic is real. Real sockets, real DNS resolvers on the public internet, a 
 
 ## The standard a capture has to meet
 
-**A capture is usable if the tools a learner will point at it can read it. Both of them.**
+**A capture is usable if the tools a learner will point at it can read it. All of them.**
 
-1. **Wireshark must dissect it cleanly** — the protocol is recognized, no malformed packets, checksums verify.
-2. **Zeek must parse it into logs** — a DNS capture produces a `dns.log`, a TLS capture produces `ssl.log` and `x509.log`, and the fields an analyst would pivot on are populated.
+1. **Checksums must verify**, computed by the validator itself rather than asked of a tool. See below for why that distinction is not pedantry.
+2. **Wireshark must dissect it cleanly** — the protocol is recognized, no malformed packets.
+3. **Zeek must parse it into logs** — a DNS capture produces a `dns.log`, a TLS capture produces `ssl.log` and `x509.log`, and the fields an analyst would pivot on are populated.
 
 The second check is the one that decides. The target environment for this material is Security Onion with the Elastic stack, where analysts work in Hunt and Kibana against Zeek logs and only pivot to the packets when the logs raise a question. A capture that Wireshark renders beautifully but Zeek will not parse is **invisible** in that workflow. It teaches nothing, because nobody would ever find it.
 
@@ -54,7 +55,14 @@ sudo python3 lab/generate-captures.py assets/pcaps
 
 # validate -- must pass before anything is committed
 python3 lab/validate-captures.py assets/pcaps
+
+# check every relative link in the repository still resolves
+python3 lab/check-links.py
 ```
+
+Both checks run automatically on every pull request via [`.github/workflows/checks.yml`](../.github/workflows/checks.yml), which pins the `zeek/zeek:7.0.4` container — the same version the captures were validated against, so a red build means a real regression rather than a version difference.
+
+`validate-captures.py` finds Zeek on `PATH`, at `$ZEEK`, or in the usual install prefixes, and prints the Zeek and tshark versions it used before running. If a check ever disagrees between two machines, those two lines are the first thing to compare.
 
 Requirements: `tcpdump`, `openssl`, `python3`, `tshark`, and — for the check that counts — `zeek`.
 
@@ -96,4 +104,17 @@ The DNS capture is not rewritten. It was taken on a real interface whose address
 2. Add an entry to `EXPECTED` in `validate-captures.py` naming the Zeek logs it must produce and the fields that must be populated.
 3. Run both. If validation fails, the capture is wrong — fix the capture, not the expectation.
 
-The gate has already earned itself twice. It caught a `403` response advertising `Content-Length: 43` for a 44-byte body, and it caught plaintext HTTP mapped to port 443, which made Zeek run the SSL analyzer and log a protocol violation that was an artefact of the anonymization rather than anything in the traffic. Both would have shipped as "looks fine in Wireshark."
+### Why the checksum check does its own arithmetic
+
+The first time CI ran, it failed on `03-dns.pcap`: sixteen packets with bad UDP checksums. The same file had passed locally minutes earlier.
+
+Neither machine was lying. **tshark 4.2.2 reported every UDP checksum in that file as good; tshark 4.0.17 reported every one as bad.** Computing them by hand settled it — the 4.0.17 verdict was correct and the file was genuinely defective. The DNS capture is the only one taken on a live interface rather than loopback, and it was the only one that never went through the rewriter, so nothing had ever recomputed its checksums.
+
+Two things came out of that, and both are now in the code:
+
+- `fix_checksums()` runs over the DNS capture, so live-interface artifacts do not ship.
+- The validator computes checksums itself instead of asking tshark. A gate that trusts one tool's verdict is only as strong as that tool's version, and arithmetic does not have versions.
+
+It is worth noticing what nearly happened. A defective file passed a green local check for several hours because the tool consulted happened to be wrong about it. That is the same failure the lessons keep pointing at — a confident, correct-looking answer to a question the instrument could not actually settle.
+
+The gate has already earned itself three times. It caught a `403` response advertising `Content-Length: 43` for a 44-byte body, and it caught plaintext HTTP mapped to port 443, which made Zeek run the SSL analyzer and log a protocol violation that was an artefact of the anonymization rather than anything in the traffic. Both would have shipped as "looks fine in Wireshark."
