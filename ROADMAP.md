@@ -18,15 +18,15 @@ Lesson 07 is authored but uses lab-generated shapes — two beacons that are del
 
 [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack days and Stratosphere/CTU-13 for republication with citation. Running the same method against genuine captured traffic is the natural next version. Before shipping anything downloaded, run R004's pre-flight checklist **and** the [validation gate](lab/validate-captures.py) — the gate applies to third-party data exactly as it does to generated data.
 
-## 3. Finish lesson 06 — it needs traffic impairment
+## 3. Finish lesson 06 — packet loss and latency remain
 
-Lesson 06 is written and covers four failure signatures: refused (`REJ`), dropped (`S0`), reset mid-transfer (`RSTR`), and slow-but-correct (`SF` with a four-second application delay). Those carry the discriminations that matter most — particularly refused versus dropped, which are opposites that produce the same user complaint, and the four-second delay that gets reported as "the network is slow" when the network delivered in 0.2 milliseconds.
+Lesson 06 now covers five failure signatures: refused (`REJ`), dropped (`S0`), reset mid-transfer (`RSTR`), slow-but-correct (`SF` with a four-second application delay), and fragment loss. Those carry the discriminations that matter most — refused versus dropped are opposites producing the same complaint, the four-second delay gets reported as "the network is slow" when the network delivered in 0.2 milliseconds, and fragment loss is the only fault in the course that leaves no trace shaped like a fault.
 
-**What it does not cover is packet loss, latency, and MTU or fragmentation problems.** Generating those requires `netem`, which needs `NET_ADMIN` and was not available in the environment where the lab was built. Everything else in lesson 06 was produced without privileges — a full accept queue drops SYNs exactly as a firewall does, and `SO_LINGER 0` produces a genuine RST.
+Fragmentation was closed without privileges: EDNS0 padding inflates a legitimate DNS query past the interface MTU and the real stack does the splitting. The lesson uses it to show that a port-based filter cannot match non-initial fragments, which is why "drop non-initial fragments" is a common policy and why it silently breaks large DNS.
 
-To close it, run [`lab/generate-captures.py`](lab/generate-captures.py) somewhere with `NET_ADMIN` and add impairment cases: `tc qdisc netem delay` and `loss` on a veth pair, and a constrained-MTU path for fragmentation and PMTUD black holes. MTU black holes in particular are a classic failure class the lesson names and does not teach.
+**What is still missing is packet loss and induced latency.** Both need `netem`, which needs `NET_ADMIN`, unavailable where the lab was built. So does a true path-MTU-discovery black hole, where an ICMP "fragmentation needed" message is filtered and the sender never learns to send smaller packets.
 
-Nothing about the existing captures needs redoing — this is additive.
+To close the rest, run [`lab/generate-captures.py`](lab/generate-captures.py) somewhere with `NET_ADMIN` and add `tc qdisc netem delay` and `loss` cases on a veth pair. Nothing existing needs redoing — it is additive.
 
 ## 4. Close the four cheap design gaps
 

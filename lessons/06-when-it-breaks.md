@@ -7,8 +7,8 @@
 - **Date:** 2026-08-19
 - **Capability targets:** OC-4, IR-2, IR-3, IR-5, IR-6
 - **Evidence families:** EF-3, EF-4, EF-8
-- **Time:** about 2.5 hours
-- **Requires:** [`assets/pcaps/06-failures.pcap`](../assets/pcaps/06-failures.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
+- **Time:** about 3 hours
+- **Requires:** [`assets/pcaps/06-failures.pcap`](../assets/pcaps/06-failures.pcap) and [`06-fragmentation.pcap`](../assets/pcaps/06-fragmentation.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lessons 02 through 05](02-reading-a-conversation.md). You can narrate a conversation, describe expected behavior, and plan what evidence to gather.
 
 ## Why this lesson exists
@@ -128,6 +128,63 @@ A `200 OK` and then a reset. Read the response header in the capture: the server
 
 Two things worth extracting. **A `200 OK` is a promise, not a delivery** — the status line is sent before the body, so a successful status code says nothing about whether the transfer completed. And **truncation is visible if you look for it**: the advertised length and the delivered length disagree, which is checkable evidence rather than a hunch.
 
+## The fifth fault, in a second capture
+
+Open [`assets/pcaps/06-fragmentation.pcap`](../assets/pcaps/06-fragmentation.pcap). Two frames.
+
+```
+tshark -r assets/pcaps/06-fragmentation.pcap -T fields \
+       -e frame.number -e ip.len -e ip.flags.mf -e ip.frag_offset -e ip.id -e udp.dstport
+```
+
+```
+No.  ip.len  MF  ip.frag_offset  ip.id     udp.dstport
+1    1396    1   0               0x5876    —
+2    1100    0   172             0x5876    53
+```
+
+A single DNS query of 2,448 bytes left a host on a path with a 1,400-byte MTU. The stack split it in two. Both pieces carry the same `ip.id`, the first sets the More Fragments flag, and the second is the tail.
+
+**That offset of 172 is not bytes.** The IP header stores the fragment offset in units of eight bytes, so 172 means the second fragment begins 1,376 bytes into the original datagram. Wireshark's detail pane does the multiplication for you and shows `Fragment Offset: 1376`; `-T fields` hands you the raw header value. Two numbers, same fact, and knowing which one you are looking at is the difference between a correct reassembly check and a confusing one.
+
+Nothing is wrong yet. This is what fragmentation looks like when it works.
+
+### The part that catches people
+
+Look at the `udp.dstport` column. **It is empty on frame 1 and present on frame 2** — which is the opposite of what most people expect, since the UDP header is at the start of the datagram and therefore in the *first* fragment.
+
+The reason is that Wireshark defers the transport and application dissection until it has reassembled the whole datagram, and reassembly completes on the last fragment. So the DNS query is attributed to frame 2. The header really is in frame 1; the *interpretation* lands on frame 2.
+
+Now the consequence. Try filtering this capture the way you would filter for DNS:
+
+```
+tshark -r assets/pcaps/06-fragmentation.pcap -Y "udp.port == 53"
+```
+
+**One frame of two.**
+
+A non-initial fragment carries no UDP header at all — just IP, then payload bytes. There is no port field in it to match. Any filter, capture rule, firewall policy, or detection that selects traffic by port is structurally blind to every fragment after the first.
+
+That is not a Wireshark quirk. It is why "drop non-initial fragments" is a common firewall policy — a device that cannot see ports in those packets cannot apply port-based policy to them, so the safe default is to discard them. And it is why that policy quietly breaks large DNS: the first fragment arrives, the rest are dropped, reassembly never completes, and **the application sees a timeout rather than an error.**
+
+Reassembly is all-or-nothing. Lose any fragment and the entire datagram is lost, silently, with nothing in any log saying a fragment went missing.
+
+### Why this is the fault worth understanding
+
+Put it next to the four faults in the first capture:
+
+| Fault | What the client experiences | What a log shows |
+|---|---|---|
+| Refused | Instant error | `connection.state: REJ` |
+| Dropped | Long hang | `connection.state: S0`, three times over |
+| Reset | Partial data then failure | `connection.state: RSTR` |
+| Slow | Works, feels broken | `connection.state: SF`, long `event.duration` |
+| **Fragment loss** | **Timeout** | **Nothing. The datagram never existed.** |
+
+The first four leave a trace shaped like the fault. Fragment loss leaves a trace shaped like *nothing happening* — and if your capture filter is port-based, you will not even have the surviving fragment to notice.
+
+This is also the exact failure in the [capstone's transfer case](09-capstone-encrypted-outbound-traffic/feedback-and-transfer.md): DNS responses around 1,680 bytes, a policy that drops non-initial fragments, and no TCP fallback permitted. The capture here is the outbound-query version of the same mechanic; the capstone's is the inbound-response version. If you work the capstone later and that case feels familiar, this is why.
+
 ## What the log renders versus what happened
 
 Go back to the connection documents and count the `S0` ones. There are **three**, all from `source.port: 41000`, all to `198.51.100.20`.
@@ -164,6 +221,7 @@ It must contain:
 4. **A statement about the network's role**, which is not the same for all four. Be precise about which faults are network faults and which are not.
 5. **What you cannot determine from this capture**, and which source would settle it.
 6. **The `S0` counting problem**, stated in a way a manager reading incident numbers would understand.
+7. **The fragmentation capture, treated separately.** State what a port-based capture filter would have left you with, and what you would have concluded from that alone. Then say what you would change about how the evidence was collected — this is [lesson 05](05-vantage-point-and-evidence.md)'s problem arriving with a real example attached.
 
 > **Running Zeek yourself?** `zeek -C -r assets/pcaps/06-failures.pcap` writes `conn.log` with Zeek's names — `id.orig_p`, `conn_state`, `duration` — and **without** `connection.state_description`, which Security Onion adds during ingest. The state codes are the same; the plain-English column only exists after ingest. [The mapping is here](field-names.md).
 
@@ -176,6 +234,7 @@ It must contain:
 - Count your rejected alternatives. Two is the floor, and they should be plausible — rejecting "aliens" is not analysis.
 - Did any of your predictions fail? If none did, either you checked before predicting, or your predictions were vague enough to survive anything. Both are worth catching.
 - Would your write-up survive one of these faults turning out to be deliberate — a firewall rule someone added on purpose? Nothing here proves intent either way, and your language should reflect that.
+- On fragmentation: did you describe it as a network fault, an application fault, or a policy decision? A defensible answer exists for more than one of those, and which you chose says something about how you framed the question.
 
 ## What this lesson does not do
 

@@ -39,9 +39,10 @@ Anonymization has to respect this too. Rewriting addresses is fine; rewriting th
 | `03-dns.pcap` | [03](../lessons/03-names-and-expectations.md) | Eight live lookups against `1.1.1.1` — CNAME chains, TTL asymmetry, AAAA, and a NOERROR/no-answer response | **No** |
 | `04-tls.pcap` | [04](../lessons/04-what-encryption-hides.md) | One TLS 1.2 and one TLS 1.3 handshake from a client that offered both identically | Shape yes, certificate dates no |
 | `06-failures.pcap` | [06](../lessons/06-when-it-breaks.md) | Four faults: refused, dropped, reset mid-transfer, slow-but-correct | Yes |
+| `06-fragmentation.pcap` | [06](../lessons/06-when-it-breaks.md) | A DNS query too large for the path MTU, fragmented by the real stack | Shape yes, `ip.id` no |
 | `07-suspicious.pcap` | [07](../lessons/07-when-its-suspicious.md) | Two shape-identical beacons, a tunnelling-shaped DNS stream, one bulk upload | Mostly — connection counts can vary by one |
 
-Total: about 124 KB.
+Total: about 128 KB.
 
 `03-dns.pcap` is the one that genuinely drifts, because it queries the real internet. Regenerate it and you will get different addresses, different TTLs, and possibly a different cache node answering — which is exactly what [lesson 03](../lessons/03-names-and-expectations.md) is about, but it does mean the specific values quoted in that lesson will no longer match the file. If you regenerate, reread the lesson against the new capture and update the numbers.
 

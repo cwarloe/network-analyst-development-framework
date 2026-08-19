@@ -44,6 +44,13 @@ EXPECTED = {
             "dns.log":  (40, ["query", "qtype_name", "answers"]),
         },
     },
+    "06-fragmentation.pcap": {
+        "tshark_protocols": ["udp", "dns"],
+        "zeek": {
+            "conn.log": (1, ["id.resp_p", "proto"]),
+            "dns.log":  (1, ["query", "qtype_name"]),
+        },
+    },
     "06-failures.pcap": {
         "tshark_protocols": ["tcp"],
         "zeek": {
@@ -107,6 +114,10 @@ def check_checksums(path):
             continue
         if proto not in (6, 17):
             continue
+        ff = struct.unpack(">H", pkt[o + 6:o + 8])[0]
+        if (ff & 0x2000) or (ff & 0x1FFF):
+            continue        # fragment: the transport checksum covers the
+                            # reassembled datagram, not this piece of it
         seglen = struct.unpack(">H", pkt[o + 2:o + 4])[0] - ihl
         if t + seglen > len(pkt):          # truncated capture, cannot verify
             continue
