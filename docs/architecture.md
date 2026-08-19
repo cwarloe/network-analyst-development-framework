@@ -18,6 +18,7 @@ These carry forward from the evidence base and bind claims made from this baseli
 - R002-dependent high-consequence and doctrinal claims remain qualified pending citation alignment and claim-to-source remediation.
 - No proficiency levels, mastery thresholds, scoring, or assessment validity are established. NADF describes a designed approach to developing and evidencing analyst capability; it does not yet claim to measure expertise.
 - The boundary between network analysis, troubleshooting, threat hunting, incident response, and detection engineering remains unsettled.
+- No published outcome evidence for analyst-reasoning curricula in this domain was located ([R006](research/R006-literature-scan.md)). What exists measures working analysts on the job, or measures security-awareness behavior, which is a different construct. NADF's design therefore rests on transfer from adjacent domains — expertise development, analytical reasoning, mental models — and cannot be benchmarked against a field standard, because the field has not established one.
 
 ## 1. Purpose & Identity
 
