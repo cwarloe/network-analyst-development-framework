@@ -28,13 +28,29 @@ To close it, run [`lab/generate-captures.py`](lab/generate-captures.py) somewher
 
 Nothing about the existing captures needs redoing — this is additive.
 
-## 4. Answer three design questions
+## 4. Close the four cheap design gaps
 
-These change the shape of the remaining lessons and are cheap to settle:
+[R005](docs/research/R005-instructional-design-review.md) reviewed the instructional design against the learning-science literature. Four changes are cheap, address the highest-confidence findings, and add no scoring, levels, or validity claims:
 
-- **Who is the learner?** Currently assumed to be someone with no analysis experience and no tooling background. Working IT staff would compress lessons 02–04 considerably.
-- **Self-guided or instructor-led?** Decides whether feedback comes from a review guide or a person.
-- ~~**How many hours?**~~ **About 18**, now that all nine are written — 16.5 across lessons 01–08 plus 60–90 minutes for the capstone. If a delivery needs less, cut whole lessons rather than thinning all of them.
+- **Same task twice.** Lesson 01's Case C at the start and again after the capstone, unaided both times, both kept. Nothing in the current design can detect that a learner improved; two artifacts to compare is the smallest thing that can.
+- **Opening recall prompt** on lessons 03–09 — reconstruct something from an earlier lesson from memory, closed book, before reading on. Practice testing and distributed practice are the only two techniques Dunlosky et al. rated *high* utility, and neither appears anywhere in NADF.
+- **Predict-then-check in every lesson**, as [lesson 06](lessons/06-when-it-breaks.md) already does. It is the only place in nine lessons that generates an error signal before showing the answer.
+- **Paired review** in the run protocol — two reviewers, one work product, independently, then compare. Disagreement is the finding, and it is the cheapest validity evidence available.
+
+Do these after the first run, not before. The run may show none of them is the binding constraint.
+
+## 5. Map the capability model against an external role standard
+
+The [Standing Qualifications](docs/architecture.md) admit that no external role standard has confirmed the capability model's completeness. The NICE Framework's Cyber Defense Analyst role publishes Task, Knowledge and Skill statements, free, and mapping 27 statements against them is about a day.
+
+All three possible outcomes are useful: correspondence is the first external support the model has had; NADF statements with no counterpart are candidates for design judgment mistaken for role reality; NICE statements with no counterpart are coverage holes. The last is the one worth wanting.
+
+## 6. Answer two remaining design questions
+
+- **Who is the learner?** Currently assumed to be someone with no analysis experience and no tooling background. Working IT staff would compress lessons 02–04 considerably. [R005](docs/research/R005-instructional-design-review.md) notes this bites harder than it looks: guidance fades at fixed lesson boundaries, so the right fade point differs by audience and the design cannot detect it.
+- **Self-guided or instructor-led?** This is not a delivery preference. Eight of nine lessons offer only self-review, so EF-8 — feedback, revision, transfer — is structurally unreachable without a second person. The choice decides whether a whole capability domain is in the course or not.
+
+*How many hours* is settled: about 18. Sixteen and a half across lessons 01–08 plus 60–90 minutes for the capstone. If a delivery needs less, cut whole lessons rather than thinning all of them.
 
 ## Not doing
 
