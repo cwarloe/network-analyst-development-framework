@@ -5,7 +5,7 @@
 - **Artifact:** Course outline
 - **Version:** 0.1 — outline only
 - **Date:** 2026-08-18
-- **Status:** Draft for review. M1 and M8 are authored; M2–M7 and M9 are outline only.
+- **Status:** Draft for review. M1, M5, and M8 are authored; M2–M4, M6, M7, and M9 are outline only.
 - **Implements:** [NADF Active Training Architecture Baseline](../../NADF-Architecture-Baseline.md), [Capability Model v0.1](../../docs/design-studio/2026-07-12-nadf-network-analyst-capability-model-v0.1-proposed.md), [Assessment Evidence Model v0.1](../../docs/design-studio/2026-07-13-nadf-assessment-evidence-model-v0.1-proposed.md)
 
 C001 is NADF's entry course. It develops an analyst who can look at network activity, explain what is happening and why it matters, and produce a defensible assessment that another person can act on.
@@ -34,7 +34,7 @@ Capability IDs reference Capability Model v0.1. Evidence families (EF) reference
 | M2 | Reading a conversation | Hosts, services, ports, sessions; layers as a reasoning tool rather than a memorization ladder | Framing a question about an unfamiliar exchange; describing before concluding | OC-1, OC-2, OE-1 | Narrated walkthrough of one capture: who talked to whom, and why | EF-1, EF-2 |
 | M3 | Names and expectations | DNS resolution, caching, TTLs, resolver paths; what healthy name resolution looks like | Establishing expected behavior and legitimate variation before deviation has meaning | OC-3, OE-1 | Written baseline description of normal resolution for a given environment | EF-2, EF-3 |
 | M4 | What encryption hides | HTTP and TLS; handshake metadata, SNI, certificates; the boundary of what is observable | Reasoning from partial evidence; naming the limits of a source | OC-2, OE-4 | Assessment of an encrypted exchange stating explicitly what cannot be determined | EF-2, EF-5 |
-| M5 | Vantage point and evidence | Capture vs. flow vs. logs vs. endpoint telemetry; sensor placement, retention, gaps | Evidence planning: choosing sources for a question and knowing what each cannot answer | OE-3, OE-4, OE-5 | Evidence plan for a supplied question, with prioritization and rationale | EF-4, EF-5 |
+| M5 | [Vantage point and evidence](../modules/C001-M5-vantage-point-and-evidence.md) | Capture vs. flow vs. logs vs. endpoint telemetry; sensor placement, retention, gaps | Evidence planning: choosing sources for a question and knowing what each cannot answer | OE-3, OE-4, OE-5 | Evidence plan for a supplied question, with prioritization and rationale | EF-4, EF-5 |
 | M6 | When it breaks | Latency, loss, path behavior, MTU and fragmentation, policy effects | Causal models, competing explanations, discriminating tests, revising when a prediction fails | OC-4, IR-2, IR-3, IR-5, IR-6 | Diagnosis of a failure with alternatives considered and the discriminating evidence named | EF-3, EF-4, EF-8 |
 | M7 | When it's suspicious | Beaconing, tunneling, staging and exfiltration shapes; peer comparison and history | Resisting indicator-first labeling; holding benign and malicious explanations open together | IR-2, IR-4, IR-5, OC-3 | Assessment of ambiguous activity that argues both explanations before choosing | EF-3, EF-4, EF-6 |
 | M8 | [Judgment and handoff](../modules/C001-M8-judgment-and-handoff.md) | Escalation paths, adjacent roles, proportionate action | Calibrated confidence; recommending action sized to evidence and risk; role boundaries | JU-1, JU-2, JU-3, JU-4, CT-1, CT-2, CT-3, CT-4 | Two products from one analysis: a peer handoff and a leadership summary | EF-6, EF-7 |
@@ -50,13 +50,19 @@ The pilot's DNS fragmentation transfer case also belongs to M6's subject matter 
 
 ## Authoring status
 
-M1 and M8 are authored. They are the two modules with no dataset dependency, and they bracket the course: M1 establishes the habit the whole sequence rests on, M8 the product it builds toward. Writing the ends first also tests the outline from both directions before the middle is committed to.
+M1, M5, and M8 are authored — the three modules that can be built without capture data.
+
+M1 and M8 bracket the course: M1 establishes the habit the whole sequence rests on, M8 the product it builds toward. Writing the ends first tests the outline from both directions before the middle is committed to.
+
+M5 was originally scoped here as lab-gated. That was wrong, and the correction is worth recording: M5's work product is an *evidence plan*, which is reasoning about what sources can and cannot answer. Producing one requires a described environment, not an accessed one. The lab exercise — configuring a sensor, running a capture, discovering what a tap actually sees — remains worth building, but it is an addition to M5 rather than a precondition for it. The module states this limit explicitly.
 
 ## Dataset and lab dependencies
 
-Authoring is gated on capture data for M2, M3, M4, M6, and M7, and on a lab environment for M5.
+Authoring is gated on capture data for M2, M3, M4, M6, and M7. Four of the nine modules — M1, M5, M8, and M9 via the pilot — are not.
 
-This is the roadmap's open PCAP and telemetry sourcing question, and it is now on the critical path: authentic capture data and redistributable capture data are frequently not the same data, and the answer changes what these modules can be built from. M1 and M8 have no dataset dependency and can be authored first.
+This is the roadmap's open PCAP and telemetry sourcing question, and it is on the critical path for the remaining five: authentic capture data and redistributable capture data are frequently not the same data, and the answer changes what those modules can be built from.
+
+A lab environment is not required to author any module, but it would extend M5 with collection practice and M6 with reproducible failure conditions.
 
 ## What this outline does not establish
 
