@@ -101,6 +101,38 @@ Addresses, ports and MACs change. Timing, sequence numbers, payloads, TLS record
 
 The DNS capture is not rewritten. It was taken on a real interface whose address is already in `192.0.2.0/24`, and the resolvers in it are public infrastructure.
 
+## The impairment captures — needs a machine you have root on
+
+`06-latency.pcap` and `06-loss.pcap` do not exist yet. They are the packet loss and induced latency [lesson 06](../lessons/06-when-it-breaks.md) declares as gaps, and producing them needs `NET_ADMIN` and the `sch_netem` kernel module — neither available where the rest of this lab was built.
+
+[`generate-impairment.py`](generate-impairment.py) produces them. It is deliberately a separate script so the main generator never fails on a machine without netem.
+
+```bash
+sudo python3 lab/generate-impairment.py
+python3 lab/validate-captures.py assets/pcaps
+```
+
+**What it touches: nothing of yours.** All traffic runs between a veth pair with one end inside a dedicated namespace called `nadf-lab`. Real interfaces, routes and firewall rules are never modified, and the namespace is torn down on exit including on error or Ctrl-C. If a namespace by that name already exists it refuses to run rather than clobbering it.
+
+It checks its prerequisites before building anything, so on a machine without netem it prints what is missing and exits without creating a namespace.
+
+If netem is missing on Debian or Ubuntu:
+
+```bash
+apt-get install linux-modules-extra-$(uname -r) && modprobe sch_netem
+```
+
+The two cases:
+
+| Capture | Impairment | What it should show |
+|---|---|---|
+| `06-latency.pcap` | `netem delay 200ms 20ms distribution normal` | A 200 ms gap **in the handshake** — SYN to SYN-ACK — not between request and response |
+| `06-loss.pcap` | `netem loss 12%` on a 40 KB transfer | Retransmissions and duplicate ACKs |
+
+The latency case is the one worth having. Lesson 06 already teaches a four-second delay that is entirely the application's fault, with the network delivering in 0.2 ms. This is the counterpart: the same user complaint, with the delay genuinely in the path. Put side by side, the discrimination is visible in one field — where the gap falls.
+
+Addresses are `192.0.2.10` for the client and `198.51.100.60` for the server, matching the rest of the captures, so no rewriting is needed. Checksum offload is disabled on both veth ends and `fix_checksums()` runs anyway, for the reason recorded above.
+
 ## Adding a capture
 
 1. Add a generator function to `generate-captures.py`.
