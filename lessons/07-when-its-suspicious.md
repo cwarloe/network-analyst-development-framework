@@ -37,17 +37,19 @@ The traffic is real — real sockets, real DNS, real HTTP — but it was **gener
 zeek -C -r assets/pcaps/07-suspicious.pcap
 ```
 
-`conn.log`, grouped by destination:
+Connection documents, grouped by destination:
 
 ```
-count  id.resp_h       id.resp_p  service  orig_bytes  resp_bytes
-40     198.51.100.80   53         dns      96          125
-11     198.51.100.60   80         http     139         116
-9      198.51.100.70   80         http     134         116
-1      198.51.100.90   80         http     61618       0
+count  destination.ip   destination.port  network.protocol  client.bytes  server.bytes
+40     198.51.100.80    53                dns               96            125
+11     198.51.100.60    80                http              139           116
+9      198.51.100.70    80                http              134           116
+1      198.51.100.90    80                http              61618         0
 ```
 
 Four destinations, four very different patterns. Take them in turn, and resist naming any of them yet.
+
+> **Running Zeek yourself?** `zeek -C -r assets/pcaps/07-suspicious.pcap` writes `conn.log`, `http.log` and `dns.log` with Zeek's names — `id.resp_h`, `orig_bytes`, `host`, `uri`, `query` — and **without** `dns.query.length`, which Security Onion computes during ingest. [The mapping is here](field-names.md).
 
 ## The two that look identical
 
@@ -58,12 +60,12 @@ Connections to `198.51.100.60` and `198.51.100.70` arrive on a timer:
 198.51.100.70     9 connections   mean interval 4.96s   stdev 0.234s   (4.7% variation)
 ```
 
-Both are regular. Both send about 135 bytes and receive about 116. Both use the same browser-like `User-Agent`. In `http.log`:
+Both are regular. Both send about 135 bytes and receive about 116. Both carry the same browser-like `http.useragent`. The HTTP documents:
 
 ```
-id.resp_h       method  host                              uri                      response_body_len
-198.51.100.60   GET     cdn-metrics.example               /api/v1/tasks?id=8842    23
-198.51.100.70   GET     updates.contoso-internal.example  /hb                      23
+destination.ip   http.method  http.virtual_host                 http.uri                 http.response.body.length
+198.51.100.60    GET          cdn-metrics.example               /api/v1/tasks?id=8842    23
+198.51.100.70    GET          updates.contoso-internal.example  /hb                      23
 ```
 
 **Nothing in the shape separates these two.** Same method, same size class, same regularity class, same user agent, same response size. If you cluster this traffic by timing and volume, they land in the same cluster.
@@ -78,7 +80,7 @@ Two traps worth naming explicitly:
 
 ## The DNS stream
 
-Forty queries to `198.51.100.80`, all TXT, every one a different name:
+Forty documents with `event.dataset: dns`, all `dns.query.type_name: TXT`, every `dns.query.name` different:
 
 ```
 518ju0lyebhk9trcbmre07mvahtt8s1qirzf3px6w2o9afxo.d000.sync.cdn-metrics.example
@@ -87,7 +89,15 @@ n9vv2rvb973j0a3wnw85n9tceu7fbiucn0nqjxov1r87clgl.d002.sync.cdn-metrics.example
 ...
 ```
 
-Forty queries, forty unique names, averaging 78 characters, with a 48-character random-looking leftmost label, a sequence counter, and TXT as the record type.
+Forty queries, forty unique names, with a 48-character random-looking leftmost label, a sequence counter, and TXT as the record type.
+
+Security Onion computes `dns.query.length` during ingest, so the shape you would otherwise have to eyeball is a number you can sort and threshold on:
+
+```
+dns.query.length    78  (every one of the forty)
+```
+
+Seventy-eight characters, forty times, with no repeats. Compare that against what [lesson 03](03-names-and-expectations.md) established as ordinary — `www.github.com` is 14, `en.wikipedia.org` is 16, and the longest legitimate name in that whole capture was `acdcatm.outlook.mira.tm.svc.cloud.microsoft` at 43.
 
 Compare this against the baseline you built in [lesson 03](03-names-and-expectations.md), which is exactly what that lesson was for:
 
@@ -108,8 +118,11 @@ That last row is the one that matters. In ordinary DNS the information you want 
 One connection to `198.51.100.90`:
 
 ```
-method  host                  uri               request_body_len   resp_bytes
-POST    cdn-metrics.example   /upload/session   61618              0
+http.method                GET → POST
+http.virtual_host          cdn-metrics.example
+http.uri                   /upload/session
+http.request.body.length   61618
+server.bytes               0
 ```
 
 Roughly 60 KB outbound, nothing back. A single upload against a workstation's otherwise tiny traffic.
@@ -118,12 +131,12 @@ By itself: unremarkable. Workstations upload things. Crash reports, telemetry bu
 
 ## The evidence that actually discriminates
 
-Go back and read the `host` field across all three behaviors:
+Go back and read the hostname across all three behaviors — a different field in each dataset, which is exactly why it is easy to miss:
 
 ```
-beacon      198.51.100.60   Host: cdn-metrics.example
-dns         198.51.100.80   ...........sync.cdn-metrics.example
-upload      198.51.100.90   Host: cdn-metrics.example
+beacon   198.51.100.60   http.virtual_host   cdn-metrics.example
+dns      198.51.100.80   dns.query.name      …………….sync.cdn-metrics.example
+upload   198.51.100.90   http.virtual_host   cdn-metrics.example
 ```
 
 **Three different behaviors, three different IP addresses, one domain.**
@@ -165,7 +178,7 @@ Address these inside that structure:
 
 1. Your colleague said it is "clearly beaconing." Respond to that specifically — is it true, and is it useful?
 2. Explain why `198.51.100.70` is not in your finding, in a way that does not rely on the hostname sounding internal.
-3. If you had only `conn.log` and no `http.log` or `dns.log`, what could you still say? This is a real scenario — it is what encrypted traffic looks like after [lesson 04](04-what-encryption-hides.md).
+3. If you had only `event.dataset: conn` and no HTTP or DNS documents, what could you still say? This is a real scenario — it is what encrypted traffic looks like after [lesson 04](04-what-encryption-hides.md).
 4. Give one plausible, specific benign product that would produce all three `cdn-metrics.example` behaviors, and say what evidence would rule it in or out.
 5. The DNS queries defeat caching by design. Name a legitimate reason to do that.
 

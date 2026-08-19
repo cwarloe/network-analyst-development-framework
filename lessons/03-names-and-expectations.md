@@ -32,35 +32,37 @@ tshark -r assets/pcaps/03-dns.pcap -T fields -e frame.number -e dns.flags.respon
 
 ## What Security Onion would show you
 
-Same workflow as lesson 02: the log first, the packets second.
+Same workflow as lesson 02: the log first, the packets second. Search for this host's DNS and you get one document per lookup. In Security Onion's field names:
 
 ```
-zeek -C -r assets/pcaps/03-dns.pcap
+dns.query.name                       dns.query.type_name  dns.response.code_name  dns.answers.name                                 dns.ttls
+www.github.com                       A                    NOERROR                 github.com, 140.82.113.3                         3600, 60
+en.wikipedia.org                     A                    NOERROR                 dyna.wikimedia.org, 208.80.153.224               11342, 180
+www.example.com                      A                    NOERROR                 104.20.23.154, 172.66.147.243                    300, 300
+www.example.com                      AAAA                 NOERROR                 2606:4700:10::6814:179a, 2606:4700:10::ac42:93f3  300, 300
+outlook.office365.com                A                    NOERROR                 outlook.cloud.microsoft,
+                                                                                  acdcatm.outlook.mira.tm.svc.cloud.microsoft,
+                                                                                  outlook.ms-acdc.office.com,
+                                                                                  mdw-efz.ms-acdc.office.com,
+                                                                                  52.96.164.146, 52.96.79.50,
+                                                                                  52.96.164.130, 52.96.79.146                     289, 286, 60, 58, 8, 8, 8, 8
+nonexistent-host-fbc19.example.com   A                    NOERROR                 —                                                —
+www.github.com                       A                    NOERROR                 github.com, 140.82.112.4                         1277, 60
+en.wikipedia.org                     A                    NOERROR                 dyna.wikimedia.org, 208.80.153.224               15928, 180
 ```
 
-`dns.log`, trimmed to `query`, `qtype_name`, `rcode_name`, `answers` and `TTLs`:
+Security Onion adds two fields here that Zeek does not write, and both matter:
 
-```
-www.github.com                       A     NOERROR   github.com,140.82.113.3                        3600, 60
-en.wikipedia.org                     A     NOERROR   dyna.wikimedia.org,208.80.153.224              11342, 180
-www.example.com                      A     NOERROR   104.20.23.154,172.66.147.243                   300, 300
-www.example.com                      AAAA  NOERROR   2606:4700:10::6814:179a,2606:4700:10::ac42:93f3  300, 300
-outlook.office365.com                A     NOERROR   outlook.cloud.microsoft,
-                                                     acdcatm.outlook.mira.tm.svc.cloud.microsoft,
-                                                     outlook.ms-acdc.office.com,
-                                                     mdw-efz.ms-acdc.office.com,
-                                                     52.96.164.146, 52.96.79.50,
-                                                     52.96.164.130, 52.96.79.146                    289, 286, 60, 58, 8, 8, 8, 8
-nonexistent-host-fbc19.example.com   A     NOERROR   -                                              -
-www.github.com                       A     NOERROR   github.com,140.82.112.4                        1277, 60
-en.wikipedia.org                     A     NOERROR   dyna.wikimedia.org,208.80.153.224              15928, 180
-```
+- **`dns.resolved_ip`** holds only the answers that are valid IP addresses, with the CNAMEs stripped out. For `outlook.office365.com` that is four addresses, not eight mixed records.
+- **`dns.query.length`** is the character length of the query name. It exists so you can search on it, which becomes the point of [lesson 07](07-when-its-suspicious.md).
 
-Before going further, notice what the `rcode_name` column does across those eight rows. **Every one says NOERROR** — including the row with no answers at all.
+Now look at what `dns.response.code_name` does across those eight documents. **Every one says NOERROR** — including the one with no answers at all.
 
-A Kibana search for successful lookups, written the obvious way as `rcode_name: NOERROR`, returns eight of eight here. Seven of them resolved. One did not. The field an analyst instinctively reaches for does not distinguish them, and the field that does — `answers` — is the one that gets left out of the dashboard because it is wide and ugly.
+A Kibana search for successful lookups, written the obvious way as `dns.response.code_name:NOERROR`, returns eight of eight here. Seven of them resolved. One did not. The field an analyst instinctively reaches for does not distinguish them, and the field that does — `dns.answers.name` — is the one that gets left out of the dashboard because it is wide and ugly.
 
 Hold that. It comes back later in the lesson with the packets behind it.
+
+> **Running Zeek yourself?** `zeek -C -r assets/pcaps/03-dns.pcap` writes `dns.log` using Zeek's names — `query`, `qtype_name`, `rcode_name`, `answers`, `TTLs` — and without `dns.resolved_ip` or `dns.query.length`, which Security Onion computes during ingest. [The mapping is here](field-names.md).
 
 ## A name is not an address
 
@@ -136,10 +138,10 @@ The response code is `NOERROR`, which reads like success, and the answer section
 
 Two different things get confused at this point, and the distinction is worth carrying:
 
-- **NXDOMAIN** (`rcode 3`) — that name does not exist.
+- **NXDOMAIN** (`dns.response.code: 3`) — that name does not exist.
 - **NOERROR with zero answers** — the name exists in the zone but has no record of the type you asked for. Commonly called NODATA.
 
-This capture shows the second. An analyst who greps for `rcode == 0` to find successful lookups will count this as a success. An analyst who reads the answer count will not.
+This capture shows the second. An analyst who searches `dns.response.code_name:NOERROR` to find successful lookups counts this as a success. An analyst who also checks `dns.answers.name` does not.
 
 The habit generalises well beyond DNS: **a status field and an outcome are different things.** Lesson 02 made the same point with a 403 inside a perfectly successful TCP connection.
 
@@ -173,7 +175,7 @@ Use the capture to ground every claim, and answer these inside it:
 3. **`www.example.com` was asked for both A and AAAA** (frames 5–8). Compare the two answers. What would you conclude if a host queried only one of them? What would you conclude if the two disagreed about how many addresses exist?
 4. **Write three detection ideas that this capture proves would be noisy**, and for each, name the frames that would trigger it falsely.
 5. **Write one thing in this capture that you would want to look at more closely if you saw it on your own network**, and say precisely what additional evidence would settle it. This is not a trick — there is a defensible answer — but your reason has to be about the observation, not about the vendor.
-6. **State what a DNS log cannot tell you** about whether anything actually happened as a result of these lookups. Be specific about what source would.
+6. **State what a DNS log cannot tell you** about whether anything actually happened as a result of these lookups. Be specific about which source would, and name the field you would search there.
 
 ## Reviewing your own work
 

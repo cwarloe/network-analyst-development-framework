@@ -27,28 +27,28 @@ That spread of descriptions is not users being unhelpful. It is the actual signa
 
 ## Start in the log
 
-```
-zeek -C -r assets/pcaps/06-failures.pcap
-```
-
-`conn.log`, trimmed:
+Search this client's connections in Hunt or Kibana. Six documents, `event.dataset: conn`:
 
 ```
-id.orig_p  id.resp_h       id.resp_p  service  duration  orig_bytes  resp_bytes  conn_state  history
-41001      198.51.100.30   80         -        0.000011  0           0           REJ         1
-41002      198.51.100.40   80         http     0.000471  67          441         RSTR        4
-41003      198.51.100.50   80         http     4.000853  95          132         SF          5
-41000      198.51.100.20   80         -        4.092267  0           0           S0          5
-41000      198.51.100.20   80         -        2.015977  0           0           S0          2
-41000      198.51.100.20   80         -        -         -           -           S0          1
+source.port  destination.ip   destination.port  network.protocol  event.duration  client.bytes  server.bytes  connection.state  connection.history
+41001        198.51.100.30    80                —                 0.000011        0             0             REJ               1
+41002        198.51.100.40    80                http              0.000471        67            441           RSTR              4
+41003        198.51.100.50    80                http              4.000853        95            132           SF                5
+41000        198.51.100.20    80                —                 4.092267        0             0             S0                5
+41000        198.51.100.20    80                —                 2.015977        0             0             S0                2
+41000        198.51.100.20    80                —                 —               —             —             S0                1
 ```
 
-Before reading further, look only at `conn_state` and try to name four different faults. Zeek has already done most of the discrimination for you — the column exists precisely because these outcomes are different, and learning to read it is worth more than any amount of packet staring.
+Before reading further, look only at `connection.state` and try to name four different faults. Zeek has already done most of the discrimination for you, and Security Onion carries a second field that spells each one out in plain English — `connection.state_description`, which it adds during ingest and which has no Zeek equivalent:
 
-- **`REJ`** — the connection was rejected.
-- **`RSTR`** — it established, then the responder reset it.
-- **`SF`** — normal establishment, normal teardown. Nothing failed.
-- **`S0`** — a SYN was sent and nothing ever came back.
+| `connection.state` | `connection.state_description` |
+|---|---|
+| `REJ` | Connection attempt rejected |
+| `RSTR` | Established, responder aborted |
+| `SF` | Normal SYN/FIN completion |
+| `S0` | Connection attempt seen, no reply |
+
+Read those four descriptions again. They are the entire lesson, written by the tool, and most analysts never look at that column.
 
 ## Worked: the two that get confused
 
@@ -91,7 +91,7 @@ The discrimination, and it is the most useful single distinction in network trou
 
 ## The one that gets misattributed
 
-`198.51.100.50` returned `conn_state: SF`. Normal establishment, normal teardown, correct response. And a duration of **4.0 seconds**, which is why a user called it slow.
+`198.51.100.50` returned `connection.state: SF` — *Normal SYN/FIN completion*. Correct response, clean teardown. And an `event.duration` of **4.0 seconds**, which is why a user called it slow.
 
 Look at where the time went:
 
@@ -130,13 +130,13 @@ Two things worth extracting. **A `200 OK` is a promise, not a delivery** — the
 
 ## What the log renders versus what happened
 
-Go back to `conn.log` and count the `S0` rows. There are **three**, all from source port 41000, all to `198.51.100.20`.
+Go back to the connection documents and count the `S0` ones. There are **three**, all from `source.port: 41000`, all to `198.51.100.20`.
 
 There was **one** connection attempt.
 
-Zeek closes a pending connection record after an inactivity period and opens a new one when retransmissions continue, so a single eleven-second SYN sequence is rendered as three rows. Neither Zeek nor the packets are wrong; they are answering different questions.
+Zeek closes a pending connection record after an inactivity period and opens a new one when retransmissions continue, so a single eleven-second SYN sequence is rendered as three documents. Neither Zeek nor the packets are wrong; they are answering different questions.
 
-The consequence is concrete. A detection that counts `S0` connections per host per minute — a completely reasonable thing to build — will report three failed attempts where a user made one. Scale that across an outage and the numbers in your incident report are inflated by a factor nobody can reconstruct later.
+The consequence is concrete. A detection that counts `connection.state:S0` per host per minute — a completely reasonable thing to build, and easy to build in Kibana — will report three failed attempts where a user made one. Scale that across an outage and the numbers in your incident report are inflated by a factor nobody can reconstruct later.
 
 **A log is a rendering of events under a set of rules, not the events.** Knowing the rules of your own logs is part of knowing your evidence, which is what [lesson 05](05-vantage-point-and-evidence.md) was about.
 
@@ -164,6 +164,8 @@ It must contain:
 4. **A statement about the network's role**, which is not the same for all four. Be precise about which faults are network faults and which are not.
 5. **What you cannot determine from this capture**, and which source would settle it.
 6. **The `S0` counting problem**, stated in a way a manager reading incident numbers would understand.
+
+> **Running Zeek yourself?** `zeek -C -r assets/pcaps/06-failures.pcap` writes `conn.log` with Zeek's names — `id.orig_p`, `conn_state`, `duration` — and **without** `connection.state_description`, which Security Onion adds during ingest. The state codes are the same; the plain-English column only exists after ingest. [The mapping is here](field-names.md).
 
 ## Reviewing your own work
 

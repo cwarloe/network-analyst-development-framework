@@ -23,6 +23,8 @@ The traffic is real. Real sockets, real DNS resolvers on the public internet, a 
 2. **Wireshark must dissect it cleanly** — the protocol is recognized, no malformed packets.
 3. **Zeek must parse it into logs** — a DNS capture produces a `dns.log`, a TLS capture produces `ssl.log` and `x509.log`, and the fields an analyst would pivot on are populated.
 
+The validator asserts on Zeek's **native** field names (`id.orig_h`, `conn_state`) because it runs Zeek directly. That is deliberate and should not be "corrected" to the Security Onion names — those are produced later, by the Elasticsearch ingest pipeline, which the validator does not run. The lessons use the Security Onion names because that is what an analyst searches; see [`lessons/field-names.md`](../lessons/field-names.md).
+
 The second check is the one that decides. The target environment for this material is Security Onion with the Elastic stack, where analysts work in Hunt and Kibana against Zeek logs and only pivot to the packets when the logs raise a question. A capture that Wireshark renders beautifully but Zeek will not parse is **invisible** in that workflow. It teaches nothing, because nobody would ever find it.
 
 This applies regardless of where a capture came from. A file pulled off a production tap that Zeek chokes on is a bad file for training purposes. Real is not the standard; **ingestible and correctly interpreted** is the standard. Begin with the end in mind: the end is a searchable log in Kibana.
