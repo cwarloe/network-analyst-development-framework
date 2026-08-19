@@ -11,7 +11,7 @@ Two questions:
 
 ## A few things that matter
 
-- **Don't claim more than the evidence supports.** If a lesson asserts something about how analysts actually work, it should be traceable to the [research](docs/research/) or labelled as design judgment. See the Standing Qualifications in [docs/architecture.md](docs/architecture.md).
+- **Don't claim more than the evidence supports.** If a lesson asserts something about how analysts actually work, it should be traceable to the [research](docs/research/) or labeled as design judgment. See the Standing Qualifications in [docs/architecture.md](docs/architecture.md).
 - **No scores, levels, or mastery thresholds.** Nothing here is validated enough to grade anyone, and adding a number implies otherwise.
 - **Lessons end in a work product**, not a quiz.
 - **No secrets, private transcripts, or capture data you don't have the right to redistribute.** The last one is a live question — see the [roadmap](ROADMAP.md).

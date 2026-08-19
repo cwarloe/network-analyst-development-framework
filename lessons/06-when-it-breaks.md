@@ -9,7 +9,7 @@
 - **Evidence families:** EF-3, EF-4, EF-8
 - **Time:** about 2.5 hours
 - **Requires:** [`assets/pcaps/06-failures.pcap`](../assets/pcaps/06-failures.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
-- **Assumes:** [Lessons 02 through 05](02-reading-a-conversation.md). You can narrate a conversation, describe expected behaviour, and plan what evidence to gather.
+- **Assumes:** [Lessons 02 through 05](02-reading-a-conversation.md). You can narrate a conversation, describe expected behavior, and plan what evidence to gather.
 
 ## Why this lesson exists
 
@@ -160,7 +160,7 @@ It must contain:
 
 1. **A statement of what is actually happening**, covering all four backends. One complaint, four faults, named separately.
 2. **For each fault: the discriminating evidence.** Not "it looks like a firewall" — the frame numbers and the field that separates this explanation from its nearest alternative.
-3. **At least two explanations you considered and rejected**, with what ruled them out. If you rejected nothing, you did not diagnose, you recognised.
+3. **At least two explanations you considered and rejected**, with what ruled them out. If you rejected nothing, you did not diagnose, you recognized.
 4. **A statement about the network's role**, which is not the same for all four. Be precise about which faults are network faults and which are not.
 5. **What you cannot determine from this capture**, and which source would settle it.
 6. **The `S0` counting problem**, stated in a way a manager reading incident numbers would understand.

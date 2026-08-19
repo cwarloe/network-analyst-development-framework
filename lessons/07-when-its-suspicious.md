@@ -15,7 +15,7 @@
 
 Everything before this taught you what normal looks like and how ordinary things break. That was the preparation. The failure mode this lesson exists to prevent is **indicator-first labeling**: learning a list of suspicious shapes, matching against it, and reporting the match as a finding.
 
-Shapes do not carry intent. Regular outbound connections are what malware command-and-control looks like, and they are also what a monitoring agent, a software update checker, a licence validator, a mail client, and a status page poller look like. An analyst whose only tool is shape recognition will flag all of them with equal confidence and be right by accident.
+Shapes do not carry intent. Regular outbound connections are what malware command-and-control looks like, and they are also what a monitoring agent, a software update checker, a license validator, a mail client, and a status page poller look like. An analyst whose only tool is shape recognition will flag all of them with equal confidence and be right by accident.
 
 This capture is built so that the obvious reading is available, tempting, and insufficient.
 
@@ -118,7 +118,7 @@ By itself: unremarkable. Workstations upload things. Crash reports, telemetry bu
 
 ## The evidence that actually discriminates
 
-Go back and read the `host` field across all three behaviours:
+Go back and read the `host` field across all three behaviors:
 
 ```
 beacon      198.51.100.60   Host: cdn-metrics.example
@@ -126,11 +126,11 @@ dns         198.51.100.80   ...........sync.cdn-metrics.example
 upload      198.51.100.90   Host: cdn-metrics.example
 ```
 
-**Three different behaviours, three different IP addresses, one domain.**
+**Three different behaviors, three different IP addresses, one domain.**
 
 A regular check-in, a high-rate DNS channel, and a bulk outbound transfer, all associated with `cdn-metrics.example`. Meanwhile `198.51.100.70` — the other beacon, the one that is shape-identical to the first — belongs to `updates.contoso-internal.example` and appears in nothing else.
 
-This is the shift the lesson is built around. **The discriminating evidence is relational, not morphological.** Not "this beacon is more regular than that one," but "these three unrelated-looking behaviours converge on one domain, and that one does not." Convergence is much harder to produce accidentally than any individual shape, and much harder for an adversary to avoid than jitter.
+This is the shift the lesson is built around. **The discriminating evidence is relational, not morphological.** Not "this beacon is more regular than that one," but "these three unrelated-looking behaviors converge on one domain, and that one does not." Convergence is much harder to produce accidentally than any individual shape, and much harder for an adversary to avoid than jitter.
 
 It is also, note, exactly the kind of question the [lesson 03](03-names-and-expectations.md) baseline and the [lesson 05](05-vantage-point-and-evidence.md) evidence plan prepare you to ask. It is not a new trick. It is the earlier lessons pointed at a harder problem.
 
@@ -149,13 +149,13 @@ Write an **assessment of about a page** of `192.0.2.10`'s traffic.
 
 The structure is the requirement, and it is not optional:
 
-**1. Observations.** All four destinations. Facts, frame- or log-traceable, no characterisation.
+**1. Observations.** All four destinations. Facts, frame- or log-traceable, no characterization.
 
 **2. The benign explanation, argued properly.** Write the strongest honest case that all of this is legitimate software. Not a token paragraph — make it good enough that a reasonable colleague could hold it.
 
 **3. The malicious explanation, argued properly.** Same standard.
 
-**4. Which you favour, with the specific evidence that moved you** and how confident you are. If the evidence does not move you far, say so and say what that means.
+**4. Which you favor, with the specific evidence that moved you** and how confident you are. If the evidence does not move you far, say so and say what that means.
 
 **5. What would settle it.** For each open question, the source that answers it, in priority order.
 
@@ -166,15 +166,15 @@ Address these inside that structure:
 1. Your colleague said it is "clearly beaconing." Respond to that specifically — is it true, and is it useful?
 2. Explain why `198.51.100.70` is not in your finding, in a way that does not rely on the hostname sounding internal.
 3. If you had only `conn.log` and no `http.log` or `dns.log`, what could you still say? This is a real scenario — it is what encrypted traffic looks like after [lesson 04](04-what-encryption-hides.md).
-4. Give one plausible, specific benign product that would produce all three `cdn-metrics.example` behaviours, and say what evidence would rule it in or out.
+4. Give one plausible, specific benign product that would produce all three `cdn-metrics.example` behaviors, and say what evidence would rule it in or out.
 5. The DNS queries defeat caching by design. Name a legitimate reason to do that.
 
 ## Reviewing your own work
 
 - Is your benign section shorter than your malicious section? If so, you wrote a justification, not an assessment. Length is a rough proxy for how seriously you held it.
-- Did you write the word "malicious," "attacker," or "exfiltration" as a fact anywhere? Check each one against [lesson 01](01-what-the-analyst-is-for.md): is it an observation, an interpretation, or a judgment, and is it labelled as what it is?
+- Did you write the word "malicious," "attacker," or "exfiltration" as a fact anywhere? Check each one against [lesson 01](01-what-the-analyst-is-for.md): is it an observation, an interpretation, or a judgment, and is it labeled as what it is?
 - On question 2 — if your entire reason for excluding `198.51.100.70` is that its hostname contains "internal," you have accepted an attacker-controllable string as evidence. What would you check instead?
-- Did you distinguish "these three behaviours share a domain" from "these three behaviours are one campaign"? The first is in the capture. The second is an inference.
+- Did you distinguish "these three behaviors share a domain" from "these three behaviors are one campaign"? The first is in the capture. The second is an inference.
 - Would your assessment survive `cdn-metrics.example` turning out to be a legitimate analytics vendor the marketing team signed up for? If it would be embarrassing, it was overclaimed — this is the same test [lesson 08](08-judgment-and-handoff.md) applies.
 - Did you recommend an action proportionate to the evidence, or did you recommend the most decisive action available?
 - What is your single cheapest next question? If it is not "do other workstations do this too," reconsider.

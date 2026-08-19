@@ -9,7 +9,7 @@
 - **Evidence families:** EF-2, EF-5
 - **Time:** about 2 hours
 - **Requires:** [`assets/pcaps/04-tls.pcap`](../assets/pcaps/04-tls.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
-- **Assumes:** [Lessons 02 and 03](02-reading-a-conversation.md). You can narrate a conversation and describe expected behaviour.
+- **Assumes:** [Lessons 02 and 03](02-reading-a-conversation.md). You can narrate a conversation and describe expected behavior.
 
 ## Why this lesson exists
 
@@ -22,6 +22,8 @@ This capture contains that exact situation, from a client that behaved identical
 ## The capture
 
 Two TLS connections, generated live by [`lab/generate-captures.py`](../lab/generate-captures.py). The same client, the same request, the same certificate, the same offered protocol versions — to two servers that answered differently.
+
+**One thing to be clear about before you start.** That the two servers present the *same certificate* is something the lab knows because the lab configured it. It is not something this capture shows, and by the end of the lesson you will be able to say exactly why. Where the text below states it as fact, it is stating the lab's ground truth. Keeping that separate from what the evidence supports is the habit [lesson 01](01-what-the-analyst-is-for.md) started building, and this lesson is where it gets uncomfortable.
 
 ```
 tshark -r assets/pcaps/04-tls.pcap -Y tls -T fields \
@@ -187,10 +189,10 @@ Structure it in three parts, and keep them genuinely separate:
 
 Address all of these inside that structure:
 
-1. Both connections carry the same certificate. **Prove it, or explain why you cannot.**
+1. You have been told both connections carry the same certificate. **Prove it from the capture, or explain precisely why you cannot.** Then say what a reader of your assessment should conclude about any other claim you make that rests on the same kind of evidence.
 2. A colleague says stream 1 is more suspicious than stream 0, because "we can't see anything in it." Respond.
 3. The certificate in stream 0 is self-signed. State what that does and does not tell you, and what you would want to know before treating it as a finding.
-4. Your organisation has a detection that alerts on self-signed certificates, built on `x509.log`. Describe exactly what it does against this capture — how many of the two connections it evaluates, and what it reports. Then describe what happens to it as the estate moves to TLS 1.3, and say what you would monitor to notice that happening.
+4. Your organization has a detection that alerts on self-signed certificates, built on `x509.log`. Describe exactly what it does against this capture — how many of the two connections it evaluates, and what it reports. Then describe what happens to it as the estate moves to TLS 1.3, and say what you would monitor to notice that happening.
 5. Stream 0 has 130 and 132 bytes of application data; stream 1's opaque records are 1038, 281 and 69 bytes. Can you conclude the requests differed? Justify carefully.
 6. Name the one field that leaks the destination hostname in both streams, say why it must, and say what would remove it.
 

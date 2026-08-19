@@ -1,5 +1,16 @@
 # Encrypted Outbound Traffic: Decide Before You Disrupt
 
+## At a glance
+
+- **Part of:** [the course plan](../../COURSE.md)
+- **Version:** 0.1 — draft
+- **Date:** 2026-08-19
+- **Capability targets:** all six domains. The revision task exercises LR-1 and LR-2, the transfer case LR-3, and the review guide's learning-need discussion LR-4 — the only place in the course those four are reached.
+- **Evidence families:** EF-1 through EF-8
+- **Time:** 60–90 minutes
+- **Requires:** nothing. All evidence is supplied in the text. No capture data, tooling, or account.
+- **Assumes:** lessons 01 through 08, though it can be run standalone with anyone technical.
+
 ## Your situation
 
 You are the network analyst supporting a cyber defense team. Monitoring has identified sustained encrypted outbound traffic from a workstation shortly after a scheduled software update.

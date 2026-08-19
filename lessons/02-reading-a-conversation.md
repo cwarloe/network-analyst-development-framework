@@ -15,13 +15,13 @@
 
 Lesson 01 was about not overstating. This one is about having something to state.
 
-Before you can say that anything is unusual, you have to be able to say what happened — precisely, in order, with the parts labelled. Most bad analysis is not bad judgment applied to good observation. It is confident judgment applied to a conversation the analyst never actually read.
+Before you can say that anything is unusual, you have to be able to say what happened — precisely, in order, with the parts labeled. Most bad analysis is not bad judgment applied to good observation. It is confident judgment applied to a conversation the analyst never actually read.
 
 The unit you read is a **conversation**: one client, one server, one port pair, from open to close. Everything in this course is built on being able to narrate one.
 
 ## Where this data came from
 
-The capture in `assets/pcaps/` was generated in a lab by [`lab/generate-captures.py`](../lab/generate-captures.py). The traffic is real — a real client, a real server, a real TCP stack — and then the addresses were rewritten into documentation ranges so it reads as an ordinary internal exchange. Protocol behaviour, timing and payloads are untouched.
+The capture in `assets/pcaps/` was generated in a lab by [`lab/generate-captures.py`](../lab/generate-captures.py). The traffic is real — a real client, a real server, a real TCP stack — and then the addresses were rewritten into documentation ranges so it reads as an ordinary internal exchange. Protocol behavior, timing and payloads are untouched.
 
 It is checked two ways before it ships: Wireshark must dissect it cleanly, and Zeek must parse it into logs. See [the lab README](../lab/README.md) for why that second check is the one that matters.
 
@@ -168,7 +168,7 @@ This is also lesson 01's distinction arriving in technical form. *The connection
 
 ## What this lesson does not do
 
-It does not establish that this traffic is normal or abnormal. Two conversations from one client is not a baseline, and lesson 03 is where expected behaviour starts being built deliberately.
+It does not establish that this traffic is normal or abnormal. Two conversations from one client is not a baseline, and lesson 03 is where expected behavior starts being built deliberately.
 
 It does not teach you the tool. Wireshark's filter language, column layouts and stream reassembly are worth learning and this lesson does not attempt to cover them.
 

@@ -9,6 +9,7 @@
 - **Evidence families:** EF-1, EF-2
 - **Time:** about 90 minutes
 - **Requires:** nothing. No capture data, tooling, or account.
+- **Assumes:** nothing. This is the entry point.
 
 ## Why this lesson exists
 
@@ -16,7 +17,7 @@ Most people arriving at network analysis expect the job to be recognizing bad tr
 
 The job is to make a decision safe to take. Someone — a responder, a system owner, a manager — is going to act, or decide not to act, and they need to know what is actually known, what is being guessed, and what would change the answer. Producing that is analysis. Everything else in this course is in service of it.
 
-This module builds one habit, which sounds trivial and is not: keeping observation, interpretation, and judgment apart in your own head and on the page.
+This lesson builds one habit, which sounds trivial and is not: keeping observation, interpretation, and judgment apart in your own head and on the page.
 
 ## Three things that get mixed together
 
@@ -124,7 +125,7 @@ Not a score. Questions:
 - Is your position stronger than your observations support? Read your strongest sentence and find the evidence directly under it.
 - If a responder acted only on your page, what would they do? Is that proportionate?
 
-If C-03 pushed you toward "this has been happening for two weeks undetected," notice what happened: the same fact can support a benign reading (an established, documented vendor behavior) and an alarming one (a persistent channel), and choosing between them needs evidence you do not have. Recognizing that is the module.
+If C-03 pushed you toward "this has been happening for two weeks undetected," notice what happened: the same fact can support a benign reading (an established, documented vendor behavior) and an alarming one (a persistent channel), and choosing between them needs evidence you do not have. Recognizing that is the lesson.
 
 ## What this lesson does not do
 

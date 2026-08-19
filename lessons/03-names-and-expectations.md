@@ -92,7 +92,7 @@ frame 14  (t=5.529s)   github.com  A  ttl 60    -> 140.82.112.4
 
 **The address changed.** Same name, same resolver, five seconds apart, different answer — and the TTL had not even expired.
 
-Sit with that before reading on, because your instinct about it matters more than the explanation. If a detection rule fires on "host resolved the same name to two different addresses in under a minute," this is what it fires on, and there is nothing wrong here at all. Large services answer from pools. Which member you get depends on the resolver node, the time, and load. **Address instability for a name like this is the expected behaviour, not the deviation.**
+Sit with that before reading on, because your instinct about it matters more than the explanation. If a detection rule fires on "host resolved the same name to two different addresses in under a minute," this is what it fires on, and there is nothing wrong here at all. Large services answer from pools. Which member you get depends on the resolver node, the time, and load. **Address instability for a name like this is the expected behavior, not the deviation.**
 
 Now look at the CNAME TTLs across the same two frames:
 
@@ -164,7 +164,7 @@ An eight-second TTL means the operator wants to re-steer this client almost cont
 
 ## Your work product — a baseline
 
-Write **one page** describing expected DNS behaviour for the environment this capture came from. Not a summary of the capture: a description of normal that someone else could use to judge whether a future observation deviates.
+Write **one page** describing expected DNS behavior for the environment this capture came from. Not a summary of the capture: a description of normal that someone else could use to judge whether a future observation deviates.
 
 Use the capture to ground every claim, and answer these inside it:
 
@@ -190,6 +190,6 @@ The capture is eight lookups from one client against one public resolver. That i
 
 It does not cover DNS over TLS or DNS over HTTPS, where these lookups would not be visible to a network sensor at all. That is lesson 04's territory and lesson 05's problem.
 
-It does not cover tunneling, exfiltration over DNS, or algorithmically generated domains. Those are lesson 07, and they are deliberately after this one — recognising a wrong shape requires knowing the right one.
+It does not cover tunneling, exfiltration over DNS, or algorithmically generated domains. Those are lesson 07, and they are deliberately after this one — recognizing a wrong shape requires knowing the right one.
 
 It does not define proficiency, scoring, or completion. One baseline from one capture is a single sample.
