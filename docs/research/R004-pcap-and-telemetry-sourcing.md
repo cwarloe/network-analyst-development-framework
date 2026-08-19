@@ -77,6 +77,36 @@ Ground truth is the real prize here, not just the license. A lab-generated failu
 
 Full datasets stay upstream. NADF ships small trimmed excerpts with citations, not mirrors.
 
+## Addendum, 2026-08-19 — what is actually reachable from the build environment
+
+R004 cleared sources on licence grounds. This records what can be *obtained*, which turned out to be a separate and more binding constraint.
+
+Tested by HTTP and by git, including third-party mirrors:
+
+| Source | Reachable? | Consequence |
+|---|---|---|
+| **CIC** (`unb.ca`, `cicresearch.ca`) | **No** — blocked / 403 | Cannot download, and cannot read the terms page either |
+| **Stratosphere / CTU-13** (`stratosphereips.org`, `mcfp.felk.cvut.cz`) | **No** — blocked | GitHub mirrors carry code and CSV feature extracts, not the captures |
+| **SecRepo** | **No** — blocked | — |
+| **Netresec index** | **No** — blocked | It was never a source of rights anyway |
+| **Malware-Traffic-Analysis.net** | not retested | Already excluded above: no licence grant |
+| **Wireshark** (`gitlab.com/wireshark/wireshark`) | **Yes**, by git | 218 capture files, repository GPL-2.0. They are protocol dissector test samples, not adversary traffic, so they do not serve lesson 07. GPL into a CC BY-NC-SA work also raises the same copyleft-compatibility problem this record flags for CC BY-SA |
+| **`tjcruz-dei/ICS_PCAPS`** | **Yes**, by git | Genuinely **CC BY 3.0**, verified in the repository, and compatible with CC BY-NC-SA. Captures live in GitHub Releases rather than the tree. Content is Modbus TCP SCADA and DoS traffic — right licence, wrong domain for this curriculum |
+
+### The finding that decides it
+
+**This record's own pre-flight checklist requires re-reading the source's current terms page before shipping any file. For every cleared source of adversary traffic, that page is unreachable from here.**
+
+So even where data might be obtainable through a third-party mirror, the pre-flight cannot be completed, and shipping anyway would mean asserting a licence position from a cached memory of a page nobody can currently open. That is exactly the failure this record exists to prevent.
+
+**Lesson 07 therefore stays on lab-generated shapes.** Not because the data does not exist, and not because the licence is unclear — because the verification step cannot be performed in this environment. Anyone working from a normal connection can complete it in minutes, and [the roadmap](../../ROADMAP.md) says so.
+
+### A method note worth carrying forward
+
+An earlier conclusion that the NICE Framework was unobtainable turned out to be wrong: HTTP was blocked but **the session's git proxy serves anonymous clones of public repositories, including non-GitHub hosts such as `gitlab.com`.** That is how [R007](R007-nice-role-mapping.md) got its data.
+
+Before recording anything as unreachable, try `git ls-remote` and a blobless clone (`--depth 1 --filter=blob:none`), which lists a repository's tree without downloading its contents. Several conclusions in this project's history rested on `curl` alone and one of them was wrong.
+
 ## Open questions
 
 - Per-file terms for individual Wireshark wiki samples and tool-distributed PCAPs. No central license statement exists. *Resolution:* inspect each file's origin; exclude when unclear.
