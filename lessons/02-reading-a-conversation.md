@@ -51,15 +51,15 @@ Open the capture. The first ten frames are one complete conversation:
 ```
 No.  Time      Source          Destination     Info
 1    0.000000  192.0.2.10      198.51.100.20   42876 → 80 [SYN] Seq=0 Win=65495
-2    0.000259  198.51.100.20   192.0.2.10      80 → 42876 [SYN, ACK] Seq=0 Ack=1
-3    0.000282  192.0.2.10      198.51.100.20   42876 → 80 [ACK] Seq=1 Ack=1
-4    0.000370  192.0.2.10      198.51.100.20   GET /api/v2/export?page=1 HTTP/1.1
-5    0.000378  198.51.100.20   192.0.2.10      80 → 42876 [ACK] Seq=1 Ack=152
-6    0.000547  198.51.100.20   192.0.2.10      HTTP/1.1 200 OK  (application/json)
-7    0.000582  192.0.2.10      198.51.100.20   42876 → 80 [ACK] Seq=152 Ack=208
-8    0.000597  198.51.100.20   192.0.2.10      80 → 42876 [FIN, ACK] Seq=208 Ack=152
-9    0.000660  192.0.2.10      198.51.100.20   42876 → 80 [FIN, ACK] Seq=152 Ack=209
-10   0.000688  198.51.100.20   192.0.2.10      80 → 42876 [ACK] Seq=209 Ack=153
+2    0.000017  198.51.100.20   192.0.2.10      80 → 42876 [SYN, ACK] Seq=0 Ack=1
+3    0.000031  192.0.2.10      198.51.100.20   42876 → 80 [ACK] Seq=1 Ack=1
+4    0.000075  192.0.2.10      198.51.100.20   GET /api/v2/export?page=1 HTTP/1.1
+5    0.000079  198.51.100.20   192.0.2.10      80 → 42876 [ACK] Seq=1 Ack=152
+6    0.003966  198.51.100.20   192.0.2.10      HTTP/1.1 200 OK  (application/json)
+7    0.003977  192.0.2.10      198.51.100.20   42876 → 80 [ACK] Seq=152 Ack=208
+8    0.004019  198.51.100.20   192.0.2.10      80 → 42876 [FIN, ACK] Seq=208 Ack=152
+9    0.004038  192.0.2.10      198.51.100.20   42876 → 80 [FIN, ACK] Seq=152 Ack=209
+10   0.004053  198.51.100.20   192.0.2.10      80 → 42876 [ACK] Seq=209 Ack=153
 ```
 
 Three phases, and you should be able to point at each one:
@@ -88,7 +88,7 @@ And the answer:
 HTTP/1.1 200 OK
 Server: nginx/1.24.0
 Content-Type: application/json
-Content-Length: 100
+Content-Length: 90
 X-Request-Id: 7f3a91c2
 
 {"report":"finance-export","rows":1284,"generated":"2026-08-19T09:14:22Z","format":"json"}
@@ -96,7 +96,7 @@ X-Request-Id: 7f3a91c2
 
 This is the pivot, and it is the working pattern for everything that follows: **the log tells you a conversation happened and roughly what shape it was; the packets tell you what was said.** You go to the log to find the conversation. You go to the capture to read it.
 
-Narrated in one sentence: *a host called `contoso-sync/3.2` asked an internal file service for page 1 of a finance export, and the service returned a 100-byte JSON summary describing 1,284 rows.*
+Narrated in one sentence: *a host called `contoso-sync/3.2` asked an internal file service for page 1 of a finance export, and the service returned a 90-byte JSON summary describing 1,284 rows.*
 
 That sentence contains no judgment. It is what happened.
 

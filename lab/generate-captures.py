@@ -36,6 +36,20 @@ def stop(p):
     p.wait()
 
 
+def client_socket(dest_port, src_port):
+    """Connect from a fixed source port so regenerated captures are stable.
+
+    Ephemeral ports would otherwise change every run, and the lessons quote
+    port numbers.
+    """
+    s = socket.socket()
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind(("127.0.0.1", src_port))
+    s.settimeout(5)
+    s.connect(("127.0.0.1", dest_port))
+    return s
+
+
 # -------------------------------------------------------------------- DNS ---
 def dns_query(name, qtype=1, server=RESOLVER):
     labels = b"".join(bytes([len(l)]) + l.encode() for l in name.split(".")) + b"\x00"
@@ -98,9 +112,10 @@ def http_server():
                           b"Content-Type: application/json\r\nContent-Length: "
                           + str(len(BODY)).encode() + b"\r\nX-Request-Id: 7f3a91c2\r\n\r\n" + BODY)
             elif path.startswith(b"/api/v2/admin"):
+                denied = b'{"error":"insufficient_scope","code":"E403"}'
                 c.sendall(b"HTTP/1.1 403 Forbidden\r\nServer: nginx/1.24.0\r\n"
-                          b"Content-Type: application/json\r\nContent-Length: 43\r\n\r\n"
-                          b'{"error":"insufficient_scope","code":"E403"}')
+                          b"Content-Type: application/json\r\nContent-Length: "
+                          + str(len(denied)).encode() + b"\r\n\r\n" + denied)
             else:
                 c.sendall(b"HTTP/1.1 404 Not Found\r\nServer: nginx/1.24.0\r\nContent-Length: 0\r\n\r\n")
             c.close()
@@ -113,8 +128,8 @@ def gen_http():
     time.sleep(1)
     raw = os.path.join(TMP, "http.pcap")
     cap = capture("lo", "tcp port 8080", raw)
-    for path in (b"/api/v2/export?page=1", b"/api/v2/admin/users"):
-        s = socket.create_connection(("127.0.0.1", 8080), timeout=5)
+    for src_port, path in ((42876, b"/api/v2/export?page=1"), (42886, b"/api/v2/admin/users")):
+        s = client_socket(8080, src_port)
         s.sendall(b"GET " + path + b" HTTP/1.1\r\nHost: files.contoso-internal.example\r\n"
                   b"User-Agent: contoso-sync/3.2\r\nAccept: application/json\r\n"
                   b"Connection: close\r\n\r\n")
@@ -164,11 +179,11 @@ def gen_tls():
     time.sleep(1)
     raw = os.path.join(TMP, "tls.pcap")
     cap = capture("lo", "tcp port 8443 or tcp port 8444", raw)
-    for port in (8443, 8444):
+    for port, src_port in ((8443, 44120), (8444, 44130)):
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
-        s = socket.create_connection(("127.0.0.1", port), timeout=5)
+        s = client_socket(port, src_port)
         w = ctx.wrap_socket(s, server_hostname="files.contoso-internal.example")
         print(f"  {port}: {w.version()} / {w.cipher()[0]}")
         w.sendall(b"GET /api/v2/export?page=1 HTTP/1.1\r\n"

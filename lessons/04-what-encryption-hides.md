@@ -57,9 +57,11 @@ tshark -r assets/pcaps/04-tls.pcap -Y "tls.handshake.type==11" -V
 ```
 issuer:  C=US, ST=Oregon, L=Portland, O=Contoso Ltd, CN=files.contoso-internal.example
 subject: C=US, ST=Oregon, L=Portland, O=Contoso Ltd, CN=files.contoso-internal.example
-notBefore: 2026-08-19 05:06:45 UTC
-notAfter:  2027-08-19 05:06:45 UTC
+notBefore: 2026-08-19 05:20:38 UTC
+notAfter:  2027-08-19 05:20:38 UTC
 ```
+
+(The validity window reflects the moment the lab generated this certificate. Regenerate the capture and it moves — see [the lab README](../lab/README.md).)
 
 Read the issuer and the subject again. **They are the same.** This certificate is self-signed — no certificate authority vouches for it, the server is asserting its own identity, and the assertion is valid for exactly one year from the moment it was created.
 
