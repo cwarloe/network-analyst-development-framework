@@ -8,7 +8,7 @@ This protocol makes framework claims traceable and reviewable. It is intended fo
 
 ### 1. Frame the question
 
-Use `templates/research-question.md`. Define scope, decision relevance, inclusion and exclusion criteria, and what would change the current view.
+Use [`template-research-question.md`](template-research-question.md). Define scope, decision relevance, inclusion and exclusion criteria, and what would change the current view.
 
 ### 2. Search reproducibly
 
@@ -20,7 +20,7 @@ Evaluate authority, methodology, recency, directness, reproducibility, and confl
 
 ### 4. Extract evidence
 
-Create an evidence record using `templates/evidence-record.md` and add it to `EVIDENCE_INDEX.md`. Paraphrase by default. Clearly mark short quotations and page or section locations.
+Create an evidence record using [`template-evidence-record.md`](template-evidence-record.md) and add it to `EVIDENCE_INDEX.md`. Paraphrase by default. Clearly mark short quotations and page or section locations.
 
 ### 5. Synthesize
 
@@ -28,7 +28,7 @@ Group evidence by claim, include conflicting findings, state confidence, and ide
 
 ### 6. Decide and maintain
 
-Link syntheses to ADRs and framework documents. Revisit claims when sources are superseded, retracted, or invalidated by implementation evidence.
+Link syntheses to the lessons and framework documents they inform. Revisit claims when sources are superseded, retracted, or invalidated by implementation evidence.
 
 ## Confidence scale
 

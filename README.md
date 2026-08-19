@@ -9,12 +9,12 @@ Training material for network analysts working in cyber defense. It teaches the 
 | | Lesson | What you do in it | Needs |
 |---|---|---|---|
 | 01 | **[What the analyst is for](lessons/01-what-the-analyst-is-for.md)** | Pull apart observation, interpretation, and judgment on three small cases | Nothing |
-| 02 | Reading a conversation | *Not written yet* | Capture data |
-| 03 | Names and expectations | *Not written yet* | Capture data |
-| 04 | What encryption hides | *Not written yet* | Capture data |
+| 02 | Reading a conversation | *Not written yet — unblocked, next up* | Capture data |
+| 03 | Names and expectations | *Not written yet — unblocked* | Capture data |
+| 04 | What encryption hides | *Not written yet — unblocked* | Capture data |
 | 05 | **[Vantage point and evidence](lessons/05-vantage-point-and-evidence.md)** | Build an evidence plan, and work out what your sources can't tell you | Nothing |
-| 06 | When it breaks | *Not written yet* | Capture data |
-| 07 | When it's suspicious | *Not written yet* | Capture data |
+| 06 | When it breaks | *Not written yet — needs a lab* | Lab environment |
+| 07 | When it's suspicious | *Not written yet — unblocked* | Capture data |
 | 08 | **[Judgment and handoff](lessons/08-judgment-and-handoff.md)** | Turn one analysis into a peer handoff and a manager summary | Nothing |
 | 09 | **[Capstone — encrypted outbound traffic](lessons/09-capstone-encrypted-outbound-traffic/README.md)** | Work a full case, revise when new evidence lands, then transfer to an unrelated one | Nothing |
 
@@ -22,7 +22,7 @@ The four bolded lessons are complete and self-contained: each supplies its own c
 
 Start with **[lesson 01](lessons/01-what-the-analyst-is-for.md)**. It takes about 90 minutes and needs nothing but a text editor.
 
-The five unwritten lessons are all blocked on the same thing: authentic packet captures that can legally be redistributed inside published training material. See the [roadmap](ROADMAP.md).
+Four of the five unwritten lessons are now unblocked — [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) established which public capture corpora can lawfully be republished here. Lesson 06 is the exception: no public dataset cleanly isolates network *failures* with known causes, so it needs a lab. See the [roadmap](ROADMAP.md).
 
 ## Using this with a learner
 
