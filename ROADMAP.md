@@ -4,9 +4,13 @@ All nine lessons are written. What matters now is whether they work.
 
 ## 1. Run a lesson with a real person
 
-**Nothing in this repository has been used by anyone other than its author.** That is the biggest risk the project has, and it is a few hours of work to reduce.
+**Nothing in this repository has been used by anyone other than its author.** All nine lessons are written, which makes this the only thing on the list that matters — everything below is refinement of material nobody has tried.
 
-[Lesson 01](lessons/01-what-the-analyst-is-for.md) needs no prerequisites and works with a complete beginner. The [capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md) is the fuller test and works with anyone technical. Write down what happens in the [run records](lessons/09-capstone-encrypted-outbound-traffic/run-records.md) — coverage, what got noticed, where people got stuck, how long it took.
+[Lesson 01](lessons/01-what-the-analyst-is-for.md) needs no prerequisites and works with a complete beginner. [Lesson 02](lessons/02-reading-a-conversation.md) is the first with a capture and the first real test of whether the packet-plus-Zeek format lands. The [capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md) is the fuller test and works with anyone technical.
+
+Write down what happens in the [run records](lessons/09-capstone-encrypted-outbound-traffic/run-records.md) — coverage, what got noticed, where people got stuck, how long it took.
+
+Specific things worth watching for, since the whole sequence rests on them: does anyone actually separate "the connection worked" from "the request worked" in lesson 02 without being told twice? Does lesson 03's point land that the strange-looking DNS is normal, or does it read as a trick? Does lesson 07's benign section get written seriously, or does everyone skip to the verdict?
 
 Everything else on this list is guesswork until this happens once.
 
