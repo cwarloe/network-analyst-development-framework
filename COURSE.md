@@ -1,6 +1,6 @@
 # The Course — Foundations of Network Analysis
 
-Nine lessons. **Four are written** — [01](lessons/01-what-the-analyst-is-for.md), [05](lessons/05-vantage-point-and-evidence.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md). The other five are described here but not yet authored.
+Nine lessons. **Seven are written** — [01](lessons/01-what-the-analyst-is-for.md), [02](lessons/02-reading-a-conversation.md), [03](lessons/03-names-and-expectations.md), [04](lessons/04-what-encryption-hides.md), [05](lessons/05-vantage-point-and-evidence.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md). Lessons 06 and 07 are described here but not yet authored.
 
 The course develops an analyst who can look at network activity, explain what is happening and why it matters, and produce a defensible assessment that another person can act on.
 
@@ -27,9 +27,9 @@ Capability IDs reference the [capability model](docs/capability-model.md). Evide
 | # | Module | Technical spine | Analytical development | Capability IDs | Work product | EF |
 |---|---|---|---|---|---|---|
 | 01 | [What the analyst is for](lessons/01-what-the-analyst-is-for.md) | The decision an analyst serves; where analysis sits in a cyber defense team | Separating observation, interpretation, and judgment as a working habit, applied to one small case | OE-2, IR-1 | One-paragraph assessment of a supplied miniature case | EF-1, EF-2 |
-| 02 | Reading a conversation | Hosts, services, ports, sessions; layers as a reasoning tool rather than a memorization ladder | Framing a question about an unfamiliar exchange; describing before concluding | OC-1, OC-2, OE-1 | Narrated walkthrough of one capture: who talked to whom, and why | EF-1, EF-2 |
-| 03 | Names and expectations | DNS resolution, caching, TTLs, resolver paths; what healthy name resolution looks like | Establishing expected behavior and legitimate variation before deviation has meaning | OC-3, OE-1 | Written baseline description of normal resolution for a given environment | EF-2, EF-3 |
-| 04 | What encryption hides | HTTP and TLS; handshake metadata, SNI, certificates; the boundary of what is observable | Reasoning from partial evidence; naming the limits of a source | OC-2, OE-4 | Assessment of an encrypted exchange stating explicitly what cannot be determined | EF-2, EF-5 |
+| 02 | [Reading a conversation](lessons/02-reading-a-conversation.md) | Hosts, services, ports, sessions; layers as a reasoning tool rather than a memorization ladder | Framing a question about an unfamiliar exchange; describing before concluding | OC-1, OC-2, OE-1 | Narrated walkthrough of one capture: who talked to whom, and why | EF-1, EF-2 |
+| 03 | [Names and expectations](lessons/03-names-and-expectations.md) | DNS resolution, caching, TTLs, resolver paths; what healthy name resolution looks like | Establishing expected behavior and legitimate variation before deviation has meaning | OC-3, OE-1 | Written baseline description of normal resolution for a given environment | EF-2, EF-3 |
+| 04 | [What encryption hides](lessons/04-what-encryption-hides.md) | HTTP and TLS; handshake metadata, SNI, certificates; the boundary of what is observable | Reasoning from partial evidence; naming the limits of a source | OC-2, OE-4 | Assessment of an encrypted exchange stating explicitly what cannot be determined | EF-2, EF-5 |
 | 05 | [Vantage point and evidence](lessons/05-vantage-point-and-evidence.md) | Capture vs. flow vs. logs vs. endpoint telemetry; sensor placement, retention, gaps | Evidence planning: choosing sources for a question and knowing what each cannot answer | OE-3, OE-4, OE-5 | Evidence plan for a supplied question, with prioritization and rationale | EF-4, EF-5 |
 | 06 | When it breaks | Latency, loss, path behavior, MTU and fragmentation, policy effects | Causal models, competing explanations, discriminating tests, revising when a prediction fails | OC-4, IR-2, IR-3, IR-5, IR-6 | Diagnosis of a failure with alternatives considered and the discriminating evidence named | EF-3, EF-4, EF-8 |
 | 07 | When it's suspicious | Beaconing, tunneling, staging and exfiltration shapes; peer comparison and history | Resisting indicator-first labeling; holding benign and malicious explanations open together | IR-2, IR-4, IR-5, OC-3 | Assessment of ambiguous activity that argues both explanations before choosing | EF-3, EF-4, EF-6 |
@@ -54,13 +54,13 @@ Lesson 05 was originally scoped here as lab-gated. That was wrong, and the corre
 
 ## What blocks the rest
 
-[R004](docs/research/R004-pcap-and-telemetry-sourcing.md) settled which capture data this project may publish. Lessons 02, 03, 04, and 07 are cleared to be written against CIC datasets (redistribution and modification permitted, citation required), with SecRepo and Stratosphere/CTU-13 available as secondary sources.
+Two lessons remain.
 
-**Lesson 06 is the exception and remains blocked on a lab.** No public corpus isolates documented network failures — induced latency, loss, MTU and fragmentation, policy drops — with the ground truth a troubleshooting lesson needs. It has to be generated.
+**Lesson 07** is unblocked. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack data and Stratosphere/CTU-13 for republication with citation, which is the right source for it — realistic adversary behaviour matters more here than lab control, and it is the one place in the course where that trade favours a public corpus.
 
-That is an awkward result for this plan, since lesson 06 is what makes lesson 07 honest. The order stands; lesson 06 simply costs more than the lessons around it, and should not be dropped for that reason.
+**Lesson 06 needs a lab.** No public corpus isolates documented network failures — induced latency, loss, MTU and fragmentation, policy drops — with the ground truth a troubleshooting lesson needs, and the [capture lab](lab/README.md) does not generate them yet either. It needs deliberate impairment: traffic control, constrained MTU, a firewall dropping selectively.
 
-A lab would also extend lesson 05 with collection practice, which remains a useful addition rather than a precondition.
+That is an awkward result, since lesson 06 is what makes lesson 07 honest. The order stands; lesson 06 simply costs more than the lessons around it, and should not be dropped for that reason.
 
 ## What this plan does not establish
 
