@@ -44,6 +44,23 @@ EXPECTED = {
             "dns.log":  (40, ["query", "qtype_name", "answers"]),
         },
     },
+    # Provisional -- these two do not exist yet. They are produced by
+    # generate-impairment.py, which needs NET_ADMIN and netem. Expectations are
+    # deliberately loose for 06-loss: under heavy loss the transfer may not
+    # complete, which is a legitimate capture but leaves no finished http entry.
+    "06-latency.pcap": {
+        "tshark_protocols": ["tcp", "http"],
+        "zeek": {
+            "conn.log": (1, ["conn_state", "duration", "id.resp_p"]),
+            "http.log": (1, ["method", "status_code"]),
+        },
+    },
+    "06-loss.pcap": {
+        "tshark_protocols": ["tcp"],
+        "zeek": {
+            "conn.log": (1, ["conn_state", "id.resp_p"]),
+        },
+    },
     "06-fragmentation.pcap": {
         "tshark_protocols": ["udp", "dns"],
         "zeek": {
