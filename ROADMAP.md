@@ -12,11 +12,15 @@ If you can only get one person for one hour, run [lesson 01](lessons/01-what-the
 
 Everything else here is guesswork until this happens once.
 
-## 2. Rework lesson 07 against real adversary traffic
+## 2. Rework lesson 07 against real adversary traffic — needs your connection, not mine
 
-Lesson 07 is authored but uses lab-generated shapes — two beacons that are deliberately indistinguishable by shape, a DNS stream carrying entropy in the query, and a bulk upload, all converging on one domain. The reasoning it teaches is the right reasoning. The traffic is not real intrusion traffic and the lesson says so.
+Lesson 07 uses lab-generated shapes and says so. Reworking it against genuine captured intrusion traffic is the natural next version.
 
-[R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack days and Stratosphere/CTU-13 for republication with citation. Running the same method against genuine captured traffic is the natural next version. Before shipping anything downloaded, run R004's pre-flight checklist **and** the [validation gate](lab/validate-captures.py) — the gate applies to third-party data exactly as it does to generated data.
+**Retested 2026-08-19, by HTTP and by git including third-party mirrors.** CIC, Stratosphere, SecRepo and Netresec are all unreachable from the build environment. Stratosphere's GitHub mirrors carry code and CSV feature extracts, not captures. Wireshark's repository is reachable and holds 218 capture files, but they are protocol dissector tests rather than adversary traffic, and GPL-2.0 into a CC BY-NC-SA work raises the same copyleft problem [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) flags for CC BY-SA.
+
+The blocker is not download. **[R004](docs/research/R004-pcap-and-telemetry-sourcing.md)'s pre-flight requires re-reading the source's current terms page, and for every cleared source of adversary traffic that page is unreachable here.** Shipping regardless would mean asserting a licence position from a page nobody can open, which is the failure that record exists to prevent.
+
+From a normal connection this is minutes of work: complete R004's pre-flight, download, trim to a small excerpt, run it through [the validation gate](lab/validate-captures.py), and cite the dataset and its paper.
 
 ## 3. Finish lesson 06 — packet loss and latency remain
 
