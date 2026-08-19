@@ -17,31 +17,19 @@ See the [project status and roadmap](docs/project/NADF-Project-Status.md) for cu
 - [GOVERNANCE.md](GOVERNANCE.md): active contributor and decision workflow
 - [NADF-Architecture-Baseline.md](NADF-Architecture-Baseline.md): single active governing training architecture baseline
 - [docs/project/NADF-Project-Status.md](docs/project/NADF-Project-Status.md): active project status and roadmap
-
+- `curriculum/`: courses, modules, labs, assessments, and pilots
+- `assets/`: reusable scenarios, PCAPs, telemetry, detections, and job aids
 - `docs/research/`: research questions, evidence, and syntheses
-- `docs/decisions/`: accepted and proposed architectural decision records (ADRs)
-- `docs/framework/`: approved framework documentation
-- `docs/design-studio/`: dated transfers from the separate Design Studio
-- `curriculum/`: Curriculum Studio implementation artifacts
-- `assets/`: reusable scenarios, TOMs, COMs, PCAPs, telemetry, detections, and job aids
-- `governance/`: decisions, change logs, and quality reviews
+- `docs/decisions/`: architectural decision records, retained as historical records
+- `docs/design-studio/`: dated Design Studio transfers, retained as historical records
 - `templates/`: reusable research and decision templates
 - `.github/`: contribution and review workflows
 
 ## Working method
 
-1. Define a research question before collecting sources.
-2. Record each source in the evidence register with provenance and quality notes.
-3. Separate sourced facts, interpretations, and proposals.
-4. Synthesize evidence against a specific question.
-5. Optionally capture consequential decisions in ADRs when preserving rationale is useful.
-6. Merge framework documentation only after evidence and decision links are reviewable.
+Contributions follow three steps: **draft and propose** a pull request, **practical peer review** for technical accuracy and training value, then **merge and adopt**. No prior authorization or ADR is required to begin drafting. See [Governance](GOVERNANCE.md) and [Contributing](CONTRIBUTING.md).
 
-See [Research protocol](docs/research/PROTOCOL.md), [Contributing](CONTRIBUTING.md), and [Governance](GOVERNANCE.md).
-
-## Design Studio handoff
-
-Design Studio outputs are preserved as historical context. They do not supersede the active training architecture baseline.
+Research is a supporting process rather than the repository's main activity. When a contribution rests on a claim that needs investigation, frame the question first, record sources with provenance and quality notes, keep facts separate from interpretation, and synthesize against the question. See the [research protocol](docs/research/PROTOCOL.md).
 
 ## License
 
