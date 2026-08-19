@@ -28,16 +28,19 @@ Fragmentation was closed without privileges: EDNS0 padding inflates a legitimate
 
 To close the rest, run [`lab/generate-captures.py`](lab/generate-captures.py) somewhere with `NET_ADMIN` and add `tc qdisc netem delay` and `loss` cases on a veth pair. Nothing existing needs redoing — it is additive.
 
-## 4. Close the four cheap design gaps
+## 4. Close the cheap design gaps — in R006's order, not R005's
 
-[R005](docs/research/R005-instructional-design-review.md) reviewed the instructional design against the learning-science literature. Four changes are cheap, address the highest-confidence findings, and add no scoring, levels, or validity claims:
+[R005](docs/research/R005-instructional-design-review.md) reviewed the design; [R006](docs/research/R006-literature-scan.md) scanned the literature it named and **reordered the recommendations**. The revised order:
 
-- **Same task twice.** Lesson 01's Case C at the start and again after the capstone, unaided both times, both kept. Nothing in the current design can detect that a learner improved; two artifacts to compare is the smallest thing that can.
-- **Opening recall prompt** on lessons 03–09 — reconstruct something from an earlier lesson from memory, closed book, before reading on. Practice testing and distributed practice are the only two techniques Dunlosky et al. rated *high* utility, and neither appears anywhere in NADF.
-- **Predict-then-check in every lesson**, as [lesson 06](lessons/06-when-it-breaks.md) already does. It is the only place in nine lessons that generates an error signal before showing the answer.
-- **Paired review** in the run protocol — two reviewers, one work product, independently, then compare. Disagreement is the finding, and it is the cheapest validity evidence available.
+1. **Predict-then-check in every lesson**, as [lesson 06](lessons/06-when-it-breaks.md) already does. It is retrieval practice *with feedback built in* — the learner commits, then the capture tells them whether they were right — which is the condition under which the effect is most reliable, and the only version NADF can deliver without a second person in the room.
+2. **Same task twice.** Lesson 01's Case C at the start and again after the capstone, both kept. Still the only thing that can detect a learner improved.
+3. **Paired review, with the bar set before the trial.** Ask whether two reviewers *notice the same things* — the same weak claim, the same missing alternative — not whether they reach the same verdict. The review guide is deliberately not a rubric, so low verdict agreement would be expected and would prove nothing.
+4. **A second transfer exposure before the capstone.** One exposure at the end is the structural weak point, and it shares a root cause with the LR concentration R005 found.
+5. **Closed-book recall prompts** — demoted. Least reliable for procedural material, and NADF lacks the feedback that makes retrieval work.
 
-Do these after the first run, not before. The run may show none of them is the binding constraint.
+Also watch, rather than change: **lessons 02–04 may be overloading novices with self-explanation.** If learners abandon the self-review sections there but complete them in 01, 08 and 09, cognitive load is the likely cause.
+
+Do these after the first run. The run may show none of them is the binding constraint.
 
 ## 5. Map the capability model against an external role standard
 
