@@ -36,7 +36,7 @@ These change the shape of the remaining lessons and are cheap to settle:
 
 - **Who is the learner?** Currently assumed to be someone with no analysis experience and no tooling background. Working IT staff would compress lessons 02–04 considerably.
 - **Self-guided or instructor-led?** Decides whether feedback comes from a review guide or a person.
-- **How many hours?** Currently drafted at roughly 20–30. Less means cutting lessons, not thinning all of them.
+- ~~**How many hours?**~~ **About 18**, now that all nine are written — 16.5 across lessons 01–08 plus 60–90 minutes for the capstone. If a delivery needs less, cut whole lessons rather than thinning all of them.
 
 ## Not doing
 

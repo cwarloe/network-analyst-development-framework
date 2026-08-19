@@ -12,7 +12,7 @@ Five lessons were blocked on this. It is answered enough to start writing four o
 
 **Verify the source's current terms page immediately before incorporating any file.** Terms change, and this record will go stale. Nothing below is legal advice.
 
-Two licence mechanics drive most of the outcomes:
+Two license mechanics drive most of the outcomes:
 
 - **CC BY-SA material is incompatible with this repository.** Adding the NonCommercial term violates BY-SA's "no additional restrictions" rule. There is no workaround.
 - **Editing a capture is almost certainly an adaptation, not a collection.** Embedding a file unmodified is more likely a collection, with lighter obligations. Trimming, filtering, anonymizing, re-timing, or splicing triggers derivative rules — and NADF will do all of those. Treat every capture NADF touches as an adaptation and require upstream terms that permit modification.
@@ -24,7 +24,7 @@ Two licence mechanics drive most of the outcomes:
 | **CIC datasets** (CIC-IDS2017 and family) | Primary source. Normal-behavior baselines, labeled attacks, mixed traffic | **High** | Citation to the dataset **and** its research paper, in the lesson |
 | **SecRepo** (their own hosted data only) | Supplementary samples | **High** | Attribution (CC BY 4.0) |
 | **Stratosphere IPS / CTU-13** | Suspicious activity — botnet C2, beaconing | **Moderate** | Citation in the maintainers' specified format; confirm per-dataset that the PCAPs are public |
-| **Wireshark wiki samples, tool-distributed PCAPs** | Single-protocol baselines only, file by file | **Low–Moderate** | Only where a permissive licence is actually present. **Default to exclude.** |
+| **Wireshark wiki samples, tool-distributed PCAPs** | Single-protocol baselines only, file by file | **Low–Moderate** | Only where a permissive license is actually present. **Default to exclude.** |
 
 Operative grant, CIC FAQ: *"With any of our datasets, you may redistribute, republish, and mirror our datasets in any form. However, any use or redistribution of the data must include a citation to the dataset and the research paper listed."*
 
@@ -36,8 +36,8 @@ That sentence is what unblocks this project. Redistribution, republication, and 
 |---|---|
 | **MAWI / WIDE** | *"You may use WIDE traffic data for only research purposes."* Research-only defeats public redistribution |
 | **UNSW-NB15** | *"Free use … for academic research purposes … Use for commercial purposes is strictly prohibited."* Academic-only |
-| **CAIDA** | The Public AUA grants a limited, non-transferable licence with an access process and publication reporting. Not an open redistribution licence |
-| **Malware-Traffic-Analysis.net** | No licence grant of any kind. Unknown rights disqualify it, despite the material being excellent |
+| **CAIDA** | The Public AUA grants a limited, non-transferable license with an access process and publication reporting. Not an open redistribution license |
+| **Malware-Traffic-Analysis.net** | No license grant of any kind. Unknown rights disqualify it, despite the material being excellent |
 | **Anything CC BY-SA** | ShareAlike incompatibility, as above |
 | Anything requiring registration, a signed agreement, or marked research/academic use only | Same reason in each case |
 
@@ -65,7 +65,7 @@ Required for lesson 06, and for any modern suspicious pattern not cleanly presen
 
 Conditions: isolated virtual network, synthetic or consented endpoints only, no real user traffic and no credentials, full capture with known ground truth, post-capture anonymization (Crypto-PAn or equivalent, plus payload scrubbing), the generation method documented, and the generation scripts retained. Release only the scrubbed, documented derivative under CC BY-NC-SA 4.0.
 
-Ground truth is the real prize here, not just the licence. A lab-generated failure has a known cause, which is exactly what a troubleshooting lesson needs and what an incidental public capture cannot supply.
+Ground truth is the real prize here, not just the license. A lab-generated failure has a known cause, which is exactly what a troubleshooting lesson needs and what an incidental public capture cannot supply.
 
 ## Before shipping any capture file
 
@@ -79,7 +79,7 @@ Full datasets stay upstream. NADF ships small trimmed excerpts with citations, n
 
 ## Open questions
 
-- Per-file terms for individual Wireshark wiki samples and tool-distributed PCAPs. No central licence statement exists. *Resolution:* inspect each file's origin; exclude when unclear.
+- Per-file terms for individual Wireshark wiki samples and tool-distributed PCAPs. No central license statement exists. *Resolution:* inspect each file's origin; exclude when unclear.
 - Whether the CIC grant appears verbatim on every individual dataset page and covers current releases equally. *Resolution:* check the specific download page before use.
 - Scope of "use" versus "redistribute modified derivatives" for Stratosphere beyond the FAQ. *Resolution:* prefer CIC where either would serve; contact maintainers if Stratosphere becomes load-bearing.
 - Whether any CAIDA dataset carries a more permissive grant than the AUA. *Resolution:* per-dataset catalog review. Low priority — CIC covers the same ground with clearer rights.
@@ -88,4 +88,4 @@ Full datasets stay upstream. NADF ships small trimmed excerpts with citations, n
 
 ## Provenance
 
-External LLM research brief commissioned by the maintainer, 2026-08-19, against a specification requiring cited URLs, quoted operative licence sentences, and explicit Unknown ratings rather than inferred terms. Licence quotations are reproduced above as supplied. **Not independently re-verified against source terms pages** — step 1 of the pre-flight checklist exists for that reason, and confidence ratings here describe the brief's evidence, not confirmation by this project.
+External LLM research brief commissioned by the maintainer, 2026-08-19, against a specification requiring cited URLs, quoted operative license sentences, and explicit Unknown ratings rather than inferred terms. License quotations are reproduced above as supplied. **Not independently re-verified against source terms pages** — step 1 of the pre-flight checklist exists for that reason, and confidence ratings here describe the brief's evidence, not confirmation by this project.

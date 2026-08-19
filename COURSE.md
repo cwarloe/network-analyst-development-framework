@@ -24,7 +24,7 @@ These follow from the baseline and constrain the outline. They are the reason th
 
 Capability IDs reference the [capability model](docs/capability-model.md). Evidence families (EF) reference the [evidence model](docs/evidence-model.md).
 
-| # | Module | Technical spine | Analytical development | Capability IDs | Work product | EF |
+| # | Lesson | Technical spine | Analytical development | Capability IDs | Work product | EF |
 |---|---|---|---|---|---|---|
 | 01 | [What the analyst is for](lessons/01-what-the-analyst-is-for.md) | The decision an analyst serves; where analysis sits in a cyber defense team | Separating observation, interpretation, and judgment as a working habit, applied to one small case | OE-2, IR-1 | One-paragraph assessment of a supplied miniature case | EF-1, EF-2 |
 | 02 | [Reading a conversation](lessons/02-reading-a-conversation.md) | Hosts, services, ports, sessions; layers as a reasoning tool rather than a memorization ladder | Framing a question about an unfamiliar exchange; describing before concluding | OC-1, OC-2, OE-1 | Narrated walkthrough of one capture: who talked to whom, and why | EF-1, EF-2 |
@@ -62,6 +62,17 @@ Put another way: the middle of the course teaches you to read evidence. The caps
 
 If a future version adds a capture, it should be *in addition to* the nine items, replacing the prose in E-03 and E-04 so the learner derives those observations instead of being given them — not as a substitute for the rest. Worth deciding after someone has actually run it, not before.
 
+## Capability coverage
+
+Checked rather than assumed. Of the [capability model](docs/capability-model.md)'s 27 statements:
+
+- **23 are named as targets by lessons 01–08** — every statement in the OC, OE, IR, JU and CT domains.
+- **The four LR statements — learning and model revision — are reached only by the capstone.** Its revision task exercises LR-1 and LR-2, its transfer case LR-3, and its review guide's insistence that a learning need be specific rather than "study all of DNS" is LR-4.
+
+That concentration is worth being explicit about, because it has a consequence: **a learner who stops before the capstone is never asked to revise a model under new evidence.** Lessons 02 through 07 each end in a work product that is written once. Only lesson 09 stages evidence so that a first answer has to be reconsidered.
+
+Whether that is a flaw or the correct design is a real question, and running the course is what answers it. The argument for leaving it: model revision needs something substantial enough to be wrong about, which the smaller lessons do not provide. The argument against: it is the capability most likely to distinguish a good analyst, and it gets one exposure at the very end.
+
 ## Known gaps
 
 Every lesson is authored. Two carry gaps they declare in their own text rather than hiding.
@@ -74,12 +85,12 @@ The larger gap is neither of those. **No lesson has been used by a learner.** Un
 
 ## What this plan does not establish
 
-Per the baseline's Standing Qualifications: no proficiency levels, mastery thresholds, scoring, completion criteria, or assessment validity are defined here. Module work products are evidence for review and feedback, not scored artifacts. The course sequence is a design proposal, not a validated learning progression.
+Per the baseline's Standing Qualifications: no proficiency levels, mastery thresholds, scoring, completion criteria, or assessment validity are defined here. Lesson work products are evidence for review and feedback, not scored artifacts. The course sequence is a design proposal, not a validated learning progression.
 
 ## Open questions
 
-These change the design materially and are worth answering before module authoring begins.
+These were open while the course was being written. Two are still open.
 
 1. **Who is the learner?** The outline assumes no analysis experience and no tooling background. An audience of working IT staff would compress 02–04 substantially and change the entry point.
 2. **How is it delivered?** Self-guided like PILOT-001, or instructor-led with live review? This determines whether feedback is a review guide or a person, which in turn determines whether EF-8 is reachable in lessons before lesson 09.
-3. **What is the time budget?** The outline is roughly 20–30 hours as drafted. A shorter budget means cutting modules rather than thinning all of them.
+3. ~~**What is the time budget?**~~ **Answered by construction: about 18 hours.** Lessons 01–08 state 16.5 hours between them and the capstone adds 60–90 minutes. If a delivery needs less, the honest move is cutting whole lessons rather than thinning all of them — though note that 02 through 07 each depend on the one before.

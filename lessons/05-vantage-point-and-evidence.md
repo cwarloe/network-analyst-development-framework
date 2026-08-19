@@ -17,7 +17,7 @@
 
 Those are different claims. The first closes an investigation. The second describes a search.
 
-By now you can interpret evidence in front of you. This module is about the step before that: deciding what evidence to go and get, in what order, and — the part that separates an analyst from a tool operator — knowing in advance what each source will not be able to tell you, so that its silence gets the weight it deserves and not more.
+By now you can interpret evidence in front of you. This lesson is about the step before that: deciding what evidence to go and get, in what order, and — the part that separates an analyst from a tool operator — knowing in advance what each source will not be able to tell you, so that its silence gets the weight it deserves and not more.
 
 ## Sources answer different questions
 
@@ -124,6 +124,6 @@ Three things the case is specifically testing — make your handling of each vis
 
 ## What this lesson does not do
 
-It does not teach evidence *collection*. Configuring a sensor, choosing a capture filter under load, discovering that your tap sees one direction of a conversation, or finding out that a retention policy is not what the documentation claims — those are lab experiences, and this module does not provide them. It develops the reasoning that decides what to collect and how to weigh what comes back; a lab exercise remains worth building on top of it.
+It does not teach evidence *collection*. Configuring a sensor, choosing a capture filter under load, discovering that your tap sees one direction of a conversation, or finding out that a retention policy is not what the documentation claims — those are lab experiences, and this lesson does not provide them. It develops the reasoning that decides what to collect and how to weigh what comes back; a lab exercise remains worth building on top of it.
 
 It also does not establish proficiency, scoring, or completion. One evidence plan for one supplied environment is a single sample.

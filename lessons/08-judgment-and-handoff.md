@@ -9,7 +9,7 @@
 - **Evidence families:** EF-6, EF-7
 - **Time:** about 2 hours
 - **Requires:** nothing. The analysis is supplied. No capture data or tooling.
-- **Assumes:** lessons 01 through 07. This module adds no new technical subject matter; it is where the reasoning becomes something another person can use.
+- **Assumes:** lessons 01 through 07. This lesson adds no new technical subject matter; it is where the reasoning becomes something another person can use.
 
 ## Why this lesson exists
 
@@ -28,7 +28,7 @@ Two failures, equally bad:
 - **Overclaiming.** "This is a compromised host." Someone re-images a machine, a team loses a day, and if you were wrong the real cause is still running.
 - **Underclaiming.** "There is insufficient evidence to determine anything." Often technically true and operationally useless. You almost always know *something* — which explanation is currently leading, and what would settle it. Refusing to say so is not caution, it is passing the decision to someone with less context than you.
 
-Between them: *"Most likely X, because of A and B. Y remains possible and is not ruled out because we lack C. If C shows D, that changes the answer."* That sentence is the deliverable of this module.
+Between them: *"Most likely X, because of A and B. Y remains possible and is not ruled out because we lack C. If C shows D, that changes the answer."* That sentence is the deliverable of this lesson.
 
 ## Confidence with a basis
 
