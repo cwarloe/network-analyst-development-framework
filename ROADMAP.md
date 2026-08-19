@@ -53,7 +53,7 @@ Done — [R007](docs/research/R007-nice-role-mapping.md) mapped the capability m
 - **Name the excluded clusters in the Standing Qualifications.** Signature work, malware handling and incident resolution are deliberate exclusions. Vulnerability management and security-control evaluation — about a fifth of the role — are undeclared ones. Partly done; the boundary decisions themselves are still open.
 - **Decide about longitudinal work.** The role includes trend analysis, posture reporting and continuous monitoring. Every lesson here is a single moment. [R005](docs/research/R005-instructional-design-review.md) reached the same gap from the instructional side, which is the strongest signal in either record. A trend or comparison element inside an existing lesson would test whether it matters, without a tenth lesson.
 - **Revisit the basis labels** on LR-1 to LR-4 and JU-2/JU-4. No external role standard asserts them, so RS/AJ may be generous.
-- **Verify against NIST's own file.** The mapping used a community mirror because `nist.gov`, `niccs.cisa.gov` and `catalog.data.gov` are unreachable from the build environment. Anyone with normal internet access can confirm it in minutes.
+- ~~**Verify against NIST's own file.**~~ **Done.** The official v2.2.0 workbook matched the community mirror exactly for this role — 206 statements, identical IDs, one cosmetic wording difference. None of PD-WRL-001's statements changed in v2.2.0, which is why a mirror of uncertain vintage matched. The workbook is committed at [`docs/research/data/`](docs/research/data/).
 
 ## 6. Answer two remaining design questions
 

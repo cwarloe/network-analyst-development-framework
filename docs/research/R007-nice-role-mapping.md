@@ -1,32 +1,34 @@
 # R007 — NADF's capability model against the NICE Defensive Cybersecurity role
 
-**Status:** assessed · **Date:** 2026-08-19 · **Confidence:** Moderate, see provenance
+**Status:** assessed · **Date:** 2026-08-19 · **Confidence:** High on the source data, Moderate on the mapping judgment
 
 The [Standing Qualifications](../architecture.md) have said since the beginning that *no external role standard has confirmed the capability model's completeness*. This checks it.
 
-## Where the data came from, and why that matters
+## Where the data came from
 
-NIST's own distribution was unreachable: `nist.gov`, `niccs.cisa.gov`, `catalog.data.gov` and `nvlpubs.nist.gov` are all blocked by this environment's egress policy. The data used here was extracted from the seed files of [`risk-redux/performatron`](https://github.com/risk-redux/performatron), a community Rails application that carries the framework as database seeds.
+**Verified against NIST's official file, 2026-08-19.** The workbook is committed at [`data/NICE_Framework_Components_v2.2.0.xlsx`](data/NICE_Framework_Components_v2.2.0.xlsx) so this mapping stays reproducible. NICE Framework content is US Government work.
 
-It is the **current** framework structure — the five categories are Oversight and Governance, Design and Development, Implementation and Operation, Protection and Defense, and Investigation, which is the v2.x arrangement rather than the older Securely Provision / Operate and Maintain layout. The repository was last updated 2026-08-13. It contains 946 Task, 662 Knowledge and 540 Skill statements with full text, plus role mappings.
+The mapping was originally built from a community mirror, because `nist.gov`, `niccs.cisa.gov`, `catalog.data.gov` and `nvlpubs.nist.gov` are all unreachable from the build environment. That provenance gap is now closed, and the check was worth running:
 
-**This is third-hand data and must be verified against NIST's own file before any claim rests on it.** The framework content is US Government work and not itself in question; what is unverified is whether this community copy is complete and current. Everything below is therefore *directional* — good enough to find holes, not good enough to certify coverage.
+| | Official v2.2.0 | Community mirror |
+|---|---|---|
+| Statements for PD-WRL-001 | 206 | 206 |
+| Tasks / Knowledge / Skills | 43 / 125 / 38 | 43 / 125 / 38 |
+| IDs present in one but not the other | **none** | **none** |
+| Text differences | **1**, cosmetic — `K0844` reads "cyber attack" officially and "cyberattack" in the mirror | |
 
-Reproduce the extraction:
+The version question that prompted the check also resolved. v2.2.0 (April 2026) flags 70 statements as new across the framework, and **none of them belong to PD-WRL-001** — this role was untouched by that release, which is why a mirror of uncertain vintage matched it exactly.
+
+Reproduce the extraction from the official workbook:
 
 ```python
-# in risk-redux/performatron/db/seeds/
-import re, collections
-tks  = open('3_tks_seeds.rb').read()
-maps = open('4_mappings.rb').read()
-lut  = dict(re.findall(r'Nice(?:Knowledge|Skill|Task)\.create\('
-                       r'\w+_code: "([^"]+)", description: "((?:[^"\\]|\\.)*)"\)', tks))
-role = collections.defaultdict(list)
-for kind, r, code in re.finditer(
-        r'Nice(Knowledge|Skill|Task)Mapping\.create\(nice_work_role_id: '
-        r'NiceWorkRole\.find_by\(work_role_code: "([^"]+)"\)\.id, '
-        r'nice_\w+_id: Nice\w+\.find_by\(\w+_code: "([^"]+)"\)', maps):
-    if r == "PD-WRL-001": role[kind].append((code, lut.get(code)))
+import openpyxl, re
+ws = openpyxl.load_workbook("data/NICE_Framework_Components_v2.2.0.xlsx",
+                            read_only=True, data_only=True)["PD-WRL-001"]
+statements = {c[0]: c[1] for c in
+              ([("" if x is None else str(x).strip()) for x in row]
+               for row in ws.iter_rows(values_only=True))
+              if re.fullmatch(r"[TKS]\d{4}", c[0])}
 ```
 
 ## The role
@@ -110,10 +112,10 @@ The capability model already labels statements RS, AJ, or RS/AJ for exactly this
 1. **Name the excluded clusters in the Standing Qualifications.** Signature work, malware handling and incident resolution are deliberate exclusions; vulnerability management and control evaluation are undeclared ones. Both kinds should be visible. Cheap, and it converts a silent gap into a stated boundary.
 2. **Treat the longitudinal gap as real.** It is corroborated from two directions and it is not a scope preference — the role includes work across time and the course contains none. This does not require a tenth lesson; a trend or comparison element inside an existing lesson would test whether it matters.
 3. **Revisit the basis labels on LR-1 to LR-4 and JU-2/JU-4.** If no external role standard asserts them, RS/AJ may be generous.
-4. **Verify against NIST's own file before any of this is load-bearing.** The provenance caveat at the top is not boilerplate.
+4. ~~**Verify against NIST's own file.**~~ **Done** — the official v2.2.0 workbook matched the mirror exactly for this role and is committed alongside this record.
 
 ## What this does not establish
 
-One role, one community-sourced copy, one reviewer's judgment about what corresponds. Mapping capability statements to task statements is interpretive — reasonable people would sort several of these differently, and no inter-rater check was done on the mapping itself, which is precisely the weakness [R006](R006-literature-scan.md) raised about NADF's own review instruments.
+One role, one reviewer's judgment about what corresponds. The source data is now verified; the *mapping* is not. Mapping capability statements to task statements is interpretive — reasonable people would sort several of these differently, and no inter-rater check was done on the mapping itself, which is precisely the weakness [R006](R006-literature-scan.md) raised about NADF's own review instruments.
 
 It also does not establish that matching NICE is the goal. A framework that covered all 81 statements and taught none of them well would be worse than this one.
