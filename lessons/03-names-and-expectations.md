@@ -8,7 +8,7 @@
 - **Capability targets:** OC-3, OE-1
 - **Evidence families:** EF-2, EF-3
 - **Time:** about 2 hours
-- **Requires:** [`assets/pcaps/03-dns.pcap`](../assets/pcaps/03-dns.pcap) and Wireshark or `tshark`.
+- **Requires:** [`assets/pcaps/03-dns.pcap`](../assets/pcaps/03-dns.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lesson 02](02-reading-a-conversation.md). You can narrate a conversation from a capture.
 
 ## Why this lesson exists
@@ -29,6 +29,38 @@ Sixteen frames, eight query/response pairs. Start with the whole picture:
 tshark -r assets/pcaps/03-dns.pcap -T fields -e frame.number -e dns.flags.response \
        -e dns.qry.name -e dns.qry.type -e dns.resp.ttl -e dns.cname -e dns.a
 ```
+
+## What Security Onion would show you
+
+Same workflow as lesson 02: the log first, the packets second.
+
+```
+zeek -C -r assets/pcaps/03-dns.pcap
+```
+
+`dns.log`, trimmed to `query`, `qtype_name`, `rcode_name`, `answers` and `TTLs`:
+
+```
+www.github.com                       A     NOERROR   github.com,140.82.113.3                        3600, 60
+en.wikipedia.org                     A     NOERROR   dyna.wikimedia.org,208.80.153.224              11342, 180
+www.example.com                      A     NOERROR   104.20.23.154,172.66.147.243                   300, 300
+www.example.com                      AAAA  NOERROR   2606:4700:10::6814:179a,2606:4700:10::ac42:93f3  300, 300
+outlook.office365.com                A     NOERROR   outlook.cloud.microsoft,
+                                                     acdcatm.outlook.mira.tm.svc.cloud.microsoft,
+                                                     outlook.ms-acdc.office.com,
+                                                     mdw-efz.ms-acdc.office.com,
+                                                     52.96.164.146, 52.96.79.50,
+                                                     52.96.164.130, 52.96.79.146                    289, 286, 60, 58, 8, 8, 8, 8
+nonexistent-host-fbc19.example.com   A     NOERROR   -                                              -
+www.github.com                       A     NOERROR   github.com,140.82.112.4                        1277, 60
+en.wikipedia.org                     A     NOERROR   dyna.wikimedia.org,208.80.153.224              15928, 180
+```
+
+Before going further, notice what the `rcode_name` column does across those eight rows. **Every one says NOERROR** — including the row with no answers at all.
+
+A Kibana search for successful lookups, written the obvious way as `rcode_name: NOERROR`, returns eight of eight here. Seven of them resolved. One did not. The field an analyst instinctively reaches for does not distinguish them, and the field that does — `answers` — is the one that gets left out of the dashboard because it is wide and ugly.
+
+Hold that. It comes back later in the lesson with the packets behind it.
 
 ## A name is not an address
 

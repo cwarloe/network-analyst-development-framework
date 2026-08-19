@@ -8,7 +8,7 @@
 - **Capability targets:** OC-1, OC-2, OE-1
 - **Evidence families:** EF-1, EF-2
 - **Time:** about 2 hours
-- **Requires:** [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap) and Wireshark, or `tshark` at a terminal. Everything else is in this file.
+- **Requires:** [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text. Everything else is in this file.
 - **Assumes:** [Lesson 01](01-what-the-analyst-is-for.md). You can separate what you saw from what you concluded.
 
 ## Why this lesson exists
@@ -27,12 +27,18 @@ It is checked two ways before it ships: Wireshark must dissect it cleanly, and Z
 
 ## Start where you would actually start
 
-In a Security Onion deployment you do not open Wireshark first. You start in Hunt or Kibana, looking at what Zeek already made of the traffic. Zeek's `conn.log` is the index of every conversation it saw:
+In a Security Onion deployment you do not open Wireshark first. You start in Hunt or Kibana, looking at what Zeek already made of the traffic. Run Zeek over the file yourself and you get the same logs Security Onion would index:
 
 ```
-ts                   uid                id.orig_h    id.orig_p  id.resp_h       id.resp_p  proto  service  duration    orig_bytes  resp_bytes  conn_state
-1755589200.000000    CHhAvVGS1DHFjwGM9  192.0.2.10   42876      198.51.100.20   80         tcp    http     0.000688    151         207         SF
-1755589200.401037    ClEkJM2Vm5giqnMf4h 192.0.2.10   42886      198.51.100.20   80         tcp    http     0.000554    149         144         SF
+zeek -C -r assets/pcaps/02-conversation.pcap
+```
+
+`conn.log` is the index of every conversation Zeek saw. Trimmed to the columns that matter here:
+
+```
+ts                 uid                  id.orig_h   id.orig_p  id.resp_h      id.resp_p  proto  service  duration  orig_bytes  resp_bytes  conn_state
+1787116835.000541  CwlV971jSsZWObrEKd   192.0.2.10  42876      198.51.100.20  80         tcp    http     0.004038  151         207         SF
+1787116835.404821  Cd2hCo1PXGfUinZyj2   192.0.2.10  42886      198.51.100.20  80         tcp    http     0.000184  149         144         SF
 ```
 
 Two conversations. Same client, same server, same service. Read the columns you will use for the rest of your career:
@@ -41,8 +47,24 @@ Two conversations. Same client, same server, same service. Read the columns you 
 - **`id.resp_h` / `id.resp_p`** — who was contacted, on which service port.
 - **`conn_state: SF`** — normal establishment and normal teardown. Both sides said hello and both said goodbye.
 - **`orig_bytes` / `resp_bytes`** — 151 out, 207 back; then 149 out, 144 back.
+- **`uid`** — the identifier that ties this row to every other log Zeek wrote about the same conversation. It is how you pivot.
 
-Already there is something worth noticing, and it is worth stopping on before you read any further: **the second conversation got a smaller response than the first.** That is an observation. It is not yet anything else.
+Follow that `uid` into `http.log`:
+
+```
+uid                  method  host                             uri                     request_body_len  response_body_len  status_code  status_msg
+CwlV971jSsZWObrEKd   GET     files.contoso-internal.example   /api/v2/export?page=1   0                 90                 200          OK
+Cd2hCo1PXGfUinZyj2   GET     files.contoso-internal.example   /api/v2/admin/users     0                 44                 403          Forbidden
+```
+
+Now look at the two logs side by side, because the whole lesson is sitting in that comparison:
+
+```
+conn.log   conn_state:  SF     SF          <- both conversations completed normally
+http.log   status_code: 200    403         <- one request succeeded, one was refused
+```
+
+**Zeek is telling you two different things about the same second conversation, and both are true.** That is not a contradiction to resolve. It is two layers reporting on their own business, and the rest of this lesson is about learning to keep them apart.
 
 ## The shape of a conversation
 
@@ -114,9 +136,9 @@ Write **half a page** that answers all of the following. Every answer is checkab
 
 1. **Narrate the conversation** the way the first one was narrated above: one sentence, no judgment, naming who asked what of whom and what came back.
 2. **Is this the same conversation as the first one, continued?** Justify your answer by pointing at a specific field.
-3. **Did the TCP connection succeed?** Did the request succeed? These are two questions. Answer them separately and say which evidence answers which.
+3. **You already know from `http.log` that this request was refused.** Prove it from the packets alone — name the frame and the bytes. Then answer, separately: did the TCP connection succeed? Say which specific evidence answers which question, and why one cannot substitute for the other.
 4. **Who closed the connection, and does it differ from the first conversation?**
-5. **The response was 144 bytes against the first response's 207.** Give at least two different explanations for a smaller response, and say what in the capture distinguishes them.
+5. **The response was 144 bytes against the first response's 207.** Before looking, write down at least two explanations a smaller response could have. Then look, and say which one it was and what distinguished it. The point is the habit of generating alternatives before checking, not the answer.
 6. **What did the client do differently between the two conversations?** There is more than one answer.
 7. **What can you not determine from this capture?** Name at least three things. Be specific — "I don't know everything" is not an answer, but "I cannot tell whether this client is authorised to make this request, because authorisation state lives on the server and is not on the wire" is.
 
@@ -126,7 +148,7 @@ Question 3 is the lesson.
 
 The second conversation completes perfectly. Handshake, request, response, clean teardown, `conn_state: SF` in Zeek's log — by every measure at the transport layer, it worked. And the application said **403 Forbidden**.
 
-Both statements are true, at different layers, and an analyst who collapses them into one verdict will be wrong in one direction or the other:
+Both statements are true, at different layers. An analyst who collapses them into one verdict will be wrong in one direction or the other:
 
 - Read only the Zeek `conn_state`, and you report a successful connection to a service. True, and it hides that access was refused.
 - Read only the HTTP status, and you report a failure. True, and it hides that the network delivered everything correctly and the refusal was a deliberate decision by the application.

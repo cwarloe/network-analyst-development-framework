@@ -38,7 +38,9 @@ sudo python3 lab/generate-captures.py assets/pcaps
 python3 lab/validate-captures.py assets/pcaps
 ```
 
-Requirements: `tcpdump`, `openssl`, `python3`, and — for the check that counts — `zeek`. `tshark` for the Wireshark half.
+Requirements: `tcpdump`, `openssl`, `python3`, `tshark`, and — for the check that counts — `zeek`.
+
+The validator looks for `zeek` on `PATH` and then at `/opt/zeek-install/bin/zeek`. If Zeek is missing it says so and fails, rather than passing quietly on the Wireshark half alone. A green Wireshark check with no Zeek check is not a pass.
 
 The generator produces DNS by querying `1.1.1.1` live, so lesson 03's capture differs slightly every run: different addresses, different TTLs, different cache nodes answering. That is a feature. The lesson is about what varies legitimately, and a regenerated capture demonstrates the point rather than describing it. If you regenerate it, the specific values quoted in [lesson 03](../lessons/03-names-and-expectations.md) will no longer match, and the lesson text needs updating to whatever the internet said that day.
 
