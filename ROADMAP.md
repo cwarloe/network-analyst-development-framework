@@ -10,17 +10,24 @@ Four of nine lessons are written. Here's what's actually in the way, in order.
 
 Everything else on this list is guesswork until this happens once.
 
-## 2. Settle where the packet captures come from
+## 2. Write lessons 02, 03, 04, and 07
 
-Five lessons — 02, 03, 04, 06, 07 — are blocked on this and cannot be written without it.
+**Unblocked.** [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) settled the capture-licensing question: the CIC datasets grant redistribution, republication, and modification, conditional on citing the dataset and its paper. SecRepo (CC BY 4.0) and Stratosphere/CTU-13 are also usable. MAWI, UNSW-NB15, CAIDA, and Malware-Traffic-Analysis.net are excluded — research-only, academic-only, restricted-licence, and no-licence respectively.
 
-The problem is that authentic capture data and redistributable capture data are frequently not the same data. This repository is published under CC BY-NC-SA 4.0, which constrains what can be embedded in it. The question to answer: which public capture corpora can lawfully ship inside published training material, and what has to be generated in a lab instead.
+- **02 — Reading a conversation**, **03 — Names and expectations**, **04 — What encryption hides**: CIC benign traffic
+- **07 — When it's suspicious**: CIC attack days, plus Stratosphere/CTU-13 where a specific pattern needs it
 
-An AI research prompt for this exists and is being run separately. When the answer lands, captures go in `assets/pcaps/` and `assets/telemetry/`.
+Before shipping any capture file, run the pre-flight checklist in R004. Ship small trimmed excerpts with citations; full datasets stay upstream.
 
-## 3. Write the remaining lessons
+## 3. Build a lab for lesson 06
 
-02, 03, 04, 06, 07 in that order, gated on item 2. See [COURSE.md](COURSE.md) for what each one covers.
+**Lesson 06 — When it breaks — is the one thing the research did not unblock,** and it turned out to be the more interesting finding. No public corpus cleanly isolates documented network failures: induced latency, packet loss, MTU and fragmentation problems, policy drops. They exist in public captures only incidentally, unlabeled, mixed into everything else.
+
+So lesson 06 needs a lab: an isolated virtual network, deliberately broken in known ways, captured with ground truth, then scrubbed and documented per R004.
+
+Worth stating plainly, because it explains a pattern in the wider field: **threat data is abundant and free, failure data has to be manufactured.** That is probably why so much network security training skips straight to the threat. This course commits to the opposite order — troubleshooting before threat, because a misread firewall change and a covert channel look alike to someone taught only to hunt covert channels — and that commitment now has a real cost attached to it.
+
+Lesson 06 is the last thing to be built, and it should not be quietly dropped when that becomes inconvenient.
 
 ## 4. Answer three design questions
 

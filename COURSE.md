@@ -54,11 +54,13 @@ Lesson 05 was originally scoped here as lab-gated. That was wrong, and the corre
 
 ## What blocks the rest
 
-Authoring is gated on capture data for 02, 03, 04, 06, and 07. Four of the nine — 01, 05, 08, and the 09 capstone — are not.
+[R004](docs/research/R004-pcap-and-telemetry-sourcing.md) settled which capture data this project may publish. Lessons 02, 03, 04, and 07 are cleared to be written against CIC datasets (redistribution and modification permitted, citation required), with SecRepo and Stratosphere/CTU-13 available as secondary sources.
 
-This is the roadmap's open PCAP and telemetry sourcing question, and it is on the critical path for the remaining five: authentic capture data and redistributable capture data are frequently not the same data, and the answer changes what those modules can be built from.
+**Lesson 06 is the exception and remains blocked on a lab.** No public corpus isolates documented network failures — induced latency, loss, MTU and fragmentation, policy drops — with the ground truth a troubleshooting lesson needs. It has to be generated.
 
-A lab environment is not required to author any lesson, but it would extend lesson 05 with collection practice and lesson 06 with reproducible failure conditions.
+That is an awkward result for this plan, since lesson 06 is what makes lesson 07 honest. The order stands; lesson 06 simply costs more than the lessons around it, and should not be dropped for that reason.
+
+A lab would also extend lesson 05 with collection practice, which remains a useful addition rather than a precondition.
 
 ## What this plan does not establish
 
