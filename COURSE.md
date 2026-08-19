@@ -77,7 +77,7 @@ Whether that is a flaw or the correct design is a real question, and running the
 
 Every lesson is authored. Two carry gaps they declare in their own text rather than hiding.
 
-**Lesson 06** teaches four failure signatures — refused, dropped, reset mid-transfer, and slow-but-correct — which cover the discriminations that matter most, including the one that keeps getting misattributed to the network. It does not cover packet loss, latency, or MTU and fragmentation, because generating those needs traffic impairment (`netem`) the [capture lab](lab/README.md) cannot currently produce.
+**Lesson 06** teaches five failure signatures — refused, dropped, reset mid-transfer, slow-but-correct, and fragment loss. The fifth is the one worth having: it is the only fault in the course that leaves *no trace shaped like a fault*, and it is the mechanic behind the capstone's transfer case. Packet loss and induced latency are still missing, because generating those needs traffic impairment (`netem`) the [capture lab](lab/README.md) cannot produce without privileges.
 
 **Lesson 07** uses lab-generated shapes, not real adversary traffic. The reasoning transfers; the specifics do not. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC and Stratosphere/CTU-13 for exactly this, and reworking the lesson against captured intrusion traffic is the intended next step. Anything downloaded still has to clear the [validation gate](lab/validate-captures.py).
 

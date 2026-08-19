@@ -503,7 +503,12 @@ def fix_checksums(path):
             proto = pkt[o + 9]
             pkt[o + 10:o + 12] = b"\x00\x00"
             pkt[o + 10:o + 12] = struct.pack(">H", cksum(bytes(pkt[o:o + ihl])))
-            if proto in (6, 17):
+            # A transport checksum covers the whole datagram, so it is only
+            # meaningful on a packet that is not a fragment. Touching the bytes
+            # at the transport offset of a fragment corrupts payload.
+            ff = struct.unpack(">H", pkt[o + 6:o + 8])[0]
+            fragmented = (ff & 0x2000) or (ff & 0x1FFF)
+            if proto in (6, 17) and not fragmented:
                 seglen = struct.unpack(">H", pkt[o + 2:o + 4])[0] - ihl
                 coff = t + (16 if proto == 6 else 6)
                 pkt[coff:coff + 2] = b"\x00\x00"
@@ -513,6 +518,40 @@ def fix_checksums(path):
                 pkt[coff:coff + 2] = struct.pack(">H", c or 0xFFFF)
         out.append(struct.pack("<IIII", ts, tus, len(pkt), ol) + bytes(pkt))
     open(path, "wb").write(b"".join(out))
+
+
+def gen_fragmentation():
+    """A DNS query too large for the path MTU, fragmented by the real stack.
+
+    EDNS0 padding (option 12) inflates a legitimate query past the interface
+    MTU, so the kernel fragments it on the way out. Nothing is crafted -- the
+    stack does the splitting, and the capture records what left the interface.
+    """
+    out = os.path.join(OUT, "06-fragmentation.pcap")
+    # filter on host, NOT port: a port filter cannot match non-initial
+    # fragments, because they carry no UDP header. That is the lesson.
+    cap = capture("eth0", "host 1.1.1.1", out)
+
+    name = "www.example.com"
+    labels = b"".join(bytes([len(l)]) + l.encode() for l in name.split(".")) + b"\x00"
+    pad = 2400
+    rdata = struct.pack(">HH", 12, pad) + b"\x00" * pad          # EDNS0 Padding
+    opt = b"\x00" + struct.pack(">HHIH", 41, 4096, 0, len(rdata)) + rdata
+    pkt = struct.pack(">HHHHHH", random.randint(0, 0xFFFF), 0x0100, 1, 0, 0, 1) \
+        + labels + struct.pack(">HH", 1, 1) + opt
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.settimeout(4)
+    s.sendto(pkt, ("1.1.1.1", 53))
+    try:
+        s.recvfrom(65535)
+    except Exception:
+        print(f"  query {len(pkt)}B fragmented; no reply (expected)")
+    s.close()
+
+    stop(cap)
+    fix_checksums(out)
+    print("frag ->", out)
 
 
 # -------------------------------------------------------------- anonymize ---
@@ -573,4 +612,5 @@ if __name__ == "__main__":
     gen_tls()
     gen_failures()
     gen_suspicious()
+    gen_fragmentation()
     print("\ndone ->", OUT)
