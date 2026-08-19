@@ -24,7 +24,7 @@ RESOLVER = "1.1.1.1"
 
 # ---------------------------------------------------------------- capture ---
 def capture(iface, bpf, path):
-    p = subprocess.Popen(["tcpdump", "-i", iface, "-w", path, "-s", "0", bpf],
+    p = subprocess.Popen(["tcpdump", "-i", iface, "-U", "-w", path, "-s", "0", bpf],
                          stderr=subprocess.DEVNULL)
     time.sleep(2)
     return p
@@ -32,11 +32,11 @@ def capture(iface, bpf, path):
 
 def stop(p):
     time.sleep(2)
-    p.terminate()
+    p.send_signal(2)      # SIGINT, so tcpdump flushes what it is holding
     p.wait()
 
 
-def client_socket(dest_port, src_port):
+def client_socket(dest_port, src_port, timeout=5):
     """Connect from a fixed source port so regenerated captures are stable.
 
     Ephemeral ports would otherwise change every run, and the lessons quote
@@ -45,7 +45,7 @@ def client_socket(dest_port, src_port):
     s = socket.socket()
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(("127.0.0.1", src_port))
-    s.settimeout(5)
+    s.settimeout(timeout)
     s.connect(("127.0.0.1", dest_port))
     return s
 
@@ -198,6 +198,132 @@ def gen_tls():
     print("tls  ->", out)
 
 
+# --------------------------------------------------------------- failures ---
+def failure_servers():
+    """Three servers, each broken in a different, deliberate way."""
+    # 8100: accepts nothing. Its backlog is filled below so the kernel
+    #       silently drops further SYNs -- what a firewall DROP looks like.
+    drop = socket.socket()
+    drop.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    drop.bind(("127.0.0.1", 8100))
+    drop.listen(1)
+
+    # 8102: answers, then resets the connection mid-response.
+    def resetter():
+        s = socket.socket()
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.bind(("127.0.0.1", 8102))
+        s.listen(5)
+        while True:
+            try:
+                c, _ = s.accept()
+                c.recv(1024)
+                c.sendall(b"HTTP/1.1 200 OK\r\nContent-Length: 5000\r\n\r\n" + b"A" * 400)
+                c.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER,
+                             struct.pack("ii", 1, 0))     # linger 0 -> RST on close
+                c.close()
+            except Exception:
+                pass
+
+    # 8103: correct, just slow. Nothing is wrong with the network.
+    def slow():
+        s = socket.socket()
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.bind(("127.0.0.1", 8103))
+        s.listen(5)
+        while True:
+            try:
+                c, _ = s.accept()
+                c.recv(1024)
+                time.sleep(4)
+                body = b'{"report":"finance-export","rows":1284}'
+                c.sendall(b"HTTP/1.1 200 OK\r\nServer: nginx/1.24.0\r\n"
+                          b"Content-Type: application/json\r\nContent-Length: "
+                          + str(len(body)).encode() + b"\r\n\r\n" + body)
+                c.close()
+            except Exception:
+                pass
+
+    threading.Thread(target=resetter, daemon=True).start()
+    threading.Thread(target=slow, daemon=True).start()
+    return drop
+
+
+def gen_failures():
+    """Four ways the same user complaint -- 'it doesn't work' -- can arise."""
+    drop_srv = failure_servers()
+    time.sleep(1)
+
+    # fill 8100's accept queue so its SYNs go unanswered
+    backlog = []
+    for _ in range(12):
+        try:
+            s = socket.socket()
+            s.settimeout(1)
+            s.connect(("127.0.0.1", 8100))
+            backlog.append(s)
+        except Exception:
+            break
+
+    raw = os.path.join(TMP, "fail.pcap")
+    # only the four deliberate client ports -- the sockets used to fill 8100's
+    # backlog keep retransmitting and would otherwise contaminate the capture
+    cap = capture("lo", "tcp portrange 41000-41003", raw)
+
+    # 1. refused -- nothing is listening on 8101
+    s = socket.socket(); s.settimeout(5)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind(("127.0.0.1", 41001))
+    try:
+        s.connect(("127.0.0.1", 8101))
+    except Exception as e:
+        print(f"  refused : {type(e).__name__}")
+    s.close()
+    time.sleep(1)
+
+    # 2. reset mid-transfer
+    try:
+        s = client_socket(8102, 41002)
+        s.sendall(b"GET /report/full HTTP/1.1\r\nHost: files.contoso-internal.example\r\n\r\n")
+        while s.recv(4096):
+            pass
+    except Exception as e:
+        print(f"  reset   : {type(e).__name__}")
+    time.sleep(1)
+
+    # 3. slow but correct
+    t0 = time.time()
+    s = client_socket(8103, 41003, timeout=20)
+    s.sendall(b"GET /api/v2/export?page=1 HTTP/1.1\r\nHost: files.contoso-internal.example\r\n"
+              b"Connection: close\r\n\r\n")
+    while s.recv(4096):
+        pass
+    s.close()
+    print(f"  slow    : completed in {time.time() - t0:.1f}s")
+
+    # 4. dropped -- SYNs into a full accept queue, retransmitted, never answered
+    s = socket.socket(); s.settimeout(14)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind(("127.0.0.1", 41000))
+    t0 = time.time()
+    try:
+        s.connect(("127.0.0.1", 8100))
+    except Exception as e:
+        print(f"  dropped : {type(e).__name__} after {time.time() - t0:.1f}s")
+    s.close()
+
+    stop(cap)
+    for b in backlog:
+        b.close()
+    drop_srv.close()
+    out = os.path.join(OUT, "06-failures.pcap")
+    # plain HTTP, so port 80 -- mapping these to 443 makes Zeek try the SSL
+    # analyzer and log a protocol violation that is an artefact, not a finding
+    anonymize(raw, out, {8100: 80, 8101: 80, 8102: 80, 8103: 80},
+              {8100: SERVER_A, 8101: SERVER_B, 8102: "198.51.100.40", 8103: "198.51.100.50"})
+    print("fail ->", out)
+
+
 # -------------------------------------------------------------- anonymize ---
 def cksum(data):
     if len(data) % 2:
@@ -253,4 +379,5 @@ if __name__ == "__main__":
     gen_dns()
     gen_http()
     gen_tls()
+    gen_failures()
     print("\ndone ->", OUT)
