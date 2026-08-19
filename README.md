@@ -32,7 +32,7 @@ Two lessons declare known gaps rather than papering over them. **06** covers ref
 
 Every lesson ends in a work product — a written assessment, a plan, a handoff — not a quiz. There are no scores, levels, or pass marks anywhere in this repository, deliberately: nothing here has been validated well enough to grade anyone.
 
-If you run a lesson with someone, please write down what happened in the capstone's [run records](lessons/09-capstone-encrypted-outbound-traffic/run-records.md). No lesson here has yet been used by anyone other than its author, which is the single biggest gap in the project.
+**No lesson here has been used by anyone other than its author.** That is the single biggest gap in the project — bigger than any missing content. If you run one with someone, [`lessons/run-records.md`](lessons/run-records.md) covers which lesson to pick, how to sit in the room without wrecking the data, and what to write down.
 
 ## The rest of the repository
 

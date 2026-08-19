@@ -40,7 +40,7 @@ Capability IDs reference the [capability model](docs/capability-model.md). Evide
 
 Lesson 09 does not need to be authored from scratch. [PILOT-001 — Encrypted outbound traffic](lessons/09-capstone-encrypted-outbound-traffic/README.md) is already built as a full-chain performance experience with a staged evidence release, a revision task, a transfer case, and a review guide. It is the natural capstone.
 
-This has a useful consequence for sequencing: running the pilot now, before 01–08 exist, tests the course's endpoint first. Whatever the pilot's [run records](lessons/09-capstone-encrypted-outbound-traffic/run-records.md) expose about the capability and evidence models will be cheaper to fix now than after eight lessons are written against them.
+Whatever a run exposes about the capability and evidence models is cheaper to fix than to leave standing under nine lessons. See [run records](lessons/run-records.md).
 
 The pilot's DNS fragmentation transfer case also belongs to lesson 06's subject matter and can seed that lesson's worked example.
 
