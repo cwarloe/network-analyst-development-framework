@@ -1,6 +1,6 @@
 # Roadmap
 
-Eight of nine lessons are written. Here's what's actually in the way, in order.
+All nine lessons are written. What matters now is whether they work.
 
 ## 1. Run a lesson with a real person
 
@@ -10,11 +10,11 @@ Eight of nine lessons are written. Here's what's actually in the way, in order.
 
 Everything else on this list is guesswork until this happens once.
 
-## 2. Write lesson 07
+## 2. Rework lesson 07 against real adversary traffic
 
-The last unblocked lesson. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack days and Stratosphere/CTU-13 for republication with citation, and this is the lesson where a public corpus is the right call — realistic adversary behaviour matters more here than the lab control that made 02, 03 and 04 work.
+Lesson 07 is authored but uses lab-generated shapes — two beacons that are deliberately indistinguishable by shape, a DNS stream carrying entropy in the query, and a bulk upload, all converging on one domain. The reasoning it teaches is the right reasoning. The traffic is not real intrusion traffic and the lesson says so.
 
-Before shipping any third-party capture, run the pre-flight checklist in R004 **and** the [capture validation gate](lab/validate-captures.py). The gate applies to downloaded data exactly as it does to generated data: if Zeek won't parse it, it is not usable here regardless of where it came from.
+[R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack days and Stratosphere/CTU-13 for republication with citation. Running the same method against genuine captured traffic is the natural next version. Before shipping anything downloaded, run R004's pre-flight checklist **and** the [validation gate](lab/validate-captures.py) — the gate applies to third-party data exactly as it does to generated data.
 
 ## 3. Finish lesson 06 — it needs traffic impairment
 

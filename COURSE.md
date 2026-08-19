@@ -1,6 +1,6 @@
 # The Course — Foundations of Network Analysis
 
-Nine lessons. **Eight are written** — [01](lessons/01-what-the-analyst-is-for.md), [02](lessons/02-reading-a-conversation.md), [03](lessons/03-names-and-expectations.md), [04](lessons/04-what-encryption-hides.md), [05](lessons/05-vantage-point-and-evidence.md), [06](lessons/06-when-it-breaks.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md). Lesson 07 is described here but not yet authored.
+Nine lessons. **All are written** — [01](lessons/01-what-the-analyst-is-for.md), [02](lessons/02-reading-a-conversation.md), [03](lessons/03-names-and-expectations.md), [04](lessons/04-what-encryption-hides.md), [05](lessons/05-vantage-point-and-evidence.md), [06](lessons/06-when-it-breaks.md), [07](lessons/07-when-its-suspicious.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md).
 
 The course develops an analyst who can look at network activity, explain what is happening and why it matters, and produce a defensible assessment that another person can act on.
 
@@ -32,7 +32,7 @@ Capability IDs reference the [capability model](docs/capability-model.md). Evide
 | 04 | [What encryption hides](lessons/04-what-encryption-hides.md) | HTTP and TLS; handshake metadata, SNI, certificates; the boundary of what is observable | Reasoning from partial evidence; naming the limits of a source | OC-2, OE-4 | Assessment of an encrypted exchange stating explicitly what cannot be determined | EF-2, EF-5 |
 | 05 | [Vantage point and evidence](lessons/05-vantage-point-and-evidence.md) | Capture vs. flow vs. logs vs. endpoint telemetry; sensor placement, retention, gaps | Evidence planning: choosing sources for a question and knowing what each cannot answer | OE-3, OE-4, OE-5 | Evidence plan for a supplied question, with prioritization and rationale | EF-4, EF-5 |
 | 06 | [When it breaks](lessons/06-when-it-breaks.md) | Latency, loss, path behavior, MTU and fragmentation, policy effects | Causal models, competing explanations, discriminating tests, revising when a prediction fails | OC-4, IR-2, IR-3, IR-5, IR-6 | Diagnosis of a failure with alternatives considered and the discriminating evidence named | EF-3, EF-4, EF-8 |
-| 07 | When it's suspicious | Beaconing, tunneling, staging and exfiltration shapes; peer comparison and history | Resisting indicator-first labeling; holding benign and malicious explanations open together | IR-2, IR-4, IR-5, OC-3 | Assessment of ambiguous activity that argues both explanations before choosing | EF-3, EF-4, EF-6 |
+| 07 | [When it's suspicious](lessons/07-when-its-suspicious.md) | Beaconing, tunneling, staging and exfiltration shapes; peer comparison and history | Resisting indicator-first labeling; holding benign and malicious explanations open together | IR-2, IR-4, IR-5, OC-3 | Assessment of ambiguous activity that argues both explanations before choosing | EF-3, EF-4, EF-6 |
 | 08 | [Judgment and handoff](lessons/08-judgment-and-handoff.md) | Escalation paths, adjacent roles, proportionate action | Calibrated confidence; recommending action sized to evidence and risk; role boundaries | JU-1, JU-2, JU-3, JU-4, CT-1, CT-2, CT-3, CT-4 | Two products from one analysis: a peer handoff and a leadership summary | EF-6, EF-7 |
 | 09 | Capstone and transfer | Integrated scenario, then an unrelated situation | Performing the whole chain unaided, then carrying the reasoning to changed technology | All domains, esp. LR-1 – LR-4 | Full assessment, revision under new evidence, and a transfer response | EF-1 – EF-8 |
 
@@ -52,11 +52,15 @@ lessons 01 and 08 bracket the course: lesson 01 establishes the habit the whole 
 
 Lesson 05 was originally scoped here as lab-gated. That was wrong, and the correction is worth recording: lesson 05's work product is an *evidence plan*, which is reasoning about what sources can and cannot answer. Producing one requires a described environment, not an accessed one. The lab exercise — configuring a sensor, running a capture, discovering what a tap actually sees — remains worth building, but it is an addition to lesson 05 rather than a precondition for it. The lesson states this limit explicitly.
 
-## What blocks the rest
+## Known gaps
 
-**Lesson 07** is the only unwritten one. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack data and Stratosphere/CTU-13 for republication with citation, which is the right source for it — realistic adversary behaviour matters more here than lab control, and it is the one place in the course where that trade favours a public corpus. Whatever is used has to clear the [capture validation gate](lab/validate-captures.py) like everything else.
+Every lesson is authored. Two carry gaps they declare in their own text rather than hiding.
 
-**Lesson 06 is authored but partial.** It teaches four failure signatures — refused, dropped, reset mid-transfer, and slow-but-correct — which cover the discriminations that matter most, including the one that keeps getting misattributed to the network. It does not yet cover packet loss, latency, or MTU and fragmentation problems, because generating those needs traffic impairment (`netem`) that the capture lab cannot currently produce. The lesson declares that gap rather than papering over it.
+**Lesson 06** teaches four failure signatures — refused, dropped, reset mid-transfer, and slow-but-correct — which cover the discriminations that matter most, including the one that keeps getting misattributed to the network. It does not cover packet loss, latency, or MTU and fragmentation, because generating those needs traffic impairment (`netem`) the [capture lab](lab/README.md) cannot currently produce.
+
+**Lesson 07** uses lab-generated shapes, not real adversary traffic. The reasoning transfers; the specifics do not. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC and Stratosphere/CTU-13 for exactly this, and reworking the lesson against captured intrusion traffic is the intended next step. Anything downloaded still has to clear the [validation gate](lab/validate-captures.py).
+
+The larger gap is neither of those. **No lesson has been used by a learner.** Until that happens, the sequence is a design proposal that reads well.
 
 ## What this plan does not establish
 

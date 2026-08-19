@@ -44,7 +44,8 @@ def client_socket(dest_port, src_port, timeout=5):
     """
     s = socket.socket()
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.bind(("127.0.0.1", src_port))
+    if src_port:
+        s.bind(("127.0.0.1", src_port))
     s.settimeout(timeout)
     s.connect(("127.0.0.1", dest_port))
     return s
@@ -324,6 +325,159 @@ def gen_failures():
     print("fail ->", out)
 
 
+# ------------------------------------------------------------- suspicious ---
+def dns_responder(port=8053):
+    """A local authoritative-ish responder, so tunneling-shaped queries stay
+    inside the lab instead of being sprayed at a public resolver."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind(("127.0.0.1", port))
+    while True:
+        try:
+            data, addr = s.recvfrom(4096)
+            tid = data[:2]
+            # walk the question section to find where it ends
+            i = 12
+            while data[i] != 0:
+                i += 1 + data[i]
+            qend = i + 5
+            qtype = struct.unpack(">H", data[qend - 4:qend - 2])[0]
+            if qtype == 16:      # TXT -- a short payload, as a tunnel would carry
+                rdata = bytes([31]) + b"v=1;seq=%04d;ok" % (int(time.time()) % 10000)
+                rdata = bytes([len(rdata) - 1]) + rdata[1:]
+                rr = b"\xc0\x0c" + struct.pack(">HHIH", 16, 1, 1, len(rdata) + 1) \
+                     + bytes([len(rdata)]) + rdata
+            else:
+                rr = b"\xc0\x0c" + struct.pack(">HHIH", 1, 1, 60, 4) \
+                     + ipaddress.IPv4Address("198.51.100.80").packed
+            s.sendto(tid + b"\x81\x80" + struct.pack(">HHHH", 1, 1, 0, 0)
+                     + data[12:qend] + rr, addr)
+        except Exception:
+            pass
+
+
+def beacon_server(port, path_prefix):
+    srv = socket.socket()
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind(("127.0.0.1", port))
+    srv.listen(8)
+    while True:
+        try:
+            c, _ = srv.accept()
+            c.recv(2048)
+            body = b'{"t":%d,"q":[]}' % int(time.time())
+            c.sendall(b"HTTP/1.1 200 OK\r\nServer: nginx/1.24.0\r\n"
+                      b"Content-Type: application/json\r\nContent-Length: "
+                      + str(len(body)).encode() + b"\r\n\r\n" + body)
+            c.close()
+        except Exception:
+            pass
+
+
+def bulk_server(port=8203):
+    """Accepts a large HTTP POST. Plaintext HTTP so Zeek records it in
+    http.log with a real request_body_len -- random bytes on port 443 get
+    misread as TLS, which would be an artefact rather than a finding."""
+    srv = socket.socket()
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind(("127.0.0.1", port))
+    srv.listen(4)
+    while True:
+        try:
+            c, _ = srv.accept()
+            while c.recv(65535):
+                pass
+            c.close()
+        except Exception:
+            pass
+
+
+def gen_suspicious():
+    """Two beacons with the same shape and different causes, a tunneling-shaped
+    DNS stream, and one bulk outbound transfer."""
+    threading.Thread(target=dns_responder, daemon=True).start()
+    threading.Thread(target=beacon_server, args=(8201, "/api"), daemon=True).start()
+    threading.Thread(target=beacon_server, args=(8202, "/hb"), daemon=True).start()
+    threading.Thread(target=bulk_server, daemon=True).start()
+    time.sleep(1)
+
+    raw = os.path.join(TMP, "susp.pcap")
+    cap = capture("lo", "tcp portrange 8201-8203 or udp port 8053", raw)
+
+    alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+    rnd = random.Random(20260819)          # fixed seed -- reproducible captures
+
+    def beacon(port, path, tag):
+        s = client_socket(port, 0)
+        s.sendall(b"GET " + path + b" HTTP/1.1\r\nHost: " + tag + b"\r\n"
+                  b"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
+                  b"Connection: close\r\n\r\n")
+        while s.recv(4096):
+            pass
+        s.close()
+
+    def tunnel_query(i):
+        label = "".join(rnd.choice(alphabet) for _ in range(48))
+        name = f"{label}.d{i:03d}.sync.cdn-metrics.example"
+        q = b"".join(bytes([len(l)]) + l.encode() for l in name.split(".")) + b"\x00"
+        pkt = struct.pack(">HHHHHH", rnd.randint(0, 0xFFFF), 0x0100, 1, 0, 0, 0) \
+            + q + struct.pack(">HH", 16, 1)
+        u = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        u.settimeout(3)
+        try:
+            u.sendto(pkt, ("127.0.0.1", 8053))
+            u.recvfrom(4096)
+        except Exception:
+            pass
+        u.close()
+
+    # Two beacons on independent timers, each regular, each slightly jittered.
+    # A tunnelling-shaped DNS stream runs underneath at a much higher rate.
+    def beacon_loop(port, path, tag, interval, jitter, rounds, seed):
+        r = random.Random(seed)
+        for _ in range(rounds):
+            try:
+                beacon(port, path, tag)
+            except Exception:
+                pass
+            time.sleep(interval + r.uniform(-jitter, jitter))
+
+    threads = [
+        threading.Thread(target=beacon_loop, args=(
+            8201, b"/api/v1/tasks?id=8842", b"cdn-metrics.example",
+            4.0, 0.12, 11, 11), daemon=True),
+        threading.Thread(target=beacon_loop, args=(
+            8202, b"/hb", b"updates.contoso-internal.example",
+            5.0, 0.30, 9, 22), daemon=True),
+    ]
+    for th in threads:
+        th.start()
+    for i in range(40):
+        tunnel_query(i)
+        time.sleep(1.1)
+    for th in threads:
+        th.join(timeout=10)
+
+    # one bulk outbound transfer, as an HTTP POST
+    body_len = 15 * 4096
+    s = client_socket(8203, 0)
+    s.sendall(b"POST /upload/session HTTP/1.1\r\nHost: cdn-metrics.example\r\n"
+              b"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
+              b"Content-Type: application/octet-stream\r\nContent-Length: "
+              + str(body_len).encode() + b"\r\n\r\n")
+    chunk = bytes(rnd.getrandbits(8) for _ in range(4096))
+    for _ in range(15):
+        s.sendall(chunk)
+    s.close()
+
+    stop(cap)
+    out = os.path.join(OUT, "07-suspicious.pcap")
+    anonymize(raw, out, {8201: 80, 8202: 80, 8203: 80, 8053: 53},
+              {8201: "198.51.100.60", 8202: "198.51.100.70",
+               8203: "198.51.100.90", 8053: "198.51.100.80"}, udp_ports={8053})
+    print("susp ->", out)
+
+
 # -------------------------------------------------------------- anonymize ---
 def cksum(data):
     if len(data) % 2:
@@ -334,7 +488,7 @@ def cksum(data):
     return (~s) & 0xFFFF
 
 
-def anonymize(src, dst, portmap, servermap):
+def anonymize(src, dst, portmap, servermap, udp_ports=frozenset()):
     """Rewrite a loopback capture into a two-host conversation.
 
     Direction is inferred from the destination port: a packet addressed to a
@@ -362,10 +516,11 @@ def anonymize(src, dst, portmap, servermap):
         pkt[t + 2:t + 4] = struct.pack(">H", portmap.get(dp, dp))
         pkt[o + 10:o + 12] = b"\x00\x00"
         pkt[o + 10:o + 12] = struct.pack(">H", cksum(bytes(pkt[o:o + ihl])))
+        proto = pkt[o + 9]
         seglen = struct.unpack(">H", pkt[o + 2:o + 4])[0] - ihl
-        coff = t + 16
+        coff = t + (16 if proto == 6 else 6)
         pkt[coff:coff + 2] = b"\x00\x00"
-        pseudo = bytes(pkt[o + 12:o + 20]) + bytes([0, 6]) + struct.pack(">H", seglen)
+        pseudo = bytes(pkt[o + 12:o + 20]) + bytes([0, proto]) + struct.pack(">H", seglen)
         c = cksum(pseudo + bytes(pkt[t:t + seglen]))
         pkt[coff:coff + 2] = struct.pack(">H", c or 0xFFFF)
         out.append(struct.pack("<IIII", ts, tus, len(pkt), len(pkt)) + bytes(pkt))
@@ -380,4 +535,5 @@ if __name__ == "__main__":
     gen_http()
     gen_tls()
     gen_failures()
+    gen_suspicious()
     print("\ndone ->", OUT)
