@@ -52,6 +52,16 @@ lessons 01 and 08 bracket the course: lesson 01 establishes the habit the whole 
 
 Lesson 05 was originally scoped here as lab-gated. That was wrong, and the correction is worth recording: lesson 05's work product is an *evidence plan*, which is reasoning about what sources can and cannot answer. Producing one requires a described environment, not an accessed one. The lab exercise — configuring a sensor, running a capture, discovering what a tap actually sees — remains worth building, but it is an addition to lesson 05 rather than a precondition for it. The lesson states this limit explicitly.
 
+## Why the capstone has no capture
+
+Lessons 02, 03, 04, 06 and 07 all work from packet captures. Lesson 09 does not, and that is deliberate rather than an oversight.
+
+The capstone supplies nine evidence items across change records, DNS logs, flow data, TLS metadata, endpoint process records, peer comparison, proxy categorisation, a user report, and software inventory. Its difficulty is **integrating sources that disagree in scope and reliability** — which is [lesson 05](lessons/05-vantage-point-and-evidence.md)'s capability, and the one that actually decides real cases. Handing the learner a capture instead would narrow the exercise to the skill they just spent five lessons practising.
+
+Put another way: the middle of the course teaches you to read evidence. The capstone tests whether you can decide when the evidence is partial, mixed, and pointing in different directions. Those are different things, and only the second one is what the job is.
+
+If a future version adds a capture, it should be *in addition to* the nine items, replacing the prose in E-03 and E-04 so the learner derives those observations instead of being given them — not as a substitute for the rest. Worth deciding after someone has actually run it, not before.
+
 ## Known gaps
 
 Every lesson is authored. Two carry gaps they declare in their own text rather than hiding.
