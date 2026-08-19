@@ -36,6 +36,13 @@ EXPECTED = {
             "dns.log":  (8, ["query", "qtype_name", "rcode_name", "answers"]),
         },
     },
+    "06-failures.pcap": {
+        "tshark_protocols": ["tcp"],
+        "zeek": {
+            "conn.log": (4, ["conn_state", "history", "id.resp_p"]),
+            "http.log": (2, ["method", "status_code"]),
+        },
+    },
     "04-tls.pcap": {
         "tshark_protocols": ["tcp", "tls"],
         "zeek": {

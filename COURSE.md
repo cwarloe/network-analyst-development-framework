@@ -1,6 +1,6 @@
 # The Course — Foundations of Network Analysis
 
-Nine lessons. **Seven are written** — [01](lessons/01-what-the-analyst-is-for.md), [02](lessons/02-reading-a-conversation.md), [03](lessons/03-names-and-expectations.md), [04](lessons/04-what-encryption-hides.md), [05](lessons/05-vantage-point-and-evidence.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md). Lessons 06 and 07 are described here but not yet authored.
+Nine lessons. **Eight are written** — [01](lessons/01-what-the-analyst-is-for.md), [02](lessons/02-reading-a-conversation.md), [03](lessons/03-names-and-expectations.md), [04](lessons/04-what-encryption-hides.md), [05](lessons/05-vantage-point-and-evidence.md), [06](lessons/06-when-it-breaks.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md). Lesson 07 is described here but not yet authored.
 
 The course develops an analyst who can look at network activity, explain what is happening and why it matters, and produce a defensible assessment that another person can act on.
 
@@ -31,7 +31,7 @@ Capability IDs reference the [capability model](docs/capability-model.md). Evide
 | 03 | [Names and expectations](lessons/03-names-and-expectations.md) | DNS resolution, caching, TTLs, resolver paths; what healthy name resolution looks like | Establishing expected behavior and legitimate variation before deviation has meaning | OC-3, OE-1 | Written baseline description of normal resolution for a given environment | EF-2, EF-3 |
 | 04 | [What encryption hides](lessons/04-what-encryption-hides.md) | HTTP and TLS; handshake metadata, SNI, certificates; the boundary of what is observable | Reasoning from partial evidence; naming the limits of a source | OC-2, OE-4 | Assessment of an encrypted exchange stating explicitly what cannot be determined | EF-2, EF-5 |
 | 05 | [Vantage point and evidence](lessons/05-vantage-point-and-evidence.md) | Capture vs. flow vs. logs vs. endpoint telemetry; sensor placement, retention, gaps | Evidence planning: choosing sources for a question and knowing what each cannot answer | OE-3, OE-4, OE-5 | Evidence plan for a supplied question, with prioritization and rationale | EF-4, EF-5 |
-| 06 | When it breaks | Latency, loss, path behavior, MTU and fragmentation, policy effects | Causal models, competing explanations, discriminating tests, revising when a prediction fails | OC-4, IR-2, IR-3, IR-5, IR-6 | Diagnosis of a failure with alternatives considered and the discriminating evidence named | EF-3, EF-4, EF-8 |
+| 06 | [When it breaks](lessons/06-when-it-breaks.md) | Latency, loss, path behavior, MTU and fragmentation, policy effects | Causal models, competing explanations, discriminating tests, revising when a prediction fails | OC-4, IR-2, IR-3, IR-5, IR-6 | Diagnosis of a failure with alternatives considered and the discriminating evidence named | EF-3, EF-4, EF-8 |
 | 07 | When it's suspicious | Beaconing, tunneling, staging and exfiltration shapes; peer comparison and history | Resisting indicator-first labeling; holding benign and malicious explanations open together | IR-2, IR-4, IR-5, OC-3 | Assessment of ambiguous activity that argues both explanations before choosing | EF-3, EF-4, EF-6 |
 | 08 | [Judgment and handoff](lessons/08-judgment-and-handoff.md) | Escalation paths, adjacent roles, proportionate action | Calibrated confidence; recommending action sized to evidence and risk; role boundaries | JU-1, JU-2, JU-3, JU-4, CT-1, CT-2, CT-3, CT-4 | Two products from one analysis: a peer handoff and a leadership summary | EF-6, EF-7 |
 | 09 | Capstone and transfer | Integrated scenario, then an unrelated situation | Performing the whole chain unaided, then carrying the reasoning to changed technology | All domains, esp. LR-1 – LR-4 | Full assessment, revision under new evidence, and a transfer response | EF-1 – EF-8 |
@@ -54,13 +54,9 @@ Lesson 05 was originally scoped here as lab-gated. That was wrong, and the corre
 
 ## What blocks the rest
 
-Two lessons remain.
+**Lesson 07** is the only unwritten one. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack data and Stratosphere/CTU-13 for republication with citation, which is the right source for it — realistic adversary behaviour matters more here than lab control, and it is the one place in the course where that trade favours a public corpus. Whatever is used has to clear the [capture validation gate](lab/validate-captures.py) like everything else.
 
-**Lesson 07** is unblocked. [R004](docs/research/R004-pcap-and-telemetry-sourcing.md) cleared CIC attack data and Stratosphere/CTU-13 for republication with citation, which is the right source for it — realistic adversary behaviour matters more here than lab control, and it is the one place in the course where that trade favours a public corpus.
-
-**Lesson 06 needs a lab.** No public corpus isolates documented network failures — induced latency, loss, MTU and fragmentation, policy drops — with the ground truth a troubleshooting lesson needs, and the [capture lab](lab/README.md) does not generate them yet either. It needs deliberate impairment: traffic control, constrained MTU, a firewall dropping selectively.
-
-That is an awkward result, since lesson 06 is what makes lesson 07 honest. The order stands; lesson 06 simply costs more than the lessons around it, and should not be dropped for that reason.
+**Lesson 06 is authored but partial.** It teaches four failure signatures — refused, dropped, reset mid-transfer, and slow-but-correct — which cover the discriminations that matter most, including the one that keeps getting misattributed to the network. It does not yet cover packet loss, latency, or MTU and fragmentation problems, because generating those needs traffic impairment (`netem`) that the capture lab cannot currently produce. The lesson declares that gap rather than papering over it.
 
 ## What this plan does not establish
 

@@ -1,6 +1,6 @@
 # Roadmap
 
-Seven of nine lessons are written. Here's what's actually in the way, in order.
+Eight of nine lessons are written. Here's what's actually in the way, in order.
 
 ## 1. Run a lesson with a real person
 
@@ -16,17 +16,15 @@ The last unblocked lesson. [R004](docs/research/R004-pcap-and-telemetry-sourcing
 
 Before shipping any third-party capture, run the pre-flight checklist in R004 **and** the [capture validation gate](lab/validate-captures.py). The gate applies to downloaded data exactly as it does to generated data: if Zeek won't parse it, it is not usable here regardless of where it came from.
 
-## 3. Build a lab for lesson 06
+## 3. Finish lesson 06 — it needs traffic impairment
 
-**Lesson 06 — When it breaks — is the one thing the research did not unblock,** and it turned out to be the more interesting finding. No public corpus cleanly isolates documented network failures: induced latency, packet loss, MTU and fragmentation problems, policy drops. They exist in public captures only incidentally, unlabeled, mixed into everything else.
+Lesson 06 is written and covers four failure signatures: refused (`REJ`), dropped (`S0`), reset mid-transfer (`RSTR`), and slow-but-correct (`SF` with a four-second application delay). Those carry the discriminations that matter most — particularly refused versus dropped, which are opposites that produce the same user complaint, and the four-second delay that gets reported as "the network is slow" when the network delivered in 0.2 milliseconds.
 
-So lesson 06 needs a lab that deliberately breaks things: traffic control for latency and loss, a constrained MTU path, a firewall dropping selectively, each captured with known ground truth. The [existing capture lab](lab/README.md) is the right place to add it — it already generates real traffic and validates the output, and impairment is the missing piece rather than a new mechanism.
+**What it does not cover is packet loss, latency, and MTU or fragmentation problems.** Generating those requires `netem`, which needs `NET_ADMIN` and was not available in the environment where the lab was built. Everything else in lesson 06 was produced without privileges — a full accept queue drops SYNs exactly as a firewall does, and `SO_LINGER 0` produces a genuine RST.
 
-Worth stating plainly, because it explains a pattern in the wider field: **threat data is abundant and free, failure data has to be manufactured.** That is probably why so much network security training skips straight to the threat. This course commits to the opposite order — troubleshooting before threat, because a misread firewall change and a covert channel look alike to someone taught only to hunt covert channels — and that commitment now has a real cost attached to it.
+To close it, run [`lab/generate-captures.py`](lab/generate-captures.py) somewhere with `NET_ADMIN` and add impairment cases: `tc qdisc netem delay` and `loss` on a veth pair, and a constrained-MTU path for fragmentation and PMTUD black holes. MTU black holes in particular are a classic failure class the lesson names and does not teach.
 
-Lesson 06 is the last thing to be built, and it should not be quietly dropped when that becomes inconvenient.
-
-Note that lessons 02, 03 and 04 turned out not to need public data at all — generating the traffic gave known ground truth, tiny files, and no licence surface. Lesson 06 is the same argument taken further: the failures have to be caused deliberately for the lesson to have a correct answer.
+Nothing about the existing captures needs redoing — this is additive.
 
 ## 4. Answer three design questions
 
