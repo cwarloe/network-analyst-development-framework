@@ -1,81 +1,33 @@
-# Codex Standing Instructions
+# Instructions for AI assistants working in this repository
 
-## Value-First Operating Model
+## What this project is
 
-- Codex acts as the integrated NADF Project Director, Design Studio, Research Studio, Curriculum Studio, and repository implementer.
-- These are responsibility boundaries, not mandatory chats, agents, handoffs, approval stages, or documents.
-- Start from a concrete project outcome. Do not create work merely to demonstrate activity, diligence, completeness, or process compliance.
-- Prefer the smallest action that achieves the outcome and is easy to inspect, revert, or change.
-- Do not create an artifact, ADR, issue, handoff, plan, status update, review record, or pull request unless it materially improves traceability, coordination, risk control, or the resulting work.
-- Do not advance through a list of unresolved questions merely because the list exists. Make a decision when it unblocks valuable work or prevents a credible material risk.
-- Stop expanding work when the likely value of more process or documentation is lower than its cost.
-- GitHub is the durable system of record and rollback mechanism; it is not a reason to manufacture extra workflow.
-- Read the active governing documents before beginning work — the [training architecture baseline](NADF-Architecture-Baseline.md), [governance guide](GOVERNANCE.md), and [project status and roadmap](docs/project/NADF-Project-Status.md) — and do not restart completed work.
-- Preserve the baseline's Standing Qualifications. Simplifying process does not license stronger claims than the evidence supports.
+Training material for network analysts. The deliverable is **lessons someone can actually sit down and do** — everything else exists only to serve that.
 
-## Responsibility Boundaries
+Read [README.md](README.md), [COURSE.md](COURSE.md), and [ROADMAP.md](ROADMAP.md) before starting. That is the whole context.
 
-- Research evaluates evidence and does not silently create architecture.
-- Architecture interprets evidence; the training architecture baseline is where durable architectural direction lives.
-- Curriculum implements the active baseline and does not redefine it.
-- Routine interpretation, editing, organization, and implementation do not require separate internal-role approval when Codex can verify the result directly.
-- Do not ask the maintainer to relay information between internal roles.
+## The rule that matters most
 
-## Decision and Documentation Thresholds
+**This project has been damaged by over-process.** It once had a governance guide, three named roles, an ADR workflow, decision registers, design-studio handoffs, and a peer-review gate — for a repository maintained by one person. It accumulated 5,000 lines of documentation around 275 lines of training material.
 
-- ADRs are optional. Write one only when preserving the rationale, alternatives, and consequences of a consequential choice has lasting value; otherwise record the reasoning in the pull request.
-- Record routine, low-risk, reversible choices in the relevant artifact, commit, or pull-request summary instead of a separate governance record.
-- When the maintainer has already approved an outcome, record the resulting lifecycle state directly. Do not create proposal-and-acceptance cycles solely for ceremony.
-- Keep decision records as short as the risk and reasoning allow.
-- Do not create formal schemas, classifications, mappings, reviews, or conformance processes without a demonstrated consumer or risk.
-- Update status records only when project state materially changes. Bundle the update with the substantive work whenever practical.
-- Do not create status-only work unless stale status would misdirect active work.
-- Combine closely related changes rather than creating separate handoffs, issues, branches, or pull requests.
+So: **do not add process.** No new governance documents, no decision records, no status registers, no templates, no conformance checks, no directories for things that do not exist yet. If you think a new process document is needed, you are almost certainly wrong.
 
-## Autonomy and Escalation
+When in doubt, write a lesson instead.
 
-Proceed autonomously with routine, reversible, low-consequence work, including reasonable implementation details and repository mechanics.
+## What to preserve
 
-Escalate to the maintainer only for:
+- **The Standing Qualifications** in [docs/architecture.md](docs/architecture.md). Simplifying process does not license stronger claims. Specifically: no proficiency levels, scoring, mastery thresholds, or assessment-validity claims, anywhere.
+- **The research** in [docs/research/](docs/research/). It is the evidence base and it is genuinely load-bearing.
+- **The archive** in [docs/archive/](docs/archive/). Superseded, but it is the record of how the design was reached. Don't revive it, don't delete it.
 
-- consequential architectural choices with meaningful alternatives;
-- material curriculum or scope alternatives;
-- conflicting evidence that could change direction;
-- destructive or difficult-to-reverse actions;
-- external publication or commitments; or
-- missing information that would materially change the outcome.
+## Working practice
 
-When escalation is necessary, provide a concise decision brief containing the decision, recommendation, meaningful alternatives, and consequences. Accept clear natural-language direction; do not require the maintainer to repeat a scripted approval phrase.
+- Branch, commit, open a pull request. Merge it yourself when it's routine — do not leave finished work sitting on a branch waiting for a review that isn't coming.
+- Don't commit to `main` directly.
+- One coherent commit where practical.
+- Check relative links before pushing.
+- Ask the maintainer only about genuine forks in the road: scope, audience, or anything hard to reverse. Not about mechanics.
 
-## Repository Workflow
+## Reporting
 
-Follow the three-step workflow in [GOVERNANCE.md](GOVERNANCE.md): draft and propose, practical peer review, merge and adopt.
-
-- Never commit directly to the default branch.
-- Use a focused feature branch for repository changes.
-- Preserve unrelated user changes and stage only intended files.
-- Use one coherent commit when practical; do not split proposal, acceptance, status, or formatting into separate commits unless independent review or rollback has real value.
-- Open a pull request for meaningful or durable changes.
-- Use a draft pull request only when review questions remain. Otherwise open or mark the pull request ready.
-- For routine, reversible, low-risk changes, Codex may validate proportionally and merge without separate maintainer approval.
-- Wait for maintainer approval before merging consequential decisions, material scope or curriculum changes, destructive changes, external commitments, or changes with difficult reversal.
-- Do not create a pull request solely to update process metadata generated by another pull request; include necessary metadata in the substantive change.
-
-## Validation
-
-- Match validation effort to credible risk and likely failure modes.
-- Do not repeat checks that test the same condition without a reason.
-- Do not perform byte-for-byte, hash, duplicate-content, or exhaustive reviews when a direct controlled workflow has no credible alteration mechanism.
-- Prefer a small number of meaningful checks over broad ceremonial validation.
-- Treat formatting and documentation imperfections as routine fixes unless they alter meaning or block use.
-
-## Status Reporting
-
-Report only:
-
-- what materially changed;
-- the current project state;
-- genuine blockers or unresolved risks; and
-- the next valuable action, if one is known.
-
-Do not list routine mechanics merely to make the work appear more substantial.
+Say what changed, what state the project is in, and what the next useful thing is. Nothing else.
