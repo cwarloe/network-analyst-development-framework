@@ -134,4 +134,4 @@ Across both, make these visible:
 
 ## What this lesson does not do
 
-It does not define proficiency, scoring, or completion. It does not establish that your communication is effective — that requires a real reader, which is what lesson 09 and the [pilot run records](09-capstone-encrypted-outbound-traffic/run-records.md) exist to gather. Two documents from one supplied analysis is a single sample.
+It does not define proficiency, scoring, or completion. It does not establish that your communication is effective — that requires a real reader, which is what lesson 09 and the [run records](run-records.md) exist to gather. Two documents from one supplied analysis is a single sample.

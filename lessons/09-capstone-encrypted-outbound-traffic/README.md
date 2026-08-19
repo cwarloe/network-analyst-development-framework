@@ -53,4 +53,4 @@ Complete and save your initial work product before opening `feedback-and-transfe
 
 ---
 
-**Running this pilot?** Record what you learn in [run records](run-records.md) before revising the pilot or the models it implements.
+**Running this pilot?** Record what you learn in [run records](../run-records.md) before revising the pilot or the models it implements.
