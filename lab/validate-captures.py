@@ -93,11 +93,26 @@ def check_tshark(path, protocols):
     return problems
 
 
+ZEEK_PATHS = ["/opt/zeek-install/bin/zeek", "/usr/local/zeek/bin/zeek",
+              "/opt/zeek/bin/zeek", "/usr/bin/zeek"]
+
+
+def find_zeek():
+    """Zeek is rarely on PATH -- it installs to its own prefix."""
+    cand = os.environ.get("ZEEK") or shutil.which("zeek")
+    if cand and os.path.exists(cand):
+        return cand
+    for p in ZEEK_PATHS:
+        if os.path.exists(p):
+            return p
+    return None
+
+
 def check_zeek(path, expected):
     """Zeek must produce the logs Security Onion would index."""
-    zeek = shutil.which("zeek") or "/opt/zeek-install/bin/zeek"
-    if not os.path.exists(zeek):
-        return ["zeek not installed - THIS IS THE CHECK THAT MATTERS, install it"]
+    zeek = find_zeek()
+    if not zeek:
+        return ["zeek not found - THIS IS THE CHECK THAT MATTERS. Set $ZEEK or see lab/README.md"]
 
     problems = []
     with tempfile.TemporaryDirectory() as d:
@@ -132,6 +147,11 @@ def main(directory):
     caps = sorted(f for f in os.listdir(directory) if f.endswith(".pcap"))
     if not caps:
         sys.exit(f"no captures in {directory}")
+
+    zeek = find_zeek()
+    ver = sh([zeek, "--version"]).stdout.strip().splitlines()[0] if zeek else "not found"
+    tsv = sh(["tshark", "--version"]).stdout.split("\n")[0] if shutil.which("tshark") else "not found"
+    print(f"zeek:   {ver}\ntshark: {tsv}")
 
     failed = False
     for cap in caps:

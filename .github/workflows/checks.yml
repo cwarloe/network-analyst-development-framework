@@ -1,0 +1,30 @@
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  links:
+    name: relative links resolve
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 lab/check-links.py
+
+  captures:
+    name: captures pass wireshark and zeek
+    runs-on: ubuntu-latest
+    # Pinned to the version the captures were validated against, so a failure
+    # here means a real regression rather than a Zeek version difference.
+    container:
+      image: zeek/zeek:7.0.4
+    steps:
+      - uses: actions/checkout@v4
+      - name: install tshark
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends tshark
+      - name: validate
+        run: python3 lab/validate-captures.py assets/pcaps

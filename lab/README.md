@@ -54,7 +54,14 @@ sudo python3 lab/generate-captures.py assets/pcaps
 
 # validate -- must pass before anything is committed
 python3 lab/validate-captures.py assets/pcaps
+
+# check every relative link in the repository still resolves
+python3 lab/check-links.py
 ```
+
+Both checks run automatically on every pull request via [`.github/workflows/checks.yml`](../.github/workflows/checks.yml), which pins the `zeek/zeek:7.0.4` container — the same version the captures were validated against, so a red build means a real regression rather than a version difference.
+
+`validate-captures.py` finds Zeek on `PATH`, at `$ZEEK`, or in the usual install prefixes, and prints the Zeek and tshark versions it used before running. If a check ever disagrees between two machines, those two lines are the first thing to compare.
 
 Requirements: `tcpdump`, `openssl`, `python3`, `tshark`, and — for the check that counts — `zeek`.
 
