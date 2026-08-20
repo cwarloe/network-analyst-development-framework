@@ -28,3 +28,5 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends tshark
       - name: validate
         run: python3 lab/validate-captures.py assets/pcaps
+      - name: lesson commands produce what the lessons print
+        run: python3 lab/check-lesson-commands.py

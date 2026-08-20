@@ -140,6 +140,28 @@ The latency case is the one worth having. Lesson 06 already teaches a four-secon
 
 Addresses are `192.0.2.10` for the client and `198.51.100.60` for the server, matching the rest of the captures, so no rewriting is needed. Checksum offload is disabled on both veth ends and `fix_checksums()` runs anyway, for the reason recorded above.
 
+## Checking the lessons against the tools
+
+`check-lesson-commands.py` runs every `tshark` and `zeek` command printed in a lesson and compares the block underneath it against what the command really produces.
+
+```
+$ python3 lab/check-lesson-commands.py
+9 commands ran, 0 failed, 3 output blocks not machine-checkable
+```
+
+It exists because an adversarial re-read found five defects in the lessons and **four of them were the same mistake**: a claim about what a tool shows, written from memory instead of from a run. A `connection.history` column holding packet counts. A frame listed with five records where the capture has six. A command printing output that command cannot produce.
+
+Two checks per command:
+
+- **runs** — exits 0 and produces something. Catches a renamed field, a moved capture, a filter that stopped parsing between tshark versions. For `zeek`, which prints nothing, the logs it writes are the output.
+- **matches** — every value shown in the block underneath really appears in the command's output. Prose words are dropped, so an annotated block still gets its data checked.
+
+**The adjacency rule, and its limit.** Only a block sitting directly under the command with nothing in between is treated as that command's output. A block separated by prose is usually something else — a Security Onion view of the same data, an aggregate, a reformatted summary — and guessing would produce false failures on lessons that are perfectly correct. Those are reported as not checkable and counted, rather than passed over silently.
+
+So this would **not** have caught the worst of the five defects in the form it originally shipped, because a paragraph sat between the command and the block it was wrong about. It catches that defect now, because fixing it moved the output under its own command. That is the honest scope: it locks in correctness rather than discovering it, and it makes drift after a capture is regenerated impossible to miss.
+
+Verified against three seeded defects before it was committed: a wrong value in an output block, a field name that does not exist, and a stale value left behind after a capture changes. All three fail the check.
+
 ## Adding a capture
 
 1. Add a generator function to `generate-captures.py`.
