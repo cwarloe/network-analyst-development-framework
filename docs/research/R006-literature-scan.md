@@ -96,6 +96,8 @@ This also connects to [R005](R005-instructional-design-review.md)'s finding that
 
 [R007](R007-nice-role-mapping.md) mapped the capability model against an external role standard after this record was written, and independently reached the gap [R005](R005-instructional-design-review.md) found from the instructional side: the role performs trend, posture and continuous-monitoring work across time, and every NADF lesson is a single moment. That corroboration is why "a second transfer exposure" below understates the problem — the issue is not only how many transfer exposures there are, but that the course has no unit of analysis larger than one incident.
 
+[R008](R008-longitudinal-judgment.md) went looking for how other fields solve that, and returned a structure — a cross-lesson judgment log with delayed verification — that is this record's top two recommendations unified into one mechanism. It also failed, independently, to find any cybersecurity evidence on the question, which is the second scan to come back empty.
+
 ## Revised recommendation order
 
 Replacing R005's ranking:
@@ -104,7 +106,7 @@ Replacing R005's ranking:
 |---|---|---|
 | 1 | **Predict-then-check in every lesson** | Was third. It is retrieval *with* built-in feedback, the condition under which the effect is most reliable, and NADF can satisfy its preconditions unaided |
 | 2 | **Same task twice** | Unchanged. Nothing else can detect that a learner improved |
-| 3 | **Paired review, with the bar set first** — ask whether reviewers notice the same things, not whether they reach the same verdict | Unchanged in priority, materially changed in method |
+| 3 | **Paired review, with the bar set first** — ask whether reviewers notice the same things, not whether they reach the same verdict | Unchanged in priority, materially changed in method. [R009](R009-reviewer-agreement.md) later specified it: eight issue codes drawn from the existing review guide, Krippendorff's alpha at the issue level, and a rule against computing a coefficient at small n |
 | 4 | **A second transfer exposure before the capstone** | New. One exposure at the end is the structural weak point, and this is the same root cause as the LR concentration R005 found |
 | 5 | **Closed-book recall prompts** | Demoted from second. Least reliable for procedural material, and NADF lacks the feedback that makes it work |
 | — | **Watch lessons 02–04 for self-explanation load** in the first run | New. A risk in shipped material, not a proposed change |

@@ -110,7 +110,7 @@ The capability model already labels statements RS, AJ, or RS/AJ for exactly this
 ## Recommendations
 
 1. **Name the excluded clusters in the Standing Qualifications.** Signature work, malware handling and incident resolution are deliberate exclusions; vulnerability management and control evaluation are undeclared ones. Both kinds should be visible. Cheap, and it converts a silent gap into a stated boundary.
-2. **Treat the longitudinal gap as real.** It is corroborated from two directions and it is not a scope preference — the role includes work across time and the course contains none. This does not require a tenth lesson; a trend or comparison element inside an existing lesson would test whether it matters.
+2. **Treat the longitudinal gap as real.** It is corroborated from two directions and it is not a scope preference — the role includes work across time and the course contains none. This does not require a tenth lesson; a trend or comparison element inside an existing lesson would test whether it matters. [R008](R008-longitudinal-judgment.md) surveyed how six other fields do it and proposes concrete candidates, of which SPC-style trend tasks are the cheapest.
 3. **Revisit the basis labels on LR-1 to LR-4 and JU-2/JU-4.** If no external role standard asserts them, RS/AJ may be generous.
 4. ~~**Verify against NIST's own file.**~~ **Done** — the official v2.2.0 workbook matched the mirror exactly for this role and is committed alongside this record.
 

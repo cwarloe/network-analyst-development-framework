@@ -32,15 +32,19 @@ Fragmentation was closed without privileges: EDNS0 padding inflates a legitimate
 
 To close the rest, run [`lab/generate-captures.py`](lab/generate-captures.py) somewhere with `NET_ADMIN` and add `tc qdisc netem delay` and `loss` cases on a veth pair. Nothing existing needs redoing — it is additive.
 
-## 4. Close the cheap design gaps — in R006's order, not R005's
+## 4. Close the cheap design gaps — in R008's order
 
-[R005](docs/research/R005-instructional-design-review.md) reviewed the design; [R006](docs/research/R006-literature-scan.md) scanned the literature it named and **reordered the recommendations**. The revised order:
+[R005](docs/research/R005-instructional-design-review.md) reviewed the design; [R006](docs/research/R006-literature-scan.md) scanned the literature it named and reordered the recommendations; [R008](docs/research/R008-longitudinal-judgment.md) asked how other fields develop judgment across time and **merged the two lists into one**. The current order:
 
-1. **Predict-then-check in every lesson**, as [lesson 06](lessons/06-when-it-breaks.md) already does. It is retrieval practice *with feedback built in* — the learner commits, then the capture tells them whether they were right — which is the condition under which the effect is most reliable, and the only version NADF can deliver without a second person in the room.
-2. **Same task twice.** Lesson 01's Case C at the start and again after the capstone, both kept. Still the only thing that can detect a learner improved.
-3. **Paired review, with the bar set before the trial.** Ask whether two reviewers *notice the same things* — the same weak claim, the same missing alternative — not whether they reach the same verdict. The review guide is deliberately not a rubric, so low verdict agreement would be expected and would prove nothing.
-4. **A second transfer exposure before the capstone.** One exposure at the end is the structural weak point, and it shares a root cause with the LR concentration R005 found.
-5. **Closed-book recall prompts** — demoted. Least reliable for procedural material, and NADF lacks the feedback that makes retrieval work.
+1. **Make the existing continuity explicit.** `files.contoso-internal.example` is already the same host in [lesson 02](lessons/02-reading-a-conversation.md) and [lesson 04](lessons/04-what-encryption-hides.md) — a plaintext API conversation, then the same service over TLS. Lesson 04 does not say so. Saying it makes the encryption point land harder: you read this conversation, and now you cannot. Two sentences.
+2. **Cross-lesson judgment log with delayed verification.** Record the decision, the confidence and the expected horizon; reveal ground truth later; let a personal hit-and-miss record accumulate. This is R006's predict-then-check and same-task-twice unified into one mechanism, running across the course rather than inside one lesson — and it arrived from meteorology, not from learning science. About five minutes per lesson.
+3. **Convert one or two incidents to multi-episode**, with an explicit revisit-your-own-judgment step. R006 wanted a second transfer exposure before the capstone; R008 wants continuity. Same move. Costs breadth.
+4. **SPC-style trend tasks** — a short time series, one or two trend rules, an investigate-or-monitor decision, immediate feedback. The only item that adds a genuinely new capability rather than restructuring what exists, and also the one whose training-effect evidence is weakest. Five to ten minutes in three or four lessons.
+5. **Paired review, with the bar set before the trial.** Ask whether two reviewers *notice the same things* — the same weak claim, the same missing alternative — not whether they reach the same verdict. The review guide is deliberately not a rubric, so low verdict agreement would be expected and would prove nothing. [R009](docs/research/R009-reviewer-agreement.md) sets the design and the thresholds.
+6. **Closed-book recall prompts** — demoted twice and still demoted. Least reliable for procedural material, and NADF lacks the feedback that makes retrieval work.
+7. *Change-detection micro-drills* — recommended by R008's brief and **declined** there. The transfer from perceptual discrimination to analytic judgment is unverified, and a decontextualized spot-the-difference drill is closer to what the capability model excludes than to what it measures.
+
+Item 1 is nearly free and strengthens a lesson that already exists. Do it whenever. The rest wait on the first run.
 
 Also watch, rather than change: **lessons 02–04 may be overloading novices with self-explanation.** If learners abandon the self-review sections there but complete them in 01, 08 and 09, cognitive load is the likely cause.
 
