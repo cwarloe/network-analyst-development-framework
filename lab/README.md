@@ -63,6 +63,8 @@ python3 lab/validate-captures.py assets/pcaps
 python3 lab/check-links.py
 ```
 
+`validate-captures.py` exits **1** when a check genuinely fails and **2** when zeek or tshark are missing, because those are different situations. A missing tool means *this machine cannot verify the captures*, which says nothing about the captures. Only the checksum column runs without external tools — it is pure Python and works anywhere, including Windows.
+
 Both checks run automatically on every pull request via [`.github/workflows/checks.yml`](../.github/workflows/checks.yml), which pins the `zeek/zeek:7.0.4` container — the same version the captures were validated against, so a red build means a real regression rather than a version difference.
 
 `validate-captures.py` finds Zeek on `PATH`, at `$ZEEK`, or in the usual install prefixes, and prints the Zeek and tshark versions it used before running. If a check ever disagrees between two machines, those two lines are the first thing to compare.
@@ -109,8 +111,13 @@ The DNS capture is not rewritten. It was taken on a real interface whose address
 
 ```bash
 sudo python3 lab/generate-impairment.py
-python3 lab/validate-captures.py assets/pcaps
 ```
+
+**It has to be Linux.** Network namespaces, veth pairs and netem are kernel features, and there is no Windows or macOS equivalent that produces these captures. **WSL2 does not work either** — the stock WSL kernel is built without `sch_netem`, so `tc qdisc add ... netem` fails with *"Specified qdisc not found"*. Closing that needs a custom WSL kernel build, which is more work than the captures are worth. Any ordinary Linux box or a small cloud VM does it; Ubuntu images ship netem by default.
+
+The script checks the platform first and says all of this rather than failing obscurely.
+
+**You do not need zeek or tshark to produce them.** Generate, commit, push — CI runs the full gate. Installing Zeek locally just to check your own captures is a waste of an afternoon.
 
 **What it touches: nothing of yours.** All traffic runs between a veth pair with one end inside a dedicated namespace called `nadf-lab`. Real interfaces, routes and firewall rules are never modified, and the namespace is torn down on exit including on error or Ctrl-C. If a namespace by that name already exists it refuses to run rather than clobbering it.
 

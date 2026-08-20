@@ -236,6 +236,7 @@ def main(directory):
     print(f"zeek:   {ver}\ntshark: {tsv}")
 
     failed = False
+    unverifiable = not (zeek and shutil.which("tshark"))
     for cap in caps:
         path = os.path.join(directory, cap)
         spec = EXPECTED.get(cap)
@@ -262,6 +263,12 @@ def main(directory):
             print(f"         - {p}")
         failed |= bool(problems)
 
+    if unverifiable:
+        print("\nCANNOT VERIFY HERE - zeek and/or tshark are missing, so the two checks\n"
+              "that matter did not run. This says nothing about the captures themselves;\n"
+              "the checksum column above is the only part that was actually tested.\n"
+              "Push them and let CI run the full gate, or see lab/README.md to install.")
+        return 2
     print("\n" + ("FAILED - do not ship these captures" if failed else "all captures pass"))
     return 1 if failed else 0
 
