@@ -60,7 +60,7 @@ Done — [R007](docs/research/R007-nice-role-mapping.md) mapped the capability m
 - **Who is the learner?** Currently assumed to be someone with no analysis experience and no tooling background. Working IT staff would compress lessons 02–04 considerably. [R005](docs/research/R005-instructional-design-review.md) notes this bites harder than it looks: guidance fades at fixed lesson boundaries, so the right fade point differs by audience and the design cannot detect it.
 - **Self-guided or instructor-led?** This is not a delivery preference. Eight of nine lessons offer only self-review, so EF-8 — feedback, revision, transfer — is structurally unreachable without a second person. The choice decides whether a whole capability domain is in the course or not.
 
-*How many hours* is settled: about 18. Sixteen and a half across lessons 01–08 plus 60–90 minutes for the capstone. If a delivery needs less, cut whole lessons rather than thinning all of them.
+*How many hours* is settled: about 18. Seventeen across lessons 01–08 plus 60–90 minutes for the capstone. If a delivery needs less, cut whole lessons rather than thinning all of them.
 
 ## Not doing
 
