@@ -111,7 +111,28 @@ Compare this against the baseline you built in [lesson 03](03-names-and-expectat
 
 That last row is the one that matters. In ordinary DNS the information you want comes back in the answer. Here the entropy is in the query, and unique names guarantee every query reaches the authoritative server. That is what a channel looks like when a name lookup is being used to carry data.
 
-**And it still is not proof.** Legitimate systems do this. Anti-malware reputation lookups encode file hashes into query names. Some CDN and telemetry systems encode session identifiers the same way. The shape is genuinely ambiguous; what makes it worth pursuing is not the shape alone.
+### Read the answers
+
+The queries are unreadable. The answers are not, and Zeek wrote them down:
+
+```
+d000    v=1;seq=8607;ok
+d001    v=1;seq=8608;ok
+d002    v=1;seq=8609;ok
+...
+d039    v=1;seq=8650;ok
+```
+
+Something on the other end is acknowledging each query with a version, a sequence number, and a status. That is a protocol, not a name lookup — and it is **two-way**, which the query side alone did not establish.
+
+Two observations available from those forty strings, both checkable:
+
+- **The sequence numbers rise but the counter in the query starts at zero.** The client's labels run `d000` to `d039`. The server's sequence runs 8607 to 8650. If that server-side counter belongs to this session, this session did not start in your capture window — it started roughly eight and a half thousand exchanges ago. That is an observation about *duration*, and duration is the thing your one-hour window is worst at supplying.
+- **Nothing here says what any of it is for.** `ok` is a status, not an intention.
+
+Be careful with the first one. "Eight thousand prior exchanges" is an interpretation resting on an assumption — that the counter is per-session and increments once per query. It might be global to the server, or per-client, or seeded at random. Say which reading you are using and what would confirm it.
+
+**And it still is not proof.** Legitimate systems do this. Anti-malware reputation lookups encode file hashes into query names. Some CDN and telemetry systems encode session identifiers the same way, and plenty of them acknowledge with exactly this kind of versioned status string. The shape is genuinely ambiguous; what makes it worth pursuing is not the shape alone.
 
 ## The transfer
 
@@ -153,7 +174,7 @@ Being honest about the remaining gap is most of the value of the assessment you 
 
 - **Nothing here identifies a process, a user, or a file.** Every claim about *what* is doing this needs endpoint telemetry, which the network cannot supply — [lesson 05](05-vantage-point-and-evidence.md), and the same limitation that shaped [lesson 04](04-what-encryption-hides.md).
 - **`cdn-metrics.example` could be a legitimate service.** Analytics and CDN vendors run beacons, encode identifiers into DNS, and receive uploads. The convergence pattern is *consistent with* one vendor's SDK doing three normal things.
-- **The DNS payloads are opaque.** TXT answers were returned; this capture does not establish what they contained or what was encoded outbound.
+- **Half of the DNS channel is opaque, and it is worth being precise about which half.** What went *out* — the 48-character label — is unreadable here; nothing in the capture establishes what it encoded. What came *back* is in the log, and you should go read it before you write that it is unknown.
 - **One hour of one host is not a baseline.** You do not know whether other workstations do the same thing — which is the single cheapest next question and would settle a great deal.
 
 ## Your work product
@@ -181,6 +202,7 @@ Address these inside that structure:
 3. If you had only `event.dataset: conn` and no HTTP or DNS documents, what could you still say? This is a real scenario — it is what encrypted traffic looks like after [lesson 04](04-what-encryption-hides.md).
 4. Give one plausible, specific benign product that would produce all three `cdn-metrics.example` behaviors, and say what evidence would rule it in or out.
 5. The DNS queries defeat caching by design. Name a legitimate reason to do that.
+6. The TXT answers carry a sequence number starting near 8,607 while the client's own counter starts at zero. Give two readings of that, and say what evidence would separate them.
 
 ## Reviewing your own work
 
@@ -190,6 +212,7 @@ Address these inside that structure:
 - Did you distinguish "these three behaviors share a domain" from "these three behaviors are one campaign"? The first is in the capture. The second is an inference.
 - Would your assessment survive `cdn-metrics.example` turning out to be a legitimate analytics vendor the marketing team signed up for? If it would be embarrassing, it was overclaimed — this is the same test [lesson 08](08-judgment-and-handoff.md) applies.
 - Did you recommend an action proportionate to the evidence, or did you recommend the most decisive action available?
+- Did you read the TXT answers, or did you stop at "the payload is encrypted"? Half of this channel is written in plain text in the log you already had open.
 - What is your single cheapest next question? If it is not "do other workstations do this too," reconsider.
 
 ## What this lesson does not do
