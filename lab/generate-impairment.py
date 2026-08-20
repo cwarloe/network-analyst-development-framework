@@ -22,8 +22,14 @@ USAGE
     Default output directory is assets/pcaps/ relative to the repo root.
 
 REQUIRES
-    root, iproute2 (`ip`), tcpdump, python3, and a kernel with sch_netem.
+    Linux. Not Windows, not macOS, and not WSL2 -- the stock WSL kernel is
+    built without sch_netem. Any ordinary Linux box or cloud VM works.
+
+    root, iproute2 (`ip`, `tc`), tcpdump, python3, and a kernel with sch_netem.
     On Debian/Ubuntu: apt-get install iproute2 tcpdump
+
+    You do NOT need zeek or tshark to produce these. Commit the captures and
+    let CI validate them.
 """
 import atexit
 import importlib.util
@@ -56,12 +62,32 @@ def run(cmd, check=True, ns=False):
 
 
 def preflight():
+    # Platform first. Network namespaces, veth and netem are Linux kernel
+    # features; on anything else this cannot work at all, and saying so beats
+    # failing obscurely three calls later.
+    if sys.platform != "linux":
+        print(f"Cannot run: this needs Linux, and this is {sys.platform!r}.\n"
+              "\n"
+              "  Network namespaces, veth pairs and netem are kernel features.\n"
+              "  There is no Windows or macOS equivalent that produces these captures.\n"
+              "\n"
+              "  WSL2 will NOT work either: the stock WSL kernel is built without\n"
+              "  sch_netem, so `tc qdisc add ... netem` fails with 'Specified qdisc\n"
+              "  not found'. Closing that needs a custom WSL kernel build.\n"
+              "\n"
+              "  What does work: any ordinary Linux box or cloud VM. Ubuntu images\n"
+              "  ship netem by default.\n"
+              "\n"
+              "  You do NOT need zeek or tshark there -- just produce the captures,\n"
+              "  commit them, and CI validates on push. See lab/README.md.")
+        sys.exit(1)
+
     problems = []
-    if os.geteuid() != 0:
+    if os.geteuid() != 0:            # only reached on Linux, where this exists
         problems.append("not root -- rerun with sudo")
-    for tool in ("ip", "tcpdump"):
+    for tool, pkg in (("ip", "iproute2"), ("tcpdump", "tcpdump"), ("tc", "iproute2")):
         if subprocess.run(["which", tool], capture_output=True).returncode != 0:
-            problems.append(f"{tool} not found (apt-get install iproute2 tcpdump)")
+            problems.append(f"{tool} not found (apt-get install {pkg})")
     if subprocess.run(["ip", "netns", "list"], capture_output=True,
                       text=True).stdout.find(NS) >= 0:
         problems.append(f"a network namespace called {NS!r} already exists -- "
