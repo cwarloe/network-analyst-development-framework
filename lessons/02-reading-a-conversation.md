@@ -52,7 +52,7 @@ Two conversations. Same client, same server, same service. Read the fields you w
 - **`destination.ip` / `destination.port`** — who was contacted, on which service port.
 - **`connection.state: SF`** — normal establishment and normal teardown. Both sides said hello and both said goodbye. Security Onion also carries `connection.state_description`, which spells it out: *Normal SYN/FIN completion*.
 - **`client.bytes` / `server.bytes`** — 151 out, 207 back; then 149 out, 144 back. Note the direction words: `client` is whoever opened the connection, which is not always the interesting party.
-- **`log.id.uid`** — the identifier tying this document to every other log Zeek wrote about the same conversation. It is how you pivot.
+- **`log.id.uid`** — the identifier tying this document to every other log Zeek wrote about the same conversation. It is how you pivot. Zeek mints a fresh one every time it runs, so if you process this capture yourself your UIDs will not be the two above. Use whatever you get; the pivot is what matters, not the string.
 
 Take that `log.id.uid` and search for it again. This time you get the HTTP document:
 

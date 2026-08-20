@@ -32,11 +32,18 @@ tshark -r assets/pcaps/04-tls.pcap -Y tls -T fields \
        -e frame.number -e tcp.stream -e ip.dst -e tls.handshake.type -e tls.record.length
 ```
 
-Stream 0 goes to `198.51.100.20`. Stream 1 goes to `198.51.100.30`. Start by confirming the client did the same thing both times:
+That gives you a thirteen-row map of every TLS record in the file. Stream 0 goes to `198.51.100.20`. Stream 1 goes to `198.51.100.30`.
+
+Now confirm the client did the same thing both times. The offered protocol versions live in an extension, so ask for that field by name:
 
 ```
-frame 4   ClientHello -> 198.51.100.20   supported_versions: 0x0304, 0x0303
-frame 18  ClientHello -> 198.51.100.30   supported_versions: 0x0304, 0x0303
+tshark -r assets/pcaps/04-tls.pcap -Y "tls.handshake.type==1" -T fields \
+       -e frame.number -e ip.dst -e tls.handshake.extensions.supported_version
+```
+
+```
+4    198.51.100.20    0x0304,0x0303
+18   198.51.100.30    0x0304,0x0303
 ```
 
 Identical offers. `0x0304` is TLS 1.3, `0x0303` is TLS 1.2, and the client offered both to both servers. **Whatever differs from here is the server's decision, not the client's.** Hold onto that.
@@ -84,17 +91,32 @@ Nothing about the conversation changed. Your vantage point on it did.
 
 ## Connection two: TLS 1.3
 
-Same client, same certificate on the server, same offer. The server at `198.51.100.30` chose `0x0304` and cipher `0x1302`. Frame 18 is a ClientHello that looks like frame 4. Then frame 20:
+Same client, same certificate on the server, same offer. The server at `198.51.100.30` chose TLS 1.3 and cipher `0x1302`.
+
+**Check the version field before you trust it.** Ask tshark for `tls.handshake.version` on this ServerHello and it says `0x0303` — TLS 1.2 — which is not what the server chose:
+
+```
+tshark -r assets/pcaps/04-tls.pcap -Y "tls.handshake.type==2" -T fields \
+       -e frame.number -e tls.handshake.version -e tls.handshake.extensions.supported_version
+```
+
+```
+6     0x0303
+20    0x0303    0x0304
+```
+
+TLS 1.3 freezes the legacy version field at `0x0303` so that middleboxes which only understand 1.2 will pass the connection through, and announces the real version in the supported_versions extension instead. A dashboard built on `tls.handshake.version` will report this connection as TLS 1.2 forever. The field is not broken and nobody is lying to you — it means something other than what its name suggests, which is a thing you will meet again. Frame 18 is a ClientHello that looks like frame 4. Then frame 20:
 
 ```
 frame 20   ServerHello                    122 bytes
            ChangeCipherSpec                 1 byte
+           Application Data                23 bytes
            Application Data              1038 bytes
            Application Data               281 bytes
            Application Data                69 bytes
 ```
 
-Count the handshake message types. There is a ServerHello, and after it there is nothing but opaque records.
+Count the handshake message types. There is a ServerHello, one ChangeCipherSpec sent purely for compatibility with middleboxes, and after that there is nothing but opaque records.
 
 Confirm it directly:
 

@@ -31,12 +31,12 @@ Search this client's connections in Hunt or Kibana. Six documents, `event.datase
 
 ```
 source.port  destination.ip   destination.port  network.protocol  event.duration  client.bytes  server.bytes  connection.state  connection.history
-41001        198.51.100.30    80                —                 0.000011        0             0             REJ               1
-41002        198.51.100.40    80                http              0.000471        67            441           RSTR              4
-41003        198.51.100.50    80                http              4.000853        95            132           SF                5
-41000        198.51.100.20    80                —                 4.092267        0             0             S0                5
-41000        198.51.100.20    80                —                 2.015977        0             0             S0                2
-41000        198.51.100.20    80                —                 —               —             —             S0                1
+41001        198.51.100.30    80                —                 0.000011        0             0             REJ               Sr
+41002        198.51.100.40    80                http              0.000471        67            441           RSTR              ShADadr
+41003        198.51.100.50    80                http              4.000853        95            132           SF                ShADadfF
+41000        198.51.100.20    80                —                 4.092267        0             0             S0                S
+41000        198.51.100.20    80                —                 2.015977        0             0             S0                S
+41000        198.51.100.20    80                —                 —               —             —             S0                S
 ```
 
 Before reading further, look only at `connection.state` and try to name four different faults. Zeek has already done most of the discrimination for you, and Security Onion carries a second field that spells each one out in plain English — `connection.state_description`, which it adds during ingest and which has no Zeek equivalent:
@@ -49,6 +49,17 @@ Before reading further, look only at `connection.state` and try to name four dif
 | `S0` | Connection attempt seen, no reply |
 
 Read those four descriptions again. They are the entire lesson, written by the tool, and most analysts never look at that column.
+
+`connection.history` is the same story told letter by letter, in the order things happened. Uppercase is the originator, lowercase the responder:
+
+| History | Read it out |
+|---|---|
+| `Sr` | Client sent a SYN; server sent a reset. Two packets, and it was over |
+| `S` | Client sent a SYN. Nothing came back. That is the whole record |
+| `ShADadfF` | SYN, SYN-ACK, ACK, data out, data back, both sides finished. The complete normal life of a connection |
+| `ShADadr` | Same beginning — established, data both directions — then `r`, the responder resetting instead of finishing |
+
+`Sr` against `S` is the REJ-versus-S0 distinction spelled out in two characters. The presence or absence of that one lowercase `r` is the entire difference between a host that refused you and a host that never heard you.
 
 ## Worked: the two that get confused
 
