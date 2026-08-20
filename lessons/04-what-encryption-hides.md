@@ -23,6 +23,8 @@ This capture contains that exact situation, from a client that behaved identical
 
 Two TLS connections, generated live by [`lab/generate-captures.py`](../lab/generate-captures.py). The same client, the same request, the same certificate, the same offered protocol versions — to two servers that answered differently.
 
+**You have read this conversation before.** Stream 0 goes to `198.51.100.20` from `192.0.2.10`, and those are the same two hosts, running the same service, that you narrated end to end in [lesson 02](02-reading-a-conversation.md) — the same `GET /api/v2/export?page=1` from the same client to the same file service. The only thing that changed is that it is now on port 443 instead of port 80. Watch how much of what you could say then survives.
+
 **One thing to be clear about before you start.** That the two servers present the *same certificate* is something the lab knows because the lab configured it. It is not something this capture shows, and by the end of the lesson you will be able to say exactly why. Where the text below states it as fact, it is stating the lab's ground truth. Keeping that separate from what the evidence supports is the habit [lesson 01](01-what-the-analyst-is-for.md) started building, and this lesson is where it gets uncomfortable.
 
 ```
@@ -76,7 +78,9 @@ frame 10   Application Data   130 bytes
 frame 11   Application Data   132 bytes
 ```
 
-`Application Data` is TLS record type 23, and its contents are opaque. From lesson 02's plaintext conversation you could read `GET /api/v2/export?page=1` and the JSON that came back. Here you get two numbers. The request and the response happened; what they said is gone.
+`Application Data` is TLS record type 23, and its contents are opaque. In [lesson 02](02-reading-a-conversation.md) — same client, same server, same request — you read `GET /api/v2/export?page=1` off the wire, and read back a 90-byte JSON summary describing 1,284 rows. Here you get two numbers: 130 bytes out, 132 bytes back. The request and the response happened; what they said is gone.
+
+Nothing about the conversation changed. Your vantage point on it did.
 
 ## Connection two: TLS 1.3
 
