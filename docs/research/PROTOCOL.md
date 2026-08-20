@@ -14,6 +14,10 @@ Use [`template-research-question.md`](template-research-question.md). Define sco
 
 Record databases, repositories, search terms, filters, and search dates. Preserve stable identifiers such as DOI, RFC number, standard number, or release version.
 
+Where a question is handed to an external model rather than searched directly, keep the prompt verbatim in [`prompts/`](prompts/), named for the record it answers into. If a result comes back odd, that is how a bad answer is distinguished from a badly-framed question.
+
+R004's prompt was not kept, which is why this says so now.
+
 ### 3. Assess sources
 
 Evaluate authority, methodology, recency, directness, reproducibility, and conflicts of interest. A high-quality source can still be indirect or inapplicable; record both quality and relevance.
