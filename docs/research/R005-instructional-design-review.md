@@ -4,6 +4,8 @@
 
 A review of NADF's instructional methodology against what the learning-science literature supports, and of the architecture against what it would take to know whether it works.
 
+> **Corroborated by [R007](R007-nice-role-mapping.md).** Finding 1 below says the architecture has no time dimension. R007 later mapped the capability model against the NICE Defensive Cybersecurity role and found that its trend-analysis, posture-reporting and continuous-monitoring statements have no NADF counterpart — the same structural absence, reached from the role side by an unrelated method. Two independent routes to one gap is the strongest signal either record carries.
+>
 > **Partly superseded by [R006](R006-literature-scan.md).** R005 named five literature gaps; R006 scanned them and the results revised this record's recommendation order rather than confirming it. Three of the four cheap recommendations below are more conditional than stated here, and the self-review sections this record treated as a mild positive turn out to carry a real load risk for novices. R005 is left as written; R006 is the revision.
 
 Written after all nine lessons existed and before any of them had been used. That timing matters: the findings below are about design, not about performance, because no performance data exists yet.

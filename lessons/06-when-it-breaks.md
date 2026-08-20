@@ -238,10 +238,12 @@ It must contain:
 
 ## What this lesson does not do
 
-It does not cover packet loss, latency injection, MTU problems, or path MTU discovery failure. Those need traffic impairment the current [capture lab](../lab/README.md) cannot produce — no `netem` — and they are a real gap in this lesson. Fragmentation and MTU black holes in particular are a classic failure class this material does not yet teach.
+It does not cover packet loss or induced latency. Both need traffic impairment the [capture lab](../lab/README.md) cannot produce without `NET_ADMIN`, and they remain a real gap.
+
+Fragmentation is covered, but only in one direction and only where every fragment survives. A path-MTU-discovery black hole — where the ICMP "fragmentation needed" message is filtered and the sender never learns to send smaller packets — is the related failure this lesson still does not show. It is the nastiest member of this family, because the connection establishes normally and then stalls the moment anything large is sent.
 
 It does not cover routing faults, asymmetric paths, or anything requiring more than one vantage point. [Lesson 05](05-vantage-point-and-evidence.md) explains why one sensor cannot settle those.
 
-Four connections from one client is a demonstration of four signatures, not a survey of how networks fail.
+Four connections and one fragmented query is a demonstration of five signatures, not a survey of how networks fail.
 
 It does not define proficiency, scoring, or completion. One diagnosis is a single sample.

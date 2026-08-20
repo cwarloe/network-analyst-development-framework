@@ -93,4 +93,4 @@ These were open while the course was being written. Two are still open.
 
 1. **Who is the learner?** The outline assumes no analysis experience and no tooling background. An audience of working IT staff would compress 02–04 substantially and change the entry point.
 2. **How is it delivered?** Self-guided like PILOT-001, or instructor-led with live review? This determines whether feedback is a review guide or a person, which in turn determines whether EF-8 is reachable in lessons before lesson 09.
-3. ~~**What is the time budget?**~~ **Answered by construction: about 18 hours.** Lessons 01–08 state 16.5 hours between them and the capstone adds 60–90 minutes. If a delivery needs less, the honest move is cutting whole lessons rather than thinning all of them — though note that 02 through 07 each depend on the one before.
+3. ~~**What is the time budget?**~~ **Answered by construction: about 18 hours.** Lessons 01–08 state 17 hours between them and the capstone adds 60–90 minutes. If a delivery needs less, the honest move is cutting whole lessons rather than thinning all of them — though note that 02 through 07 each depend on the one before.

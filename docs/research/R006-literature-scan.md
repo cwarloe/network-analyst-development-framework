@@ -92,6 +92,10 @@ This also connects to [R005](R005-instructional-design-review.md)'s finding that
 
 > Confidence: **Moderate-to-High.** The transfer literature is contested in its details and consistent in this general shape.
 
+## A note added after R007
+
+[R007](R007-nice-role-mapping.md) mapped the capability model against an external role standard after this record was written, and independently reached the gap [R005](R005-instructional-design-review.md) found from the instructional side: the role performs trend, posture and continuous-monitoring work across time, and every NADF lesson is a single moment. That corroboration is why "a second transfer exposure" below understates the problem — the issue is not only how many transfer exposures there are, but that the course has no unit of analysis larger than one incident.
+
 ## Revised recommendation order
 
 Replacing R005's ranking:
