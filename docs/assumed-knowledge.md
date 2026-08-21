@@ -53,6 +53,8 @@ TLS is heavier. Lesson 04 opens on `ClientHello` and `cipher 0xc030` and assumes
 
 `pcap` · `Wireshark` · `tshark` · `Zeek` · `Security Onion` · `Hunt` · `Kibana` · `Elasticsearch` · `conn.log` · `dissect`
 
+> **Closed 2026-08-21.** Lesson 02 now opens with *Six sentences about the tools, before any of them show up* — the pipeline from capture to Wireshark to Zeek to Security Onion to Hunt, the two-views framing, and the field-rename wrinkle. The rest of this section is the finding as it stood.
+
 **This is the cheapest gap to close and the one nobody had noticed.**
 
 The course's central working pattern is *log first, packets second* — go to the log to find the conversation, go to the capture to read it. But a reader is never told what a log **is** in this context, what produced it, or how the four tools relate. Lesson 02's "Requires" line names Wireshark, tshark and Zeek and then begins, and by the second section the reader is in Hunt or Kibana looking at documents Elasticsearch indexed.
@@ -67,7 +69,7 @@ The clusters are not equal:
 
 | Cluster | Size | Cost to close |
 |---|---|---|
-| **D — toolchain** | ~10 | **Six sentences.** Could go in lesson 02 today |
+| ~~**D — toolchain**~~ | ~10 | ~~Six sentences~~ — **done** |
 | **B — TCP flags** | 3 | A short paragraph, or a diagram |
 | **A — what a conversation is** | ~9 | A real primer. This is the genuine prerequisite |
 | **C — application layer** | ~13 | Partly closeable in place; TLS is the heavy end |

@@ -19,6 +19,16 @@ Before you can say that anything is unusual, you have to be able to say what hap
 
 The unit you read is a **conversation**: one client, one server, one port pair, from open to close. Everything in this course is built on being able to narrate one.
 
+## Six sentences about the tools, before any of them show up
+
+You are about to meet five pieces of software in two paragraphs. Here is the whole relationship, once, so you are not assembling it from context later.
+
+A **capture** — a `.pcap` file — is a recording of packets in order, exactly as they crossed one point on the network. **Wireshark** opens a capture and shows you every packet; **`tshark`** is the same program at the command line. **Zeek** reads that identical file and does something different: instead of showing you packets, it writes *summary logs* — one line per conversation, in files called `conn.log`, `http.log`, `dns.log`. **Security Onion** is a platform that runs Zeek continuously against live traffic and loads those logs into **Elasticsearch**, a search index; **Hunt** and **Kibana** are the two interfaces you search it with.
+
+So there are two views of the same traffic: **the packets themselves, and Zeek's summary of them.** This whole course moves back and forth between those two views, and knowing which one you are looking at is most of the skill.
+
+One wrinkle worth knowing now rather than being confused by later: Security Onion **renames Zeek's fields** as it ingests them. Zeek writes `id.orig_h`; Security Onion indexes it as `source.ip`. Same value, two names, depending on where in the pipeline you are standing. [`field-names.md`](field-names.md) is the mapping.
+
 ## Where this data came from
 
 The capture in `assets/pcaps/` was generated in a lab by [`lab/generate-captures.py`](../lab/generate-captures.py). The traffic is real — a real client, a real server, a real TCP stack — and then the addresses were rewritten into documentation ranges so it reads as an ordinary internal exchange. Protocol behavior, timing and payloads are untouched.
