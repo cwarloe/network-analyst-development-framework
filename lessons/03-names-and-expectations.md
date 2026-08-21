@@ -83,6 +83,17 @@ Three things are worth extracting from four lines of output:
 
 **Nothing here tells you the client connected.** A DNS answer is a question answered, not a connection made. Lesson 02's capture would tell you that. This one cannot, and conflating the two is one of the most common errors in DNS-based reporting.
 
+## Guided practice — commit before you look
+
+Frames 13 to 16 ask two of these same questions again, 5.5 seconds after the first time. You are about to see the answers. Write your predictions down first — actually write them, four short lines — because the whole point of this lesson is what your expectations do when they meet data, and you cannot observe that if you never fixed them.
+
+1. Frame 2 gave `github.com` an A record with a **TTL of 60**, and only 5.5 seconds have passed. Same address or different? Commit.
+2. Frame 2 gave `www.github.com` a CNAME with a **TTL of 3600**. What number do you expect this time? A direction is enough if you cannot pick a value.
+3. Frame 4 gave `en.wikipedia.org` a CNAME with a **TTL of 11342**. Same question.
+4. Now the one that matters: **write down what a result would have to look like for you to be suspicious of it.** Not what you expect — what would cross the line. One sentence.
+
+Keep question 4 where you can see it. In [lesson 07](07-when-its-suspicious.md) you will be asked to do this on traffic that might genuinely be hostile, and setting the bar *after* seeing the data is the failure that section is built to prevent.
+
 ## The same question, five seconds later
 
 Frames 13 and 14 ask the identical question again, 5.5 seconds after the first:
@@ -113,6 +124,8 @@ frame 16  (t=5.849s)   en.wikipedia.org  CNAME  ttl 15928
 The github TTL fell by more than the elapsed time. The wikipedia TTL **went up**.
 
 A TTL is supposed to count down. A TTL that increases looks, on its face, like tampering — and if you have ever seen a threat-hunting article about DNS manipulation, that is roughly the shape of the indicator. What actually happened is that `1.1.1.1` is anycast: the two queries were answered by different cache nodes, holding the same record at different points in its life. Neither node is wrong. There is no single countdown to observe, because there is no single cache.
+
+Check both against what you wrote. If your line for question 4 would have fired on either of these, it was drawn in the wrong place — and you drew it *before* you had any reason to want a particular answer, which is the most honest version of that mistake anyone gets to make.
 
 **This is the lesson's core.** Two observations that a rule would flag — an address that changed inside its TTL, and a TTL that ran backwards — are both ordinary. Not because anomalies do not matter, but because *you cannot tell which anomalies matter until you know what normal looks like in detail*, and normal is stranger than it appears from a diagram.
 

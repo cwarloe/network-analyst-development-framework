@@ -98,6 +98,24 @@ Working through it:
 
 **Unanswerable as things stand:** the content of anything encrypted; the initiating process or account; anything before the 30-day connection-log boundary except at sampled resolution.
 
+## Guided practice — a smaller question, and one poisoned source
+
+Not a full plan. Four sources and three questions, aimed at the move that point 3 describes, because that is the one the worked example makes look easier than it is.
+
+> **Question.** Did anyone outside the company reach the management interface of the building-access appliance, `ACS-01`, at any point in the last fourteen days?
+
+> **Available sources.** Perimeter firewall logs, 90 days — **configured to log denied connections only.** VPN concentrator session logs, 45 days, showing which accounts connected and from where, but not what they reached afterwards. `ACS-01`'s own web server access log, **3-day retention**, rotated. Unsampled flow records from the switch the appliance sits behind, 30 days.
+
+Work these three:
+
+1. **The firewall log is the source everybody reaches for first, and here it is the dangerous one.** Say precisely what a search returning zero results would establish, and what it would not. Write the sentence you would have to put in your finding if that search came back empty and you had nothing else.
+2. **For each of the four sources, write the discriminating pair:** *if someone did reach it, this source shows ___; if nobody did, it shows ___.* One source will give you the same answer either way. Say which, and drop it.
+3. **Two of these sources are on clocks.** Say what you collect first and why, and note that the answer is not the same as "which source is most likely to answer the question."
+
+Then one to carry forward: **the appliance's own log is the only source that could confirm a successful session, and it holds three days of a fourteen-day question.** Nothing in the plan can fix that. Write the one sentence you would say to whoever asks you for a definitive answer — a sentence that is neither "yes it happened" nor "there is no evidence," because both of those would be false.
+
+No answer key. Question 1 is the one to be hardest on yourself about.
+
 ## Your work product
 
 > **Situation.** Users at the Portland branch report that a hosted SaaS application has been intermittently slow for three days. Sometimes it is fine; sometimes pages take fifteen seconds. Other applications seem unaffected. A manager wants to know whether the problem is in your network before the vendor is contacted.

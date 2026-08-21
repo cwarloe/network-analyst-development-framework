@@ -39,8 +39,6 @@ The most common one in real work is the second, and it usually arrives pre-insta
 
 ## Worked example — Case A
 
-Read this one with me. Do not write anything yet.
-
 > **Alert:** `Possible data exfiltration — HOST-14`
 
 Supplied observations:
@@ -53,6 +51,12 @@ Supplied observations:
 | A-04 | The transfer used TCP/443. |
 | A-05 | No prior connection from HOST-14 to this address appears in the 30 days of available records. |
 
+**Before you read on.** Something on this page is a conclusion rather than a thing anybody saw, and it arrived before any analysis did. Find it. Thirty seconds, in your head, no writing.
+
+Then read the separation below, which is worked in full.
+
+---
+
 Here is the separation.
 
 **What was observed:** all five rows. Note that A-05 is weaker than it looks — it says the connection does not appear in *available* records, not that it never happened. The limitation is part of the observation.
@@ -60,6 +64,8 @@ Here is the separation.
 **What is interpretation:** that 4.2 GB is "large" (large for a workstation, unremarkable for a backup job); that 02:00–04:00 is "off hours" (for the user, not for automated tasks); that an unrecognized destination is suspicious (asset records are usually incomplete); that TCP/443 means "hiding" (TCP/443 is where nearly everything legitimate lives).
 
 **What was smuggled in:** the word *exfiltration*, in the alert title, before any analysis happened. It names a cause. Nothing in A-01 through A-05 establishes one. The alert has handed you a conclusion and asked you to confirm it — and confirming what you were handed is the single most common way network analysis goes wrong.
+
+If you went looking in the five rows, that is worth noticing too. The rows are where the evidence is, so the rows are where you look — which is exactly why a conclusion in the title travels so well. It is not in the place you are checking.
 
 **What the actual question is:** not "is this exfiltration?" but *"is this transfer explained by authorized activity, and if we cannot tell yet, what would tell us?"* That is IR-1: framing an actionable question from an ambiguous condition. The reframed question is answerable. The original one is a yes/no invitation to guess.
 

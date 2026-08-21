@@ -150,6 +150,17 @@ Roughly 60 KB outbound, nothing back. A single upload against a workstation's ot
 
 By itself: unremarkable. Workstations upload things. Crash reports, telemetry bundles, document saves, backups.
 
+## Guided practice — commit on shape alone
+
+You now have everything a timing-and-volume analysis gives you: four destinations, two of them beaconing, one high-rate DNS channel, one bulk upload. Before you read the next section, commit.
+
+1. **Rank the four destinations** by how much they concern you. Write the order down.
+2. **Write the detection rule** you would propose to catch `198.51.100.60` and not `198.51.100.70`. An actual rule — a field, an operator, a threshold. Then, underneath it, name one piece of legitimate software in a normal enterprise that your rule would also catch. If you cannot think of one, the rule is not specific, you are just not familiar enough with what runs on a managed endpoint.
+3. **How confident are you that `198.51.100.60` is malicious?** Commit to a word — *unlikely, possible, likely, near-certain* — and write the single observation your word rests on.
+4. **What one additional field** would move your confidence furthest, in either direction?
+
+Do not skip 4. The next section is largely about where that field was.
+
 ## The evidence that actually discriminates
 
 Go back and read the hostname across all three behaviors — a different field in each dataset, which is exactly why it is easy to miss:
@@ -163,6 +174,8 @@ upload   198.51.100.90   http.virtual_host   cdn-metrics.example
 **Three different behaviors, three different IP addresses, one domain.**
 
 A regular check-in, a high-rate DNS channel, and a bulk outbound transfer, all associated with `cdn-metrics.example`. Meanwhile `198.51.100.70` — the other beacon, the one that is shape-identical to the first — belongs to `updates.contoso-internal.example` and appears in nothing else.
+
+Now look at what you wrote for question 4. If you asked for something you did not have — process telemetry, a reputation feed, the DNS payloads — reasonable, and you will often be right to. But the field that discriminates here was already on your screen before you were asked, in three different datasets, under three different names. Nobody withheld it. It was simply not the column anyone looks at when the question is *"is this beaconing?"*
 
 This is the shift the lesson is built around. **The discriminating evidence is relational, not morphological.** Not "this beacon is more regular than that one," but "these three unrelated-looking behaviors converge on one domain, and that one does not." Convergence is much harder to produce accidentally than any individual shape, and much harder for an adversary to avoid than jitter.
 

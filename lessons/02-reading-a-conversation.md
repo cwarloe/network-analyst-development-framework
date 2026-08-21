@@ -136,6 +136,20 @@ Narrated in one sentence: *a host called `contoso-sync/3.2` asked an internal fi
 
 That sentence contains no judgment. It is what happened.
 
+## Guided practice — what the log alone will tell you
+
+Before you open the second conversation in Wireshark, work it from the log documents at the top of this lesson. You already have every field an analyst in Hunt would have.
+
+This is deliberately the harder direction. In real work the log is what you get first, and deciding what it does and does not establish — *before* you go looking at packets — is most of what stops an investigation wandering.
+
+1. From `connection.state: SF` alone, write one sentence about the second conversation that you would defend in a meeting. Then write what that sentence does **not** say.
+2. From `http.status_code: 403` alone, do the same.
+3. Those two sentences are both true and they point in opposite directions. Which one answers *"did the network deliver the request?"* and which answers *"did the client get what it asked for?"*
+4. Subtract. The first conversation: `server.bytes` 207, `http.response.body.length` 90. The second: 144 and 44. Do the arithmetic on both, and say what the two results tell you about the part of each response you cannot see in either field.
+5. Name one thing you expect the packets to show you that the log has not, and one thing you expect the packets will not tell you either.
+
+No answer key. You are about to open the file, and the file is the answer key — which is the arrangement you want, and almost never get.
+
 ## Your work product — the second conversation
 
 Frames 11–20 are the second conversation. Read them yourself and write a description of it.

@@ -89,6 +89,26 @@ frame 11   Application Data   132 bytes
 
 Nothing about the conversation changed. Your vantage point on it did.
 
+## Guided practice — predict the second connection
+
+Stop before you read on. Stream 1 is the same client making the same request to a server holding the same certificate, and the only difference is that this server chose TLS 1.3.
+
+For each of these, write **survives** or **gone**, and one line of reasoning. Reason from *when in the handshake the thing is sent*, and whether anything has been agreed by that point — not from whether it feels important.
+
+| | Will you still be able to see it? |
+|---|---|
+| The destination address |  |
+| How many bytes moved, and when |  |
+| The name the client asked for |  |
+| The cipher the two agreed on |  |
+| The certificate's subject and issuer |  |
+| The certificate's fingerprint |  |
+| *That a certificate was sent at all* |  |
+
+The last row is the one worth thinking hardest about, and it is not the same question as the two above it.
+
+Commit to all seven before you continue. If you get one wrong, the wrong one is the useful one — it marks a place where your model of TLS says something the protocol does not.
+
 ## Connection two: TLS 1.3
 
 Same client, same certificate on the server, same offer. The server at `198.51.100.30` chose TLS 1.3 and cipher `0x1302`.
@@ -186,6 +206,8 @@ That is worth sitting with, because it is the lesson's own argument arriving fro
 > **Running Zeek yourself?** `zeek -C -r assets/pcaps/04-tls.pcap` writes `ssl.log` and `x509.log` with Zeek's names — `version`, `cipher`, `server_name`, `cert_chain_fps`, `certificate.subject` — and it *will* include `sni_matches_cert`, because nothing has dropped it yet. [The mapping is here](field-names.md).
 
 ## What survives
+
+Get your seven predictions out. This section and the one above it settle all of them, and the row most people get wrong is the last one — *that a certificate was sent at all*. It was. It is inside that 1038-byte record. What you have lost is not the certificate; it is your ability to observe that the certificate exists. Those are different failures and they call for different responses.
 
 Not nothing. Compare the two ClientHellos:
 

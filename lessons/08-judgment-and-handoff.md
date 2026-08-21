@@ -89,6 +89,20 @@ One analysis, two write-ups. Same evidence.
 
 The second is longer, more useful, and easier to be wrong in safely. It also tells the reader exactly which future finding would change it.
 
+## Guided practice — three sentences that are wrong in three different ways
+
+Small, and deliberately about nothing dramatic. Each of these is a real sentence shape you will write, or read, or have to push back on. For each: name the defect, then repair the sentence without inventing evidence that is not there.
+
+> **1.** "High confidence the Tuesday outage was a DNS problem."
+
+> **2.** "Three separate sources confirm the host was offline during the window: the monitoring dashboard, the alert email, and the ticket the NOC raised."
+
+> **3.** "Low confidence this is a compromised service account. Recommend disabling it and forcing a password reset across the department."
+
+Then one more thing, for number 2 only: **write its breaker.** One finding that would most reduce your confidence in it. If you can write that sentence quickly, the defect in number 2 is already obvious to you; if you cannot, it is worth sitting with, because it is the most common way a report ends up sounding much stronger than its evidence.
+
+No answer key. Each has one primary defect and each is repairable in a sentence.
+
 ## The case
 
 You are handed a completed analysis. Your job is the judgment and the communication, not the investigation.

@@ -208,7 +208,7 @@ The consequence is concrete. A detection that counts `connection.state:S0` per h
 
 **A log is a rendering of events under a set of rules, not the events.** Knowing the rules of your own logs is part of knowing your evidence, which is what [lesson 05](05-vantage-point-and-evidence.md) was about.
 
-## Predict, then check
+## Guided practice — predict, then check
 
 Do this before writing anything up, and write your predictions down first — the value is in being wrong on paper.
 
