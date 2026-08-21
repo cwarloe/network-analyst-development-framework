@@ -21,15 +21,15 @@ The ticket said:
 
 > **Possible unauthorized access attempt — internal file service**
 
-Underneath were two lines from a connection log, and I want to be accurate about how much of them I understood, because it was not much.
+Underneath were two lines from a connection log, and I understood almost none of it.
 
-There were two addresses. There were two numbers I was fairly sure were ports. There were four more numbers I assumed were byte counts and one I assumed was a duration, except it was mostly zeros and I could not think of a unit that made it sensible. There was a column called `connection.state` containing the value `SF`, twice, and about that I had nothing at all.
+I had memorized port numbers on my own time for two years and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `SF` twice, about which I had nothing at all.
 
 Here is what I could actually read. Same workstation, same server, four tenths of a second apart. The first was a `GET` to an export endpoint and it came back `200 OK` with ninety bytes of JSON. The second was a `GET` to `/api/v2/admin/users` and it came back `403 Forbidden` with forty-four bytes.
 
 `403 Forbidden` I knew. `admin` I knew.
 
-So out of the thirty-odd pieces of information in front of me I built my answer out of the two I recognized. Then I read the title again and it agreed with me, and I felt the small hot satisfaction of knowing something.
+I counted twenty-six pieces of information in front of me and built my answer out of the two I recognized, and I felt the small hot satisfaction of knowing something. Somebody had tried an admin endpoint. The server had said no. That is what the ticket said too, so I was clearly right.
 
 I went and found Dana at her desk and said, "Someone's probing the admin API."
 
@@ -57,7 +57,7 @@ She looked genuinely uninterested. "Which ones?"
 
 I listed them. She stopped me about halfway down. "You'll have all of those inside a month and not one of them is the hard part. The hard part is the thing you just did with the word. I've been doing this nine years and I still do it."
 
-Then: "All right. Somebody's poking at an admin endpoint. Who?"
+She moved on. "All right. Somebody's poking at an admin endpoint. Who?"
 
 "A user on a finance laptop."
 
@@ -69,7 +69,7 @@ I looked. The log had an address. It had a port number. It had how many bytes we
 
 "It's not in there," she agreed. "Keep that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
 
-Nought point nought nought nought one eight four. I had to count the zeros twice. A hundred and eighty-four millionths of a second, from the first packet to the last.
+Nought point nought nought nought one eight four. I counted the zeros twice. A hundred and eighty-four millionths of a second, from the first packet to the last.
 
 "So," she said. "That's your person. Reading a page, deciding to try an admin URL, typing it in. In under a fifth of a millisecond." She stopped. "No. That's wrong, what I just said. I was about to walk you into it."
 
