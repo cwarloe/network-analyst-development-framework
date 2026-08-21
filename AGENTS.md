@@ -28,8 +28,8 @@ This is not hypothetical. The NICE Framework was recorded as needing a manual do
 
 ## Working practice
 
-- Branch, commit, open a pull request. Merge it yourself when it's routine — do not leave finished work sitting on a branch waiting for a review that isn't coming.
-- Don't commit to `main` directly.
+- **Land work on `main`.** The maintainer reviews from a phone, where hunting for a branch is miserable, and a pull request nobody merges is just another place for finished work to get lost — the same failure as lesson M1 stranded behind the governance guide, recreated with branches instead of documents. This is a one-person project with CI on the things that can actually break, and anything wrong can be reverted.
+- Branch and open a pull request when the change is large enough that the diff is worth reading on its own, then **merge it yourself as soon as CI is green.** Do not hold a merge waiting for approval unless the maintainer asked you to, or the change is genuinely hard to reverse.
 - One coherent commit where practical.
 - Check relative links before pushing.
 - Ask the maintainer only about genuine forks in the road: scope, audience, or anything hard to reverse. Not about mechanics.
