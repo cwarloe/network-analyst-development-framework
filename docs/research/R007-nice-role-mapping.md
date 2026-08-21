@@ -111,7 +111,15 @@ The capability model already labels statements RS, AJ, or RS/AJ for exactly this
 
 1. **Name the excluded clusters in the Standing Qualifications.** Signature work, malware handling and incident resolution are deliberate exclusions; vulnerability management and control evaluation are undeclared ones. Both kinds should be visible. Cheap, and it converts a silent gap into a stated boundary.
 2. **Treat the longitudinal gap as real.** It is corroborated from two directions and it is not a scope preference — the role includes work across time and the course contains none. This does not require a tenth lesson; a trend or comparison element inside an existing lesson would test whether it matters. [R008](R008-longitudinal-judgment.md) surveyed how six other fields do it and proposes concrete candidates, of which SPC-style trend tasks are the cheapest.
-3. **Revisit the basis labels on LR-1 to LR-4 and JU-2/JU-4.** If no external role standard asserts them, RS/AJ may be generous.
+3. ~~**Revisit the basis labels on LR-1 to LR-4 and JU-2/JU-4.**~~ **Withdrawn 2026-08-21.** This recommendation was wrong, and acting on it would have degraded the model.
+
+   It applied a role-standard test to a research-basis label. `RS` means *research-supported direction* — it says nothing about role standards. NICE enumerates the tasks a defensive cyber analyst performs; it has no reason to contain "revise your mental model when evidence warrants," because that is a developmental capability rather than a work task. **Its silence there is expected and carries no information.**
+
+   Checked against the actual basis. The LR cluster traces to [PC-04](2026-07-11-r001-r003-reconciliation-provenance-recovery.md#4-conclusions-transferred-to-design-studio) — *"robust expertise uses structured, relational, causal, dynamic, and revisable mental models"* — which is recorded as a **sourced finding** with a **Directly Supported** Gate G2 trace, drawn from R003's mental-models and model-based-reasoning sections. R003 was a literature review on exactly this. PC-01 carries model revision too, and PC-07 carries metacognitive regulation, which is LR-4. Far from generous, `RS/AJ` is if anything conservative for LR-2.
+
+   And JU-4 is already labelled `AJ`, so half the recommendation had nothing to act on.
+
+   **What survives from it.** 23 of the model's 27 statements carry `RS/AJ` and only four carry `AJ`. A label applied to 85% of statements is not discriminating much, and that is a real weakness — but it is a different one, and addressing it means re-deriving every basis against the recovered material, not downgrading six statements for the wrong reason.
 4. ~~**Verify against NIST's own file.**~~ **Done** — the official v2.2.0 workbook matched the mirror exactly for this role and is committed alongside this record.
 
 ## What this does not establish
