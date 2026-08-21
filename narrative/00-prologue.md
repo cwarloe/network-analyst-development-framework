@@ -21,9 +21,15 @@ The ticket said:
 
 > **Possible unauthorized access attempt — internal file service**
 
-Underneath were two lines from the connection log. Same workstation, same server, four tenths of a second apart. The first was a `GET` to an export endpoint, and it came back `200 OK` with ninety bytes of JSON. The second was a `GET` to `/api/v2/admin/users`, and it came back `403 Forbidden` with forty-four bytes.
+Underneath were two lines from a connection log, and I want to be accurate about how much of them I understood, because it was not much.
 
-I read it three times and felt the small hot satisfaction of knowing something. Somebody had tried an admin endpoint. The server had said no. That is what the ticket said too, so I was clearly right.
+There were two addresses. There were two numbers I was fairly sure were ports. There were four more numbers I assumed were byte counts and one I assumed was a duration, except it was mostly zeros and I could not think of a unit that made it sensible. There was a column called `connection.state` containing the value `SF`, twice, and about that I had nothing at all.
+
+Here is what I could actually read. Same workstation, same server, four tenths of a second apart. The first was a `GET` to an export endpoint and it came back `200 OK` with ninety bytes of JSON. The second was a `GET` to `/api/v2/admin/users` and it came back `403 Forbidden` with forty-four bytes.
+
+`403 Forbidden` I knew. `admin` I knew.
+
+So out of the thirty-odd pieces of information in front of me I built my answer out of the two I recognized. Then I read the title again and it agreed with me, and I felt the small hot satisfaction of knowing something.
 
 I went and found Dana at her desk and said, "Someone's probing the admin API."
 
@@ -45,7 +51,13 @@ That is the whole thing. Nobody tells you that on your first day. I want to be c
 
 Dana came over and leaned on the back of my chair.
 
-"All right," she said. "Somebody's poking at an admin endpoint. Who?"
+I told her I hadn't understood most of the columns, and braced for that to turn out to be the real problem.
+
+She looked genuinely uninterested. "Which ones?"
+
+I listed them. She stopped me about halfway down. "You'll have all of those inside a month and not one of them is the hard part. The hard part is the thing you just did with the word. I've been doing this nine years and I still do it."
+
+Then: "All right. Somebody's poking at an admin endpoint. Who?"
 
 "A user on a finance laptop."
 
@@ -55,11 +67,11 @@ I looked. The log had an address. It had a port number. It had how many bytes we
 
 "It's not in there," I said.
 
-"It's not in there," she agreed. "Keep that. It comes up constantly." She reached past me and pointed at the duration column. "Now — how long did the second one take?"
+"It's not in there," she agreed. "Keep that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
 
-Point one eight four milliseconds. From the first packet to the last.
+Nought point nought nought nought one eight four. I had to count the zeros twice. A hundred and eighty-four millionths of a second, from the first packet to the last.
 
-"So," she said. "That's your person. Reading a page, deciding to try an admin URL, typing it in. In under two tenths of a millisecond." She stopped. "No. That's wrong, what I just said. I was about to walk you into it."
+"So," she said. "That's your person. Reading a page, deciding to try an admin URL, typing it in. In under a fifth of a millisecond." She stopped. "No. That's wrong, what I just said. I was about to walk you into it."
 
 She was quiet for a second, and then: "Look at the agent string on both of them."
 
@@ -81,4 +93,6 @@ It took me forty minutes and it was the hardest piece of writing I have ever don
 
 **What happens next.** [Lesson 01](../lessons/01-what-the-analyst-is-for.md) is the thing Dana asked for — keeping observation, interpretation and judgment apart on the page. It takes about ninety minutes and needs no tools.
 
-The four questions she counted off are real questions with real answers, and you get to the first two in [lesson 02](../lessons/02-reading-a-conversation.md), where you open that capture yourself and read both conversations end to end. The `403` is waiting for you there.
+**If most of that log meant nothing to you, you read it correctly.** It meant nothing to him either, and Dana did not think that was the interesting part. Ports, byte counts, `connection.state`, the `SF` he had nothing at all about — those are a few weeks of exposure, and none of them was what went wrong on his first ticket.
+
+The four questions Dana counted off are real questions with real answers, and you reach the first two in [lesson 02](../lessons/02-reading-a-conversation.md), where you open that capture yourself and read both conversations end to end. `SF` is explained there in a sentence. The `403` is waiting for you.

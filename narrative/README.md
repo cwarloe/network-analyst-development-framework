@@ -28,6 +28,8 @@ These are constraints, not style preferences. Breaking them makes the story cont
 
 **5. Chapters do not have their own exercises.** The lessons already end in work products. A chapter ends by handing off to one.
 
+**6. The narrator never understands more than the reader.** If he reads a log fluently, a reader who cannot is being told they are behind before they start. He should be lost in the same places, name what he did not follow, and be told it does not matter yet. This is the cheapest defence against the material feeling abrupt, and it costs a sentence rather than a primer.
+
 ## Status
 
 **One chapter, deliberately.** The prologue exists so the voice and the rules can be judged against something real before anyone commits to eight more. Nine chapters of fiction written before a single lesson has been run with a person would repeat the pattern this project spent July undoing.
