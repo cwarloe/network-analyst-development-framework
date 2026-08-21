@@ -30,6 +30,22 @@ These are constraints, not style preferences. Breaking them makes the story cont
 
 **6. The narrator never understands more than the reader.** If he reads a log fluently, a reader who cannot is being told they are behind before they start. He should be lost in the same places, name what he did not follow, and be told it does not matter yet. This is the cheapest defence against the material feeling abrupt, and it costs a sentence rather than a primer.
 
+## How the lessons reference this
+
+Decided 2026-08-21, before any of it was built, so it is not re-argued later.
+
+**Fiction lives at lesson boundaries, never inside the instructional body.** A chapter before, a chapter after. The lesson itself stays second-person, present tense, technical, all the way through. This is what stops a hard break into academic mode without letting the lessons go soft in the middle.
+
+**Lessons reference events, not characters.** "The word in the ticket" is portable — it means something to a reader who skipped the story and lands as a callback for one who didn't. "Dana said" forces the lesson to stop and explain a character. Characters stay in these files.
+
+**The cover test.** Hide any reference to the story. The lesson sentence must still work. If it doesn't, rewrite it. This is what keeps the promise the root README makes, that the lessons stand alone — and nothing automated can check it, so it is discipline rather than a gate.
+
+**Story demonstrates, lesson names and tests.** The story provides the experience; the lesson provides the vocabulary and the practice. Where the story has already shown something, the lesson names it in half the words and spends the saved space on a check instead of a reveal. [Lesson 01](../lessons/01-what-the-analyst-is-for.md)'s Case A works this way: the prologue spent the reader's first encounter with a smuggled conclusion, so Case A asks them to find one rather than pointing at it.
+
+**Watch for collisions.** The prologue duplicated Case A's punchline and neither the author nor the maintainer noticed until the seam was being designed. Every chapter needs checking against its neighbouring lesson's reveals, and that cost grows with each one written.
+
+**One open question, deliberately unresolved.** Everything above assumes the lessons stay usable standalone. If that changes — if the story becomes required reading — the cover test disappears, the seams get considerably better, and the course becomes one thing instead of two. That is a defensible choice and it is the opposite of what is written down today. It should be decided on purpose, not by drift.
+
 ## Status
 
 **One chapter, deliberately.** The prologue exists so the voice and the rules can be judged against something real before anyone commits to eight more. Nine chapters of fiction written before a single lesson has been run with a person would repeat the pattern this project spent July undoing.
