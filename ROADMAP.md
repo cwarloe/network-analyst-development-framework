@@ -6,6 +6,8 @@ All nine lessons are written. What matters now is whether they work.
 
 **Nothing in this repository has been used by anyone other than its author.** All nine lessons are written, which makes this the only item on the list that matters — everything below is refinement of material nobody has tried.
 
+**Take [`docs/assumed-knowledge.md`](docs/assumed-knowledge.md) into the room with you.** It lists the ~35 concepts lessons 02–04 use without ever defining, grouped into four clusters. It is a list of what the *text* assumes, produced by reading the text — it is not evidence about readers. Lesson 02 alone assumes nineteen terms and they will not all matter equally. Watching one person hit lesson 02 is what separates the ones that stop someone from the ones that are inferable from context, and that is the difference between writing a prerequisite course and writing six sentences.
+
 [`lessons/run-records.md`](lessons/run-records.md) has the operational detail: which lesson suits which reader, how to sit in the room without wrecking the data (the hard part is *not helping* — a rescued learner produces no data), the specific claims worth watching fail, and what to write down.
 
 If you can only get one person for one hour, run [lesson 01](lessons/01-what-the-analyst-is-for.md). No dependencies, no tools, and every later lesson rests on the habit it builds.
