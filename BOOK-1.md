@@ -70,6 +70,8 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 - **Payoff/continuity:** Ethan learns that a checked wrong prediction is more useful than being unsurprised after seeing an answer.
 - **Deferred:** formal hypothesis matrices and investigation plans.
 
+**Current implementation:** [Predict Before You Look](lessons/predict-before-you-look.md) is runnable as the technical bridge after lesson 02. It uses staged evidence and preserves the learner's prediction and revision as EF-8 rather than adding another protocol lecture.
+
 ### Part II — How normal systems behave
 
 #### 4. Names Have Behavior
