@@ -13,7 +13,7 @@
 
 ---
 
-I had been at Contoso eleven days when Dana let me take a ticket.
+I had been at Harrowmere eleven days when Dana let me take a ticket.
 
 I want to be honest about what I thought the job was. I thought it was recognizing bad things. I had spent two years on a service desk in Portland resetting passwords and unsticking printers, and I had studied for this on my own time, and what I had studied was lists — ports, protocols, attack names, the shapes of things that were bad. I thought analysis was pattern-matching with a better vocabulary. I thought the people who were good at it had simply memorized more.
 
