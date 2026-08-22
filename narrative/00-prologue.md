@@ -77,11 +77,11 @@ She was quiet for a second, and then: "Look at the agent string on both of them.
 
 They were identical. `contoso-sync/3.2`. The same string on the successful export and on the `403`.
 
-"So not someone," she said. "Something. And it's the same something that did the export four tenths of a second earlier and was allowed to. Which is a different question than the one the ticket asked, and I nearly got it wrong in front of you, so — that's the other thing to keep. I do this for a living and I still start from the story I walked in with."
+"So this is evidence of a software agent, not evidence of a person," she said. "The matching agent strings make one process or workflow plausible. They don't prove it. And the first request went to the export endpoint four tenths of a second earlier and was allowed. Which is a different question than the one the ticket asked, and I nearly got it wrong in front of you, so — that's the other thing to keep. I do this for a living and I still start from the story I walked in with."
 
 I asked her what it actually was, then. Whether it was bad.
 
-"I don't know," she said. "Neither do you. That's not a failure, it's just where we are." She counted them off on her fingers. "Is that service supposed to call that endpoint? Does it call it every time it syncs, or only today? Do the other forty finance machines do the same thing at the same time of day? And does anybody own that software well enough to answer?"
+"I don't know," she said. "Neither do you. That's not a failure, it's just where we are." She counted them off on her fingers. "Is that service supposed to call that endpoint? Does it call it every time it syncs, or only today? Do the other finance machines do the same thing at the same time of day? And does anybody own that software well enough to answer?"
 
 "How do I find out?"
 
