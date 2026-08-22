@@ -24,7 +24,7 @@ Start with **[lesson 01](lessons/01-what-the-analyst-is-for.md)**. It takes abou
 
 ### A story running alongside
 
-There is also a [narrative track](narrative/README.md) — a new analyst at Contoso, a mentor called Dana, one chapter before each lesson. It teaches nothing directly; it exists to raise the question the lesson answers. **One chapter is written**, the [prologue](narrative/00-prologue.md), which takes ten minutes and leads into lesson 01. It is optional, and the lessons stand alone without it.
+There is also a [narrative track](narrative/README.md) — Ethan Mercer, a developing analyst at Harrowmere Equipment Group, mentored by Dana Shah. It teaches nothing directly; it exists to raise the question the lesson answers. **Three chapters are written**, starting with the [prologue](narrative/00-prologue.md), which takes ten minutes and leads into lesson 01. The track is optional and the lessons stand alone without it — see [Book 1](BOOK-1.md) for the working architecture.
 
 The argument for it is not engagement, it is time: prose can say *"three weeks ago you told me this was fine"* and a single-incident lesson cannot, which is the gap [R005](docs/research/R005-instructional-design-review.md), [R007](docs/research/R007-nice-role-mapping.md) and [R008](docs/research/R008-longitudinal-judgment.md) all reached from different directions.
 

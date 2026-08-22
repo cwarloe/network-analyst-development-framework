@@ -54,22 +54,22 @@ The server at `198.51.100.20` chose `0x0303` and cipher `0xc030`. Frame 6 carrie
 
 ```
 frame 6   ServerHello        65 bytes
-          Certificate      1018 bytes
+          Certificate      1048 bytes
           ServerKeyExchange 300 bytes
           ServerHelloDone     4 bytes
 ```
 
-That 1018-byte certificate is readable. Open frame 6 in Wireshark, or:
+That 1048-byte certificate is readable. Open frame 6 in Wireshark, or:
 
 ```
 tshark -r assets/pcaps/04-tls.pcap -Y "tls.handshake.type==11" -V
 ```
 
 ```
-issuer:  C=US, ST=Oregon, L=Portland, O=Contoso Ltd, CN=files.contoso-internal.example
-subject: C=US, ST=Oregon, L=Portland, O=Contoso Ltd, CN=files.contoso-internal.example
-notBefore: 2026-08-19 05:20:38 UTC
-notAfter:  2027-08-19 05:20:38 UTC
+issuer:  C=US, ST=Oregon, L=Portland, O=Harrowmere Equipment Group, CN=files.harrowmere-group.example
+subject: C=US, ST=Oregon, L=Portland, O=Harrowmere Equipment Group, CN=files.harrowmere-group.example
+notBefore: 2026-08-22 20:58:22 UTC
+notAfter:  2027-08-22 20:58:22 UTC
 ```
 
 (The validity window reflects the moment the lab generated this certificate. Regenerate the capture and it moves — see [the lab README](../lab/README.md).)
@@ -131,7 +131,7 @@ TLS 1.3 freezes the legacy version field at `0x0303` so that middleboxes which o
 frame 20   ServerHello                    122 bytes
            ChangeCipherSpec                 1 byte
            Application Data                23 bytes
-           Application Data              1038 bytes
+           Application Data              1068 bytes
            Application Data               281 bytes
            Application Data                69 bytes
 ```
@@ -147,7 +147,7 @@ $ tshark -r assets/pcaps/04-tls.pcap -Y "tcp.stream==1 && tls.handshake.type==11
 0
 ```
 
-**The certificate is gone.** It is still being sent — it is inside that 1038-byte record — but from TLS 1.3 onward everything after the ServerHello is encrypted, including the server's identity. The self-signed certificate you found so easily in stream 0 is present, unchanged, and completely invisible in stream 1.
+**The certificate is gone.** It is still being sent — it is inside that 1068-byte record — but from TLS 1.3 onward everything after the ServerHello is encrypted, including the server's identity. The self-signed certificate you found so easily in stream 0 is present, unchanged, and completely invisible in stream 1.
 
 Nothing was attacked. Nobody hid anything from you deliberately. A server chose a newer protocol version, which is the correct and recommended thing for it to do, and a category of evidence you were relying on ceased to exist.
 
@@ -162,9 +162,9 @@ destination.ip     198.51.100.20                             198.51.100.30
 ssl.version        TLSv12                                    TLSv13
 ssl.cipher         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384     TLS_AES_256_GCM_SHA384
 ssl.curve          x25519                                    x25519
-ssl.server_name    files.contoso-internal.example            files.contoso-internal.example
+ssl.server_name    files.harrowmere-group.example            files.harrowmere-group.example
 ssl.established    true                                      true
-tls.server.hash.sha256   a2ff156e37cff8c67f1d0979fec6584b…   —
+tls.server.hash.sha256   84d7bb42d18bb8765850293d28c4dac0…   —
 ```
 
 Read the last field. For the TLS 1.2 connection, Security Onion has a certificate fingerprint. For the TLS 1.3 connection it has nothing. Not false. **Absent.** There was no certificate visible to fingerprint.
@@ -180,13 +180,13 @@ event.dataset: x509     1 document
 `x509` is where certificate detail lives — subject, issuer, validity, key length, whether the certificate is a CA. It is what almost every certificate-based detection and dashboard is built on. Two TLS connections went past the sensor, both presenting the same certificate, and **one of them produced a document**:
 
 ```
-x509.certificate.subject          CN=files.contoso-internal.example,O=Contoso Ltd,L=Portland,ST=Oregon,C=US
-x509.certificate.issuer           CN=files.contoso-internal.example,O=Contoso Ltd,L=Portland,ST=Oregon,C=US
+x509.certificate.subject          CN=files.harrowmere-group.example,O=Harrowmere Equipment Group,L=Portland,ST=Oregon,C=US
+x509.certificate.issuer           CN=files.harrowmere-group.example,O=Harrowmere Equipment Group,L=Portland,ST=Oregon,C=US
 x509.certificate.key.algorithm    rsaEncryption
 x509.certificate.key.length       2048
-x509.san_dns                      files.contoso-internal.example
+x509.san_dns                      files.harrowmere-group.example
 x509.basic_constraints.ca         true
-hash.sha256                       a2ff156e37cff8c67f1d0979fec6584b…
+hash.sha256                       84d7bb42d18bb8765850293d28c4dac0…
 ```
 
 Subject equals issuer, right there in a searchable field. Anyone hunting self-signed certificates finds this in one query: `x509.certificate.subject:x509.certificate.issuer` in spirit, or more practically a scripted comparison over the index.
@@ -207,13 +207,13 @@ That is worth sitting with, because it is the lesson's own argument arriving fro
 
 ## What survives
 
-Get your seven predictions out. This section and the one above it settle all of them, and the row most people get wrong is the last one — *that a certificate was sent at all*. It was. It is inside that 1038-byte record. What you have lost is not the certificate; it is your ability to observe that the certificate exists. Those are different failures and they call for different responses.
+Get your seven predictions out. This section and the one above it settle all of them, and the row most people get wrong is the last one — *that a certificate was sent at all*. It was. It is inside that 1068-byte record. What you have lost is not the certificate; it is your ability to observe that the certificate exists. Those are different failures and they call for different responses.
 
 Not nothing. Compare the two ClientHellos:
 
 ```
-frame 4    server_name: files.contoso-internal.example     (ssl.server_name)
-frame 18   server_name: files.contoso-internal.example     (ssl.server_name)
+frame 4    server_name: files.harrowmere-group.example     (ssl.server_name)
+frame 18   server_name: files.harrowmere-group.example     (ssl.server_name)
 ```
 
 **SNI is in the clear in both.** The client has to tell the server which host it wants before encryption is negotiated, so the hostname leaks in TLS 1.3 exactly as it did in TLS 1.2. Encrypted Client Hello exists to close this and is not in use here.
@@ -253,7 +253,7 @@ Address all of these inside that structure:
 2. A colleague says stream 1 is more suspicious than stream 0, because "we can't see anything in it." Respond.
 3. The certificate in stream 0 is self-signed. State what that does and does not tell you, and what you would want to know before treating it as a finding.
 4. Your organization has a detection that alerts on self-signed certificates, built on `event.dataset: x509`. Describe exactly what it does against this capture — how many of the two connections it evaluates, and what it reports. Then describe what happens to it as the estate moves to TLS 1.3, and say what you would monitor to notice that happening.
-5. Stream 0 has 130 and 132 bytes of application data; stream 1's opaque records are 1038, 281 and 69 bytes. Can you conclude the requests differed? Justify carefully.
+5. Stream 0 has 130 and 132 bytes of application data; stream 1's opaque records are 1068, 281 and 69 bytes. Can you conclude the requests differed? Justify carefully.
 6. Name the one field that leaks the destination hostname in both streams, say why it must, and say what would remove it.
 
 ## The habit this is building

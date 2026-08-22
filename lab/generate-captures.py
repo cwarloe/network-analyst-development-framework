@@ -132,8 +132,8 @@ def gen_http():
     cap = capture("lo", "tcp port 8080", raw)
     for src_port, path in ((42876, b"/api/v2/export?page=1"), (42886, b"/api/v2/admin/users")):
         s = client_socket(8080, src_port)
-        s.sendall(b"GET " + path + b" HTTP/1.1\r\nHost: files.contoso-internal.example\r\n"
-                  b"User-Agent: contoso-sync/3.2\r\nAccept: application/json\r\n"
+        s.sendall(b"GET " + path + b" HTTP/1.1\r\nHost: files.harrowmere-group.example\r\n"
+                  b"User-Agent: harrow-sync/3.21\r\nAccept: application/json\r\n"
                   b"Connection: close\r\n\r\n")
         while s.recv(65535):
             pass
@@ -172,9 +172,9 @@ def gen_tls():
     crt, key = os.path.join(TMP, "s.crt"), os.path.join(TMP, "s.key")
     subprocess.run(["openssl", "req", "-x509", "-newkey", "rsa:2048", "-nodes",
                     "-keyout", key, "-out", crt, "-days", "365",
-                    "-subj", "/C=US/ST=Oregon/L=Portland/O=Contoso Ltd"
-                             "/CN=files.contoso-internal.example",
-                    "-addext", "subjectAltName=DNS:files.contoso-internal.example"],
+                    "-subj", "/C=US/ST=Oregon/L=Portland/O=Harrowmere Equipment Group"
+                             "/CN=files.harrowmere-group.example",
+                    "-addext", "subjectAltName=DNS:files.harrowmere-group.example"],
                    check=True, capture_output=True)
     threading.Thread(target=tls_server, args=(8443, ssl.TLSVersion.TLSv1_2, crt, key), daemon=True).start()
     threading.Thread(target=tls_server, args=(8444, ssl.TLSVersion.TLSv1_3, crt, key), daemon=True).start()
@@ -186,11 +186,11 @@ def gen_tls():
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
         s = client_socket(port, src_port)
-        w = ctx.wrap_socket(s, server_hostname="files.contoso-internal.example")
+        w = ctx.wrap_socket(s, server_hostname="files.harrowmere-group.example")
         print(f"  {port}: {w.version()} / {w.cipher()[0]}")
         w.sendall(b"GET /api/v2/export?page=1 HTTP/1.1\r\n"
-                  b"Host: files.contoso-internal.example\r\n"
-                  b"User-Agent: contoso-sync/3.2\r\n\r\n")
+                  b"Host: files.harrowmere-group.example\r\n"
+                  b"User-Agent: harrow-sync/3.21\r\n\r\n")
         w.recv(4096)
         w.close()
         time.sleep(0.5)
@@ -286,7 +286,7 @@ def gen_failures():
     # 2. reset mid-transfer
     try:
         s = client_socket(8102, 41002)
-        s.sendall(b"GET /report/full HTTP/1.1\r\nHost: files.contoso-internal.example\r\n\r\n")
+        s.sendall(b"GET /report/full HTTP/1.1\r\nHost: files.harrowmere-group.example\r\n\r\n")
         while s.recv(4096):
             pass
     except Exception as e:
@@ -296,7 +296,7 @@ def gen_failures():
     # 3. slow but correct
     t0 = time.time()
     s = client_socket(8103, 41003, timeout=20)
-    s.sendall(b"GET /api/v2/export?page=1 HTTP/1.1\r\nHost: files.contoso-internal.example\r\n"
+    s.sendall(b"GET /api/v2/export?page=1 HTTP/1.1\r\nHost: files.harrowmere-group.example\r\n"
               b"Connection: close\r\n\r\n")
     while s.recv(4096):
         pass
@@ -448,7 +448,7 @@ def gen_suspicious():
             8201, b"/api/v1/tasks?id=8842", b"cdn-metrics.example",
             4.0, 0.12, 11, 11), daemon=True),
         threading.Thread(target=beacon_loop, args=(
-            8202, b"/hb", b"updates.contoso-internal.example",
+            8202, b"/hb", b"updates.harrowmere-group.example",
             5.0, 0.30, 9, 22), daemon=True),
     ]
     for th in threads:
@@ -656,7 +656,7 @@ def gen_prediction():
     # the server between the two client segments.
     s = client_socket(8091, 44101)
     s.sendall(b"POST /v1/inventory/batch HTTP/1.1\r\n"
-              b"Host: inventory.harrowmere-internal.example\r\n"
+              b"Host: inventory.harrowmere-group.example\r\n"
               b"User-Agent: hsync-agent/1.4\r\n"
               b"Content-Type: application/json\r\n"
               b"Content-Length: " + str(len(SPLIT_BODY)).encode() + b"\r\n\r\n")
@@ -682,7 +682,7 @@ def gen_prediction():
     # response could appear. The absence in the file is real.
     hang = client_socket(8092, 44102, timeout=60)
     hang.sendall(b"GET /v1/inventory/summary HTTP/1.1\r\n"
-                 b"Host: inventory.harrowmere-internal.example\r\n"
+                 b"Host: inventory.harrowmere-group.example\r\n"
                  b"User-Agent: hsync-agent/1.4\r\n"
                  b"Accept: application/json\r\n\r\n")
     time.sleep(1.0)

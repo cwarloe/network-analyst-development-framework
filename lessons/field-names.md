@@ -68,6 +68,10 @@ A note on standards: Security Onion is ECS-influenced but not strictly ECS. HTTP
 | `SH` | Originator sent a SYN followed by a FIN, we never saw a SYN ACK |
 | `OTH` | No SYN seen, just midstream traffic |
 
+**Read these as descriptions of what was observed, not of what happened.** Zeek reports the conversation as it appeared in the data it was given. If a capture stops, or a sensor sits where it cannot see one direction, the state reflects that limit rather than the conversation. `S1` is the clearest case: *established, not terminated* often means the observation ended, not that the connection did. `S0` and `SH` can carry the same ambiguity when only one direction is visible.
+
+Two states are worked in the lessons rather than merely listed. [Lesson 06](06-when-it-breaks.md) separates `REJ` from `S0` — the difference between a host that refused you and one that never answered, which is the most useful single discrimination in troubleshooting. [Episode 3](e03-before-you-look/README.md) uses `S1` to separate an event from an absence.
+
 ## http
 
 Note the departures from strict ECS.

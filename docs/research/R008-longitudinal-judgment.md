@@ -61,6 +61,8 @@ The brief's first recommendation is to establish a persistent environment appear
 
 - `files.contoso-internal.example` is the same host in [lesson 02](../../lessons/02-reading-a-conversation.md) and [lesson 04](../../lessons/04-what-encryption-hides.md) — a plaintext API conversation, then the same service over TLS.
 - Contoso appears in 02, 04 and 07, including as the certificate's organization.
+
+> **Naming note, 2026-08-22.** The fictional company was renamed from Contoso to Harrowmere Equipment Group, and the host is now `files.harrowmere-group.example`. The continuity finding above is unchanged — it is the same host in the same two lessons — and the record is left as written rather than retrofitted.
 - Portland recurs in 01, 04 and 05; Denver anchors 08.
 
 So the recommendation is not *create continuity* but *stop hiding the continuity that is there*. Lesson 04 could say outright that it is the same service lesson 02 read in the clear, which makes the encryption point land harder — you watched this conversation, and now you cannot. That is close to free and it strengthens an existing lesson rather than adding one.

@@ -9,14 +9,14 @@ tshark -r assets/pcaps/e03-prediction.pcap -Y "tcp.stream==2" -T fields -e frame
 ```
 
 ```
-30	1.702899000	192.0.2.10	80	0
-31	1.702994000	198.51.100.20	44102	0
-32	1.703006000	192.0.2.10	80	0
-33	1.703059000	192.0.2.10	80	138
-34	1.703063000	198.51.100.20	44102	0
+30	1.703133000	192.0.2.10	80	0
+31	1.703245000	198.51.100.20	44102	0
+32	1.703263000	192.0.2.10	80	0
+33	1.703326000	192.0.2.10	80	135
+34	1.703331000	198.51.100.20	44102	0
 ```
 
-Handshake, a 138-byte request, and a bare acknowledgment from the server.
+Handshake, a 135-byte request, and a bare acknowledgment from the server.
 
 Then nothing.
 

@@ -183,8 +183,8 @@ def fetch(path, src_port, timeout=30):
     s.settimeout(timeout)
     t0 = time.time()
     s.connect((SERVER_IP, PORT))
-    s.sendall(b"GET " + path + b" HTTP/1.1\r\nHost: files.contoso-internal.example\r\n"
-              b"User-Agent: contoso-sync/3.2\r\nConnection: close\r\n\r\n")
+    s.sendall(b"GET " + path + b" HTTP/1.1\r\nHost: files.harrowmere-group.example\r\n"
+              b"User-Agent: harrow-sync/3.21\r\nConnection: close\r\n\r\n")
     n = 0
     while True:
         d = s.recv(65535)

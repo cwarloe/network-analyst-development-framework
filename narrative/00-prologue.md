@@ -75,7 +75,7 @@ Nought point nought nought nought one eight four. I counted the zeros twice. A h
 
 She was quiet for a second, and then: "Look at the agent string on both of them."
 
-They were identical. `contoso-sync/3.2`. The same string on the successful export and on the `403`.
+They were identical. `harrow-sync/3.21`. The same string on the successful export and on the `403`.
 
 "So this is evidence of a software agent, not evidence of a person," she said. "The matching agent strings make one process or workflow plausible. They don't prove it. And the first request went to the export endpoint four tenths of a second earlier and was allowed. Which is a different question than the one the ticket asked, and I nearly got it wrong in front of you, so — that's the other thing to keep. I do this for a living and I still start from the story I walked in with."
 

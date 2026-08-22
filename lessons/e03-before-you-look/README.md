@@ -69,19 +69,19 @@ tshark -r assets/pcaps/e03-prediction.pcap -Y "tcp.stream==0 && frame.number<=5"
 
 ```
 1	0.000000000	192.0.2.10	80	0
-2	0.000173000	198.51.100.20	44101	0
-3	0.000187000	192.0.2.10	80	0
-4	0.000283000	192.0.2.10	80	163
-5	0.000291000	198.51.100.20	44101	0
+2	0.000194000	198.51.100.20	44101	0
+3	0.000213000	192.0.2.10	80	0
+4	0.000323000	192.0.2.10	80	160
+5	0.000328000	198.51.100.20	44101	0
 ```
 
 Columns: frame number, seconds since the capture started, who sent it, the port it was addressed to, and **bytes of payload**.
 
-Frames 1 to 3 are the handshake — three packets, no payload, both directions proven. Frame 4 carries 163 bytes from the client. Read them:
+Frames 1 to 3 are the handshake — three packets, no payload, both directions proven. Frame 4 carries 160 bytes from the client. Read them:
 
 ```
 POST /v1/inventory/batch HTTP/1.1
-Host: inventory.harrowmere-internal.example
+Host: inventory.harrowmere-group.example
 User-Agent: hsync-agent/1.4
 Content-Type: application/json
 Content-Length: 84
@@ -97,7 +97,7 @@ A client opened a connection to an internal inventory service and sent a `POST` 
 
 ### 2. Evidence basis
 
-Frames 1–3 are a completed handshake, so both directions work. Frame 4 is client-to-server with 163 bytes and a readable HTTP request line. Frame 5 is server-to-client with the `ACK` flag and `tcp.len` of 0.
+Frames 1–3 are a completed handshake, so both directions work. Frame 4 is client-to-server with 160 bytes and a readable HTTP request line. Frame 5 is server-to-client with the `ACK` flag and `tcp.len` of 0.
 
 ### 3. Material assumption
 
@@ -123,9 +123,9 @@ tshark -r assets/pcaps/e03-prediction.pcap -Y "tcp.stream==0 && frame.number>=6 
 ```
 
 ```
-6	0.600604000	192.0.2.10	80	84
-7	0.600646000	198.51.100.20	44101	0
-8	0.600796000	198.51.100.20	44101	133
+6	0.600588000	192.0.2.10	80	84
+7	0.600620000	198.51.100.20	44101	0
+8	0.600842000	198.51.100.20	44101	133
 ```
 
 Frame 6 is **the client**, sending 84 more bytes, six tenths of a second later:
@@ -154,7 +154,7 @@ Note what did not change: the server did answer, the application did handle it, 
 
 ### 9. What the evidence made available in advance
 
-Look again at frame 4. It declares `Content-Length: 84` — the request is telling the server that 84 bytes of body are coming. The frame ends immediately after the blank line, with no body in it, and carries 163 bytes in total.
+Look again at frame 4. It declares `Content-Length: 84` — the request is telling the server that 84 bytes of body are coming. The frame ends immediately after the blank line, with no body in it, and carries 160 bytes in total.
 
 Those two facts together do not merely hint that the body was still to come. **They establish it.** The evidence needed to reject the prediction was on the screen before the prediction was made.
 
@@ -179,7 +179,7 @@ destination.ip       198.51.100.30
 destination.port     9110
 network.transport    tcp
 network.protocol     —
-event.duration       0.301045
+event.duration       0.301052
 client.bytes         39
 server.bytes         1105
 connection.state     SF
@@ -214,8 +214,8 @@ destination.ip       198.51.100.20
 destination.port     80
 network.transport    tcp
 network.protocol     http
-event.duration       0.000164
-client.bytes         138
+event.duration       0.000198
+client.bytes         135
 server.bytes         0
 connection.state     S1
 ```
@@ -224,7 +224,7 @@ And the HTTP record for the same conversation:
 
 ```
 http.method                GET
-http.virtual_host          inventory.harrowmere-internal.example
+http.virtual_host          inventory.harrowmere-group.example
 http.uri                   /v1/inventory/summary
 http.status_code           —
 http.response.body.length  0

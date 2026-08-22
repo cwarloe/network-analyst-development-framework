@@ -70,9 +70,9 @@ Take that `log.id.uid` and search for it again. This time you get the HTTP docum
 event.dataset                 http                            http
 log.id.uid                    CwlV971jSsZWObrEKd              Cd2hCo1PXGfUinZyj2
 http.method                   GET                             GET
-http.virtual_host             files.contoso-internal.example  files.contoso-internal.example
+http.virtual_host             files.harrowmere-group.example  files.harrowmere-group.example
 http.uri                      /api/v2/export?page=1           /api/v2/admin/users
-http.useragent                contoso-sync/3.2                contoso-sync/3.2
+http.useragent                harrow-sync/3.21                harrow-sync/3.21
 http.request.body.length      0                               0
 http.response.body.length     90                              44
 http.status_code              200                             403
@@ -122,8 +122,8 @@ The log told you 151 bytes went out in `client.bytes`. The packets tell you what
 
 ```
 GET /api/v2/export?page=1 HTTP/1.1
-Host: files.contoso-internal.example
-User-Agent: contoso-sync/3.2
+Host: files.harrowmere-group.example
+User-Agent: harrow-sync/3.21
 Accept: application/json
 Connection: close
 ```
@@ -142,7 +142,7 @@ X-Request-Id: 7f3a91c2
 
 This is the pivot, and it is the working pattern for everything that follows: **the log tells you a conversation happened and roughly what shape it was; the packets tell you what was said.** You go to the log to find the conversation. You go to the capture to read it.
 
-Narrated in one sentence: *a host called `contoso-sync/3.2` asked an internal file service for page 1 of a finance export, and the service returned a 90-byte JSON summary describing 1,284 rows.*
+Narrated in one sentence: *a host called `harrow-sync/3.21` asked an internal file service for page 1 of a finance export, and the service returned a 90-byte JSON summary describing 1,284 rows.*
 
 That sentence contains no judgment. It is what happened.
 

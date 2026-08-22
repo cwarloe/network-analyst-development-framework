@@ -65,7 +65,7 @@ Both are regular. Both send about 135 bytes and receive about 116. Both carry th
 ```
 destination.ip   http.method  http.virtual_host                 http.uri                 http.response.body.length
 198.51.100.60    GET          cdn-metrics.example               /api/v1/tasks?id=8842    23
-198.51.100.70    GET          updates.contoso-internal.example  /hb                      23
+198.51.100.70    GET          updates.harrowmere-group.example  /hb                      23
 ```
 
 **Nothing in the shape separates these two.** Same method, same size class, same regularity class, same user agent, same response size. If you cluster this traffic by timing and volume, they land in the same cluster.
@@ -173,7 +173,7 @@ upload   198.51.100.90   http.virtual_host   cdn-metrics.example
 
 **Three different behaviors, three different IP addresses, one domain.**
 
-A regular check-in, a high-rate DNS channel, and a bulk outbound transfer, all associated with `cdn-metrics.example`. Meanwhile `198.51.100.70` — the other beacon, the one that is shape-identical to the first — belongs to `updates.contoso-internal.example` and appears in nothing else.
+A regular check-in, a high-rate DNS channel, and a bulk outbound transfer, all associated with `cdn-metrics.example`. Meanwhile `198.51.100.70` — the other beacon, the one that is shape-identical to the first — belongs to `updates.harrowmere-group.example` and appears in nothing else.
 
 Now look at what you wrote for question 4. If you asked for something you did not have — process telemetry, a reputation feed, the DNS payloads — reasonable, and you will often be right to. But the field that discriminates here was already on your screen before you were asked, in three different datasets, under three different names. Nobody withheld it. It was simply not the column anyone looks at when the question is *"is this beaconing?"*
 
