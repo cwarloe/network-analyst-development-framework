@@ -1,6 +1,6 @@
 # The narrative track
 
-A story that runs alongside the lessons. A new analyst at Contoso and a mentor called Dana, one chapter before each lesson, ending where the lesson begins.
+A story that runs alongside the lessons. Ethan Mercer is a developing analyst at Harrowmere Equipment Group, mentored by Dana Shah. The working book architecture and full recurring cast are in [Book 1 — Learning to See](../BOOK-1.md).
 
 **It is not a replacement for anything.** The lessons carry the technical content and the work products. These chapters exist to create the question the lesson answers, so a learner arrives already wanting to know.
 
@@ -22,13 +22,21 @@ These are constraints, not style preferences. Breaking them makes the story cont
 
 **3. Every number is real.** Read out of the committed captures, not invented. When a chapter shows a duration or a byte count, it came from `tshark` or Zeek. This is what makes the handoff work: the learner opens the same file two chapters later and the numbers are still there.
 
-**4. Every beat does analytical work.** There is a well-replicated finding — the *seductive details* effect — that interesting-but-irrelevant material added to instruction reliably **hurts** learning while making readers rate it higher. Readers cannot detect it from the inside. So detail earns its place by carrying an analytical point or it comes out. Dana has no backstory. Nobody has a difficult marriage.
+**4. Every beat does analytical work.** There is a well-replicated finding — the *seductive details* effect — that interesting-but-irrelevant material added to instruction reliably **hurts** learning while making readers rate it higher. Readers cannot detect it from the inside. So detail earns its place by carrying an analytical point or it comes out. Characters may have author-only backstories, but a detail reaches the reader only when it affects an analytical decision, assumption, relationship, or longitudinal consequence.
 
 > **Confidence note.** Rule 4 rests on a literature this project has not verified against sources — the build environment cannot reach them. It is stated as a design constraint because the downside is asymmetric: writing lean costs nothing if the effect is smaller than believed.
 
-**5. Chapters do not have their own exercises.** The lessons already end in work products. A chapter ends by handing off to one.
+**5. Episodes share work with lessons rather than duplicating it.** Chapters do not add competing exercises. The technical lesson owns the work product and feedback. Narrative may establish a prediction or initial claim when the lesson preserves and tests it.
 
 **6. The narrator never understands more than the reader.** If he reads a log fluently, a reader who cannot is being told they are behind before they start. He should be lost in the same places, name what he did not follow, and be told it does not matter yet. This is the cheapest defence against the material feeling abrupt, and it costs a sentence rather than a primer.
+
+## Canon and disclosure
+
+The author may know why Dana chooses an intervention, what another character has not disclosed, or which later evidence will overturn Ethan's model. Ethan and the reader may use only what has been revealed. Conclusions are evaluated against the evidence then available, not the author's hidden answer.
+
+The recurring cast has distinct sources of partial knowledge: Nia Alvarez is a peer analyst; Owen Kline carries the network-engineering view; Priya Raman carries system and application purpose; Leah Moreno consumes analysis for incident response; and Cal Rowan owns operational decisions. None is an omniscient source or replacement mentor.
+
+Dana's support fades across the book. She first supplies questions, then reviews Ethan's models, and is absent during the capstone's core performance. Ethan's errors must evolve with his capability rather than repeating the prologue's mistake.
 
 ## How the lessons reference this
 
