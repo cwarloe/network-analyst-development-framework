@@ -14,6 +14,14 @@ The **primary learner** has several years of general IT experience and broad but
 
 That profile sets the course's pace; it is not an admission requirement. A computer-confident learner with less IT or networking experience remains inside NADF's **accessibility envelope**, but may need optional, just-in-time support for particular vocabulary, technical models, representations, or tools. Such support should repair a specific gap without supplying the analytical reasoning or conclusion a lesson is designed to develop. See [what the lessons currently assume](docs/assumed-knowledge.md).
 
+## Book 1 episode material
+
+One Book 1 episode has technical material built. It is runnable now and does not replace any lesson.
+
+| Episode | Follows | Technical material | Reuses |
+|---|---|---|---|
+| 3 — Before You Look | [`narrative/02-before-you-look.md`](narrative/02-before-you-look.md), after lesson 02 | [`lessons/e03-before-you-look/`](lessons/e03-before-you-look/README.md) — prediction and visible revision, IR-3, LR-1, LR-2 | New capture; no lesson content replaced |
+
 ## Design commitments
 
 These follow from the baseline and constrain the outline. They are the reason the lesson order looks the way it does.

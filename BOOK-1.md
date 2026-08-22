@@ -72,7 +72,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 - **Problem/discomfort:** Dana hides the next evidence and asks for a prediction. Ethan calls it guessing.
 - **Technical/capability target:** model-derived prediction, assumptions, prediction/outcome comparison; IR-3, LR-1, early LR-2.
 - **Reuse:** prediction prompts currently distributed through lessons 02–06.
-- **Build:** staged reveals that preserve the learner's prediction, require an assumption check, and create a before/after revision trace.
+- **Build:** staged reveals that preserve the learner's prediction, require an assumption check, and create a before/after revision trace. **Built:** [`lessons/e03-before-you-look/`](lessons/e03-before-you-look/README.md), on a new capture ([`e03-prediction.pcap`](assets/pcaps/e03-prediction.pcap)) rather than by consuming lesson 02's or lesson 06's cases.
 - **Payoff/continuity:** Ethan learns that a checked wrong prediction is more useful than being unsurprised after seeing an answer.
 - **Deferred:** formal hypothesis matrices and investigation plans.
 
@@ -222,7 +222,7 @@ Other characters must not become substitute answer-givers. Each has partial know
 |---|---|---|
 | Prologue | Episode 1 | Adapt names and setting; preserve its analytical move |
 | Lesson 01 | Episode 1 | Reuse substantially |
-| Lesson 02 | Episodes 2–3 and 5 | Split conversation reading from prediction; retrieve later in failure analysis |
+| Lesson 02 | Episodes 2–3 and 5 | Split conversation reading from prediction; retrieve later in failure analysis. Episode 3 is built and reuses none of lesson 02's evidence — see [the note below](#episode-3-evidence-note) |
 | Lesson 03 | Episodes 4 and 7 | Reuse DNS model; extend baseline across time |
 | Lesson 04 | Episode 6 | Reuse substantially; connect to recurring update environment |
 | Lesson 05 | Episodes 8–9 | Split vantage point from evidence planning |
@@ -230,6 +230,10 @@ Other characters must not become substitute answer-givers. Each has partial know
 | Lesson 07 | Episodes 7, 11, and 12 | Seed baseline and alternatives; retain suspicious-traffic synthesis |
 | Lesson 08 | Episode 13 | Reuse substantially |
 | Lesson 09 capstone | Episode 14 | Adapt to Harrowmere and earlier continuity; preserve staged revision and transfer |
+
+### Episode 3 evidence note
+
+Episode 3 uses a new capture rather than lesson 02's or lesson 06's. Reusing lesson 02's conversations would have revealed that lesson's work product, and reusing lesson 06's failure cases would have consumed the fault taxonomy that lesson exists to teach. The Episode 3 capture contains **no faults at all** — all three conversations behave correctly — so the prediction work happens on ordinary traffic and lesson 06's subject stays intact.
 
 New construction is concentrated in Episode 3's repeated prediction/revision, Episode 7's longitudinal baseline, Episode 8's multi-vantage evidence, and Episode 11's explicit competing-explanation work. Existing lessons should not be destructively rewritten until their replacement episode has a technically validated exercise.
 

@@ -56,12 +56,12 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 
 ## Status
 
-**Three chapters.** The first production slice now carries the learner from separating observation and interpretation, through reading a conversation, to the need for prediction and visible revision. The Episode 3 technical exercise is intentionally still a handoff debt rather than being authored in the narrative track.
+**Three chapters.** The first production slice now carries the learner from separating observation and interpretation, through reading a conversation, to the need for prediction and visible revision. The Episode 3 technical exercise is now built on the curriculum side and closes that handoff debt.
 
 | | Chapter | Leads into |
 |---|---|---|
 | 00 | [The Word in the Ticket](00-prologue.md) | [Lesson 01](../lessons/01-what-the-analyst-is-for.md) |
 | 01 | [Who Is Talking to Whom?](01-who-is-talking-to-whom.md) | [Lesson 02](../lessons/02-reading-a-conversation.md) |
-| 02 | [Before You Look](02-before-you-look.md) | Episode 3 staged prediction and revision exercise — assigned, not yet authored |
+| 02 | [Before You Look](02-before-you-look.md) | [Episode 3 technical lesson](../lessons/e03-before-you-look/README.md) — built |
 
 The prologue plants four questions Dana counts off, and the first two are answered by [lesson 02](../lessons/02-reading-a-conversation.md)'s work product — which is the same `403` the chapter opens on. That is the intended shape: the story owes the lesson a debt the lesson collects.

@@ -44,6 +44,18 @@ EXPECTED = {
             "dns.log":  (40, ["query", "qtype_name", "answers"]),
         },
     },
+    "e03-prediction.pcap": {
+        "tshark_protocols": ["tcp", "http"],
+        "zeek": {
+            # 44101 split request, 44102 response outside the window, 44103
+            # server-speaks-first on a port Zeek does not classify.
+            "conn.log": (3, ["id.orig_p", "conn_state", "history", "orig_bytes"]),
+            # Only two conversations are HTTP; 44102's has no status_code,
+            # which is the point of the exercise rather than a defect.
+            "http.log": (2, ["method", "uri", "host"]),
+        },
+    },
+
     # Provisional -- these two do not exist yet. They are produced by
     # generate-impairment.py, which needs NET_ADMIN and netem. Expectations are
     # deliberately loose for 06-loss: under heavy loss the transfer may not

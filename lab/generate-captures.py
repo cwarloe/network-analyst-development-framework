@@ -554,6 +554,147 @@ def gen_fragmentation():
     print("frag ->", out)
 
 
+# ------------------------------------------------------------- prediction ---
+# Three conversations for the Episode 3 prediction-and-revision lesson. Each is
+# built so that a technically reasonable expectation can be wrong for a
+# *specific*, nameable reason -- not because the traffic is exotic.
+#
+#   44101  a request delivered in two segments, so the first acknowledgement
+#          arrives before the request is complete
+#   44102  a conversation whose response falls outside the capture window,
+#          so the file contains an absence rather than an event
+#   44103  a service whose server speaks first, on a port that suggests nothing
+
+SPLIT_BODY = (b'{"batch":"HG-7741","site":"portland","units":184,'
+              b'"submitted":"2026-08-22T09:41:07Z"}')
+
+
+def split_request_server(port=8091):
+    """Respond only once the whole body has arrived."""
+    srv = socket.socket()
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind(("127.0.0.1", port))
+    srv.listen(5)
+    while True:
+        try:
+            c, _ = srv.accept()
+            buf = b""
+            while b"\r\n\r\n" not in buf:
+                buf += c.recv(4096)
+            head, _, rest = buf.partition(b"\r\n\r\n")
+            need = 0
+            for line in head.split(b"\r\n"):
+                if line.lower().startswith(b"content-length:"):
+                    need = int(line.split(b":")[1])
+            while len(rest) < need:
+                rest += c.recv(4096)
+            body = b'{"accepted":true,"batch":"HG-7741"}'
+            c.sendall(b"HTTP/1.1 201 Created\r\nServer: nginx/1.24.0\r\n"
+                      b"Content-Type: application/json\r\nContent-Length: "
+                      + str(len(body)).encode() + b"\r\n\r\n" + body)
+            c.close()
+        except Exception:
+            pass
+
+
+def slow_server(port=8092, delay=30):
+    """Answer long after the capture has stopped."""
+    srv = socket.socket()
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind(("127.0.0.1", port))
+    srv.listen(5)
+    while True:
+        try:
+            c, _ = srv.accept()
+            c.recv(4096)
+            time.sleep(delay)
+            c.close()
+        except Exception:
+            pass
+
+
+def banner_server(port=8093):
+    """A line protocol in which the server speaks first."""
+    srv = socket.socket()
+    srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    srv.bind(("127.0.0.1", port))
+    srv.listen(5)
+    manifest = b"".join(
+        b"item HG-%04d qty %d loc portland-%d\r\n" % (7700 + i, 12 + i, i % 4)
+        for i in range(28))
+    while True:
+        try:
+            c, _ = srv.accept()
+            c.sendall(b"220 hsync-1.4 inventory sync ready\r\n")
+            while True:
+                line = c.recv(4096)
+                if not line:
+                    break
+                verb = line.split()[0].upper() if line.split() else b""
+                if verb == b"HELLO":
+                    c.sendall(b"250 ok agent recognised\r\n")
+                elif verb == b"FETCH":
+                    c.sendall(b"200 manifest follows " + str(len(manifest)).encode()
+                              + b"\r\n" + manifest)
+                elif verb == b"QUIT":
+                    c.sendall(b"221 bye\r\n")
+                    break
+            c.close()
+        except Exception:
+            pass
+
+
+def gen_prediction():
+    threading.Thread(target=split_request_server, daemon=True).start()
+    threading.Thread(target=slow_server, daemon=True).start()
+    threading.Thread(target=banner_server, daemon=True).start()
+    time.sleep(1)
+    raw = os.path.join(TMP, "prediction.pcap")
+    cap = capture("lo", "tcp port 8091 or tcp port 8092 or tcp port 8093", raw)
+
+    # 44101 -- headers first, body 0.6s later. The gap forces a bare ACK from
+    # the server between the two client segments.
+    s = client_socket(8091, 44101)
+    s.sendall(b"POST /v1/inventory/batch HTTP/1.1\r\n"
+              b"Host: inventory.harrowmere-internal.example\r\n"
+              b"User-Agent: hsync-agent/1.4\r\n"
+              b"Content-Type: application/json\r\n"
+              b"Content-Length: " + str(len(SPLIT_BODY)).encode() + b"\r\n\r\n")
+    time.sleep(0.6)
+    s.sendall(SPLIT_BODY)
+    while s.recv(65535):
+        pass
+    s.close()
+    time.sleep(0.4)
+
+    # 44103 -- server sends a banner before the client says anything.
+    b = client_socket(8093, 44103)
+    b.recv(4096)
+    b.sendall(b"HELLO agent/1.4\r\n"); b.recv(4096)
+    b.sendall(b"FETCH manifest\r\n")
+    time.sleep(0.3)
+    b.recv(65535)
+    b.sendall(b"QUIT\r\n"); b.recv(4096)
+    b.close()
+    time.sleep(0.4)
+
+    # 44102 -- started last and left open, so the capture ends before any
+    # response could appear. The absence in the file is real.
+    hang = client_socket(8092, 44102, timeout=60)
+    hang.sendall(b"GET /v1/inventory/summary HTTP/1.1\r\n"
+                 b"Host: inventory.harrowmere-internal.example\r\n"
+                 b"User-Agent: hsync-agent/1.4\r\n"
+                 b"Accept: application/json\r\n\r\n")
+    time.sleep(1.0)
+
+    stop(cap)
+    out = os.path.join(OUT, "e03-prediction.pcap")
+    anonymize(raw, out,
+              {8091: 80, 8092: 80, 8093: 9110},
+              {8091: SERVER_A, 8092: SERVER_A, 8093: SERVER_B})
+    print("prediction ->", out)
+
+
 # -------------------------------------------------------------- anonymize ---
 def cksum(data):
     if len(data) % 2:
@@ -613,4 +754,5 @@ if __name__ == "__main__":
     gen_failures()
     gen_suspicious()
     gen_fragmentation()
+    gen_prediction()
     print("\ndone ->", OUT)
