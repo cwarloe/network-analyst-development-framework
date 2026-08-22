@@ -211,7 +211,3 @@ It does not establish that this traffic is normal or abnormal. Two conversations
 It does not teach you the tool. Wireshark's filter language, column layouts and stream reassembly are worth learning and this lesson does not attempt to cover them.
 
 It does not define proficiency, scoring, or completion. One narrated conversation is a single sample.
-
-## What comes next
-
-[Predict Before You Look](predict-before-you-look.md) turns the small prediction in question 5 into a repeatable method. It preserves what you expected before revealing the result, then makes you explain any revision instead of silently replacing your answer.
