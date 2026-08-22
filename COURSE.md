@@ -10,7 +10,9 @@ Design references: [architecture](docs/architecture.md), [capability model](docs
 
 ## Entry assumptions
 
-Drafted for a learner who can use a computer confidently and has seen a network diagram, but who has no analysis experience and no assumed tooling background. **This is an assumption, not a decision** — see Open Questions.
+The **primary learner** has several years of general IT experience and broad but uneven networking or cybersecurity knowledge acquired through certification study, self-study, workplace exposure, or some combination. This is their first dedicated network-analysis role. No prior network-analysis experience or familiarity with Wireshark, `tshark`, Zeek, Security Onion, Hunt, or Kibana is assumed.
+
+That profile sets the course's pace; it is not an admission requirement. A computer-confident learner with less IT or networking experience remains inside NADF's **accessibility envelope**, but may need optional, just-in-time support for particular vocabulary, technical models, representations, or tools. Such support should repair a specific gap without supplying the analytical reasoning or conclusion a lesson is designed to develop. See [what the lessons currently assume](docs/assumed-knowledge.md).
 
 ## Design commitments
 
@@ -92,8 +94,8 @@ Per the baseline's Standing Qualifications: no proficiency levels, mastery thres
 
 ## Open questions
 
-These were open while the course was being written. Two are still open.
+These were open while the course was being written. One is still open.
 
-1. **Who is the learner?** The outline assumes no analysis experience and no tooling background. An audience of working IT staff would compress 02–04 substantially and change the entry point.
+1. ~~**Who is the learner?**~~ **Answered for design:** the primary learner is an experienced general-IT practitioner entering a first dedicated analysis role, with broad but uneven prior technical knowledge and no assumed analysis or tooling experience. Less-experienced learners may use optional support; their inclusion does not reset the pacing baseline.
 2. **How is it delivered?** Self-guided like PILOT-001, or instructor-led with live review? This determines whether feedback is a review guide or a person, which in turn determines whether EF-8 is reachable in lessons before lesson 09.
 3. ~~**What is the time budget?**~~ **Answered by construction: about 18 hours.** Lessons 01–08 state 17 hours between them and the capstone adds 60–90 minutes. If a delivery needs less, the honest move is cutting whole lessons rather than thinning all of them — though note that 02 through 07 each depend on the one before.
