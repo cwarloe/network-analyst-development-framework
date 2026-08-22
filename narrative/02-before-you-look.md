@@ -12,13 +12,13 @@
 
 ---
 
-By the time I could read a simple conversation, I had developed a new way to be wrong.
+After working through the two conversations from my first ticket, I could reconstruct what Dana had made me do.
 
-I could explain almost anything after I had seen it.
+On those conversations, with the completed evidence in front of me, I could point to the handshake and say that both directions worked. I could point to the `403` and keep the application refusal separate from the transport connection underneath it. If somebody asked who closed first, I knew where to look.
 
-Give me a completed handshake and I could tell you why it proved a two-way path. Give me a `403` and I could keep it separate from the transport connection underneath it. Show me who closed first, and I could explain why it might matter.
+That was real progress. It was also narrower than it felt.
 
-All of this felt like understanding because all of it was true.
+I had learned to explain a result I could already see, in a case I had already worked. I had not learned how to use the same model when the next part was missing.
 
 Dana found the problem before I did.
 
