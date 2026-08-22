@@ -16,6 +16,12 @@ The narrative creates a consequential problem and the desire for a better model.
 
 The story and lesson do not need a mechanical one-chapter/one-lesson rhythm. An episode may put prediction before instruction, interrupt a case with practice, or return to a prior work product. The technical lesson must remain usable without the fiction.
 
+## Primary learner and accessibility
+
+Book 1 is paced for a learner like Ethan: an experienced general-IT practitioner entering a first dedicated analysis role, with broad but uneven networking or cybersecurity knowledge from certification study, self-study, workplace exposure, or a combination. No prior network-analysis experience or familiarity with the course's tools is assumed.
+
+This is a design target, not an entry gate. A computer-confident learner with less IT or networking experience may still use Book 1 with optional, just-in-time support. Support may supply missing reference knowledge, technical models, representation mappings, or tool orientation; it must not supply the interpretation, prediction, judgment, or work product the episode is intended to develop. The narrative remains optional, so no required prerequisite may exist only in a narrative chapter.
+
 ## Persistent environment and cast
 
 The story takes place at **Harrowmere Equipment Group**, a multi-site manufacturer and distributor of industrial equipment. Recurring hosts, services, domains, changes, owners, sensor locations, retention limits, and known gaps accumulate history rather than resetting between episodes.

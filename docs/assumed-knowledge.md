@@ -4,6 +4,12 @@ Derived 2026-08-21 by extracting every technical term used in lessons 02, 03, 04
 
 This exists to answer one question: **is the prerequisite gap a two-page primer or a course?** The answer is neither of the extremes — it is about 35 concepts in four clusters, and one of the four is much cheaper to close than the rest.
 
+## Learner model
+
+The [course](../COURSE.md#entry-assumptions) is paced for an experienced general-IT practitioner entering a first dedicated analysis role, with broad but uneven prior networking or cybersecurity exposure and no assumed analysis or tooling experience. That primary learner is a design target rather than an admission requirement. Less-experienced learners may need optional, just-in-time support for specific gaps identified below.
+
+This inventory still does not establish which terms stop real learners. It distinguishes assumptions in the text from observed learner difficulty; actual use must determine which support is necessary.
+
 ## The measurement that started it
 
 Distinct technical terms per lesson:
