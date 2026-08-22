@@ -1,5 +1,7 @@
 # The Course — Foundations of Network Analysis
 
+> **Book 1 direction:** These nine written lessons are now the technical source material for a proposed 14-episode first book, **[Learning to See](BOOK-1.md)**. They remain the current runnable course until replacement episodes have technically validated exercises. The [existing-material map](BOOK-1.md#existing-material-map) records what is reused, split, extended, or newly built.
+
 Nine lessons. **All are written** — [01](lessons/01-what-the-analyst-is-for.md), [02](lessons/02-reading-a-conversation.md), [03](lessons/03-names-and-expectations.md), [04](lessons/04-what-encryption-hides.md), [05](lessons/05-vantage-point-and-evidence.md), [06](lessons/06-when-it-breaks.md), [07](lessons/07-when-its-suspicious.md), [08](lessons/08-judgment-and-handoff.md), and the [09 capstone](lessons/09-capstone-encrypted-outbound-traffic/README.md).
 
 The course develops an analyst who can look at network activity, explain what is happening and why it matters, and produce a defensible assessment that another person can act on.
