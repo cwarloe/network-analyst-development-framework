@@ -140,6 +140,61 @@ The latency case is the one worth having. Lesson 06 already teaches a four-secon
 
 Addresses are `192.0.2.10` for the client and `198.51.100.60` for the server, matching the rest of the captures, so no rewriting is needed. Checksum offload is disabled on both veth ends and `fix_checksums()` runs anyway, for the reason recorded above.
 
+### Exact steps
+
+On any Linux box or small cloud VM, from a clone of this repository:
+
+```bash
+# 1. prerequisites (Debian/Ubuntu; skip what you already have)
+sudo apt-get update && sudo apt-get install -y iproute2 tcpdump python3
+sudo apt-get install -y linux-modules-extra-$(uname -r)   # only if netem is missing
+sudo modprobe sch_netem
+
+# 2. confirm netem exists -- prints nothing and exits 0 if it is there
+sudo tc qdisc add dev lo root netem delay 1ms && sudo tc qdisc del dev lo root
+
+# 3. generate
+sudo python3 lab/generate-impairment.py
+
+# 4. check the two files appeared, and that they are not empty
+ls -la assets/pcaps/06-latency.pcap assets/pcaps/06-loss.pcap
+
+# 5. commit and push -- CI runs the full gate
+git add assets/pcaps/06-latency.pcap assets/pcaps/06-loss.pcap
+git commit -m "lab: add the impairment captures"
+git push
+```
+
+If step 2 fails with *"Specified qdisc not found"*, netem is genuinely absent and step 1's module install did not take. Do not proceed — the script will refuse anyway.
+
+**Then tell me it is pushed.** I do not need anything else. `EXPECTED` in [`validate-captures.py`](validate-captures.py) already carries provisional entries for both files, deliberately loose because under heavy loss the transfer may not complete. I will tighten them against what the captures actually contain, then write the two cases into lesson 06 and remove the declared gap from the lesson and the roadmap.
+
+If anything in the run looks odd — a warning, a namespace that would not tear down, a capture that seems too small — paste the terminal output rather than summarising it. The script prints what it did at each stage.
+
+## Sourcing real adversary traffic for lesson 07 — needs a normal connection
+
+[Lesson 07](../lessons/07-when-its-suspicious.md) runs on lab-generated shapes and says so in its own text. Reworking it against genuine captured intrusion traffic is the natural next version, and the blocker is not the download.
+
+**[R004](../docs/research/R004-pcap-and-telemetry-sourcing.md) requires re-reading the source's current terms page before any capture ships, and every cleared source of adversary traffic is unreachable from this build environment.** Asserting a licence position from a page nobody can open is the exact failure that record exists to prevent. From an ordinary connection the verification takes minutes.
+
+**Be clear about the size of this.** It is not a drop-in file swap. Lesson 07's argument rests on three behaviours — a regular beacon, a high-rate DNS channel, and a bulk upload — converging on **one domain**, with a second shape-identical beacon that does not. Real captured traffic will not have that structure to hand. The lesson gets rebuilt around whatever the real data actually shows, which may be a better lesson or a differently-shaped one.
+
+### Exact steps
+
+1. **Open the specific dataset page**, not the site FAQ. CIC's IDS2017 family is R004's primary cleared source; Stratosphere/CTU-13 is the moderate-confidence alternative for botnet and beaconing traffic.
+2. **Complete R004's pre-flight**, which is five items and lives in [that record](../docs/research/R004-pcap-and-telemetry-sourcing.md#before-shipping-any-capture-file). Item 2 is the one that actually needs you: confirm the redistribution grant appears on **the dataset's own page**, not only in a site-wide FAQ. R004 flags this as unverified.
+3. **Copy the operative licence sentence verbatim**, plus the page URL and the date you read it. Paste it to me. This is the single thing I cannot obtain.
+4. **Copy the required citation** — CIC asks for the dataset *and* its research paper.
+5. **Download** whichever file the page describes as containing the activity you want.
+6. **Do not trim it yourself.** Send me the filename, its size, and the dataset page URL, and I will work out which excerpt teaches the point. Trimming to the smallest useful excerpt is R004 item 5 and it needs to be driven by what the lesson needs.
+7. **If the file is too large to hand over**, run `capinfos <file>` and `tshark -r <file> -q -z conv,tcp | head -40` and paste both. That is usually enough for me to pick a window, after which you can cut it with `editcap -A <start> -B <end>`.
+
+### What I need from you, minimally
+
+The licence sentence, its URL, the date read, the required citation, and enough of the capture's shape to choose an excerpt. With those five things I can do the rest: trim, check for residual identifiers, run the validation gate, rewrite the lesson, and record the citation in it.
+
+Without the first three, nothing ships — that is R004's rule, not a preference.
+
 ## Checking the lessons against the tools
 
 `check-lesson-commands.py` runs every `tshark` and `zeek` command printed in a lesson and compares the block underneath it against what the command really produces.

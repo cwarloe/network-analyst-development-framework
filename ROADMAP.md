@@ -12,6 +12,8 @@ All nine lessons are written. What matters now is whether they work.
 
 If you can only get one person for one hour, run [lesson 01](lessons/01-what-the-analyst-is-for.md). No dependencies, no tools, and every later lesson rests on the habit it builds.
 
+**There is a fill-in template** in [`run-records.md`](lessons/run-records.md#the-template). Copy it, fill it in during and after, hand it back. Most fields can honestly be empty — an empty field is data, a filled-in guess is noise.
+
 Everything else here is guesswork until this happens once.
 
 ## 2. Rework lesson 07 against real adversary traffic — needs your connection, not mine
@@ -22,7 +24,7 @@ Lesson 07 uses lab-generated shapes and says so. Reworking it against genuine ca
 
 The blocker is not download. **[R004](docs/research/R004-pcap-and-telemetry-sourcing.md)'s pre-flight requires re-reading the source's current terms page, and for every cleared source of adversary traffic that page is unreachable here.** Shipping regardless would mean asserting a licence position from a page nobody can open, which is the failure that record exists to prevent.
 
-From a normal connection this is minutes of work: complete R004's pre-flight, download, trim to a small excerpt, run it through [the validation gate](lab/validate-captures.py), and cite the dataset and its paper.
+**Step-by-step is in [the lab README](lab/README.md#sourcing-real-adversary-traffic-for-lesson-07--needs-a-normal-connection).** The short version: I need the operative licence sentence, its URL, the date you read it, the required citation, and enough of the capture's shape to choose an excerpt. Those five things are all I cannot get myself. Note this is a rework rather than a file swap — lesson 07's argument depends on three behaviours converging on one domain, and real data will not arrive in that shape.
 
 ## 3. Finish lesson 06 — packet loss and latency remain
 
@@ -32,7 +34,7 @@ Fragmentation was closed without privileges: EDNS0 padding inflates a legitimate
 
 **What is still missing is packet loss and induced latency.** Both need `netem`, which needs `NET_ADMIN`, unavailable where the lab was built. So does a true path-MTU-discovery black hole, where an ICMP "fragmentation needed" message is filtered and the sender never learns to send smaller packets.
 
-To close the rest, run [`lab/generate-captures.py`](lab/generate-captures.py) somewhere with `NET_ADMIN` and add `tc qdisc netem delay` and `loss` cases on a veth pair. Nothing existing needs redoing — it is additive.
+**Step-by-step is in [the lab README](lab/README.md#exact-steps).** Run [`lab/generate-impairment.py`](lab/generate-impairment.py) — not the main generator — on any Linux box or small cloud VM, then push. CI runs the gate, so you do not need Zeek or tshark locally. Tell me it is pushed and I will tighten the validator expectations and write the two cases into the lesson. Nothing existing needs redoing; it is additive.
 
 ## 4. Close the cheap design gaps — in R008's order
 

@@ -62,6 +62,94 @@ Add a dated entry below. Roughly a page. Include the learner's work product, or 
 
 A run that changes nothing is still a result worth recording. A run that exposes a gap should produce a specific revision, not a general intention to improve.
 
+## The template
+
+Copy this, fill it in during and after the run, and hand the whole thing back. **Most fields can honestly be "nothing" or "didn't notice" — leave them that way rather than inventing something.** An empty field is data; a filled-in guess is noise.
+
+You do not need to interpret anything. Record what happened; the analysis is my job.
+
+```
+RUN RECORD
+
+--- before ---
+Date:
+Lesson run:
+Learner background (one line, e.g. "8 years helpdesk, no analysis, no Wireshark"):
+Observed live, or self-guided and handed back:
+Did they read the narrative chapter first?  yes / no / n-a
+
+--- timing ---
+Started:
+Finished:
+Lesson's own estimate:
+Any long break in the middle:
+
+--- during (only if you were in the room) ---
+Questions they asked, and roughly where in the lesson:
+  1.
+  2.
+  3.
+
+Where they stalled for more than about two minutes:
+
+Anything they said out loud that surprised you (quote it if you can):
+
+For capture lessons: did they open the capture at all?  yes / no
+  If yes, did they reach for the packets or the log first?
+  Did they run the tshark commands, or read the printed output?
+
+Did they finish the self-review section, or stop after the work product?
+
+Did they use the guided-practice rung, or skip to the work product?
+
+--- the watch items ---
+Only fill in the ones for the lesson you ran. "Didn't come up" is a fine answer.
+
+L02 - did they separate "the connection worked" from "the request worked"
+      without being told twice?
+L03 - did the strange DNS read as normal, or as a trick question?
+L04 - did they treat the TLS 1.3 stream as MORE suspicious because less
+      was visible?
+L06 - did REJ and S0 get different owners, or both "the network team"?
+L07 - was the benign case argued seriously, or skipped?
+E03 - did they edit fields 1-5 after the reveal?
+      did they write "my prediction was wrong" for the case where the
+      evidence simply stopped?
+
+--- after ---
+What did they say when you asked what the lesson was about?
+
+Anything they told you was confusing, in their words (do not translate it):
+
+Anything they thought was obvious or a waste of time:
+
+Would they do another one?  yes / no / didn't ask
+
+--- the work product ---
+Attached / summarised / not kept   (pick one)
+Did they agree to it being used?   yes / no
+[paste or attach here]
+
+--- your own read ---
+One or two lines, entirely optional. What did you think went wrong?
+```
+
+### What to send me
+
+The filled-in template and the work product, if they agreed. That is all.
+
+Three things to resist, because they destroy the data:
+
+- **Do not clean up their wording.** "I don't get why there's two of them" is worth more than "learner found the two-conversation distinction unclear."
+- **Do not fill in fields you did not observe.** Self-guided runs legitimately have an empty "during" section.
+- **Do not pre-diagnose.** If you tell me the problem is lesson 02's layer vocabulary, I will look there and may miss what actually happened.
+
+### What I will do with it
+
+Write a dated record below, and turn anything actionable into a specific change — to a lesson, to the capability model, or to [`docs/assumed-knowledge.md`](../docs/assumed-knowledge.md), which currently lists ~35 assumed concepts with **no evidence about which ones stop a real person.** One run cannot settle that list, but it can start moving items off it.
+
+If the run changes nothing, I will record that too. A run that supports the current design is a result.
+
 ## Records
 
 No runs recorded yet. Nothing in this repository has been used by anyone other than its author.
