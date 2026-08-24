@@ -98,6 +98,19 @@ Items 3, 4 and 6 are not developed anywhere, and each has its short version writ
 
 **The list itself is the point.** Knowing that you hold `SYN` as a step rather than a signal changes how you read lesson 06 — you will notice yourself reaching for the sequence, and that noticing is the thing.
 
+### If it all came out clean
+
+Worth pausing on, because there are two ways to get there.
+
+The check separates **recall** from a **working model**. It does not separate a working model from **fluency** — being practised at explaining things well. If your background is stronger on method and process than on concrete mechanism, your answers will come out properly shaped either way: hedged in the right places, careful about what is established and what is assumed. That is a real skill and it is most of what the course is trying to build. It is also the one thing that can hide a missing mechanism from this check, because shape is what the check compares against.
+
+Two items are worth a second pass, because both need a mechanism and nothing else substitutes:
+
+- **Item 3.** The same machine opens three connections to the same server, all to port 443. Of the four numbers that identify a connection, how many differ between the three, and which ones? Write the count.
+- **Item 5.** A machine sends a `SYN` and gets back a segment with `RST` and `ACK` set. Something else sends a `SYN` and gets back nothing at all. What is materially different about those two situations?
+
+Item 3 you can settle from the paragraph already written above it. **Item 5 is deliberately not answered here** — if you cannot produce a confident account, that is the expected result and [lesson 06](06-when-it-breaks.md) is built on exactly that distinction. The point is only to notice which of the two you were.
+
 ## If you are running this with someone else
 
 Ask them to take it before lesson 01 and keep the list. Then, in the [run record](run-records.md#the-template), note **which items they marked and whether the ones they marked *no* actually caused trouble.**

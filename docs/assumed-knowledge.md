@@ -35,7 +35,19 @@ From the cluster analysis below, four items are load-bearing — meaning a learn
 
 All four are *models* rather than definitions, except the last. That matters: a glossary entry reading *"layer: a level of the protocol stack"* leaves lesson 02's question 3 exactly as unanswerable as before.
 
-**And different learners are missing different ones.** Eight years of helpdesk usually supplies ports and client/server and no layer model. A NOC background usually supplies layers and no capture experience. Certification study supplies vocabulary for all four and a working model of none. The gaps are non-linear, which is the single most important constraint on how support gets delivered.
+**And different learners are missing different ones.** Eight years of helpdesk usually supplies ports and client/server and no layer model. A NOC background usually supplies layers and no capture experience. Certification study supplies vocabulary for all four and a working model of none. A fourth profile turns up often enough to name: **methodology without the operational floor** — someone trained on how an investigation is supposed to go, who has had a taste of security work without holding a seat in it and never worked a helpdesk. That background supplies the reasoning moves and not the substrate the moves operate on, which is close to the inverse of the helpdesk profile.
+
+The gaps are non-linear, which is the single most important constraint on how support gets delivered.
+
+### The profile the self-check is worst at finding
+
+The other three profiles fail the [self-check](../lessons/self-check.md) legibly. An answer comes out thin, or stops, or reaches for a memorised sequence, and the check says so.
+
+The methodology-first profile does not fail that way, and the reason is structural. The self-check asks the reader to *produce* an explanation and then **"compare the shape of yours against the shape described."** Shape is exactly what that background supplies. The answer arrives properly hedged, distinguishes what is established from what is assumed, and reads as usable — while the mechanism underneath it may be absent. Items 3 and 5 are the two that still bite, because both ask for a mechanism and no methodological move substitutes for one: *why a fresh source port each time*, and *what each flag means on its own* rather than where it sits in a sequence.
+
+This matters more than the other profiles do, because of what the course asks people to hand in. The work products are argued prose, and fluency in that genre is the thing this learner already has. So the failure mode is not a thin record — it is a **well-formed record resting on a wrong mechanism**, which is harder to catch in review than a thin one, and the review guides deliberately do not score. It is the strongest argument in the file for why *Check* is not optional in Observe → Explain → Predict → Check → Revise: it is the only step that tests the mechanism against evidence instead of testing the reasoning against itself.
+
+**Recorded from one person's self-description, not from observation.** It is the author's own profile, offered while taking the self-check, and it is a hypothesis about a category rather than a measurement of one. The prediction it makes — items 3 and 5 discriminate for this profile where 1, 2 and 7 will not — is checkable in [the run template](../lessons/run-records.md#the-template) and has not been checked.
 
 ### Finding out which holes a given person has
 
