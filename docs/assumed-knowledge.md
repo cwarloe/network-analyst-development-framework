@@ -10,6 +10,47 @@ The [course](../COURSE.md#entry-assumptions) is paced for an experienced general
 
 This inventory still does not establish which terms stop real learners. It distinguishes assumptions in the text from observed learner difficulty; actual use must determine which support is necessary.
 
+## What "broad but uneven" actually means
+
+The learner model says prior knowledge is uneven. This section says what the unevenness looks like in practice, because it determines the *shape* of any support and not just its content.
+
+### Certification study does not close these gaps
+
+A learner arriving with Security+ or equivalent self-study typically holds the relevant material as **recall**: 443 is HTTPS, TCP has a three-way handshake, DNS resolves names. Every one of those is true and none of them is what the lessons need, which is a **usable causal model** — enough structure to predict what should happen next and notice when it does not.
+
+This is not a hypothetical. It is the premise of [the prologue](../narrative/00-prologue.md), whose narrator has studied on his own time and describes what he studied as *"lists — ports, protocols, attack names, the shapes of things that were bad"*, then fails his first ticket anyway. [`BOOK-1.md`](../BOOK-1.md) gives the same profile to Ethan deliberately.
+
+**So a certification is the wrong gate, and a prequel built to deliver certification-shaped knowledge would reproduce the problem rather than fix it.** The holes are not in the facts. They are in whether the facts connect to anything.
+
+### The holes are few, specific, and not the same for everyone
+
+From the cluster analysis below, four items are load-bearing — meaning a learner without them cannot complete a named task, rather than merely finding it harder:
+
+| | What is missing | Where it blocks | Type |
+|---|---|---|---|
+| 1 | **Layer** as a mechanism | Lesson 02's work-product question 3, which is the lesson's own stated thesis | Model |
+| 2 | **Client / server / initiator** | Lesson 02's narration task; the learner copies fields instead | Model |
+| 3 | **`SYN` / `ACK` / `FIN` as flags**, not as a named sequence | Lesson 06's `REJ` against `S0` | Model |
+| 4 | **Packet against frame** | Nothing specific; produces steady low-grade confusion | Vocabulary |
+
+All four are *models* rather than definitions, except the last. That matters: a glossary entry reading *"layer: a level of the protocol stack"* leaves lesson 02's question 3 exactly as unanswerable as before.
+
+**And different learners are missing different ones.** Eight years of helpdesk usually supplies ports and client/server and no layer model. A NOC background usually supplies layers and no capture experience. Certification study supplies vocabulary for all four and a working model of none. The gaps are non-linear, which is the single most important constraint on how support gets delivered.
+
+### Consequences for delivery
+
+**A linear prequel is the wrong shape for non-linear gaps.** It makes every learner sit through the parts they already hold. That is not merely inefficient — for material a learner already understands, added instruction is associated with *worse* outcomes rather than neutral ones (the expertise reversal effect). A prequel that helps the helpdesk learner can actively cost the NOC learner.
+
+**Support must be self-selected, small, and independent.** Four short modules any of which can be skipped, rather than one sequence.
+
+**A prequel must not pre-teach Book 1's scheduled content.** [Episode 2](../BOOK-1.md) targets *"hosts, services, ports, sessions, layers as reasoning aids"* and Episode 5 targets *"practical session states, refusal versus silence."* Items 1 and 3 above are therefore scheduled instruction, and support that delivers them in advance duplicates and pre-empts a lesson rather than unblocking one. The support version has to be strictly smaller: the mechanism, not the reasoning built on it.
+
+### A live tension worth naming
+
+Item 2 is currently taught twice, unequally. [Lesson 02](../lessons/02-reading-a-conversation.md) *states* it — *"`client` is whoever opened the connection"* — and [Episode 2](../narrative/01-who-is-talking-to-whom.md) has the learner *derive* it, from who sent the first `SYN`.
+
+The definition therefore exists outside the narrative, which satisfies the rule in [`BOOK-1.md`](../BOOK-1.md#primary-learner-and-accessibility) that no required prerequisite may live only in a narrative chapter. The **practice** does not. Whether a stated definition is sufficient where the narrative supplies a derivation is exactly the sort of question a first run answers and reading cannot.
+
 ## The measurement that started it
 
 Distinct technical terms per lesson:
