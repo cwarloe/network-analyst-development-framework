@@ -22,6 +22,8 @@ Lessons 01, 05, 08 and 09 need nothing at all — the case is supplied in the te
 
 Start with **[lesson 01](lessons/01-what-the-analyst-is-for.md)**. It takes about 90 minutes and needs nothing but a text editor.
 
+Optionally, first: **[what do you already have?](lessons/self-check.md)** — fifteen minutes, seven prompts, no score and nobody sees it. It exists because the course assumes a few things it never teaches, and because the usual way to be missing one is not knowing you are. Most gaps it finds want no action, and it says which.
+
 ### A story running alongside
 
 There is also a [narrative track](narrative/README.md) — Ethan Mercer, a developing analyst at Harrowmere Equipment Group, mentored by Dana Shah. It teaches nothing directly; it exists to raise the question the lesson answers. **Three chapters are written**, starting with the [prologue](narrative/00-prologue.md), which takes ten minutes and leads into lesson 01. The track is optional and the lessons stand alone without it — see [Book 1](BOOK-1.md) for the working architecture.

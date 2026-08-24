@@ -12,6 +12,8 @@ Design references: [architecture](docs/architecture.md), [capability model](docs
 
 The **primary learner** has several years of general IT experience and broad but uneven networking or cybersecurity knowledge acquired through certification study, self-study, workplace exposure, or some combination. This is their first dedicated network-analysis role. No prior network-analysis experience or familiarity with Wireshark, `tshark`, Zeek, Security Onion, Hunt, or Kibana is assumed.
 
+[`lessons/self-check.md`](lessons/self-check.md) is the optional, learner-facing side of this: seven prompts that ask a reader to *produce* an explanation rather than recognise a term, because recall and a working model feel identical from the inside. It gates nothing and scores nothing.
+
 That profile sets the course's pace; it is not an admission requirement. A computer-confident learner with less IT or networking experience remains inside NADF's **accessibility envelope**, but may need optional, just-in-time support for particular vocabulary, technical models, representations, or tools. Such support should repair a specific gap without supplying the analytical reasoning or conclusion a lesson is designed to develop. See [what the lessons currently assume](docs/assumed-knowledge.md).
 
 ## Book 1 episode material

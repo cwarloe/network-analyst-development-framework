@@ -77,6 +77,9 @@ Lesson run:
 Learner background (one line, e.g. "8 years helpdesk, no analysis, no Wireshark"):
 Observed live, or self-guided and handed back:
 Did they read the narrative chapter first?  yes / no / n-a
+Did they take the self-check first?  yes / no
+  If yes, which items did they mark "no"?
+  Did any of those actually cause trouble during the lesson?
 
 --- timing ---
 Started:

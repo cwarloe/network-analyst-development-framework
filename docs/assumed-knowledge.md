@@ -37,6 +37,12 @@ All four are *models* rather than definitions, except the last. That matters: a 
 
 **And different learners are missing different ones.** Eight years of helpdesk usually supplies ports and client/server and no layer model. A NOC background usually supplies layers and no capture experience. Certification study supplies vocabulary for all four and a working model of none. The gaps are non-linear, which is the single most important constraint on how support gets delivered.
 
+### Finding out which holes a given person has
+
+[`lessons/self-check.md`](../lessons/self-check.md) covers the four load-bearing items plus three adjacent ones. It asks the reader to produce an explanation rather than recognise a term, because that is the only reliable way to separate recall from a working model, and it routes most findings to *no action* — a gap on something the course develops is the reason the lesson exists, not a deficiency to repair beforehand.
+
+Taken before a run and recorded in [the run template](../lessons/run-records.md#the-template), it is also the cheapest available evidence on the question this file cannot answer from the text: which of these assumptions actually stop somebody.
+
 ### Consequences for delivery
 
 **A linear prequel is the wrong shape for non-linear gaps.** It makes every learner sit through the parts they already hold. That is not merely inefficient — for material a learner already understands, added instruction is associated with *worse* outcomes rather than neutral ones (the expertise reversal effect). A prequel that helps the helpdesk learner can actively cost the NOC learner.
