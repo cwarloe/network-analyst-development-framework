@@ -6,12 +6,14 @@ Open this file only after completing your initial assessment.
 
 Your initial assessment is delivered at 10:15. The software owner and endpoint-response team return the following evidence at 10:42.
 
+These are supplied facts of a fictional written case, not outputs from a deployed lab. The initial packet did not include repository verification history or the effective deployment checks; do not judge the initial assessment using the facts revealed here.
+
 | ID | Source | New observation | Known limitation |
 |---|---|---|---|
 | F-01 | Vendor security response | AcmeSync states that version 4.8.2 does not use `telemetry.acmesync.example` and that the domain is not vendor controlled. | The statement does not yet explain how the unauthorized package entered the environment. |
 | F-02 | Vendor release manifest | The approved `AcmeSyncUpdater.exe` hash differs from the hash shared by all 37 online updated systems. | Hash difference establishes a binary mismatch, not the binary's complete behavior. |
-| F-03 | Deployment repository audit | The mismatched package was added to the internal deployment repository at 08:41 using a valid automation credential. The approved package had been replaced. | It is not yet known whether the credential or the automation host was compromised. |
-| F-04 | Endpoint-response comparison | The deployed updater loads an unsigned module absent from a known-good vendor package and creates persistence before initiating the recurring connection. | The team has not completed malware analysis or determined the full impact. |
+| F-03 | Deployment repository audit and job configuration | The approved artifact was checked against the release manifest at 08:30. A mismatched package replaced it at the same repository path at 08:41 using a valid automation credential. The 09:00 job read that mutable path without comparing the deployed bytes with the approved manifest again. | This establishes a gap between staging verification and deployment, not whether the credential or automation host was compromised. |
+| F-04 | Endpoint-response comparison | The deployed package contains a validly signed updater binary different from the approved release plus an unsigned module absent from the known-good package. The updater loads that module and creates persistence before initiating the recurring connection. | A valid executable signature does not approve the package/version or all dependencies. The team has not completed malware analysis or determined the full impact. |
 | F-05 | Network scope check | All 37 online updated systems show the same destination and connection pattern; systems that did not receive 4.8.2 do not. | Offline systems and activity before available retention remain unassessed. |
 
 ## Revision task
@@ -24,6 +26,8 @@ Revise your work product. Keep the revision concise, but make the change visible
 - Preserve any uncertainty that still matters.
 - Provide a usable handoff for the software owner, endpoint-response team, and whoever owns the deployment credential or automation host.
 - Compare your initial and revised models. A revision is not a failure when it responds appropriately to evidence that was previously unavailable.
+
+For the handoff, keep ownership explicit: the deployment administrator pauses the job and protects the repository; the identity team handles the automation credential; endpoint responders preserve and investigate host evidence; the software owner coordinates workflow impact and vendor confirmation. Network/security engineering implements approved scoped controls. The operational decision owner coordinates authorization. The network analyst supplies the integrated assessment and scoped evidence, not every specialist action.
 
 ## Part 2: Transfer to a different situation
 

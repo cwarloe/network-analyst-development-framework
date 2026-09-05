@@ -85,7 +85,7 @@ One analysis, two write-ups. Same evidence.
 
 > **Overclaimed:** "HOST-22 is compromised and was used to attack the authentication service. Recommend immediate reimage and a password reset for all affected users."
 
-> **Proportionate:** "A configuration change at 08:12 explains most of the authentication failures. A residue of about 40 failures does not fit that pattern and is consistent with password spraying, though it is also consistent with a stale service account retrying. Moderate confidence in the configuration cause; low confidence on the residue. Recommend rolling back the change now — it is reversible and low-cost — and asking the identity team to review the 40 residual attempts before anyone resets credentials."
+> **Proportionate:** "The configuration change at 08:12 is the leading explanation for failures on the changed path, but association alone does not establish causation. About 40 failures came from outside that population and are consistent with password spraying or a stale service retrying. Recommend a controlled rollback of the change, comparison of subsequent failure rates on that path, and identity-team review of the residual attempts. If failures persist after rollback, revisit the configuration explanation."
 
 The second is longer, more useful, and easier to be wrong in safely. It also tells the reader exactly which future finding would change it.
 
@@ -118,6 +118,8 @@ You are handed a completed analysis. Your job is the judgment and the communicat
 | D-05 | Two of the 12 targeted accounts belong to users who left the company more than a year ago and remain enabled. |
 | D-06 | Endpoint telemetry for the Denver office was unavailable during the window because of an unrelated collector outage. |
 | D-07 | A rollback of the 08:12 change has been prepared and can be applied in about ten minutes. |
+
+The change is a plausible leading cause, not a completed causal finding. D-02 gives the share of failures on that path, not the failure rate among all attempts on changed versus unchanged paths. No rollback outcome is supplied. Recommend a bounded check and state what result would weaken the explanation; do not invent a successful rollback.
 
 ## Your work product
 

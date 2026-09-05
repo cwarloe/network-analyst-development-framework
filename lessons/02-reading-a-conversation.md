@@ -58,6 +58,8 @@ connection.state   SF                      SF
 
 Two conversations. Same client, same server, same service. Read the fields you will use for the rest of your career:
 
+**Duration boundary:** the second record's `0.000184` seconds corresponds to the opening SYN through the client FIN. The final ACK follows nine microseconds later; first-to-last captured packet time is `0.000193` seconds. Do not substitute a log's duration boundary for the entire packet window.
+
 - **`source.ip` / `source.port`** — who started it, and from which ephemeral port. Different port each time: **these are two separate conversations, not one.**
 - **`destination.ip` / `destination.port`** — who was contacted, on which service port.
 - **`connection.state: SF`** — normal establishment and normal teardown. Both sides said hello and both said goodbye. Security Onion also carries `connection.state_description`, which spells it out: *Normal SYN/FIN completion*.
@@ -141,6 +143,8 @@ X-Request-Id: 7f3a91c2
 ```
 
 This is the pivot, and it is the working pattern for everything that follows: **the log tells you a conversation happened and roughly what shape it was; the packets tell you what was said.** You go to the log to find the conversation. You go to the capture to read it.
+
+**Fixture timestamp limitation:** `generated` is a fixed value in the lab server's response, not a measurement of when this request was served. Its `2026-08-19T09:14:22Z` value is later than the capture's approximately `05:20:35Z` start on that date. Preserve that discrepancy as a property of this synthetic fixture; it does not establish a production clock fault or a real export chronology. This exercise uses packet order and relative timing. A longitudinal case needs independently consistent event timestamps.
 
 Narrated in one sentence: *a host called `harrow-sync/3.21` asked an internal file service for page 1 of a finance export, and the service returned a 90-byte JSON summary describing 1,284 rows.*
 

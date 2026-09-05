@@ -135,7 +135,7 @@ Someone stopped beside the desk. She had a laptop under one arm and the containe
 
 That transferred the impatience to me.
 
-Dana introduced us. Priya Raman owned the application side of the Reporting Platform. I knew none of that when she asked her first question.
+Dana introduced us. Leah Moreno owned the application side of the Reporting Platform. I recognized her voice from a conversation I had overheard during my first week; this was the first time we had spoken directly. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much work that description concealed.
 
 “Did the finance export complete?”
 
@@ -143,7 +143,7 @@ I looked at the `200 OK` in the log. Then at Dana. She gave me nothing.
 
 “The request to the export endpoint received a successful HTTP status,” I said carefully.
 
-Priya waited.
+Leah waited.
 
 “That isn’t what I asked.”
 
@@ -155,7 +155,7 @@ I looked at the packet list again. “I don’t know yet.”
 
 It sounded weaker out loud than it had in my head.
 
-Priya did not seem offended by it. “All right. What do you know?”
+Leah did not seem offended by it. “All right. What do you know?”
 
 I pointed at the first rows. “A client opened a TCP connection to the file service. The server answered. The client sent an HTTP request to the export endpoint. The service returned `200 OK`.”
 
@@ -163,7 +163,7 @@ I pointed at the first rows. “A client opened a TCP connection to the file ser
 
 “And I haven’t read the response.”
 
-“Good,” Priya said. “Because that endpoint does not return the export.”
+“Good,” Leah said. “Because that endpoint does not return the export.”
 
 I looked at her.
 
@@ -173,7 +173,7 @@ Dana asked, “How would he have known that?”
 
 “From the response body. Or from me. Not from the endpoint name.”
 
-Different people can say the same thing in ways that produce different feelings. When Dana said *not from the endpoint name*, it sounded like a lesson. When Priya said it, it sounded like the system did not care what I had assumed.
+Different people can say the same thing in ways that produce different feelings. When Dana said *not from the endpoint name*, it sounded like a lesson. When Leah said it, it sounded like the system did not care what I had assumed.
 
 We opened the first stream. The body was short JSON. It named a finance export, said it covered 1,284 rows, and identified the format. It was a description of work, not the work itself.
 
@@ -183,7 +183,7 @@ That was not what the evidence said. The evidence said the service successfully 
 
 “So the network worked,” I said, “and the HTTP request succeeded, but I still can’t say the export completed.”
 
-Priya nodded. “Now you’re asking my question.”
+Leah nodded. “Now you’re asking my question.”
 
 She left us with the ticket still open.
 
@@ -255,7 +255,7 @@ Dana stood. “That should keep you busy.”
 
 “Are you going to tell me what the software was doing?”
 
-“Priya may eventually tell both of us. But first I want to know whether you can tell her what the network shows without making her correct the parts you invented.”
+“Leah may eventually tell both of us. But first I want to know whether you can tell her what the network shows without making her correct the parts you invented.”
 
 She walked away.
 
