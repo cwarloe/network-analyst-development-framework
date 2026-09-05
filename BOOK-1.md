@@ -28,13 +28,13 @@ The story takes place at **Harrowmere Equipment Group**, a multi-site manufactur
 
 - **Ethan Mercer** is a 27-year-old developing analyst with several years of civilian IT support experience and broad but uneven certification/self-study knowledge. He initially believes experts know more answers. His Book 1 development is learning to construct trustworthy, correctable judgments.
 - **Dana Shah** is the senior analyst who mentors Ethan. She tells when reference knowledge is missing, directs retrieval when finding reliable information matters, models invisible reasoning when needed, and asks when the reasoning itself is the learning target. Her help fades until Ethan supplies his own questions and checks.
-- **Nia Alvarez** is a peer or near-peer analyst. She provides comparison and reciprocal learning without becoming a rival or second mentor.
-- **Owen Kline** supplies the network-engineering view: paths, policy, infrastructure, and change history, but not the whole analytical answer.
-- **Priya Raman** supplies application and system purpose, expected workflows, dependencies, and business consequences that packets cannot provide.
-- **Leah Moreno** supplies the incident-response view and consumes bounded, actionable network-analysis handoffs.
-- **Cal Rowan** owns operational decisions and needs consequence, cost, uncertainty, and recommendation rather than packet exposition.
+- **Nia Alvarez** is the Security Operations Manager. She owns priority, escalation, and operational decisions and needs consequence, cost, uncertainty, and recommendation rather than packet exposition.
+- **Owen Kline** is an experienced analyst whose speed rests on compressed experience and Harrowmere history. He provides comparison and practical discrimination without becoming a rival or second mentor.
+- **Priya Raman** is the Senior Network Engineer. She supplies paths, policy, infrastructure intent, and change history, but not the whole analytical answer.
+- **Leah Moreno** is the Enterprise Applications Lead. She supplies application and system purpose, expected workflows, dependencies, and business consequences that packets cannot provide.
+- **Cal Rowan** is the Security Engineer. He owns significant parts of the telemetry, detection, search, and automation machinery that determines what evidence analysts can retrieve.
 
-These are instructional functions as well as character functions. Exact titles may be refined when prose or a real exercise makes a better title necessary.
+These are instructional functions as well as character functions. Their organizational roles are author canon; information advantages and limitations may deepen in prose, but the roles should not drift to satisfy an individual scene.
 
 ## Author knowledge and reader knowledge
 
@@ -59,11 +59,11 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 #### 2. Who Is Talking to Whom?
 
 - **Ethan:** more careful with labels but treating IPs, ports, and protocol names as explanations.
-- **Problem/discomfort:** Priya asks whether an application reached its service. Ethan can name port 443 but cannot narrate the purposeful exchange.
+- **Problem/discomfort:** Leah asks whether an application reached its service. Ethan can name port 80 but cannot narrate the purposeful exchange. The existing capture is plaintext HTTP; encryption enters in Episode 6.
 - **Technical/capability target:** hosts, services, ports, sessions, layers as reasoning aids; OC-1, OC-2, OE-1.
 - **Reuse:** [lesson 02](lessons/02-reading-a-conversation.md).
 - **Build:** map a diagram to a capture, narrate an exchange, and predict an event before reveal; vary the second exchange's surface details.
-- **Payoff/continuity:** Ethan gives Priya an explanation she can recognize as system behavior. The application and hosts recur.
+- **Payoff/continuity:** Ethan gives Leah an explanation she can recognize as system behavior. The application and hosts recur.
 - **Deferred:** windowing, performance behavior, and deep TCP state analysis.
 
 #### 3. Before You Look
@@ -82,7 +82,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** predicting simple exchanges but treating diagrams as directly observable sequences.
 - **Problem/discomfort:** DNS activity is absent or differs by client despite the familiar resolution diagram.
-- **Characters:** Dana, Owen, and Priya contribute questions, infrastructure facts, and application context.
+- **Characters:** Dana and Priya contribute analytical questions and infrastructure context.
 - **Technical/capability target:** resolver paths, caching, TTLs, repeated lookups, and legitimate variation; OC-2, OC-3, OE-1, LR-1.
 - **Reuse:** [lesson 03](lessons/03-names-and-expectations.md).
 - **Build:** client and resolver views, first/repeated lookup predictions, and a Harrowmere DNS baseline retained for later episodes.
@@ -93,7 +93,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** understands purpose but reduces TCP to a handshake and a simple success/failure label.
 - **Problem/discomfort:** refused, dropped, incomplete, and slow conversations all arrive as “it won't connect.”
-- **Characters:** Owen and Priya defend their domains; Dana makes Ethan locate the discriminating evidence.
+- **Characters:** Owen, Priya, and Leah bring analytical, network, and application views; Dana makes Ethan locate the discriminating evidence.
 - **Technical/capability target:** practical session states, refusal versus silence, response versus delivery, network versus application delay; OC-2, OC-4, OE-1, IR-3.
 - **Reuse:** conversation material from lesson 02 and failure signatures from [lesson 06](lessons/06-when-it-breaks.md).
 - **Build:** reuse REJ, S0, reset, and slow-but-correct cases; require the discriminating event or absence and a causal triage map.
@@ -104,7 +104,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** oscillating between “encrypted means unknowable” and “valid certificate on 443 means legitimate.”
 - **Problem/discomfort:** Harrowmere sees encrypted outbound activity and needs a bounded answer.
-- **Characters:** Dana, Nia, and Priya.
+- **Characters:** Dana, Leah, and Cal; Nia may appear when the bounded answer reaches an operational decision.
 - **Technical/capability target:** HTTP/TLS visibility boundaries, handshake metadata, timing, volume, names, certificates, context, and source limits; OC-2, OE-4, JU-2.
 - **Reuse:** [lesson 04](lessons/04-what-encryption-hides.md) and selected capstone evidence patterns.
 - **Build:** similar-looking encrypted exchanges in different contexts; observable/inferable/undetermined distinctions; a next-evidence request.
@@ -115,7 +115,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** wanting one crisp numerical template for normal.
 - **Problem/discomfort:** he builds a baseline from too little history and flags expected business-cycle behavior.
-- **Characters:** Nia, Priya, and Dana.
+- **Characters:** Nia, Priya, and Leah; Dana reviews rather than conducts.
 - **Technical/capability target:** legitimate variation, peer groups, windows, schedules, recurring activity, and baseline limits; OC-3, OE-4, LR-1.
 - **Reuse:** baseline and comparison material from lessons 03 and 07 and the capstone.
 - **Build:** a small multi-day dataset with role and schedule variation, a misleading global average, and a baseline statement with assumptions.
@@ -127,8 +127,8 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 #### 8. Where Are You Standing?
 
 - **Ethan:** treating each source as if it describes the complete event.
-- **Problem/discomfort:** Owen's records, a capture, a firewall log, and an endpoint account appear to contradict one another.
-- **Characters:** Owen, Dana, and Leah.
+- **Problem/discomfort:** Priya's architecture, a capture, a firewall log, and an endpoint account appear to contradict one another.
+- **Characters:** Priya, Cal, and Leah; Dana may review without supplying the reconciliation.
 - **Technical/capability target:** sensor placement, vantage point, capture/flow/log/endpoint scope, retention, and distortion; OE-4, OC-4.
 - **Reuse:** the vantage-point half of [lesson 05](lessons/05-vantage-point-and-evidence.md).
 - **Build:** one event from at least three viewpoints, a source map, apparent contradictions resolvable through placement, and a durable source-limits ledger.
@@ -138,8 +138,8 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 #### 9. Ask the Evidence a Question
 
 - **Ethan:** aware of limitations but gathering broadly before deciding what each source must answer.
-- **Problem/discomfort:** under time pressure he requests everything. Cal asks what decision the delay improves.
-- **Characters:** Leah, Dana, and Cal.
+- **Problem/discomfort:** under time pressure he requests everything. Nia asks what decision the delay improves while Cal makes the collection costs and source limits concrete.
+- **Characters:** Nia, Cal, and Dana; Priya or Leah appears only if the selected evidence requires their domain context.
 - **Technical/capability target:** evidence relevance, provenance, decision value, collection cost, prioritization, and stopping; OE-3–OE-5, IR-4.
 - **Reuse:** the evidence-planning half of lesson 05 and the capstone's mixed-source design.
 - **Build:** a source catalog with costs/delays, shared-provenance traps, prioritized requests, expected decision changes, and stop conditions.
@@ -150,7 +150,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** planning well but becoming attached to his first causal account.
 - **Problem/discomfort:** intermittent DNS failures and unusual queries tempt a security explanation until a prediction fails.
-- **Characters:** Owen, Priya, and Dana.
+- **Characters:** Nia, Priya, Leah, and Dana; Owen may contribute a fast historical comparison without taking ownership.
 - **Technical/capability target:** causal models, policy/path effects, fragmentation and MTU at explanatory depth, visible revision; OC-4, IR-2, IR-3, IR-6, LR-1, LR-2.
 - **Reuse:** fragmentation and causal material from lesson 06 and the capstone transfer case.
 - **Build:** preserve the initial model, reveal contradictory evidence, require an explained revision, bounded correction, and verification. Do not reward guessing “MTU.”
@@ -161,7 +161,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** able to revise but comparing alternatives informally.
 - **Problem/discomfort:** recurring outbound traffic supports approved-agent, misconfiguration, unwanted-software, and malicious explanations.
-- **Characters:** Nia, Leah, Priya, and Dana.
+- **Characters:** Dana and Owen; Leah or Cal may contribute one bounded source or discriminator.
 - **Technical/capability target:** competing explanations, discriminating predictions, investigation sequence, confirmation bias, and convergence; IR-2–IR-4, OE-5, LR-2.
 - **Reuse:** reasoning from lessons 06 and 07.
 - **Build:** an explanation/prediction/evidence matrix with ambiguous support, one high-value discriminator, and an evidence-driven ranking change.
@@ -174,7 +174,7 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 
 - **Ethan:** technically stronger but still feeling pressure from the word “malicious.”
 - **Problem/discomfort:** beacon-like connections, high-entropy DNS, and an upload are individually ambiguous but relationally convergent.
-- **Characters:** Nia, Leah, and Priya; Dana does not conduct the analysis.
+- **Characters:** Nia, Owen, Leah, and Cal; Dana does not conduct the analysis and may only review afterward.
 - **Technical/capability target:** beaconing, DNS channel characteristics, transfer shapes, peer/history comparison, legitimate analogues, convergence; OC-3, IR-2, IR-4, IR-5, JU-1, JU-2.
 - **Reuse:** [lesson 07](lessons/07-when-its-suspicious.md).
 - **Build:** preserve shape-similar legitimate and concerning beacons; require ranking, a proposed rule, false-positive analysis, cross-source linkage, and confidence.
@@ -184,12 +184,12 @@ Backstory is author knowledge unless it earns space by affecting an analytical d
 #### 13. What Can You Responsibly Say?
 
 - **Ethan:** able to investigate but tempted to compress mixed evidence into one verdict.
-- **Problem/discomfort:** a change explains 94% of authentication failures while a 6% residue has different possible causes.
-- **Characters:** Leah, Cal, Dana, and possibly Owen.
+- **Problem/discomfort:** 94% of authentication failures used a recently changed path, making the change a leading but unverified explanation; a 6% residue has different possible causes.
+- **Characters:** Nia, with Dana deliberately distant and Leah present only if workflow consequence requires her.
 - **Technical/capability target:** proportionate judgment, confidence basis and breaker, reversibility, cost of waiting, stopping points, role boundaries, and audience adaptation; JU-1–JU-4, CT-1–CT-4.
 - **Reuse:** [lesson 08](lessons/08-judgment-and-handoff.md).
 - **Build:** preserve the 94%/6% case; require separate judgments, a technical handoff, a manager summary, identical claim strength, gaps, action, and stopping condition.
-- **Payoff/continuity:** Cal can decide and Leah can act without either receiving false certainty. Dana does not edit the products before delivery.
+- **Payoff/continuity:** Nia can decide and Leah can act without either receiving false certainty. Dana does not edit the products before delivery.
 - **Deferred:** executive politics, governance, metrics, detection priorities, and leadership systems.
 
 #### 14. Decide Before You Disrupt

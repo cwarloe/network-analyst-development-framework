@@ -96,6 +96,9 @@ def gen_dns():
 
 
 # ------------------------------------------------------------------- HTTP ---
+# Fixed application fixture, not the time of a live export. The committed
+# capture predates this payload timestamp; Lesson 02 explicitly scopes it out
+# of chronology claims. Keep packet timestamps and relative timings intact.
 BODY = (b'{"report":"finance-export","rows":1284,'
         b'"generated":"2026-08-19T09:14:22Z","format":"json"}')
 

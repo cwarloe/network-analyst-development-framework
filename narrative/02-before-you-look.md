@@ -8,7 +8,7 @@
 - **Time:** about 8 minutes
 - **Requires:** nothing. No tooling, capture, or account.
 - **Creates the question:** How can a prediction expose whether an explanation is usable before the answer is visible?
-- **Technical debt:** The staged evidence exercise that follows this chapter is assigned to Curriculum/Engineering Studio and is not yet authored.
+- **Technical exercise:** [`lessons/e03-before-you-look/`](../lessons/e03-before-you-look/README.md) is built and uses [`e03-prediction.pcap`](../assets/pcaps/e03-prediction.pcap).
 
 ---
 
@@ -66,37 +66,37 @@ Dana folded her arms. “You’re treating uncertainty as a reason not to commit
 
 I did not like that, which usually meant I had understood it.
 
-Nia Alvarez rolled her chair around the divider. I had spoken to her twice since joining Harrowmere. Both times she had been friendly in a way that made it impossible to tell whether she was helping me or collecting material.
+Owen Kline rolled his chair around the divider. I had already learned that asking Owen was the fastest route to an answer and the easiest way to miss how he got there.
 
-“Is this the prediction thing?” she asked.
+“Is this the prediction thing?” he asked.
 
 “Apparently.”
 
 “Dana loves the prediction thing.”
 
-“Nia hates the prediction thing,” Dana said.
+“Owen hates the prediction thing,” Dana said.
 
-“I hate writing it down.”
+“I hate writing it down,” Owen said.
 
 “Why?”
 
-Nia looked at me instead of answering Dana. “Because when the next packet is different, she won’t let you claim you meant something more general.”
+Owen looked at me instead of answering Dana. “Because when the next packet is different, she won’t let you claim you meant something more general.”
 
 “You usually did mean something more general,” Dana said. “Afterward.”
 
-Nia moved closer to the screen. “What do we have?”
+Owen moved closer to the screen. “What do we have?”
 
-I told her: established connection, request delivered, server acknowledgment, no application response visible yet.
+I told him: established connection, request delivered, server acknowledgment, no application response visible yet.
 
-“It’ll respond,” Nia said.
+“It’ll respond,” Owen said.
 
 Dana waited.
 
-Nia sighed. “The next application data will travel from the server to the client.”
+Owen sighed. “The next application data will travel from the server to the client.”
 
 “Why?”
 
-“Because the client sent a complete request to a listening service and the server acknowledged it.”
+“Assuming the client has finished its request and the application handles it, I expect a response.”
 
 “Does acknowledgment mean the application accepted the request?”
 
@@ -104,13 +104,13 @@ Nia sighed. “The next application data will travel from the server to the clie
 
 “So what assumption is underneath your prediction?”
 
-Nia looked at the hidden part of the screen. “That the application is running and eventually handles what the network stack delivered.”
+Owen looked at the visible rows. “That these bytes constitute the complete request, and that the application is running and eventually handles it. The acknowledgment alone establishes neither.”
 
 Dana looked at me.
 
 I said, “That still sounds like guessing with extra steps.”
 
-“A guess gives reality nothing to disagree with,” Dana said. “Nia just gave it three things. Direction: server to client. Kind: application data. Condition: the application handles the request. If the connection resets instead, which part changes?”
+“A guess gives reality nothing to disagree with,” Dana said. “Owen just gave it three things. Direction: server to client. Kind: application data. Condition: the application handles the request. If the connection resets instead, which part changes?”
 
 “The application may not have handled it.”
 
@@ -130,7 +130,7 @@ I thought about the bare acknowledgment in the earlier capture—the server sayi
 
 Dana nodded. “Now you have a model that can be wrong in a useful way.”
 
-Nia said, “This is the point where she makes you write it down.”
+Owen said, “This is the point where she makes you write it down.”
 
 Dana gave me a blank page.
 
@@ -154,9 +154,9 @@ The last two were empty.
 
 “I will believe you. You will believe you. That’s the problem.”
 
-Nia laughed, but not at me.
+Owen laughed, but not at me.
 
-“She got me with that one too,” she said.
+“She got me with that one too,” he said.
 
 I wrote:
 
@@ -190,4 +190,4 @@ I was not. That was different from having no prediction.
 
 ---
 
-**What happens next.** The technical exercise must preserve your initial explanation and prediction before releasing the result. Its purpose is not to reward guessing the next packet. It is to make the difference between expectation and observation visible, then require a reasoned revision.
+**What happens next.** [`Episode 3 — Before You Look`](../lessons/e03-before-you-look/README.md) preserves your initial explanation and prediction before releasing the result. Its purpose is not to reward guessing the next packet. It makes the difference between expectation and observation visible, then requires a reasoned revision.

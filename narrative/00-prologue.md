@@ -69,7 +69,7 @@ I looked. The log had an address. It had a port number. It had how many bytes we
 
 "It's not in there," she agreed. "Keep that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
 
-Nought point nought nought nought one eight four. I counted the zeros twice. A hundred and eighty-four millionths of a second, from the first packet to the last.
+Nought point nought nought nought one eight four. I counted the zeros twice. A hundred and eighty-four millionths of a second in the connection log's duration field.
 
 "So," she said. "That's your person. Reading a page, deciding to try an admin URL, typing it in. In under a fifth of a millisecond." She stopped. "No. That's wrong, what I just said. I was about to walk you into it."
 
@@ -95,4 +95,4 @@ It took me forty minutes and it was the hardest piece of writing I have ever don
 
 **If most of that log meant nothing to you, you read it correctly.** It meant nothing to him either, and Dana did not think that was the interesting part. Ports, byte counts, `connection.state`, the `SF` he had nothing at all about — those are a few weeks of exposure, and none of them was what went wrong on his first ticket.
 
-The four questions Dana counted off are real questions with real answers, and you reach the first two in [lesson 02](../lessons/02-reading-a-conversation.md), where you open that capture yourself and read both conversations end to end. `SF` is explained there in a sentence. The `403` is waiting for you.
+In [lesson 02](../lessons/02-reading-a-conversation.md), you open this capture and establish what the two conversations show. It cannot answer whether the endpoint use is intended or happens every sync: those questions need owner evidence and history. `SF` is explained there in a sentence. The `403` is waiting for you.

@@ -16,7 +16,7 @@ Prose spans time for free. *"Three weeks ago you told me this was fine"* is a se
 
 These are constraints, not style preferences. Breaking them makes the story contradict the course.
 
-**1. The mentor asks. The junior concludes.** [Lesson 01](../lessons/01-what-the-analyst-is-for.md) is built to break the habit of confirming a conclusion you were handed. A wise character explaining things teaches deference — the exact habit the course exists to remove. Dana's job is to ask the question and leave.
+**1. Support fits the gap. The junior owns the conclusion.** [Lesson 01](../lessons/01-what-the-analyst-is-for.md) breaks the habit of confirming a conclusion handed down by someone else. Dana tells when reference knowledge is missing, directs reliable retrieval when that is the task, models otherwise invisible reasoning, and asks when reasoning is the learning target. She permits productive struggle and intervenes when it becomes random or unsafe. Her support fades as Ethan demonstrates readiness; questioning is not a substitute for teaching.
 
 **2. The mentor is wrong in front of the junior, and revises out loud.** [Lesson 09](../lessons/09-capstone-encrypted-outbound-traffic/README.md) is about revising a model when evidence contradicts it. A mentor who is never wrong teaches that experts are oracles. One who says *"no, that's wrong, what I just said"* teaches the actual subject.
 
@@ -34,7 +34,7 @@ These are constraints, not style preferences. Breaking them makes the story cont
 
 The author may know why Dana chooses an intervention, what another character has not disclosed, or which later evidence will overturn Ethan's model. Ethan and the reader may use only what has been revealed. Conclusions are evaluated against the evidence then available, not the author's hidden answer.
 
-The recurring cast has distinct sources of partial knowledge: Nia Alvarez is a peer analyst; Owen Kline carries the network-engineering view; Priya Raman carries system and application purpose; Leah Moreno consumes analysis for incident response; and Cal Rowan owns operational decisions. None is an omniscient source or replacement mentor.
+The recurring cast has distinct sources of partial knowledge: Nia Alvarez manages security operations and owns operational decisions; Owen Kline is the experienced analyst with deep institutional pattern knowledge; Priya Raman carries the network-engineering view; Leah Moreno carries system, application, and business-workflow purpose; and Cal Rowan engineers the telemetry, detections, and automation that shape what analysts can observe. None is an omniscient source or replacement mentor.
 
 Dana's support fades across the book. She first supplies questions, then reviews Ethan's models, and is absent during the capstone's core performance. Ethan's errors must evolve with his capability rather than repeating the prologue's mistake.
 
@@ -64,4 +64,10 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 | 01 | [Who Is Talking to Whom?](01-who-is-talking-to-whom.md) | [Lesson 02](../lessons/02-reading-a-conversation.md) |
 | 02 | [Before You Look](02-before-you-look.md) | [Episode 3 technical lesson](../lessons/e03-before-you-look/README.md) — built |
 
-The prologue plants four questions Dana counts off, and the first two are answered by [lesson 02](../lessons/02-reading-a-conversation.md)'s work product — which is the same `403` the chapter opens on. That is the intended shape: the story owes the lesson a debt the lesson collects.
+The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
+
+## Author-only continuity
+
+The deep working canon is maintained in the [narrative author bible](author-bible/README.md). It contains the recurring cast and relationship web, Harrowmere history and page-one state, Book 1 Snowflake and causal matrix, all 14 episode cards, the provisional HarrowSync system bible, and the [Episodes 1–3 scene-card test slice](author-bible/book-1-scene-cards-episodes-01-03.md).
+
+This material is intentionally much deeper than the reader-visible story. A detail belongs in prose only when it changes reasoning, relationship, continuity, or consequence.
