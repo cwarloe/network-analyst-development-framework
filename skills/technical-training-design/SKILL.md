@@ -99,7 +99,7 @@ What to do:
 
 ## Process discipline
 
-Four lessons that cost real rework:
+Five lessons that cost real rework:
 
 **Validate against how the material will actually be consumed, not how it looks to you.** Something can read beautifully to its author and fail the moment it meets its real use. Find the downstream check that would catch that and run it.
 
