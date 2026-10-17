@@ -17,7 +17,7 @@ Most of the traffic you will ever look at is encrypted, and the honest response 
 
 There is a specific failure this lesson is built to prevent. An analyst learns which fields are visible in TLS, builds a working picture around them, and then those fields quietly stop being visible — not because of an attacker, but because a server operator upgraded a protocol version. The picture keeps returning results. It is just answering a different question than the analyst thinks it is.
 
-This capture contains that exact situation, from a client that behaved identically both times.
+This capture contains that exact situation, from a client that behaved identically both times. In Episode 06 (*What Encryption Leaves Behind*), Ethan stares at an encrypted outbound flow to Leah Moreno's file service, feeling his visual certainty collapse. Dana asks him what each source can actually establish, while Cal warns him: *"That's what the field says the pipeline produced. That's not the same as what the packet contained."*
 
 ## The capture
 
@@ -48,7 +48,7 @@ tshark -r assets/pcaps/04-tls.pcap -Y "tls.handshake.type==1" -T fields \
 
 Identical offers. `0x0304` is TLS 1.3, `0x0303` is TLS 1.2, and the client offered both to both servers. **Whatever differs from here is the server's decision, not the client's.** Hold onto that.
 
-## Connection one: TLS 1.2
+## Connection one: TLS 1.2 (Demonstration)
 
 The server at `198.51.100.20` chose `0x0303` and cipher `0xc030`. Frame 6 carries four handshake messages in the clear:
 
@@ -89,25 +89,43 @@ frame 11   Application Data   132 bytes
 
 Nothing about the conversation changed. Your vantage point on it did.
 
-## Guided practice — predict the second connection
+## Guided Practice with Immediate Feedback — Predict the Second Connection
 
 Stop before you read on. Stream 1 is the same client making the same request to a server holding the same certificate, and the only difference is that this server chose TLS 1.3.
 
-For each of these, write **survives** or **gone**, and one line of reasoning. Reason from *when in the handshake the thing is sent*, and whether anything has been agreed by that point — not from whether it feels important.
+Dana sets this exercise for Ethan before touching Stream 1. For each of these seven attributes, predict whether it **survives** or is **gone**, and write one line of reasoning based strictly on *when in the handshake the message is transmitted* (before or after key derivation):
 
-| | Will you still be able to see it? |
-|---|---|
-| The destination address |  |
-| How many bytes moved, and when |  |
-| The name the client asked for |  |
-| The cipher the two agreed on |  |
-| The certificate's subject and issuer |  |
-| The certificate's fingerprint |  |
-| *That a certificate was sent at all* |  |
+| Handshake Attribute | Your Prediction (Survives / Gone) | Your Protocol Reasoning |
+|---|---|---|
+| 1. Destination IP and TCP port | | |
+| 2. Total bytes transferred and packet delta timing | | |
+| 3. Requested host name (SNI) | | |
+| 4. Negotiated cipher suite | | |
+| 5. Server certificate Subject and Issuer | | |
+| 6. Server certificate SHA-256 fingerprint | | |
+| 7. *That a certificate was sent at all* | | |
 
-The last row is the one worth thinking hardest about, and it is not the same question as the two above it.
+Take two minutes to commit your answers on paper or in your notes.
 
-Commit to all seven before you continue. If you get one wrong, the wrong one is the useful one — it marks a place where your model of TLS says something the protocol does not.
+---
+
+### Guided Practice Feedback & Coaching Debrief
+
+Check your predictions against the protocol reality:
+
+| Handshake Attribute | Reality | Protocol Mechanism | Novice Trap to Catch |
+|---|---|---|---|
+| **1. Destination IP / port** | **Survives** | IP and TCP headers wrap the outer encrypted records in cleartext. | Thinking encryption blinds the network layer. Layer 3/4 headers remain 100% visible. |
+| **2. Byte counts & timing** | **Survives** | Packet lengths and inter-arrival arrival timestamps are observable on the wire. | Assuming metadata is hidden. Traffic flow analysis relies entirely on surviving sizes. |
+| **3. Server Name (SNI)** | **Survives** | Sent in `ClientHello` (Extension 0) *before* any cryptographic keys are established. | Assuming "TLS hides hostnames." Cleartext SNI leaks the target unless Encrypted Client Hello (ECH) is deployed. |
+| **4. Negotiated cipher** | **Survives** | Sent in cleartext `ServerHello` so the client knows which algorithm to use. | Believing cipher negotiation is private. The agreed suite is in the open. |
+| **5. Certificate Subject / Issuer** | **Gone** | Transmitted *after* Diffie-Hellman key exchange; encapsulated inside encrypted records. | Assuming certificates are always visible on the wire. In TLS 1.3, they are fully encrypted. |
+| **6. Certificate Fingerprint** | **Gone** | Requires inspecting the cleartext DER bytes of the certificate. If cert is hidden, hash cannot be computed. | Expecting Zeek or SIEM to calculate SHA-256 hashes on TLS 1.3 streams without MITM decryption. |
+| **7. That a cert was sent at all** | **Gone (Unobservable)** | Handshake messages after ServerHello are packed into opaque Type 23 records. | Conflating *"it didn't happen"* with *"I cannot see it happen."* The cert is sent, but indistinguishable from app data. |
+
+> **Dana's Coaching Note:** If you missed row 7, note why: you knew the server *must* authenticate, so you assumed the sensor could *verify* authentication took place. On the wire in TLS 1.3, server identity presentation and HTTP transaction look identical: both are just opaque Type 23 records.
+
+---
 
 ## Connection two: TLS 1.3
 
