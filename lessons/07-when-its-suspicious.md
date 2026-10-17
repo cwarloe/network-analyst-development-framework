@@ -228,6 +228,64 @@ Address these inside that structure:
 - Did you read the TXT answers, or did you stop at "the payload is encrypted"? Half of this channel is written in plain text in the log you already had open.
 - What is your single cheapest next question? If it is not "do other workstations do this too," reconsider.
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In a live Security Operations Center (SOC), "Shape Panic" is the #1 driver of false positive escalations and unnecessary endpoint containments. Junior analysts see a regular interval and shout "C2 Beaconing!" without checking peer prevalence or domain convergence. Tracking this upstream lead measure prevents alarm fatigue and protects operational continuity.
+
+### 1. Pinned Desk Aid: The SOC Triage Tri-Check (Before You Contain)
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        SOC TRIAGE BEFORE YOU CONTAIN (TRI-CHECK)                       │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ UPSTREAM CHECK      │ WHAT TO INSPECT                 │ DECISION RULE                  │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 1. Peer Baseline    │ Query SIEM for destination IP / │ Seen on > 3 peers? ──► High    │
+│    Comparison       │ domain across all workstations. │ likelihood of authorized app/  │
+│                     │                                 │ update. Check change records.  │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 2. Relational       │ Group connections by APEX       │ Multi-protocol convergence     │
+│    Convergence      │ domain across DNS, HTTP, Flow.  │ (Beacon + DNS + POST) ──►      │
+│                     │                                 │ Prioritize for Tier-2 Escalate.│
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 3. EDR Process      │ Identify initiating PID, parent │ Network proves transport.      │
+│    Provenance       │ process, and signed binary.     │ Endpoint proves authorization. │
+│                     │                                 │ Name the open provenance gap.  │
+└─────────────────────┴─────────────────────────────────┴────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+DAILY SOC TRIAGE SCORECARD — ANALYST: [ ____________ ]  SHIFT: [ Day / Swing / Night ]
+
+[ WIG / LAG TARGET ]: Zero invalid emergency isolations; 100% detection of true convergence.
+
+[ LEAD MEASURE ]: Every closed or escalated alert has the "Tri-Check" documented in ticket notes.
+                 (Target: 100%)
+
+  ALERT ID      PEER CHECK?      CONVERGENCE CHECK?   EDR GAP STATED?    DISPOSITION
+  #10482           [YES]                [YES]              [YES]          Closed - Baseline
+  #10489           [YES]                [YES]              [YES]          Escalated to Tier-2
+  #10501           [YES]                [YES]              [YES]          Closed - False Positive
+  #10512           [YES]                [YES]              [YES]          Escalated to IR
+
+  SHIFT TRI-CHECK COMPLIANCE RATE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total alerts dispositioned vs. Tri-Check compliance rate.
+2. **Review One Escalation (2 min):** *"On Alert #10495, you noticed a periodic beacon to a cloud IP and ran the peer check, but skipped the domain convergence query. What was happening during that shift?"* Coach the distinction.
+3. **Commitment for Next Week (2 min):** Agree never to recommend host isolation without peer baseline query results in the ticket.
+
+---
+
 ## What this lesson does not do
 
 It does not train you against real adversary traffic. The shapes are lab-generated, and while the reasoning transfers, the specifics do not. Working the same method against CIC or Stratosphere data is the intended next step.
