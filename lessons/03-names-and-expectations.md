@@ -199,6 +199,67 @@ Use the capture to ground every claim, and answer these inside it:
 - Eight seconds and 15,928 seconds are both normal in this one capture. Does your baseline accommodate both, or did you write a rule that one of them breaks?
 - Would this baseline still be useful in three months? If it depends on specific addresses, no. If it describes shapes and relationships, probably.
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+Learning what healthy DNS looks like in a lab prevents "false-positive alert fatigue" in a live SOC. Without daily tracking, junior analysts revert to flagging any rapid address change or TTL decrement anomaly as "DNS poisoning" or "malicious fluxing."
+
+### 1. Pinned Desk Aid: The DNS Baseline & Sanity Matrix
+
+Pin this to your monitor or keep it in your triage playbook:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        DNS TRIAGE: NORMAL VARIATION VS. TRUE THREAT                    │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ OBSERVATION         │ WHAT ROOKIES THINK              │ REALITY / OPERATIONAL BASELINE │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ Address changes in  │ "DNS Cache Poisoning / Fast     │ NORMAL: CDN / Anycast pool     │
+│ < 60 seconds        │ Fluxing Attack!"                │ load balancing (e.g. GitHub).  │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ TTL counts up or    │ "Man-in-the-Middle tampering    │ NORMAL: Anycast resolvers      │
+│ jumps around        │ with TTL headers!"              │ answering from separate nodes. │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ `NOERROR` with      │ "Successful DNS lookup! Domain  │ NODATA: Name exists, but requested│
+│ zero answer records │ is valid."                      │ record type does not exist.    │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ DNS lookup seen     │ "Host connected to malicious    │ UNPROVEN: Lookup != Connection.│
+│ in `dns.log`        │ external IP!"                   │ Check `conn.log` for handshake.│
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never escalate DNS without checking: (1) Pool behavior, and (2) Handshake proof. │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero false-alarm DNS escalations; 100% baseline-verified tickets.
+
+[ LEAD MEASURE ]: % of DNS-related alerts where CDN pool behavior and TCP handshake proof
+                 were verified in `conn.log` BEFORE opening an escalation ticket. (Target: 100%)
+
+  DAY       DNS ALERTS TRIAGED   POOL CHECKED?   CONN.LOG HANDSHAKE PROVED?
+  Mon              [   ]             [   ]                 [   ]
+  Tue              [   ]             [   ]                 [   ]
+  Wed              [   ]             [   ]                 [   ]
+  Thu              [   ]             [   ]                 [   ]
+  Fri              [   ]             [   ]                 [   ]
+
+  WEEKLY DNS BASELINE COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total DNS alerts triaged vs. pool & connection verification rate.
+2. **Review One DNS Alert (2 min):** *"On Ticket #4088, an alert fired for 'Rapid IP resolution change'. Did you verify if the domain belongs to a known CDN pool before escalating?"*
+3. **Commitment for Next Week (2 min):** Commit to checking `conn.log` to prove actual outbound connection before escalating any DNS alert.
+
+---
+
 ## What this lesson does not do
 
 The capture is eight lookups from one client against one public resolver. That is enough to demonstrate the shapes; it is nowhere near enough to baseline a real environment, which would need volume, time, and every resolver in use.
