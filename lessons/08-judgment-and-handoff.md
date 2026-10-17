@@ -148,6 +148,67 @@ Across both, make these visible:
 - Is your recommended action reversible? If not, is that justified by the evidence, and did you say so?
 - If the 40 attempts turn out to be a misconfigured legacy service retrying with old credentials, does your write-up survive? If it embarrasses you, it was overclaimed.
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In enterprise defense, the final breakdown is almost always communication. Analysts either write novel-length technical essays that executives ignore, or compress so aggressively that uncertainty is scrubbed away and leadership takes reckless, irreversible containment actions. Daily desk tracking ensures judgment sizing and handoff discipline become muscle memory.
+
+### 1. Pinned Desk Aid: The 4-Part Handoff & Escalation Card
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        ESCALATION & HANDOFF CHECKLIST (BEFORE YOU HIT SEND)            │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ SECTION             │ WHAT MUST BE PRESENT            │ SANITY CHECK                   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 1. Current Leading  │ Name leading cause + confidence │ Is confidence tied to a stated │
+│    Explanation      │ level (Low / Med / High).       │ single-point-of-failure basis? │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 2. What Ruled Out   │ Specific items checked & ruled  │ Did you state how they were    │
+│    Alternatives     │ out (e.g. rollback, peer match).│ ruled out to save peer time?   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 3. Open Uncertainty │ Explicit gaps & missing telemetry│ Never leave silence to imply  │
+│    & The Breaker    │ + The single breaker observation│ "all clear".                   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 4. Proportionate    │ Sized to risk & reversibility.   │ Is the least disruptive action │
+│    Next Action      │ Clear stopping point defined.   │ prioritized over nuclear reset?│
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never change claim strength between peer handoff and leadership summary.         │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero disputed escalations; 100% calibrated handoff compliance.
+
+[ LEAD MEASURE ]: % of escalations/handoffs containing explicit Confidence Basis, Breaker,
+                 Reversibility Assessment, and Defined Stopping Condition. (Target: 100%)
+
+  DAY       HANDOFFS / BRIEFS   CONFIDENCE BASIS?   BREAKER NAMED?   REVERSIBILITY STATED?
+  Mon              [   ]               [   ]               [   ]                 [   ]
+  Tue              [   ]               [   ]               [   ]                 [   ]
+  Wed              [   ]               [   ]               [   ]                 [   ]
+  Thu              [   ]               [   ]               [   ]                 [   ]
+  Fri              [   ]               [   ]               [   ]                 [   ]
+
+  WEEKLY HANDOFF RIGOR COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total handoffs vs. 4-part handoff compliance rate.
+2. **Review One Escalation Handoff (2 min):** *"On Ticket #4130, you recommended disabling accounts. Did the handoff state the reversibility of the action and what single observation would overturn the hypothesis?"* Coach calibrated handoffs.
+3. **Commitment for Next Week (2 min):** Ensure every leadership summary includes an explicit "Stopping Condition".
+
+---
+
 ## What this lesson does not do
 
 It does not define proficiency, scoring, or completion. It does not establish that your communication is effective — that requires a real reader, which is what lesson 09 and the [run records](run-records.md) exist to gather. Two documents from one supplied analysis is a single sample.
