@@ -10,6 +10,10 @@
   <style>
     :root {
       --theme-color: #0d6efd;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --primary: #38bdf8;
+      --accent: #f59e0b;
     }
     .sidebar {
       font-size: 15px;
@@ -17,39 +21,104 @@
     .markdown-section {
       max-width: 900px;
     }
-    .lnk-hover {
-      border-bottom: 1.5px dotted #0d6efd;
-      color: #0d6efd;
-      cursor: help;
-      position: relative;
-    }
-    .lnk-hover:hover::after {
-      content: attr(data-definition);
-      position: absolute;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #212529;
-      color: #f8f9fa;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      white-space: normal;
-      width: 260px;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      line-height: 1.35;
-      text-align: left;
-    }
     table {
       display: table !important;
       width: 100%;
+    }
+
+    /* LNK In-text Term Hover Affordance */
+    .term {
+      border-bottom: 1.5px dotted var(--primary);
+      color: #0284c7;
+      cursor: help;
+      font-weight: 500;
+      border-radius: 2px;
+      padding: 0 2px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .term:hover {
+      background: rgba(56, 189, 248, 0.15);
+      color: #0369a1;
+    }
+
+    /* Target In-Story Anchor Highlight Animation */
+    :target, .story-highlight {
+      animation: highlight-pulse 2s ease-out;
+      border-radius: 4px;
+    }
+    @keyframes highlight-pulse {
+      0% { background-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3); }
+      70% { background-color: rgba(245, 158, 11, 0.25); box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15); }
+      100% { background-color: transparent; box-shadow: none; }
+    }
+
+    /* LNK Floating Tooltip / Popover */
+    #lnk-tooltip {
+      position: absolute;
+      display: none;
+      background: #0f172a;
+      border: 1px solid #38bdf8;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      width: 320px;
+      max-width: calc(100vw - 28px);
+      z-index: 10000;
+      pointer-events: none;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      color: #e2e8f0;
+      text-align: left;
+    }
+    #lnk-tooltip .tt-tier {
+      display: inline-block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+    }
+    #lnk-tooltip .tt-title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 0.96rem;
+      margin-bottom: 0.3rem;
+    }
+    #lnk-tooltip .tt-body {
+      color: #cbd5e1;
+      margin-bottom: 0.4rem;
+    }
+    #lnk-tooltip .tt-context {
+      color: #94a3b8;
+      font-size: 0.80rem;
+      border-top: 1px solid #334155;
+      padding-top: 0.35rem;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
   <div id="app">Loading Network Analyst Development Framework...</div>
+
+  <div id="lnk-tooltip" role="tooltip">
+    <div class="tt-tier" id="tt-tier">Vocabulary</div>
+    <div class="tt-title" id="tt-title"></div>
+    <div class="tt-body" id="tt-body"></div>
+    <div class="tt-context" id="tt-context"></div>
+  </div>
+
   <script>
+    // Load Master Glossary
+    window.__GLOSSARY__ = {};
+    fetch('assets/glossary.json')
+      .then(res => res.json())
+      .then(data => { window.__GLOSSARY__ = data; })
+      .catch(err => console.warn('Could not load assets/glossary.json', err));
+
     window.$docsify = {
       name: 'Network Analyst Framework',
       repo: 'https://github.com/cwarloe/network-analyst-development-framework',
@@ -67,15 +136,84 @@
       },
       plugins: [
         function(hook) {
-          // Parse [[id|Surface Text]] into interactive LNK hover tooltips
+          // Parse [[id|Surface Text]] into interactive LNK hover elements
           hook.beforeEach(function(content) {
             return content.replace(/\[\[([a-zA-Z0-9_-]+)\|([^\]]+)\]\]/g, function(match, id, text) {
-              return `<span class="lnk-hover" data-term="${id}" data-definition="Technical term: ${text}">${text}</span>`;
+              return `<span class="term" data-term="${id}">${text}</span>`;
+            });
+          });
+
+          // Bind LNK tooltip events and handle anchor jumping
+          hook.doneEach(function() {
+            const tooltip = document.getElementById('lnk-tooltip');
+            const ttTier = document.getElementById('tt-tier');
+            const ttTitle = document.getElementById('tt-title');
+            const ttBody = document.getElementById('tt-body');
+            const ttContext = document.getElementById('tt-context');
+
+            function placeTooltip(e) {
+              const pad = 14;
+              let x = e.pageX + pad;
+              let y = e.pageY + pad;
+              tooltip.style.left = x + 'px';
+              tooltip.style.top = y + 'px';
+              const rect = tooltip.getBoundingClientRect();
+              if (rect.right > window.innerWidth - 8) {
+                x = e.pageX - rect.width - pad;
+                tooltip.style.left = Math.max(8, x) + 'px';
+              }
+              if (rect.bottom > window.innerHeight - 8) {
+                y = e.pageY - rect.height - pad;
+                tooltip.style.top = Math.max(window.scrollY + 8, y) + 'px';
+              }
+            }
+
+            document.querySelectorAll('.term').forEach(function(el) {
+              el.addEventListener('mouseenter', function(e) {
+                const id = el.getAttribute('data-term');
+                const item = window.__GLOSSARY__[id];
+                if (!item) return;
+
+                ttTier.textContent = (item.category || 'Vocabulary').toUpperCase();
+                ttTitle.textContent = item.title || id;
+                ttBody.textContent = item.definition || '';
+                if (item.context) {
+                  ttContext.textContent = item.context;
+                  ttContext.style.display = 'block';
+                } else {
+                  ttContext.style.display = 'none';
+                }
+                tooltip.style.display = 'block';
+                placeTooltip(e);
+              });
+
+              el.addEventListener('mousemove', function(e) {
+                if (tooltip.style.display === 'block') placeTooltip(e);
+              });
+
+              el.addEventListener('mouseleave', function() {
+                tooltip.style.display = 'none';
+              });
+            });
+
+            // Handle smooth scroll & flash for in-story jumps
+            document.querySelectorAll('a[href^="#ref-"]').forEach(function(link) {
+              link.addEventListener('click', function(e) {
+                const targetId = link.getAttribute('href').substring(1);
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                  e.preventDefault();
+                  targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  targetEl.classList.remove('story-highlight');
+                  void targetEl.offsetWidth; // Trigger reflow
+                  targetEl.classList.add('story-highlight');
+                }
+              });
             });
           });
         }
       ]
-    }
+    };
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>

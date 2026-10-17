@@ -53,7 +53,7 @@ I looked down at the Zeek connection log (`conn.log`), as if the answer might ha
 
 “It returned an HTTP `200 OK` status.”
 
-“That answers a different question,” she said. “A two-hundred OK only tells you the web server accepted the request and sent a response. It doesn't tell you what was in the payload.”
+“That answers a different question,” she said. “A `<span id="ref-01-200">200 OK</span>` only tells you the web server accepted the request and sent a response. It doesn't tell you what was in the payload.”
 
 I could feel my six carefully polished sentences getting weaker as they sat on the desk.
 
@@ -197,7 +197,7 @@ I took a breath and started over.
 
 I checked which IP sent the initial SYN frame.
 
-“It started the connection by sending the opening SYN.”
+“It started the connection by sending the <span id="ref-01-client-syn">opening SYN</span>.”
 
 “Good. Continue.”
 
@@ -205,13 +205,13 @@ I checked which IP sent the initial SYN frame.
 
 “Now walk me through the second conversation,” Dana said.
 
-I looked at the packets, knowing where the traps lay, but realizing that recognizing fields wasn't the same as narrating an event. At the transport layer, the TCP connection established and tore down cleanly. At the application layer, the server rejected the administrative request with a 403 Forbidden. The source IP address was identical, but the client negotiated a new ephemeral port. The User-Agent string matched, and the server closed both sessions after responding.
+I looked at the packets, knowing where the traps lay, but realizing that recognizing fields wasn't the same as narrating an event. At the transport layer, the TCP connection established and tore down cleanly. At the application layer, the server rejected the administrative request with a <span id="ref-01-403">403 Forbidden</span>. The source IP address was identical, but the client negotiated a new ephemeral port. The User-Agent string matched, and the server closed both sessions after responding.
 
 Each fact was straightforward in isolation, but my mind kept wanting to stitch them together into an unverified story about a malicious user, a compromised workstation, or a rogue script.
 
 “I need to reconstruct the sequence strictly in order,” I said. “First the transport establishment, then the application request, and then the teardown.”
 
-“Right,” Dana agreed. “And at every step, make sure you know which network layer is answering the question. Don't let an endpoint name or a status code do your thinking for you.”
+“Right,” Dana agreed. “And at every step, make sure you know <span id="ref-01-layer-indep">which network layer is answering the question</span>. Don't let an endpoint name or a status code do your thinking for you.”
 
 Dana pushed her chair back and stood up. “That ought to keep you occupied for the afternoon.”
 
@@ -226,6 +226,28 @@ I opened a clean document and laid the evidence for the two conversations side b
 This time, I didn't reach for familiar jargon or guess at human intentions.
 
 I began with which host spoke first.
+
+---
+
+### Vocabulary & Concepts
+
+#### Tier 1 — Story Vocabulary (Hover Definitions)
+
+| Term | Desk Translation |
+|---|---|
+| [[packet_capture|Wireshark packet capture (.pcap)]] | A raw, byte-level file recording every frame that traversed a network interface or tap during the capture window. |
+| [[tcp_handshake|TCP three-way handshake]] | The SYN, SYN-ACK, ACK sequence establishing a reliable transport connection between client and server sockets. |
+| [[tcp_stream|TCP stream]] | The full bidirectional sequence of ordered TCP segments belonging to a single 4-tuple socket conversation. |
+| [[ephemeral_port|ephemeral port]] | A short-lived, high-numbered client source port (typically 49152–65535) dynamically assigned by the OS. |
+
+#### Tier 2 — Related Analytical Concepts (In-Story References)
+
+| Concept / Field | What It Represents | In-Story Context |
+|---|---|:---:|
+| `403 Forbidden` | Server-side refusal indicating the transport connection succeeded, but the application denied permission. | [Jump to story context ↑](#ref-01-403) |
+| `200 OK` | Application status confirming the HTTP request was accepted and answered, independent of transport state. | [Jump to story context ↑](#ref-01-200) |
+| Layer Independence | The principle that transport success (TCP) says nothing about application authorization (HTTP). | [Jump to story context ↑](#ref-01-layer-indep) |
+| Client Demarcation | Determining which host originated the conversation by identifying which socket sent the initial SYN frame. | [Jump to story context ↑](#ref-01-client-syn) |
 
 ---
 

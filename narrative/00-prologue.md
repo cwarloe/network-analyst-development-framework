@@ -23,9 +23,9 @@ The ticket said:
 
 Underneath were two lines from a [[zeek_conn_log|Zeek connection log (`conn.log`)]], and I understood almost none of it.
 
-I had memorized port numbers on my own time for two years and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `SF` twice, about which I had nothing at all.
+I had memorized port numbers on my own time for two years and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `<span id="ref-conn-state-sf">SF</span>` twice, about which I had nothing at all.
 
-Here is what I could actually read: both requests came from the same workstation to the same server, spaced four tenths of a second apart. The first was an HTTP `GET` request to an export [[api_endpoint|API endpoint]], and it returned `200 OK` with ninety bytes of [[json_payload|JSON payload]]. The second was an HTTP `GET` request to `/api/v2/admin/users`, and it returned `403 Forbidden` with forty-four bytes.
+Here is what I could actually read: both requests came from the same workstation to the same server, spaced four tenths of a second apart. The first was an HTTP `GET` request to an export [[api_endpoint|API endpoint]], and it returned `<span id="ref-http-200">200 OK</span>` with ninety bytes of [[json_payload|JSON payload]]. The second was an HTTP `GET` request to `/api/v2/admin/users`, and it returned `<span id="ref-http-403">403 Forbidden</span>` with forty-four bytes.
 
 I knew what a `403 Forbidden` status code meant, and I understood what `admin` implied.
 
@@ -37,7 +37,7 @@ She didn't answer right away. She has a way of pausing that is neither rude nor 
 
 After about four seconds of that silence, I felt uncomfortable enough to keep talking.
 
-"There is a four-oh-three on `/api/v2/admin/users` coming from a finance workstation, four tenths of a second after a successful export."
+"There is a 403 on `/api/v2/admin/users` coming from a finance workstation, 400 milliseconds after a successful export."
 
 "Those are three things you saw," she said. "What did you think?"
 
@@ -69,7 +69,7 @@ I looked back at the log. The record showed source and destination IP addresses,
 
 "It's not in there," she agreed. "Keep hold of that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
 
-The value read zero point zero zero zero one eight four. I counted the decimal places twice to be sure. That was one hundred and eighty-four microseconds in the Zeek connection log's `duration` field.
+The value read zero point zero zero zero one eight four. I counted the decimal places twice to be sure. That was one hundred and eighty-four microseconds in the Zeek connection log's `<span id="ref-duration">duration</span>` field.
 
 "So," she said, "if that were a human user, they would have had to read the previous page, decide to try an administrative URL, and type it into the browser—all in under a fifth of a millisecond." She stopped herself. "No. That's wrong, what I just said. I was about to walk you into another assumption."
 
@@ -88,6 +88,28 @@ I asked her what it actually was, then. Whether it was bad.
 "Some of it you can get from the traffic. Some of it you can't get from the traffic at any price, and knowing which is which is most of the job." She straightened up. "Here is what I actually want you to do instead of guessing an answer. Go write down what you *saw*, without using any of the words the ticket handed you. Then, separately, write down what you think those observations might mean. Keep those two things completely apart on the page. Once you have separated them, come find me."
 
 It took me forty minutes and it was the hardest piece of writing I have ever done, and it was six sentences long.
+
+---
+
+### Vocabulary & Concepts
+
+#### Tier 1 — Story Vocabulary (Hover Definitions)
+
+| Term | Desk Translation |
+|---|---|
+| [[zeek_conn_log|Zeek conn.log]] | The connection log in Zeek summarizing Layer 3/4 session facts (IPs, ports, protocol, duration, byte counts, and connection state). |
+| [[api_endpoint|API Endpoint]] | A specific URI or path on a web server where client software sends structured requests to consume backend services. |
+| [[json_payload|JSON Payload]] | A lightweight, text-based data format used to structure application responses between web servers and clients. |
+| [[user_agent_string|HTTP User-Agent string]] | An HTTP header string sent by the client identifying its software application, version, and operating system. |
+
+#### Tier 2 — Related Analytical Concepts (In-Story References)
+
+| Concept / Field | What It Represents | In-Story Context |
+|---|---|:---:|
+| `connection.state: SF` | Normal SYN/FIN completion in Zeek; both sides cleanly opened and closed the connection. | [Jump to story context ↑](#ref-conn-state-sf) |
+| `duration: 0.000184` | Session elapsed time in seconds (184 microseconds), proving automated software speed rather than human typing. | [Jump to story context ↑](#ref-duration) |
+| `403 Forbidden` | HTTP status code where the server understood the request but actively refused to authorize it. | [Jump to story context ↑](#ref-http-403) |
+| `200 OK` | HTTP status code indicating the web server successfully accepted and processed the request. | [Jump to story context ↑](#ref-http-200) |
 
 ---
 

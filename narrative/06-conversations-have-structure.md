@@ -85,7 +85,7 @@ Owen leaned over the monitor, pointing at Frame 2.
 I brought up `198.51.100.20`. 
 In Zeek, the state was [[conn_state_s0|`S0`]], with a duration of four seconds and a history of simply `S`.
 
-I examined Frames 21 through 28 in Wireshark. The client sent an initial `[SYN]` packet. One second later, having received nothing back, it retransmitted. Two seconds later, it retransmitted again. Then three seconds, then four seconds. Across eleven seconds of total capture time, the client sent eight successive SYN packets with exponential backoff.
+I examined Frames 21 through 28 in Wireshark. The client sent an initial `[SYN]` packet. One second later, having received nothing back, it retransmitted. Two seconds later, it retransmitted again. Then three seconds, then four seconds. Across eleven seconds of total capture time, the client sent eight successive SYN packets with <span id="ref-06-backoff">exponential backoff</span>.
 
 Not a single byte returned from the destination.
 
@@ -93,7 +93,7 @@ Not a single byte returned from the destination.
 
 The contrast was striking. 
 
-“In `REJ`,” I explained, “the remote machine answered. The path worked, but the server actively refused the connection. In `S0`, nobody answered. The SYN packets went into a black hole. Either the routing path failed, or an inline firewall dropped the packets silently without sending an ICMP unreachable or a reset.”
+“In `<span id="ref-06-rej">REJ</span>`,” I explained, “the remote machine answered. The path worked, but the server actively refused the connection. In `S0`, nobody answered. The SYN packets went into a black hole. Either the routing path failed, or an inline firewall dropped the packets silently without sending an ICMP unreachable or a reset.”
 
 Owen looked at Leah. “`198.51.100.20` is sitting behind the secondary perimeter firewall. Someone updated an access control rule last night.”
 
@@ -118,11 +118,11 @@ I looked at the four-second gap between Frame 15 and Frame 16.
 
 Leah winced slightly. “That’s our backend database export query. It runs an unindexed join on legacy tables before returning the JSON payload. The user waited four seconds because the database took four seconds to calculate the answer, not because the network was congested.”
 
-“Frame 15 is your proof,” Dana noted. “The server acknowledged receipt of the HTTP GET immediately. That single ACK proves the network completed its job. Everything that happened after that was application latency.”
+“<span id="ref-06-frame15">Frame 15 is your proof</span>,” Dana noted. “The server acknowledged receipt of the HTTP GET immediately. That single ACK proves the network completed its job. Everything that happened after that was application latency.”
 
 “And the fourth target?” Owen asked, pointing to `198.51.100.40`.
 
-In Zeek, the connection was marked `RSTR`—established, responder aborted.
+In Zeek, the connection was marked `<span id="ref-06-rstr">RSTR</span>`—established, responder aborted.
 
 In Wireshark, the client requested a quarterly report. The server responded with `HTTP/1.1 200 OK` and a response header stating `Content-Length: 5000`. But immediately after transmitting only 400 bytes of body data, the server abruptly sent a `[RST, ACK]` and severed the connection.
 
@@ -180,12 +180,23 @@ I picked up my pen and began drafting the incident ticket update. For the first 
 
 ### Vocabulary & Concepts
 
-| Concept / Identifier | Desk Translation |
+#### Tier 1 — Story Vocabulary (Hover Definitions)
+
+| Term | Desk Translation |
 |---|---|
 | [[tcp_rst_ack|`[RST, ACK]` packet]] | An immediate transport-layer refusal sent by an operating system indicating that a packet reached the destination host, but no active application was listening on that port or a local policy actively rejected it. |
 | [[conn_state_s0|`connection.state: S0`]] | A Zeek connection state indicating that an opening SYN was observed from the client, but absolutely no response or acknowledgment was ever returned by the server or path. |
 | [[path_mtu|Path MTU]] | The maximum transmission unit (packet size in bytes) that can traverse an entire end-to-end network path without requiring IP fragmentation. |
 | [[non_initial_fragment|non-initial fragment]] | Subsequent fragmented IP packets (with fragment offset > 0) that carry only payload bytes and lack the Layer 4 transport header (such as TCP or UDP ports), making them invisible to port-based firewall inspection rules. |
+
+#### Tier 2 — Related Analytical Concepts (In-Story References)
+
+| Concept / Field | What It Represents | In-Story Context |
+|---|---|:---:|
+| `connection.state: REJ` | Active transport refusal (`Sr`); server OS responded immediately with a reset packet in microseconds. | [Jump to story context ↑](#ref-06-rej) |
+| `connection.state: RSTR` | Established session aborted by responder (`ShADadr`); server returned partial data then sent reset. | [Jump to story context ↑](#ref-06-rstr) |
+| Frame 15 Proof | Immediate TCP ACK confirming instant network delivery before a 4-second application think time began. | [Jump to story context ↑](#ref-06-frame15) |
+| Exponential Backoff | Client TCP stack doubling retransmission delays across silence (1s, 2s, 4s) when packets are dropped. | [Jump to story context ↑](#ref-06-backoff) |
 
 ---
 

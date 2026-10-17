@@ -1,0 +1,254 @@
+{
+  "zeek_conn_log": {
+    "id": "zeek_conn_log",
+    "title": "Zeek conn.log",
+    "definition": "The connection log in Zeek summarizing Layer 3/4 session facts (IPs, ports, protocol, duration, byte counts, and connection state).",
+    "context": "Focuses on transport summaries. It does not carry application payloads or HTTP bodies.",
+    "category": "telemetry"
+  },
+  "api_endpoint": {
+    "id": "api_endpoint",
+    "title": "API Endpoint",
+    "definition": "A specific URI or path on a web server where client software sends structured requests to consume backend services.",
+    "context": "Reaching an API endpoint verifies network delivery; it does not indicate whether authorization succeeded.",
+    "category": "application"
+  },
+  "json_payload": {
+    "id": "json_payload",
+    "title": "JSON Payload",
+    "definition": "A lightweight, text-based data format used to structure application responses between web servers and clients.",
+    "context": "Contained inside the HTTP application body; completely unobservable when sessions are encrypted.",
+    "category": "application"
+  },
+  "user_agent_string": {
+    "id": "user_agent_string",
+    "title": "User-Agent String",
+    "definition": "An HTTP header string sent by the client identifying its software application, version, and operating system.",
+    "context": "Client-controlled and trivially spoofed; never use User-Agent alone as an indicator of authenticity.",
+    "category": "application"
+  },
+  "packet_capture": {
+    "id": "packet_capture",
+    "title": "Packet Capture (.pcap)",
+    "definition": "A raw, byte-level file recording every frame that traversed a network interface or tap during the capture window.",
+    "context": "Highest fidelity source available, but perishable due to high disk volume and rolling buffers.",
+    "category": "telemetry"
+  },
+  "tcp_handshake": {
+    "id": "tcp_handshake",
+    "title": "TCP 3-Way Handshake",
+    "definition": "The SYN, SYN-ACK, ACK sequence establishing a reliable transport connection between client and server sockets.",
+    "context": "Proves transport connectivity only; tells you nothing about application authorization or status.",
+    "category": "transport"
+  },
+  "tcp_stream": {
+    "id": "tcp_stream",
+    "title": "TCP Stream",
+    "definition": "The full bidirectional sequence of ordered TCP segments belonging to a single 4-tuple socket conversation.",
+    "context": "In Wireshark, 'Follow TCP Stream' reconstructs payload bytes in chronological order.",
+    "category": "transport"
+  },
+  "ephemeral_port": {
+    "id": "ephemeral_port",
+    "title": "Ephemeral Port",
+    "definition": "A short-lived, high-numbered client source port (typically 49152–65535) dynamically assigned by the OS.",
+    "context": "Identifies distinct client sockets; servers assign responses back to this port.",
+    "category": "transport"
+  },
+  "dns_resolver": {
+    "id": "dns_resolver",
+    "title": "Recursive DNS Resolver",
+    "definition": "A DNS server that accepts queries from clients and queries authoritative nameservers recursively to find the IP address.",
+    "context": "Workstations query resolvers; an edge sensor sees only traffic leaving or entering that resolver boundary.",
+    "category": "dns"
+  },
+  "dns_ttl": {
+    "id": "dns_ttl",
+    "title": "DNS TTL (Time to Live)",
+    "definition": "A 32-bit field in a DNS resource record defining how many seconds a client or resolver may cache the answer.",
+    "context": "Clients reuse cached entries until TTL expires, so subsequent connections generate no observable network queries.",
+    "category": "dns"
+  },
+  "cname_record": {
+    "id": "cname_record",
+    "title": "CNAME Record",
+    "definition": "A Canonical Name DNS record that maps an alias hostname to another true domain name in a lookup chain.",
+    "context": "Common in CDNs; lookups follow the chain until reaching an A or AAAA address record.",
+    "category": "dns"
+  },
+  "dns_cache": {
+    "id": "dns_cache",
+    "title": "DNS Cache",
+    "definition": "Temporary local memory where an operating system or browser stores recent DNS answers to avoid repeat queries.",
+    "context": "Absence of a DNS query on the wire during a connection window is frequently explained by local cache hits.",
+    "category": "dns"
+  },
+  "server_name_indication": {
+    "id": "server_name_indication",
+    "title": "Server Name Indication (SNI)",
+    "definition": "A TLS extension in ClientHello where the client sends the destination hostname in cleartext before encryption begins.",
+    "context": "Visible on the wire unless Encrypted Client Hello (ECH) is deployed; client-controllable and can be decoyed.",
+    "category": "encryption"
+  },
+  "tls_supported_versions": {
+    "id": "tls_supported_versions",
+    "title": "supported_versions Extension",
+    "definition": "TLS Extension 43 that communicates the true negotiated TLS version (0x0304 for TLS 1.3), bypassing legacy fields.",
+    "context": "Outer TLS version fields are frozen at 0x0303 (TLS 1.2) for middlebox compatibility.",
+    "category": "encryption"
+  },
+  "middlebox": {
+    "id": "middlebox",
+    "title": "Middlebox",
+    "definition": "An inline network appliance (proxy, legacy firewall, or traffic shaper) that inspects or manipulates traffic.",
+    "context": "Legacy middleboxes dropping unknown version numbers forced TLS 1.3 to freeze legacy version headers.",
+    "category": "architecture"
+  },
+  "self_signed_cert": {
+    "id": "self_signed_cert",
+    "title": "Self-Signed Certificate",
+    "definition": "An X.509 certificate whose digital signature is created by its own private key rather than a trusted CA.",
+    "context": "Subject equals issuer; common in lab and staging environments, but unverified by public trust stores.",
+    "category": "encryption"
+  },
+  "netflow_sampling": {
+    "id": "netflow_sampling",
+    "title": "Sampled NetFlow",
+    "definition": "A telemetry protocol exporting flow statistical summaries at a fixed sampling ratio (such as 1:100 packets).",
+    "context": "Excellent for long-term volume trends; silence is weak evidence of absence for small, low-volume flows.",
+    "category": "telemetry"
+  },
+  "vpn_hairpin": {
+    "id": "vpn_hairpin",
+    "title": "Corporate VPN Gateway",
+    "definition": "A network boundary where traffic enters an encrypted tunnel, often undergoing address translation and routing changes.",
+    "context": "Edge firewalls see the gateway's public IP rather than the true internal workstation RFC 1918 address.",
+    "category": "architecture"
+  },
+  "rolling_pcap_buffer": {
+    "id": "rolling_pcap_buffer",
+    "title": "Rolling PCAP Buffer",
+    "definition": "A finite disk ring buffer continuously recording raw packet bytes until storage limits force overwriting oldest files.",
+    "context": "Retention is often 24–72 hours; always pull raw capture evidence against the shortest clock first.",
+    "category": "telemetry"
+  },
+  "discriminating_pair": {
+    "id": "discriminating_pair",
+    "title": "Discriminating Inquiry",
+    "definition": "An analytical method identifying an observation that must be present under one hypothesis and absent under another.",
+    "context": "Separates competing explanations without gathering unnecessary, expensive data.",
+    "category": "triage"
+  },
+  "tcp_rst_ack": {
+    "id": "tcp_rst_ack",
+    "title": "[RST, ACK] Packet",
+    "definition": "A transport refusal packet indicating the destination host received the SYN, but rejected the socket attempt.",
+    "context": "Proves the path and host are 100% reachable bidirectionally; points to host policy or closed ports.",
+    "category": "failures"
+  },
+  "conn_state_s0": {
+    "id": "conn_state_s0",
+    "title": "connection.state: S0",
+    "definition": "Zeek connection state where an opening SYN was observed, but zero response bytes or ACKs ever returned.",
+    "context": "Indicates delivery failure (silent firewall drop or routing dead-end), resulting in client timeout.",
+    "category": "failures"
+  },
+  "path_mtu": {
+    "id": "path_mtu",
+    "title": "Path MTU",
+    "definition": "The maximum transmission unit size in bytes that can traverse an end-to-end network path without fragmentation.",
+    "context": "Exceeding Path MTU forces IP fragmentation; intermediate drops of fragments break reassembly silently.",
+    "category": "transport"
+  },
+  "non_initial_fragment": {
+    "id": "non_initial_fragment",
+    "title": "Non-Initial Fragment",
+    "definition": "Subsequent IP packet fragments (offset > 0) carrying only payload bytes and lacking Layer 4 transport headers.",
+    "context": "Invisible to port-based firewall filters; policies dropping non-initial fragments cause silent timeouts.",
+    "category": "transport"
+  },
+  "c2_beaconing": {
+    "id": "c2_beaconing",
+    "title": "C2 Beaconing",
+    "definition": "Recurring, scheduled outbound network connections initiated by an implant to check in with a command server.",
+    "context": "Shared by legitimate software (updates, NTP, NTP, telemetry); timing regularity alone is never proof of malice.",
+    "category": "triage"
+  },
+  "dns_tunneling": {
+    "id": "dns_tunneling",
+    "title": "DNS Tunneling",
+    "definition": "An evasion technique encoding non-DNS payloads or commands into subdomains and TXT response records.",
+    "context": "Characterized by high-entropy subdomain strings, long query lengths, and caching bypass.",
+    "category": "investigation"
+  },
+  "apex_domain": {
+    "id": "apex_domain",
+    "title": "Apex Domain",
+    "definition": "The base root domain (e.g. example.com) directly under a TLD, common across subdomains and distinct IPs.",
+    "context": "Reveals relational convergence across seemingly independent IPs and protocols.",
+    "category": "dns"
+  },
+  "relational_convergence": {
+    "id": "relational_convergence",
+    "title": "Relational Convergence",
+    "definition": "Superficially independent network behaviors (HTTP poll, DNS bursts, uploads) connecting to a common entity.",
+    "context": "Much harder for adversaries to disguise than timing jitter; far stronger evidence than isolated shapes.",
+    "category": "investigation"
+  },
+  "proportionate_action": {
+    "id": "proportionate_action",
+    "title": "Proportionate Action",
+    "definition": "A response whose severity and disruption match the strength of evidence and reversibility of the decision.",
+    "context": "Prevents overreacting (unnecessary reimaging) while maintaining containment of genuine risks.",
+    "category": "judgment"
+  },
+  "confidence_breaker": {
+    "id": "confidence_breaker",
+    "title": "Confidence Breaker",
+    "definition": "A specifically named observation or test result that would immediately falsify the leading hypothesis.",
+    "context": "Ensures an assessment is falsifiable and safe to be wrong in.",
+    "category": "judgment"
+  },
+  "action_reversibility": {
+    "id": "action_reversibility",
+    "title": "Action Reversibility",
+    "definition": "The ease with which an operational intervention (like route rollback vs host reimage) can be safely undone.",
+    "context": "High reversibility enables swift operational remediation under uncertainty.",
+    "category": "judgment"
+  },
+  "two_audience_handoff": {
+    "id": "two_audience_handoff",
+    "title": "Two-Audience Handoff",
+    "definition": "Delivering identical evidence claim strength to technical peers and managers while tailoring operational depth.",
+    "context": "Never adapt the certainty of a claim to leadership's appetite for a simple answer.",
+    "category": "judgment"
+  },
+  "staged_c2_channel": {
+    "id": "staged_c2_channel",
+    "title": "Staged C2 Channel",
+    "definition": "A multi-phase connection where initial check-ins use decoy domains or small payloads before exfiltration begins.",
+    "context": "Designed to blend into normal post-update telemetry traffic.",
+    "category": "investigation"
+  },
+  "immediate_containment": {
+    "id": "immediate_containment",
+    "title": "Immediate Containment",
+    "definition": "Network isolation of an endpoint to stop egress communication while preserving volatile memory (RAM).",
+    "context": "Crucial distinction: sever network access, but do not reboot or power off the endpoint.",
+    "category": "judgment"
+  },
+  "model_revision": {
+    "id": "model_revision",
+    "title": "Model Revision Out Loud",
+    "definition": "The professional capability to publicly discard a previous hypothesis when contradictory evidence appears.",
+    "context": "The antidote to cognitive anchoring and defending failed models under management pressure.",
+    "category": "judgment"
+  },
+  "decoy_sni": {
+    "id": "decoy_sni",
+    "title": "Decoy SNI",
+    "definition": "Crafting cleartext Server Name Indication fields requesting trusted company hostnames to fool egress monitoring.",
+    "context": "SNI is unauthenticated on the wire; an adversary's client can send any string in ClientHello.",
+    "category": "encryption"
+  }
+}
