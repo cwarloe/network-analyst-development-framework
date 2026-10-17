@@ -73,7 +73,7 @@ If you went looking in the five rows, that is worth noticing too. The rows are w
 
 Notice that no judgment appeared anywhere above. On this evidence, none is available yet — and saying so is a complete and professional answer.
 
-## Guided practice — Case B
+## Guided practice — Case B: Stripping the Smuggled Words
 
 Now you work, with prompts.
 
@@ -87,17 +87,17 @@ Now you work, with prompts.
 | B-04 | Users in two other offices reported nothing. |
 | B-05 | A Portland user says "it started after the update yesterday." |
 
-Work through these:
+Work through these before writing Case C:
 
-1. Which rows are observations, and which contain an interpretation already? (Look hard at B-01 and B-05.)
-2. "The network is fine" — is that an observation, an interpretation, or a judgment? What is it based on, and what does "the network" mean in that sentence?
-3. B-05 is second-hand and vague. Does that make it useless? What is it good for?
-4. Write the analytical question you would actually pursue. It should be answerable, and it should not contain the word "slow."
-5. Name the two pieces of evidence most likely to change your answer, and say why those two.
+1. **Which rows are observations, and which contain an interpretation already?** (Look hard at B-01 and B-05.)
+2. **"The network is fine"** — is that an observation, an interpretation, or a judgment? What is it based on, and what does "the network" mean in that sentence?
+3. **B-05 is second-hand and vague.** Does that make it useless? What is it good for?
+4. **The Stripping Drill:** Rewrite the analytical question you would actually pursue. It must be answerable, and it must **not contain the word "slow."**
+5. **Name the two pieces of evidence** most likely to change your answer, and say why those two.
 
-There is no answer key. The check is in the next section.
+---
 
-## Your work product — Case C
+## Your work product — Case C: Unaided Discrimination
 
 Do this one unaided.
 
@@ -113,17 +113,19 @@ Do this one unaided.
 
 Produce, on one page or less:
 
-- **The observations,** restated in your own words, each with its limitation if it has one.
-- **The interpretations,** labeled as such, kept separate from the observations.
-- **The question you would pursue,** phrased so that evidence could answer it.
-- **Your position,** which may legitimately be that no judgment is available yet — if so, say what is missing.
-- **The next two pieces of evidence** you would want, and why those two before others.
+1. **The observations,** restated in your own words, each with its limitation if it has one. Strip any smuggled words.
+2. **The interpretations,** labeled as such, kept strictly separate from the observations.
+3. **The question you would pursue,** phrased so that evidence could answer it without presupposing tunneling or an attack.
+4. **Your position,** which may legitimately be that no judgment is available yet — if so, state what is missing.
+5. **The next two pieces of evidence** you would want, and why those two before others.
 
 Do not write more than a page. Length is not the deliverable.
 
+---
+
 ## Reviewing your own work
 
-Not a score. Questions:
+Not a score. Questions to test your reasoning:
 
 - Can a reader tell, from the page alone, which sentences could be checked against data and which are yours?
 - Did the phrase "DNS tunneling" survive into your analysis as an assumption, the way "exfiltration" did in Case A?
@@ -132,6 +134,64 @@ Not a score. Questions:
 - If a responder acted only on your page, what would they do? Is that proportionate?
 
 If C-03 pushed you toward "this has been happening for two weeks undetected," notice what happened: the same fact can support a benign reading (an established, documented vendor behavior) and an alarming one (a persistent channel), and choosing between them needs evidence you do not have. Recognizing that is the lesson.
+
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+Learning does not end when you submit the Case C paragraph. If you do not track this on your real desk on Monday, the "smuggled word reflex" returns during the first high-stress shift.
+
+### 1. Pinned Desk Aid: The 3-Column Discrimination Rule
+
+Pin this to your monitor or keep it in your triage notebook:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                      THE 3-COLUMN TRIAGE RULE (BEFORE YOU ESCALATE)                    │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ OBSERVATION         │ INTERPRETATION                  │ JUDGMENT / ACTION              │
+│ (Data / Checkable)  │ (Context / What it might mean)  │ (Defensible & Proportionate)   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ • Exact byte counts │ • "Unusual for this user/time"  │ • Stated confidence level      │
+│ • Timestamp ranges  │ • "Consistent with backup"      │ • Open evidence gaps named     │
+│ • Connection states │ • "Consistent with update check"│ • Least disruptive next check  │
+│                     │                                 │   identified before quarantine │
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never use alert title adjectives ("probing", "exfiltrating", "anomalous") as facts│
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+Track this daily on your desk:
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero unvalidated escalations / zero alert-word contamination.
+
+[ LEAD MEASURE ]: % of triage tickets where Observation, Interpretation, and Judgment
+                 were physically separated in ticket notes BEFORE escalation or closure.
+                 (Target: 100%)
+
+  DAY       ALERTS TRIAGED   LEAD MEASURE LOGGED?   SMUGGLED WORDS STRIPPED?
+  Mon             [   ]               [   ]                      [   ]
+  Tue             [   ]               [   ]                      [   ]
+  Wed             [   ]               [   ]                      [   ]
+  Thu             [   ]               [   ]                      [   ]
+  Fri             [   ]               [   ]                      [   ]
+
+  WEEKLY TRI-CHECK COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday, your shift lead or mentor reviews your scorecard for 5 minutes:
+1. **Review the Scorecard (1 min):** Check total alerts triaged vs. percentage where the 3-column split was logged.
+2. **Examine One Ticket (2 min):** Review one ticket together. *Did any alert title adjectives ("probing", "beaconing", "malicious") leak into the observation field?*
+3. **Commitment for Next Week (2 min):** Agree on one upstream check to reinforce on Monday.
+
+---
 
 ## What this lesson does not do
 
