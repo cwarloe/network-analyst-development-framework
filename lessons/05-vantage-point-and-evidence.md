@@ -140,6 +140,64 @@ Three things the case is specifically testing — make your handling of each vis
 - Did you state what remains unanswerable? A plan that appears to answer everything has hidden a gap rather than closed one.
 - Would a colleague reading your plan know what your eventual "we found nothing" would actually mean?
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In a live SOC, when an ambiguous incident breaks, the most common failure is querying the easiest dashboard first (e.g., SIEM proxy logs) while the high-fidelity evidence (rolling PCAP buffers) silently overwrites itself. The analyst then says "we found nothing," when in fact the evidence perished before they looked.
+
+### 1. Pinned Desk Aid: The 3-Rule Evidence Collection Hierarchy
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        EVIDENCE COLLECTION HIERARCHY (BEFORE YOU QUERY)                │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ RULE                │ OPERATIONAL CHECK               │ ACTION REQUIRED                │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 1. Collect Against  │ Which source expires first?     │ Capture buffers (24-48h) first!│
+│    Shortest Clock   │ (PCAP < NetFlow < SIEM Logs)    │ SIEM 30-day logs can wait.     │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 2. Discriminating   │ Does this source differentiate  │ Drop sources that show the     │
+│    Power First      │ Hypothesis A from Hypothesis B? │ same pattern under both models.│
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 3. Declare Gaps &   │ What does this sensor structurally│ State unobservable segments  │
+│    Blindspots       │ NOT see? (NAT / Hairpin / TLS)  │ in ticket notes upfront.       │
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never say "There is no evidence" without naming the retention & coverage limits. │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero evidence loss from buffer overwrites; 100% gap declaration.
+
+[ LEAD MEASURE ]: % of investigation plans where Perishability Ranking and Structural Gaps
+                 were documented BEFORE querying dashboards or closing tickets. (Target: 100%)
+
+  DAY       INVESTIGATIONS   PERISHABILITY ORDERED?   GAPS EXPLICITLY DECLARED?
+  Mon             [   ]                 [   ]                      [   ]
+  Tue             [   ]                 [   ]                      [   ]
+  Wed             [   ]                 [   ]                      [   ]
+  Thu             [   ]                 [   ]                      [   ]
+  Fri             [   ]                 [   ]                      [   ]
+
+  WEEKLY EVIDENCE-PLANNING COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total investigations vs. evidence plan compliance.
+2. **Review One Investigation (2 min):** *"On Ticket #4112, you queried proxy logs first. What was the retention on the rolling packet capture at that branch edge, and did we preserve it before searching the index?"*
+3. **Commitment for Next Week (2 min):** Commit to preserving rolling capture buffers as the first action on high-priority triage.
+
+---
+
 ## What this lesson does not do
 
 It does not teach evidence *collection*. Configuring a sensor, choosing a capture filter under load, discovering that your tap sees one direction of a conversation, or finding out that a retention policy is not what the documentation claims — those are lab experiences, and this lesson does not provide them. It develops the reasoning that decides what to collect and how to weigh what comes back; a lab exercise remains worth building on top of it.
