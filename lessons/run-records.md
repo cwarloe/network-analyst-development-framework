@@ -153,6 +153,37 @@ Write a dated record below, and turn anything actionable into a specific change 
 
 If the run changes nothing, I will record that too. A run that supports the current design is a result.
 
+---
+
+## The "Same Task Twice" Longitudinal Delta Protocol
+
+To operationalize Research Review R005 Finding 2 (*"Detecting change does not require a rubric, levels, or a passing standard. It requires the same task twice"*), facilitators and mentors should use this protocol to measure genuine capability growth across the full cohort.
+
+### The Protocol
+
+1. **Day 0 Baseline ([`lessons/00-baseline-alert.md`](00-baseline-alert.md)):**
+   - Before the learner reads any narrative or starts Lesson 01, hand them **Alert 00** (`SEC-3904`).
+   - Timed 20 minutes, unguided, zero hints.
+   - Collect their output: **Work Product A (Day 0 Baseline)**. Store it sealed in their record.
+2. **Post-Capstone Endpoint (Day N):**
+   - After completing Lesson 09 Capstone, hand them the **identical Alert 00** without prior warning.
+   - Timed 20 minutes, unguided.
+   - Collect their output: **Work Product B (Post-Course Endpoint)**.
+3. **The 10-Minute Comparative Delta Debrief:**
+   - Place Work Product A and Work Product B side-by-side with the analyst.
+   - Evaluate against the 5 Epistemic Transformation Signals:
+
+| Transformation Signal | What Novice Work Product A Shows | What Transformed Work Product B Shows |
+| :--- | :--- | :--- |
+| **1. Smuggled Words** | Ingests ticket words: "confirmed probing", "malicious beaconing". | Strips adjectives: cites bytes, ports, timestamps, zero intent claims. |
+| **2. Physical Structure** | One rambling paragraph mixing facts and guesses together. | Physical 3-column split: Observation \| Interpretation \| Action. |
+| **3. Layer Decoupling** | Collapses layers: "connection worked so data leaked". | Decouples layers: transport delivery (`SF`) vs. TLS encryption hiding payload. |
+| **4. Visibility Boundary** | Claims to know what happened ("no data was stolen"). | Declares boundary: "TLS 1.3 hides payload; host EDR required to verify PID." |
+| **5. Action Proportionality** | Nuclear or passive: "Isolate host!" or "Wait and see." | Calibrated: low-disruption check (query process table), stated decision breaker. |
+
+---
+
 ## Records
 
 No runs recorded yet. Nothing in this repository has been used by anyone other than its author.
+

@@ -16,6 +16,7 @@
 
 * **The Technical Lessons**
   * [Self Check](lessons/self-check.md)
+  * [Day 0: Baseline Triage Alert](lessons/00-baseline-alert.md)
   * [Lesson 01: What the Analyst Is For](lessons/01-what-the-analyst-is-for.md)
   * [Lesson 02: Reading a Conversation](lessons/02-reading-a-conversation.md)
   * [Episode 03: Before You Look (Practice)](lessons/e03-before-you-look/README.md)
