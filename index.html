@@ -46,15 +46,24 @@
       },
       plugins: [
         function(hook) {
-          // Parse [[id|Surface Text]] into interactive LNK hover elements with auto IDs
+          // Parse [[id|Surface Text]] into interactive LNK hover elements with auto IDs and tier classes
           hook.beforeEach(function(content) {
             return content.replace(/`?\[\[([a-zA-Z0-9_-]+)\|([^\]]+)\]\]`?/g, function(match, id, text) {
-              return `<span class="term" id="term-${id}" data-term="${id}">${text}</span>`;
+              const item = window.__GLOSSARY__[id];
+              const cat = (item && item.category) ? item.category : 'telemetry';
+              return `<span class="term ${cat}" id="term-${id}" data-term="${id}">${text}</span>`;
             });
           });
 
           // Bind LNK tooltip events and handle intuitive glossary click-to-jump
           hook.doneEach(function() {
+            // Apply category classes to terms if loaded asynchronously
+            document.querySelectorAll('.term').forEach(function(el) {
+              const id = el.getAttribute('data-term');
+              const item = window.__GLOSSARY__[id];
+              if (item && item.category) el.classList.add(item.category);
+            });
+
             const tooltip = document.getElementById('lnk-tooltip');
             const ttTier = document.getElementById('tt-tier');
             const ttTitle = document.getElementById('tt-title');
