@@ -56,7 +56,7 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 
 ## Status
 
-**Four chapters.** The narrative track carries the learner from separating observation and interpretation, through reading a conversation and making visible predictions, to understanding vantage-dependent observation and name caching.
+**Seven chapters.** The narrative track carries the learner from separating observation and interpretation, through reading a conversation, predicting name lifecycles, establishing bounded claims under encryption, evaluating sensor vantage points, to reading structural failure signatures.
 
 | | Chapter | Leads into |
 |---|---|---|
@@ -64,6 +64,9 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 | 01 | [Who Is Talking to Whom?](01-who-is-talking-to-whom.md) | [Lesson 02](../lessons/02-reading-a-conversation.md) |
 | 02 | [Before You Look](02-before-you-look.md) | [Episode 3 technical lesson](../lessons/e03-before-you-look/README.md) — built |
 | 03 | [Names Have Behavior](03-names-have-behavior.md) | [Lesson 03](../lessons/03-names-and-expectations.md) |
+| 04 | [What Encryption Leaves Behind](04-what-encryption-leaves-behind.md) | [Lesson 04](../lessons/04-what-encryption-hides.md) |
+| 05 | [Where Are You Standing?](05-where-are-you-standing.md) | [Lesson 05](../lessons/05-vantage-point-and-evidence.md) |
+| 06 | [Conversations Have Structure](06-conversations-have-structure.md) | [Lesson 06](../lessons/06-when-it-breaks.md) |
 
 The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
 
