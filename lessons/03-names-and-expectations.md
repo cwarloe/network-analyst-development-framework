@@ -83,103 +83,73 @@ Three things are worth extracting from four lines of output:
 
 **Nothing here tells you the client connected.** A DNS answer is a question answered, not a connection made. Lesson 02's capture would tell you that. This one cannot, and conflating the two is one of the most common errors in DNS-based reporting.
 
-## Guided practice — commit before you look
+## Demonstration — The Anatomy of a Name: What Healthy Looks Like
 
-Frames 13 to 16 ask two of these same questions again, 5.5 seconds after the first time. You are about to see the answers. Write your predictions down first — actually write them, four short lines — because the whole point of this lesson is what your expectations do when they meet data, and you cannot observe that if you never fixed them.
+In [Book 1 Episode 04](../BOOK-1.md#4-names-have-behavior), Ethan expects DNS to behave like the neat diagrams from his certification study: query leaves, resolver answers, address is cached, done. Then he watches real DNS traffic and discovers that normal behavior looks alarming if you have never watched it closely.
 
-1. Frame 2 gave `github.com` an A record with a **TTL of 60**, and only 5.5 seconds have passed. Same address or different? Commit.
-2. Frame 2 gave `www.github.com` a CNAME with a **TTL of 3600**. What number do you expect this time? A direction is enough if you cannot pick a value.
-3. Frame 4 gave `en.wikipedia.org` a CNAME with a **TTL of 11342**. Same question.
-4. Now the one that matters: **write down what a result would have to look like for you to be suspicious of it.** Not what you expect — what would cross the line. One sentence.
+Here is how an analyst establishes expected behavior on live infrastructure.
 
-Keep question 4 where you can see it. In [lesson 07](07-when-its-suspicious.md) you will be asked to do this on traffic that might genuinely be hostile, and setting the bar *after* seeing the data is the failure that section is built to prevent.
+### Step 1: A Name Is Not an Address
 
-## The same question, five seconds later
+Frame 1 asks for `www.github.com`. Frame 2 answers:
 
-Frames 13 and 14 ask the identical question again, 5.5 seconds after the first:
+```
+www.github.com    type CNAME, ttl 3600   -> github.com
+github.com        type A,     ttl 60     -> 140.82.113.3
+```
+
+Three critical facts visible in four lines:
+
+1. **The answer has a short shelf life:** `TTL 60` is not decoration. It is the origin operator saying: *you may only reuse this address for 60 seconds because we steer traffic actively across server pools.*
+2. **Asymmetrical Expiration:** The alias (`CNAME`) is good for an hour (3,600s); the physical server address (`A`) is good for 60 seconds. This is the normal signature of cloud-native infrastructure designed to flex.
+3. **Lookup != Connection:** Receiving a DNS answer proves a name resolved. It does **not** prove the client ever connected. Conflating DNS lookups with established connections is one of the most pervasive false-alarm drivers in security reporting.
+
+---
+
+## Guided Practice with Feedback — Commit Before You Look
+
+Frames 13 to 16 ask two of these exact same questions again, **5.5 seconds later**. 
+
+Before opening the packets, write down your predictions:
+
+1. **Address Stability:** Frame 2 gave `github.com` an A record with `TTL 60`. Only 5.5 seconds have elapsed. Same IP or different IP?
+2. **CNAME TTL Countdown:** `www.github.com` started with `TTL 3600`. What value do you predict after 5.5 seconds?
+3. **The TAMPERING Alarm Test:** `en.wikipedia.org` started at `TTL 11342`. If it returns with `TTL 15928`, what does that mean?
+
+### The Feedback (Checking Data Against Expectations)
+
+Now look at the actual capture data:
 
 ```
 frame 2   (t=0.014s)   github.com  A  ttl 60    -> 140.82.113.3
 frame 14  (t=5.529s)   github.com  A  ttl 60    -> 140.82.112.4
 ```
 
-**The address changed.** Same name, same resolver, five seconds apart, different answer — and the TTL had not even expired.
-
-Sit with that before reading on, because your instinct about it matters more than the explanation. If a detection rule fires on "host resolved the same name to two different addresses in under a minute," this is what it fires on, and there is nothing wrong here at all. Large services answer from pools. Which member you get depends on the resolver node, the time, and load. **Address instability for a name like this is the expected behavior, not the deviation.**
-
-Now look at the CNAME TTLs across the same two frames:
-
-```
-frame 2   (t=0.014s)   www.github.com  CNAME  ttl 3600
-frame 14  (t=5.529s)   www.github.com  CNAME  ttl 1277
-```
-
-And at `en.wikipedia.org`, frames 4 and 16:
+* **Observation 1: The IP address changed in 5 seconds!**  
+  * **Feedback:** A junior analyst's reflex: *"DNS Cache Poisoning / Fast Fluxing Attack!"*  
+  * **The Heuristic:** Completely false alarm. Major cloud providers balance load across anycast clusters. **Address instability is the expected normal behavior for high-scale public CDNs.**
 
 ```
 frame 4   (t=0.434s)   en.wikipedia.org  CNAME  ttl 11342
 frame 16  (t=5.849s)   en.wikipedia.org  CNAME  ttl 15928
 ```
 
-The github TTL fell by more than the elapsed time. The wikipedia TTL **went up**.
+* **Observation 2: The TTL ran backwards (went up by 4,500s)!**  
+  * **Feedback:** An alert rule flags this as *"DNS Header Manipulation."*  
+  * **The Heuristic:** In anycast resolver networks (like `1.1.1.1`), successive queries are routed to different physical resolver nodes. Node A cached the record 30 minutes ago; Node B cached it 5 minutes ago. There is no single universal countdown timer.
 
-A TTL is supposed to count down. A TTL that increases looks, on its face, like tampering — and if you have ever seen a threat-hunting article about DNS manipulation, that is roughly the shape of the indicator. What actually happened is that `1.1.1.1` is anycast: the two queries were answered by different cache nodes, holding the same record at different points in its life. Neither node is wrong. There is no single countdown to observe, because there is no single cache.
+---
 
-Check both against what you wrote. If your line for question 4 would have fired on either of these, it was drawn in the wrong place — and you drew it *before* you had any reason to want a particular answer, which is the most honest version of that mistake anyone gets to make.
+## Practice Application — Building the 1-Page Environment Baseline
 
-**This is the lesson's core.** Two observations that a rule would flag — an address that changed inside its TTL, and a TTL that ran backwards — are both ordinary. Not because anomalies do not matter, but because *you cannot tell which anomalies matter until you know what normal looks like in detail*, and normal is stranger than it appears from a diagram.
+Apply this method to Frames 5–12 in `assets/pcaps/03-dns.pcap` (covering `www.example.com`, `outlook.office365.com`, and `nonexistent-host-fbc19.example.com`).
 
-## Answers that are not addresses
+Draft a 1-Page Environment Baseline answering:
 
-Frames 11 and 12 ask for `nonexistent-host-fbc19.example.com`. Read the response carefully:
-
-```
-Flags: 0x8180  Standard query response, No error
-    .... .... .... 0000 = Reply code: No error (0)
-Questions: 1
-Answer RRs: 0
-Authority RRs: 1
-
-Authoritative nameservers
-    example.com: type SOA, class IN, mname elliott.ns.cloudflare.com
-        Time to live: 1800
-```
-
-**No error. Zero answers.**
-
-The response code is `NOERROR`, which reads like success, and the answer section is empty, which is the opposite of success. What arrived is an SOA record in the authority section — the zone's own statement of who is authoritative, and how long you may cache the fact that there is nothing here.
-
-Two different things get confused at this point, and the distinction is worth carrying:
-
-- **NXDOMAIN** (`dns.response.code: 3`) — that name does not exist.
-- **NOERROR with zero answers** — the name exists in the zone but has no record of the type you asked for. Commonly called NODATA.
-
-This capture shows the second. An analyst who searches `dns.response.code_name:NOERROR` to find successful lookups counts this as a success. An analyst who also checks `dns.answers.name` does not.
-
-The habit generalises well beyond DNS: **a status field and an outcome are different things.** Lesson 02 made the same point with a 403 inside a perfectly successful TCP connection.
-
-## Chains
-
-Frames 9 and 10 ask for `outlook.office365.com`. The answer is eight records deep:
-
-```
-outlook.office365.com                              CNAME  ttl 289  -> outlook.cloud.microsoft
-outlook.cloud.microsoft                            CNAME  ttl 286  -> acdcatm.outlook.mira.tm.svc.cloud.microsoft
-acdcatm.outlook.mira.tm.svc.cloud.microsoft        CNAME  ttl 60   -> outlook.ms-acdc.office.com
-outlook.ms-acdc.office.com                         CNAME  ttl 58   -> MDW-efz.ms-acdc.office.com
-MDW-efz.ms-acdc.office.com                         A      ttl 8    -> 52.96.164.146
-MDW-efz.ms-acdc.office.com                         A      ttl 8    -> 52.96.79.50
-MDW-efz.ms-acdc.office.com                         A      ttl 8    -> 52.96.164.130
-MDW-efz.ms-acdc.office.com                         A      ttl 8    -> 52.96.79.146
-```
-
-Four aliases before an address, four addresses at the end, and a TTL of **eight seconds**.
-
-An eight-second TTL means the operator wants to re-steer this client almost continuously. The name you asked for and the name that finally carried an address share no common suffix — `office365.com` at the top, `office.com` at the bottom, `cloud.microsoft` in the middle. Any rule that assumes the resolved name resembles the queried name breaks here, on entirely legitimate traffic from one of the largest mail services in the world.
-
-## Your work product — a baseline
-
-Write **one page** describing expected DNS behavior for the environment this capture came from. Not a summary of the capture: a description of normal that someone else could use to judge whether a future observation deviates.
+1. **The `NOERROR` / Zero Answers Trap:** Inspect Frame 12. The response flag is `NOERROR`, but `Answer RRs: 0`. Explain why querying `dns.response.code: NOERROR` in a SIEM will falsely report this as a successful resolution.
+2. **The 8-Second Steering Chain:** Inspect the 8-record chain for `outlook.office365.com` (Frames 9–10). Why does an 8-second TTL prove active routing rather than malicious fluxing?
+3. **Three Noisy Detection Rules:** Name three detection rules that this clean capture proves would fire false alarms in production.
+4. **The Conn.log Bridge:** Identify which specific log file and field in Zeek/Security Onion must be checked before you can report that a DNS query resulted in actual data transfer.
 
 Use the capture to ground every claim, and answer these inside it:
 
