@@ -273,6 +273,64 @@ The analyst who says "we have full packet capture, so we can see everything" has
 - On question 5, did you distinguish what the byte counts *permit* you to say from what they *establish*? The two connections did carry different-sized handshakes, which is not the same as different requests.
 - Would a reader of your assessment know which parts they could act on and which parts they could not?
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In a production SOC, analysts constantly face encrypted streams and either overclaim (*"We have a PCAP so we know what they downloaded"*) or panic (*"It's encrypted so it's a covert threat"*). Without daily scorecard accountability, analysts fail to declare visibility boundaries in incident escalations.
+
+### 1. Pinned Desk Aid: The TLS Visibility Boundary Matrix
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        TLS VISIBILITY BOUNDARY (BEFORE YOU REPORT)                     │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ PROTOCOL VERSION    │ WHAT YOU CAN SEE (OBSERVABLE)   │ WHAT IS BLIND (REQUIRES EDR)   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ TLS 1.2             │ • Destination SNI (cleartext)   │ • Application payload / URLs   │
+│                     │ • Certificate Subject & Issuer  │ • Response status codes        │
+│                     │ • Handshake ciphers & timing    │ • File contents / actual bytes │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ TLS 1.3             │ • Destination SNI (cleartext)   │ • Application payload / URLs   │
+│                     │ • Negotiated cipher suite       │ • Server Certificate Subject   │
+│                     │ • Packet sizes & delta timing   │ • Validity / Self-signed status│
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Under TLS 1.3, never claim certificate validity from network sensor data alone. │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero overclaimed triage reports; 100% boundary declaration.
+
+[ LEAD MEASURE ]: % of encrypted traffic incident notes where "What Cannot Be Determined"
+                 and the corresponding required telemetry source (e.g. EDR) were declared.
+                 (Target: 100%)
+
+  DAY       ENCRYPTED TICKETS   BOUNDARY EXPLICIT?   REQUIRED TELEMETRY NAMED?
+  Mon              [   ]               [   ]                    [   ]
+  Tue              [   ]               [   ]                    [   ]
+  Wed              [   ]               [   ]                    [   ]
+  Thu              [   ]               [   ]                    [   ]
+  Fri              [   ]               [   ]                    [   ]
+
+  WEEKLY BOUNDARY COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total encrypted tickets triaged vs. boundary declaration rate.
+2. **Review One Escalation (2 min):** *"On Ticket #4105, you assessed a TLS 1.3 connection. Did your report declare that the certificate and HTTP response code were unobservable from the PCAP?"* Coach the boundary.
+3. **Commitment for Next Week (2 min):** Ensure every TLS 1.3 ticket specifies the exact endpoint log needed to verify the application transaction.
+
+---
+
 ## What this lesson does not do
 
 It does not cover decryption, TLS interception, or key logging — all of which change this picture entirely and none of which are always available.
