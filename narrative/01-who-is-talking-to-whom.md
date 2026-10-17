@@ -244,4 +244,9 @@ I began with which host spoke first.
 
 ---
 
-**What happens next.** [Lesson 02](../lessons/02-reading-a-conversation.md) opens the same capture and asks you to narrate both conversations: who contacted whom, what happened at the transport and application layers, what the packets add to the log, and what neither source can establish.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 02 — Reading a Conversation</div>
+  <p class="bridge-desc">Open <code>02-conversation.pcap</code> in Wireshark and narrate both conversations: inspect the three-way handshake, evaluate layer independence between TCP and HTTP, and establish what the packets add to the Zeek log.</p>
+  <a href="#/lessons/02-reading-a-conversation" class="bridge-btn">Open Lesson 02 →</a>
+</div>

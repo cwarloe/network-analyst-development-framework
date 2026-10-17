@@ -19,9 +19,31 @@ I want to be honest about what I thought the job was. I thought it was recognizi
 
 The ticket said:
 
-> **Possible unauthorized access attempt — internal file service**
+<div class="artifact">
+  <div class="ticket-chrome">
+    <div class="ticket-bar">
+      <span class="ticket-id">SEC-4021</span>
+      <span class="sev high">High</span>
+      <span class="ticket-status">Assigned: Ethan Vance</span>
+    </div>
+    <div class="ticket-subject">Possible unauthorized access attempt — internal file service</div>
+    <dl class="ticket-meta">
+      <div><dt>Source Host</dt><dd>192.0.2.10 (Finance Subnet)</dd></div>
+      <div><dt>Destination Host</dt><dd>198.51.100.20:80 (Reporting Server)</dd></div>
+      <div><dt>Detection Rule</dt><dd>SecOnion Perimeter Access #2014902</dd></div>
+      <div><dt>Timestamp</dt><dd>2026-08-20 09:14:02 UTC</dd></div>
+    </dl>
+  </div>
+</div>
 
-Underneath were two lines from a [[zeek_conn_log|Zeek connection log (`conn.log`)]], and I understood almost none of it.
+Underneath were two lines from a [[zeek_conn_log|Zeek connection log (`conn.log`)]], and I understood almost none of it:
+
+<div class="artifact">
+  <figcaption>Zeek conn.log Telemetry — Attached to Ticket #SEC-4021</figcaption>
+  <pre class="console-body"><span class="cmt"># ts uid id.orig_h id.orig_p id.resp_h id.resp_p proto service duration orig_bytes resp_bytes conn_state history</span>
+1755681242.000104 CwlV971jSsZWObrEKd 192.0.2.10 42876 198.51.100.20 80 tcp http 0.004053 151 207 <span class="cmd">SF</span> ShADadfF
+1755681242.404288 C1f8K83tA9wX1qLmNp 192.0.2.10 42886 198.51.100.20 80 tcp http <span class="cmd">0.000184</span> 148 182 <span class="cmd">SF</span> ShADaFf</pre>
+</div>
 
 I had memorized port numbers on my own time for two years and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `[[conn_state_sf|SF]]` twice, about which I had nothing at all.
 
@@ -106,7 +128,12 @@ It took me forty minutes and it was the hardest piece of writing I have ever don
 
 ---
 
-**What happens next.** [Lesson 01](../lessons/01-what-the-analyst-is-for.md) is the thing Dana asked for — keeping observation, interpretation and judgment apart on the page. It takes about ninety minutes and needs no tools.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 01 — What the Analyst Is For</div>
+  <p class="bridge-desc">Dana asked for Ethan's first writing assignment: keeping observation, interpretation, and judgment strictly separated on the page. Requires zero tools, takes about ninety minutes, and sets the foundation for your entire career as an analyst.</p>
+  <a href="#/lessons/01-what-the-analyst-is-for" class="bridge-btn">Start Lesson 01 →</a>
+</div>
 
 **If most of that log meant nothing to you, you read it correctly.** It meant nothing to him either, and Dana did not think that was the interesting part. Ports, byte counts, `connection.state`, the `SF` he had nothing at all about — those are a few weeks of exposure, and none of them was what went wrong on his first ticket.
 

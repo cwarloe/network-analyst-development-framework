@@ -201,4 +201,9 @@ I was not. That was different from having no prediction.
 
 ---
 
-**What happens next.** [`Episode 3 — Before You Look`](../lessons/e03-before-you-look/README.md) preserves your initial explanation and prediction before releasing the result. Its purpose is not to reward guessing the next packet. It makes the difference between expectation and observation visible, then requires a reasoned revision.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Episode 03 Technical Exercise — Before You Look</div>
+  <p class="bridge-desc">Open <code>e03-prediction.pcap</code>, inspect the initial exchange, commit your written prediction, and test what happens when the hidden packet is revealed.</p>
+  <a href="#/lessons/e03-before-you-look/README" class="bridge-btn">Start Episode 03 Practice →</a>
+</div>

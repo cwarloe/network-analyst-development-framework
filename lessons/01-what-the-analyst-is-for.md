@@ -41,7 +41,22 @@ The most common one in real work is the second, and it usually arrives pre-insta
 
 If you read the [prologue](../narrative/00-prologue.md), you watched Ethan make this exact mistake on his eleventh day at Harrowmere. Here is the ticket he was handed:
 
-> **Ticket:** `Possible unauthorized access attempt — internal file service`
+<div class="artifact">
+  <div class="ticket-chrome">
+    <div class="ticket-bar">
+      <span class="ticket-id">SEC-4021</span>
+      <span class="sev high">High</span>
+      <span class="ticket-status">Triaged by: Ethan Vance</span>
+    </div>
+    <div class="ticket-subject">Possible unauthorized access attempt — internal file service</div>
+    <dl class="ticket-meta">
+      <div><dt>Source Host</dt><dd>192.0.2.10:42886 (Finance)</dd></div>
+      <div><dt>Destination Host</dt><dd>198.51.100.20:80 (Reporting Server)</dd></div>
+      <div><dt>Detection Rule</dt><dd>SecOnion Perimeter Access #2014902</dd></div>
+      <div><dt>HTTP Status</dt><dd>403 Forbidden</dd></div>
+    </dl>
+  </div>
+</div>
 
 Underneath were the two lines from Zeek's connection and HTTP logs:
 
@@ -202,6 +217,13 @@ Every Friday, your shift lead or mentor reviews your scorecard for 5 minutes:
 3. **Commitment for Next Week (2 min):** Agree on one upstream check to reinforce on Monday.
 
 ---
+
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 01 (Story) — Who Is Talking to Whom?</div>
+  <p class="bridge-desc">Now that you know how to separate observation from interpretation, watch Ethan and Dana confront the application owner over the wire evidence in Wireshark, setting up Lesson 02.</p>
+  <a href="#/narrative/01-who-is-talking-to-whom" class="bridge-btn">Continue to Chapter 01 →</a>
+</div>
 
 ## What this lesson does not do
 

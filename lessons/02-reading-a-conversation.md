@@ -295,6 +295,13 @@ Every Friday morning:
 
 ---
 
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 02 (Story) — Before You Look</div>
+  <p class="bridge-desc">You can now explain a result you can already see. But what happens when the next packet is hidden? Watch Dana challenge Ethan to commit to a prediction before the answer is visible.</p>
+  <a href="#/narrative/02-before-you-look" class="bridge-btn">Continue to Chapter 02 →</a>
+</div>
+
 ## What this lesson does not do
 
 It does not establish that this traffic is normal or abnormal. Two conversations from one client is not a baseline, and lesson 03 is where expected behavior starts being built deliberately.
