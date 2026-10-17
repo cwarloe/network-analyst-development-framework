@@ -1,0 +1,33 @@
+* [Overview](README.md)
+* [Course Plan (COURSE.md)](COURSE.md)
+
+* **The Narrative Track (Story)**
+  * [Narrative Overview](narrative/README.md)
+  * [00: The Word in the Ticket](narrative/00-prologue.md)
+  * [01: Who Is Talking to Whom?](narrative/01-who-is-talking-to-whom.md)
+  * [02: Before You Look](narrative/02-before-you-look.md)
+  * [03: Names Have Behavior](narrative/03-names-have-behavior.md)
+  * [04: What Encryption Leaves Behind](narrative/04-what-encryption-leaves-behind.md)
+  * [05: Where Are You Standing?](narrative/05-where-are-you-standing.md)
+  * [06: Conversations Have Structure](narrative/06-conversations-have-structure.md)
+  * [07: More Than One Explanation](narrative/07-more-than-one-explanation.md)
+  * [08: What Can You Responsibly Say?](narrative/08-what-can-you-responsibly-say.md)
+  * [09: Decide Before You Disrupt](narrative/09-decide-before-you-disrupt.md)
+
+* **The Technical Lessons**
+  * [Self Check](lessons/self-check.md)
+  * [Lesson 01: What the Analyst Is For](lessons/01-what-the-analyst-is-for.md)
+  * [Lesson 02: Reading a Conversation](lessons/02-reading-a-conversation.md)
+  * [Episode 03: Before You Look (Practice)](lessons/e03-before-you-look/README.md)
+  * [Lesson 03: Names and Expectations](lessons/03-names-and-expectations.md)
+  * [Lesson 04: What Encryption Hides](lessons/04-what-encryption-hides.md)
+  * [Lesson 05: Vantage Point and Evidence](lessons/05-vantage-point-and-evidence.md)
+  * [Lesson 06: When It Breaks](lessons/06-when-it-breaks.md)
+  * [Lesson 07: When It's Suspicious](lessons/07-when-its-suspicious.md)
+  * [Lesson 08: Judgment and Handoff](lessons/08-judgment-and-handoff.md)
+  * [Lesson 09: Capstone — Encrypted Outbound](lessons/09-capstone-encrypted-outbound-traffic/README.md)
+
+* **Reference & Field Guides**
+  * [Field Names Mapping](lessons/field-names.md)
+  * [Book 1 Canon Architecture](BOOK-1.md)
+  * [Capture Lab Guide](lab/README.md)
