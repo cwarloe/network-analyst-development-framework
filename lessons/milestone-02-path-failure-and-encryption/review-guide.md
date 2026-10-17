@@ -72,3 +72,4 @@ Milestone 2 evaluates the learner's ability to integrate:
 | **OC-4 / IR-2 (Transport vs App)** | Uses Frame 105 to prove the 5-second delay is server-side application think time. | Blames the network team for "WAN latency" on `198.51.100.50`. |
 | **IR-3 (State Discrimination)** | Assigns `REJ` to Systems/Host and `S0` to Network Engineering. | Assigns both `REJ` and `S0` to Network Engineering as "connection failed." |
 | **IR-5 / EF-8 (Fragmentation)** | Explains that dropped non-initial fragments cause silent UDP timeouts. | Diagnoses DNS timeout as a dead DNS server or rogue firewall block without checking fragmentation. |
+

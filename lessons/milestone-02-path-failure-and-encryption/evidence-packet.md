@@ -76,3 +76,4 @@ Query from Portland branch workstation `192.0.2.14` for internal record `cluster
 ## Item E-05: Colleague's Escalation Handoff Note
 Appended to Ticket #12094 by Junior Admin:
 > *"The external SaaS vault is dropping connections or failing with TLS errors. The edge PCAP shows TLS 1.3 connections where we can't see the certificates or HTTP statuses, so this might be encrypted data exfiltration or a man-in-the-middle attack. Also, connection to the internal reporting server (198.51.100.20) is completely down—we ran a firewall search for denies and found nothing, so the core router must be dropping packets. And the database query interface is taking 5 seconds, so the network team needs to fix their WAN latency immediately."*
+

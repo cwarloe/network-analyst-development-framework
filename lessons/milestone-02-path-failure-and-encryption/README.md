@@ -92,3 +92,4 @@ Record this assessment in your daily 4DX tracking log:
 - Delta Time / Frame ACK Verified?           [ YES / NO ]
 - Fragment Loss Mechanism Identified?        [ YES / NO ]
 ```
+
