@@ -25,11 +25,9 @@ The traffic is real — real sockets, real DNS, real HTTP — but it was **gener
 
 [R004](../docs/research/R004-pcap-and-telemetry-sourcing.md) cleared the CIC and Stratosphere/CTU-13 corpora for use here, and working against genuine captured intrusion traffic is the natural next step for this lesson. That is a gap, and it is recorded in the [roadmap](../ROADMAP.md).
 
-## The situation
+In Episode 11 (*More Than One Explanation*), Ethan is handed a review ticket where a colleague wrote: *"WS-10 is clearly beaconing to external servers—recommend host isolation."* Dana challenges Ethan: *"Before you touch an isolation breaker, hold both the benign and malicious explanations open. If you only look for malware shapes, you'll find them everywhere."*
 
-> A weekly review flags one workstation, `192.0.2.10`, for "unusual outbound activity." No alert fired. Nothing is broken. A colleague has already looked and says it is "clearly beaconing."
->
-> You have an hour of that host's traffic.
+> **The Situation:** A weekly review flags one workstation, `192.0.2.10`, for "unusual outbound activity." No alert fired. Nothing is broken. A colleague has already looked and says it is "clearly beaconing." You have an hour of that host's traffic.
 
 ## Start in the log
 
@@ -150,16 +148,31 @@ Roughly 60 KB outbound, nothing back. A single upload against a workstation's ot
 
 By itself: unremarkable. Workstations upload things. Crash reports, telemetry bundles, document saves, backups.
 
-## Guided practice — commit on shape alone
+## Guided Practice with Immediate Feedback — Commit on Shape Alone
 
-You now have everything a timing-and-volume analysis gives you: four destinations, two of them beaconing, one high-rate DNS channel, one bulk upload. Before you read the next section, commit.
+You now have everything a timing-and-volume analysis gives you: four destinations, two of them beaconing, one high-rate DNS channel, one bulk upload. Before Dana lets Ethan see the relational links, she forces him to commit on paper:
 
 1. **Rank the four destinations** by how much they concern you. Write the order down.
-2. **Write the detection rule** you would propose to catch `198.51.100.60` and not `198.51.100.70`. An actual rule — a field, an operator, a threshold. Then, underneath it, name one piece of legitimate software in a normal enterprise that your rule would also catch. If you cannot think of one, the rule is not specific, you are just not familiar enough with what runs on a managed endpoint.
+2. **Write the detection rule** you would propose to catch `198.51.100.60` and not `198.51.100.70`. An actual rule — a field, an operator, a threshold. Then, underneath it, name one piece of legitimate software in a normal enterprise that your rule would also catch.
 3. **How confident are you that `198.51.100.60` is malicious?** Commit to a word — *unlikely, possible, likely, near-certain* — and write the single observation your word rests on.
 4. **What one additional field** would move your confidence furthest, in either direction?
 
-Do not skip 4. The next section is largely about where that field was.
+Take three minutes to answer these four questions in your notes before checking the debrief.
+
+---
+
+### Guided Practice Feedback & Coaching Debrief
+
+Check your reasoning against the expert analysis:
+
+| Prompt | Novice Trap / Fragile Heuristic | Expert Analysis & Ground Truth |
+|---|---|---|
+| **1. Concern Ranking** | Ranking `198.51.100.60` as #1 solely because it had lowest jitter (1.2%). | High entropy DNS (`198.51.100.80`) is far more anomalous than either beacon. But neither beacon can be ranked ahead of the other based on timing alone. |
+| **2. Detection Rule** | Proposing `event.duration < 0.1 AND interval_stdev < 0.1s`. Fails because it flags Microsoft Windows Update, Zoom telemetry, NTP, and antivirus heartbeats. | Any rule based solely on inter-packet interval or jitter produces massive false positives across standard background agents. |
+| **3. Confidence Level** | Stating "Likely Malicious" based on regular HTTP polling. | The only defensible confidence on shape alone is **Possible** or **Uncertain**. Regular polling is a property of background software, not a proof of malice. |
+| **4. The Crucial Field** | Asking for "VirusTotal reputation score" or "full payload decryption". | The field that settles it is already on the screen: **`http.virtual_host` / `dns.query.name` (The Apex Domain)**! |
+
+---
 
 ## The evidence that actually discriminates
 
