@@ -78,13 +78,15 @@ An evidence plan that does not name its gaps is not a plan, it is a wish list. N
 
 Point 3 is the one that separates evidence planning from evidence gathering. The instinct is to collect what would confirm the leading explanation. The discipline is to collect what would *separate* the explanations — including the finding that would show you are wrong.
 
-## Worked example
+## Worked Example (Demonstration)
 
-> **Question.** Did the finance file server (FS-FIN-01) send a significant volume of data to an external destination it does not normally contact, at any point in the last seven days?
+In Episode 08 (*Where Are You Standing?*), Ethan sits between Priya and Cal with four screens open, frustrated that multiple sources seem to contradict each other. Dana stops him before he opens another dashboard and forces him to construct an evidence plan on the whiteboard:
+
+> **Question.** Did the finance file server (`FS-FIN-01`) send a significant volume of data to an external destination it does not normally contact, at any point in the last seven days?
 
 > **Available sources.** Edge flow records, sampled 1:100, 90-day retention. Edge full packet capture, 36-hour rolling buffer. Zeek-style connection and TLS logs from the edge sensor, 30 days, unsampled. Web proxy logs, 60 days, covering browser traffic only. Internal DNS resolver logs, 14 days. Endpoint telemetry on workstations; **not** on servers.
 
-Working through it:
+Dana and Priya model how to evaluate and rank these sources:
 
 - **Packet capture is out of range.** It is the richest source available and it cannot answer a seven-day question at all. Recognizing this immediately, rather than after an hour of searching, is most of the skill.
 - **Connection logs are the primary source.** They cover the full window, they are unsampled, and they record external destinations per connection. This is where the question is actually answered.
@@ -98,7 +100,7 @@ Working through it:
 
 **Unanswerable as things stand:** the content of anything encrypted; the initiating process or account; anything before the 30-day connection-log boundary except at sampled resolution.
 
-## Guided practice — a smaller question, and one poisoned source
+## Guided Practice with Immediate Feedback — A Smaller Question and One Poisoned Source
 
 Not a full plan. Four sources and three questions, aimed at the move that point 3 describes, because that is the one the worked example makes look easier than it is.
 
@@ -106,17 +108,43 @@ Not a full plan. Four sources and three questions, aimed at the move that point 
 
 > **Available sources.** Perimeter firewall logs, 90 days — **configured to log denied connections only.** VPN concentrator session logs, 45 days, showing which accounts connected and from where, but not what they reached afterwards. `ACS-01`'s own web server access log, **3-day retention**, rotated. Unsampled flow records from the switch the appliance sits behind, 30 days.
 
-Work these three:
+Take 3–5 minutes to answer these three prompts in your notes before checking the debrief:
 
 1. **The firewall log is the source everybody reaches for first, and here it is the dangerous one.** Say precisely what a search returning zero results would establish, and what it would not. Write the sentence you would have to put in your finding if that search came back empty and you had nothing else.
 2. **For each of the four sources, write the discriminating pair:** *if someone did reach it, this source shows ___; if nobody did, it shows ___.* One source will give you the same answer either way. Say which, and drop it.
 3. **Two of these sources are on clocks.** Say what you collect first and why, and note that the answer is not the same as "which source is most likely to answer the question."
+4. **The appliance's own log is the only source that could confirm a successful session, and it holds three days of a fourteen-day question.** Nothing in the plan can fix that. Write the one sentence you would say to whoever asks you for a definitive answer — a sentence that is neither "yes it happened" nor "there is no evidence," because both of those would be false.
 
-Then one to carry forward: **the appliance's own log is the only source that could confirm a successful session, and it holds three days of a fourteen-day question.** Nothing in the plan can fix that. Write the one sentence you would say to whoever asks you for a definitive answer — a sentence that is neither "yes it happened" nor "there is no evidence," because both of those would be false.
+---
 
-No answer key. Question 1 is the one to be hardest on yourself about.
+### Guided Practice Feedback & Coaching Debrief
 
-## Your work product
+Compare your answers against the expert breakdown:
+
+#### Prompt 1: The Firewall Denial Trap
+* **What zero results establishes:** Only that no inbound connections were *blocked* by the firewall rulebase.
+* **What zero results does NOT establish:** It does not prove nobody reached the appliance. A permitted inbound connection (or a connection arriving via a misconfigured permit rule or VPN tunnel) produces zero log entries because permitted traffic is unlogged!
+* **Defensible Finding Sentence:** *"Perimeter firewall logs record denied connection attempts only; absence of deny events establishes that no blocked traffic occurred, but cannot confirm or refute whether permitted traffic reached ACS-01."*
+
+#### Prompt 2: The Discriminating Pair Matrix
+
+| Source | If Someone Reached `ACS-01` | If Nobody Reached `ACS-01` | Discriminating? | Decision |
+|---|---|---|---|---|
+| **Perimeter Firewall** (Denies only) | 0 records (if permitted) or Deny event (if blocked) | 0 records | **NO** (Silence under both successful access and no access) | **DROP.** Searching this gives a dangerous false negative. |
+| **VPN Concentrator** (Auth sessions only) | VPN session record for external user IP | May still show VPN sessions for other users | **WEAK** | **KEEP ONLY FOR CORRELATION.** Cannot show internal destination reached. |
+| **Switch NetFlow** (Unsampled, 30 days) | Inbound flow to `ACS-01` IP on management port (TCP 443/80/22) | Zero flows to `ACS-01` management port from external/VPN pool IPs | **YES** | **KEEP.** Covers the full 14-day window at L4 transport level. |
+| **`ACS-01` Web Access Log** (3-day rot) | HTTP `200 OK` / authenticated session records | Zero HTTP request records from external/VPN IPs | **YES (for last 72 hrs)** | **KEEP.** Only source proving application-layer success vs refusal. |
+
+#### Prompt 3: Collection Order vs Perishability Clock
+* **First Action:** Extract and archive the **`ACS-01` Web Server Access Log immediately**. Even though it only covers 3 days, it is on an active 72-hour rotation schedule. Every hour of delay risks overwriting the most detailed application-level evidence available.
+* **Second Action:** Query the **Switch NetFlow records** (30-day retention). NetFlow is safe from imminent rollover and covers the full 14-day scope to establish whether transport connections occurred across days 4–14.
+
+#### Prompt 4: The Bounded Definitive Statement
+> *"Telemetry from switch flow records confirms no inbound network transport to ACS-01 over days 4 through 14; for the remaining window (days 1 through 3), local appliance logs confirm no authorized sessions occurred, but full application-level audit beyond 72 hours cannot be determined due to log rotation limits."*
+
+---
+
+## Your Work Product (Targeted Practice Application)
 
 > **Situation.** Users at the Portland branch report that a hosted SaaS application has been intermittently slow for three days. Sometimes it is fine; sometimes pages take fifteen seconds. Other applications seem unaffected. A manager wants to know whether the problem is in your network before the vendor is contacted.
 
@@ -139,6 +167,64 @@ Three things the case is specifically testing — make your handling of each vis
 - Name one finding that would make you conclude the problem is *not* in your network. If your plan cannot produce that finding, it is built to confirm rather than to discriminate.
 - Did you state what remains unanswerable? A plan that appears to answer everything has hidden a gap rather than closed one.
 - Would a colleague reading your plan know what your eventual "we found nothing" would actually mean?
+
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In a live SOC, when an ambiguous incident breaks, the most common failure is querying the easiest dashboard first (e.g., SIEM proxy logs) while the high-fidelity evidence (rolling PCAP buffers) silently overwrites itself. The analyst then says "we found nothing," when in fact the evidence perished before they looked.
+
+### 1. Pinned Desk Aid: The 3-Rule Evidence Collection Hierarchy
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        EVIDENCE COLLECTION HIERARCHY (BEFORE YOU QUERY)                │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ RULE                │ OPERATIONAL CHECK               │ ACTION REQUIRED                │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 1. Collect Against  │ Which source expires first?     │ Capture buffers (24-48h) first!│
+│    Shortest Clock   │ (PCAP < NetFlow < SIEM Logs)    │ SIEM 30-day logs can wait.     │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 2. Discriminating   │ Does this source differentiate  │ Drop sources that show the     │
+│    Power First      │ Hypothesis A from Hypothesis B? │ same pattern under both models.│
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 3. Declare Gaps &   │ What does this sensor structurally│ State unobservable segments  │
+│    Blindspots       │ NOT see? (NAT / Hairpin / TLS)  │ in ticket notes upfront.       │
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never say "There is no evidence" without naming the retention & coverage limits. │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero evidence loss from buffer overwrites; 100% gap declaration.
+
+[ LEAD MEASURE ]: % of investigation plans where Perishability Ranking and Structural Gaps
+                 were documented BEFORE querying dashboards or closing tickets. (Target: 100%)
+
+  DAY       INVESTIGATIONS   PERISHABILITY ORDERED?   GAPS EXPLICITLY DECLARED?
+  Mon             [   ]                 [   ]                      [   ]
+  Tue             [   ]                 [   ]                      [   ]
+  Wed             [   ]                 [   ]                      [   ]
+  Thu             [   ]                 [   ]                      [   ]
+  Fri             [   ]                 [   ]                      [   ]
+
+  WEEKLY EVIDENCE-PLANNING COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total investigations vs. evidence plan compliance.
+2. **Review One Investigation (2 min):** *"On Ticket #4112, you queried proxy logs first. What was the retention on the rolling packet capture at that branch edge, and did we preserve it before searching the index?"*
+3. **Commitment for Next Week (2 min):** Commit to preserving rolling capture buffers as the first action on high-priority triage.
+
+---
 
 ## What this lesson does not do
 

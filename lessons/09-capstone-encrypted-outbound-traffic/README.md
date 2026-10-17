@@ -53,4 +53,19 @@ Complete and save your initial work product before opening `feedback-and-transfe
 
 ---
 
+## 4DX Final Performance Audit
+
+Upon completing the capstone and transfer case, record your final audit against the full Learning System DNA scorecard:
+
+```
+[ CAPSTONE / FINAL EVALUATION 4DX AUDIT ]:
+- Upstream Tri-Check Executed (Peer, Apex, EDR)?   [ YES / NO ]
+- Observations, Interpretations, Judgment Split?   [ YES / NO ]
+- Breaker Stated for Leading Hypothesis?          [ YES / NO ]
+- Action Calibrated to Reversibility & Risk?       [ YES / NO ]
+- Transfer Reasoning Applied to Novel Protocol?    [ YES / NO ]
+```
+
+---
+
 **Running this pilot?** Record what you learn in [run records](../run-records.md) before revising the pilot or the models it implements.

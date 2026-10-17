@@ -37,49 +37,56 @@ Each collapse has its own failure mode:
 
 The most common one in real work is the second, and it usually arrives pre-installed in the alert you were handed.
 
-## Worked example — Case A
+## Demonstration — Case A: The Word in the Ticket
 
-> **Alert:** `Possible data exfiltration — HOST-14`
+If you read the [prologue](../narrative/00-prologue.md), you watched Ethan make this exact mistake on his eleventh day at Harrowmere. Here is the ticket he was handed:
 
-Supplied observations:
+> **Ticket:** `Possible unauthorized access attempt — internal file service`
 
-| ID | Observation |
-|---|---|
-| A-01 | HOST-14 sent 4.2 GB to 203.0.113.40 between 02:00 and 04:00. |
-| A-02 | The destination address is not in any internal asset record. |
-| A-03 | HOST-14 belongs to a member of the finance team. |
-| A-04 | The transfer used TCP/443. |
-| A-05 | No prior connection from HOST-14 to this address appears in the 30 days of available records. |
+Underneath were the two lines from Zeek's connection and HTTP logs:
 
-**Before you read on.** Something on this page is a conclusion rather than a thing anybody saw, and it arrived before any analysis did. Find it. Thirty seconds, in your head, no writing.
+| Source | Destination | Duration | Method | URI | User Agent | Status |
+|---|---|---|---|---|---|---|
+| `192.0.2.10:42876` | `198.51.100.20:80` | 0.004038s | `GET` | `/api/v2/export?page=1` | `harrow-sync/3.21` | `200 OK` (90 bytes) |
+| `192.0.2.10:42886` | `198.51.100.20:80` | 0.000184s | `GET` | `/api/v2/admin/users` | `harrow-sync/3.21` | `403 Forbidden` (44 bytes) |
 
-Then read the separation below, which is worked in full.
+Ethan saw `admin` and `403 Forbidden`, remembered the ticket title, and marched to Dana's desk:  
+*"Someone's probing the admin API!"*
+
+Dana's question is the foundation of this entire course: **"Where did the word *probing* come from?"**
+
+It was not in the packets. It was not in the log. It arrived pre-installed in the ticket title: `unauthorized access attempt`. Ethan took twenty-six pieces of raw data, picked out the two he recognized, and used them to confirm a conclusion someone else handed him on the way in.
+
+### The Demonstration: How Dana Deconstructs the Ticket
+
+Watch how an expert analyst processes this event without smuggling conclusions.
+
+#### Step 1: Strike the Smuggled Word and Reframe the Question
+* ~~Possible unauthorized access attempt~~ / ~~Probing~~
+* **The Actual Analytical Question (IR-1):** *"Is this `403 Forbidden` on `/api/v2/admin/users` explained by authorized software behavior (e.g. `harrow-sync`), and what evidence would verify it?"*
+
+#### Step 2: Build the 3-Column Discrimination Record
+
+| 1. OBSERVATIONS (Data / Checkable) | 2. INTERPRETATIONS (Context / Hypotheses) | 3. BOUNDED JUDGMENT & NEXT ACTION |
+|---|---|---|
+| • Workstation `192.0.2.10` sent two HTTP requests to `198.51.100.20` 0.4s apart.<br>• Request 1: `GET /api/v2/export?page=1` returned `200 OK`.<br>• Request 2: `GET /api/v2/admin/users` returned `403 Forbidden`.<br>• Duration of Request 2: 0.000184 seconds.<br>• Both requests sent identical User-Agent: `harrow-sync/3.21`.<br>*(Limitation: The log shows IP and User-Agent, not a verified user or process).* | • A human cannot type an admin URL in 0.18 milliseconds; the request was generated programmatically.<br>• The identical User-Agent suggests both requests originated from the same automated sync process.<br>• A `403` could mean an attacker testing permissions, OR an automated client checking endpoint capabilities and getting denied as expected. | **Judgment:** No judgment of unauthorized activity is supported by this evidence. Confidence: Low.<br><br>**Proportionate Next Action:** Do NOT quarantine the workstation. Ask the application owner (Leah Moreno) whether `harrow-sync/3.21` normally queries `/api/v2/admin/users` during startup or sync routines. |
+
+Notice what happened:
+1. No human intent was assumed.
+2. The `403` was not treated as a crime.
+3. The next action was sized to the evidence (a quick question to the app owner) rather than an emergency escalation.
 
 ---
 
-Here is the separation.
+## Guided Practice with Feedback — Case B: Stripping the Smuggled Words
 
-**What was observed:** all five rows. Note that A-05 is weaker than it looks — it says the connection does not appear in *available* records, not that it never happened. The limitation is part of the observation.
-
-**What is interpretation:** that 4.2 GB is "large" (large for a workstation, unremarkable for a backup job); that 02:00–04:00 is "off hours" (for the user, not for automated tasks); that an unrecognized destination is suspicious (asset records are usually incomplete); that TCP/443 means "hiding" (TCP/443 is where nearly everything legitimate lives).
-
-**What was smuggled in:** the word *exfiltration*, in the alert title, before any analysis happened. It names a cause. Nothing in A-01 through A-05 establishes one. The alert has handed you a conclusion and asked you to confirm it — and confirming what you were handed is the single most common way network analysis goes wrong.
-
-If you went looking in the five rows, that is worth noticing too. The rows are where the evidence is, so the rows are where you look — which is exactly why a conclusion in the title travels so well. It is not in the place you are checking.
-
-**What the actual question is:** not "is this exfiltration?" but *"is this transfer explained by authorized activity, and if we cannot tell yet, what would tell us?"* That is IR-1: framing an actionable question from an ambiguous condition. The reframed question is answerable. The original one is a yes/no invitation to guess.
-
-**What is not yet known:** what process on HOST-14 opened the connection; whether the finance team uses a cloud service at that address; whether other hosts did the same thing; what the 30-day limit is hiding.
-
-Notice that no judgment appeared anywhere above. On this evidence, none is available yet — and saying so is a complete and professional answer.
-
-## Guided practice — Case B
-
-Now you work, with prompts.
+Now you work, with guided prompts and immediate checks.
 
 > **Ticket:** `Users in the Portland office report the intranet is slow. Network team says the network is fine.`
 
-| ID | Observation |
+Supplied observations:
+
+| ID | Data Point |
 |---|---|
 | B-01 | Six users in Portland reported slowness between 09:00 and 11:00. |
 | B-02 | Link utilization on the Portland uplink peaked at 34%. |
@@ -87,51 +94,114 @@ Now you work, with prompts.
 | B-04 | Users in two other offices reported nothing. |
 | B-05 | A Portland user says "it started after the update yesterday." |
 
-Work through these:
+Work through these four steps before moving to Case C:
 
-1. Which rows are observations, and which contain an interpretation already? (Look hard at B-01 and B-05.)
-2. "The network is fine" — is that an observation, an interpretation, or a judgment? What is it based on, and what does "the network" mean in that sentence?
-3. B-05 is second-hand and vague. Does that make it useless? What is it good for?
-4. Write the analytical question you would actually pursue. It should be answerable, and it should not contain the word "slow."
-5. Name the two pieces of evidence most likely to change your answer, and say why those two.
+### 1. Identify the Smuggled Adjectives
+* What words in the ticket title are conclusions rather than checkable facts?
+* **Check:** "Slow" and "Fine" are both conclusions wearing observation's clothes. Slow compared to what? Fine across what path?
 
-There is no answer key. The check is in the next section.
+### 2. Separate Observations from Interpretations
+* Which of the five rows are strictly checkable facts, and which already contain interpretation?
+* **Check:** B-02, B-03, and B-04 are checkable system metrics. B-01 and B-05 are human reports—they prove *users said something*, but they do not prove what caused the experience.
 
-## Your work product — Case C
+### 3. Reframe the Question
+* Rewrite the ticket's question so that evidence can answer it, **without using the word "slow."**
+* **Check:** *"Does the latency reported by Portland users correlate with network path saturation, server resource contention (CPU 88%), or client update changes?"*
 
-Do this one unaided.
+### 4. What Single Finding Would Shift the Blame?
+* What additional piece of evidence would prove whether the network was involved?
+* **Check:** Measuring TCP round-trip time (RTT) from the Portland client to the server. If RTT is normal ($< 20\text{ms}$) while server response time is 10 seconds, the network is eliminated.
+
+---
+
+## Practice Application — Case C: Unaided Discrimination
+
+Apply the method to an ambiguous security alert. This is not a graded exam—it is a practice run to test whether the 3-Column habit holds when you work unaided.
 
 > **Handed to you:** `A server in the DMZ made 340 outbound DNS queries to a single domain in one hour. Flagged as possible DNS tunneling.`
 
-| ID | Observation |
-|---|---|
-| C-01 | 340 queries from SRV-DMZ-02 to subdomains of `updates.example-vendor.net` between 13:00 and 14:00. |
-| C-02 | Each query name is 28–34 characters and appears randomized. |
-| C-03 | The same pattern appears in each of the previous 14 days at similar volume. |
-| C-04 | SRV-DMZ-02 runs a vendor-supplied appliance. Its documentation is not available to you. |
-| C-05 | No user is logged into SRV-DMZ-02. |
+| ID | Observation | Known Limitation |
+|---|---|---|
+| C-01 | 340 queries from SRV-DMZ-02 to subdomains of `updates.example-vendor.net` between 13:00 and 14:00. | Query logging records names, not the content of payloads. |
+| C-02 | Each query name is 28–34 characters and appears randomized. | Character randomness is a heuristic, not mathematical entropy proof. |
+| C-03 | The same pattern appears in each of the previous 14 days at similar volume. | Available retention is limited to 14 days. |
+| C-04 | SRV-DMZ-02 runs a vendor-supplied appliance. Documentation is not available to you. | You cannot verify vendor architecture from local files. |
+| C-05 | No user is logged into SRV-DMZ-02. | Authentication logs do not show service-account background jobs. |
 
-Produce, on one page or less:
+Draft a concise 3-Column Record (on paper or a text file):
+1. **Strike the Smuggled Conclusion:** What word must be removed from your thinking immediately?
+2. **Observations:** Restate the data points without using "tunneling" or "malicious".
+3. **Interpretations:** Give both a benign explanation (e.g. vendor anti-malware hash lookups / telemetry) and a suspicious explanation (e.g. persistent covert channel).
+4. **Position & Next Action:** What is the least disruptive check that would settle this? (Hint: Does the vendor documentation describe this lookup pattern?)
 
-- **The observations,** restated in your own words, each with its limitation if it has one.
-- **The interpretations,** labeled as such, kept separate from the observations.
-- **The question you would pursue,** phrased so that evidence could answer it.
-- **Your position,** which may legitimately be that no judgment is available yet — if so, say what is missing.
-- **The next two pieces of evidence** you would want, and why those two before others.
+---
 
-Do not write more than a page. Length is not the deliverable.
+## Reviewing Your Own Practice
 
-## Reviewing your own work
+Check your draft against these four questions:
 
-Not a score. Questions:
+- Did the phrase "DNS tunneling" survive into your notes as an assumption? If so, strike it.
+- How did you treat C-03 (14 days of identical behavior)? Fourteen days of identical volume strongly supports routine vendor telemetry, but could also be a persistent slow beacon. Did you leave both possibilities open?
+- Is your position stronger than your observations support? If you wrote "this is benign" or "this is an attack," weaken it to "unverified pending vendor documentation."
+- Did you recommend isolating the DMZ server? If so, why? Isolating a production appliance before checking vendor documentation is an uncalibrated, disruptive overreaction.
 
-- Can a reader tell, from the page alone, which sentences could be checked against data and which are yours?
-- Did the phrase "DNS tunneling" survive into your analysis as an assumption, the way "exfiltration" did in Case A?
-- What did you do with C-03? Fourteen days of identical behavior is the most informative row in the table. Did it make the activity more suspicious, less, or neither — and can you say why?
-- Is your position stronger than your observations support? Read your strongest sentence and find the evidence directly under it.
-- If a responder acted only on your page, what would they do? Is that proportionate?
+---
 
-If C-03 pushed you toward "this has been happening for two weeks undetected," notice what happened: the same fact can support a benign reading (an established, documented vendor behavior) and an alarming one (a persistent channel), and choosing between them needs evidence you do not have. Recognizing that is the lesson.
+## The 4DX In-The-Flow-of-Work Transfer System
+
+Learning does not end when you submit the Case C paragraph. If you do not track this on your real desk on Monday, the "smuggled word reflex" returns during the first high-stress shift.
+
+### 1. Pinned Desk Aid: The 3-Column Discrimination Rule
+
+Pin this to your monitor or keep it in your triage notebook:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                      THE 3-COLUMN TRIAGE RULE (BEFORE YOU ESCALATE)                    │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ OBSERVATION         │ INTERPRETATION                  │ JUDGMENT / ACTION              │
+│ (Data / Checkable)  │ (Context / What it might mean)  │ (Defensible & Proportionate)   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ • Exact byte counts │ • "Unusual for this user/time"  │ • Stated confidence level      │
+│ • Timestamp ranges  │ • "Consistent with backup"      │ • Open evidence gaps named     │
+│ • Connection states │ • "Consistent with update check"│ • Least disruptive next check  │
+│                     │                                 │   identified before quarantine │
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never use alert title adjectives ("probing", "exfiltrating", "anomalous") as facts│
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+Track this daily on your desk:
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero unvalidated escalations / zero alert-word contamination.
+
+[ LEAD MEASURE ]: % of triage tickets where Observation, Interpretation, and Judgment
+                 were physically separated in ticket notes BEFORE escalation or closure.
+                 (Target: 100%)
+
+  DAY       ALERTS TRIAGED   LEAD MEASURE LOGGED?   SMUGGLED WORDS STRIPPED?
+  Mon             [   ]               [   ]                      [   ]
+  Tue             [   ]               [   ]                      [   ]
+  Wed             [   ]               [   ]                      [   ]
+  Thu             [   ]               [   ]                      [   ]
+  Fri             [   ]               [   ]                      [   ]
+
+  WEEKLY TRI-CHECK COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday, your shift lead or mentor reviews your scorecard for 5 minutes:
+1. **Review the Scorecard (1 min):** Check total alerts triaged vs. percentage where the 3-column split was logged.
+2. **Examine One Ticket (2 min):** Review one ticket together. *Did any alert title adjectives ("probing", "beaconing", "malicious") leak into the observation field?*
+3. **Commitment for Next Week (2 min):** Agree on one upstream check to reinforce on Monday.
+
+---
 
 ## What this lesson does not do
 

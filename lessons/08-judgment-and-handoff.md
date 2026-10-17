@@ -79,31 +79,45 @@ CT-4. Network analysis borders incident response, threat hunting, detection engi
 
 The professional move is neither to grab it nor to drop it: state what you found, name the role that owns the next step, and say what you can still contribute. "This looks like a credential problem — the identity team owns it, and I can supply the source addresses and timing whenever they want them" hands off cleanly without abandoning it.
 
-## Worked contrast
+## Worked Contrast (Demonstration)
 
-One analysis, two write-ups. Same evidence.
+In Book 1 Episode 14 (*The Calibrated Handoff*), Dana reviews an incident escalation drafted by Ethan during a high-stakes incident. Ethan's first draft wanted to reimage an executive workstation immediately. Dana stops him and models the contrast between an overclaimed impulse and an authentic, proportionate handoff:
 
-> **Overclaimed:** "HOST-22 is compromised and was used to attack the authentication service. Recommend immediate reimage and a password reset for all affected users."
+One analysis, two write-ups. Same evidence:
 
-> **Proportionate:** "The configuration change at 08:12 is the leading explanation for failures on the changed path, but association alone does not establish causation. About 40 failures came from outside that population and are consistent with password spraying or a stale service retrying. Recommend a controlled rollback of the change, comparison of subsequent failure rates on that path, and identity-team review of the residual attempts. If failures persist after rollback, revisit the configuration explanation."
+> **Overclaimed Draft:** "HOST-22 is compromised and was used to attack the authentication service. Recommend immediate reimage and a password reset for all affected users."
+
+> **Proportionate Handled Brief:** "The configuration change at 08:12 is the leading explanation for failures on the changed path, but association alone does not establish causation. About 40 failures came from outside that population and are consistent with password spraying or a stale service retrying. Recommend a controlled rollback of the change, comparison of subsequent failure rates on that path, and identity-team review of the residual attempts. If failures persist after rollback, revisit the configuration explanation."
 
 The second is longer, more useful, and easier to be wrong in safely. It also tells the reader exactly which future finding would change it.
 
-## Guided practice — three sentences that are wrong in three different ways
+## Guided Practice with Immediate Feedback — Three Sentences That Are Wrong in Three Different Ways
 
-Small, and deliberately about nothing dramatic. Each of these is a real sentence shape you will write, or read, or have to push back on. For each: name the defect, then repair the sentence without inventing evidence that is not there.
+Small, and deliberately about nothing dramatic. Each of these is a real sentence shape you will write, or read, or have to push back on in a SOC shift. 
 
-> **1.** "High confidence the Tuesday outage was a DNS problem."
+For each of the three sentences below: name the defect, state its breaker, and write a repaired version that does not invent evidence:
 
-> **2.** "Three separate sources confirm the host was offline during the window: the monitoring dashboard, the alert email, and the ticket the NOC raised."
+> **Sentence 1:** *"High confidence the Tuesday outage was a DNS problem."*  
+> **Sentence 2:** *"Three separate sources confirm the host was offline during the window: the monitoring dashboard, the alert email, and the ticket the NOC raised."*  
+> **Sentence 3:** *"Low confidence this is a compromised service account. Recommend disabling it and forcing a password reset across the department."*
 
-> **3.** "Low confidence this is a compromised service account. Recommend disabling it and forcing a password reset across the department."
+Take 3–4 minutes to write your repairs in your notes before checking the debrief.
 
-Then one more thing, for number 2 only: **write its breaker.** One finding that would most reduce your confidence in it. If you can write that sentence quickly, the defect in number 2 is already obvious to you; if you cannot, it is worth sitting with, because it is the most common way a report ends up sounding much stronger than its evidence.
+---
 
-No answer key. Each has one primary defect and each is repairable in a sentence.
+### Guided Practice Feedback & Coaching Debrief
 
-## The case
+Check your critiques against the expert standard:
+
+| Sentence | Primary Defect | The Breaker (What Would Disprove It) | Exemplary Repaired Sentence |
+|---|---|---|---|
+| **1. "High confidence DNS problem"** | **Unstated Basis:** Expresses subjective emotion without empirical evidence, scope, or a falsifiable condition. | If resolver query logs show normal response times and non-zero answer rates during the outage window. | *"High confidence DNS failure caused Tuesday's 09:15 outage, based on 100% NXDOMAIN responses in resolver logs; breaker: if client query volume also dropped, investigate local gateway routing."* |
+| **2. "Three separate sources confirm..."** | **False Independence (Echo Chamber):** Treats downstream notifications (email, NOC ticket) as independent confirmation of their upstream trigger (the dashboard). | If the monitoring probe daemon died or network path to the probe was blocked, all three sources report "offline" while the host is 100% healthy. | *"A single monitoring probe reported the host offline at 10:14 (generating the alert email and NOC ticket); offline status is currently unverified by switch link state or ARP tables."* |
+| **3. "Low confidence... disable and reset"** | **Disproportionate Action:** Recommends high-impact, disruptive, irreversible action on low-confidence evidence. | If authentication logs show the failed attempts were automated SSO retries from an expired client token. | *"Low confidence svc-app is compromised (based solely on 3 failed logins); recommend enabling debug audit logs and querying EDR for initiating PID before initiating disruptive password resets."* |
+
+---
+
+## The Case
 
 You are handed a completed analysis. Your job is the judgment and the communication, not the investigation.
 
@@ -147,6 +161,67 @@ Across both, make these visible:
 - Did you state what you did *not* look at, or did you leave silence to imply coverage?
 - Is your recommended action reversible? If not, is that justified by the evidence, and did you say so?
 - If the 40 attempts turn out to be a misconfigured legacy service retrying with old credentials, does your write-up survive? If it embarrasses you, it was overclaimed.
+
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In enterprise defense, the final breakdown is almost always communication. Analysts either write novel-length technical essays that executives ignore, or compress so aggressively that uncertainty is scrubbed away and leadership takes reckless, irreversible containment actions. Daily desk tracking ensures judgment sizing and handoff discipline become muscle memory.
+
+### 1. Pinned Desk Aid: The 4-Part Handoff & Escalation Card
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        ESCALATION & HANDOFF CHECKLIST (BEFORE YOU HIT SEND)            │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ SECTION             │ WHAT MUST BE PRESENT            │ SANITY CHECK                   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 1. Current Leading  │ Name leading cause + confidence │ Is confidence tied to a stated │
+│    Explanation      │ level (Low / Med / High).       │ single-point-of-failure basis? │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 2. What Ruled Out   │ Specific items checked & ruled  │ Did you state how they were    │
+│    Alternatives     │ out (e.g. rollback, peer match).│ ruled out to save peer time?   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 3. Open Uncertainty │ Explicit gaps & missing telemetry│ Never leave silence to imply  │
+│    & The Breaker    │ + The single breaker observation│ "all clear".                   │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ 4. Proportionate    │ Sized to risk & reversibility.   │ Is the least disruptive action │
+│    Next Action      │ Clear stopping point defined.   │ prioritized over nuclear reset?│
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never change claim strength between peer handoff and leadership summary.         │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero disputed escalations; 100% calibrated handoff compliance.
+
+[ LEAD MEASURE ]: % of escalations/handoffs containing explicit Confidence Basis, Breaker,
+                 Reversibility Assessment, and Defined Stopping Condition. (Target: 100%)
+
+  DAY       HANDOFFS / BRIEFS   CONFIDENCE BASIS?   BREAKER NAMED?   REVERSIBILITY STATED?
+  Mon              [   ]               [   ]               [   ]                 [   ]
+  Tue              [   ]               [   ]               [   ]                 [   ]
+  Wed              [   ]               [   ]               [   ]                 [   ]
+  Thu              [   ]               [   ]               [   ]                 [   ]
+  Fri              [   ]               [   ]               [   ]                 [   ]
+
+  WEEKLY HANDOFF RIGOR COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total handoffs vs. 4-part handoff compliance rate.
+2. **Review One Escalation Handoff (2 min):** *"On Ticket #4130, you recommended disabling accounts. Did the handoff state the reversibility of the action and what single observation would overturn the hypothesis?"* Coach calibrated handoffs.
+3. **Commitment for Next Week (2 min):** Ensure every leadership summary includes an explicit "Stopping Condition".
+
+---
 
 ## What this lesson does not do
 

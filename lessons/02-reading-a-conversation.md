@@ -92,7 +92,13 @@ http   http.status_code:   200    403     <- one request succeeded, one was refu
 
 > **Running Zeek yourself?** `zeek -C -r assets/pcaps/02-conversation.pcap` writes `conn.log` and `http.log` with Zeek's own field names — `id.orig_h` rather than `source.ip`, `conn_state` rather than `connection.state`. Same data, one stage earlier in the pipeline. [The mapping is here](field-names.md).
 
-## The shape of a conversation
+## Demonstration — Conversation One: Reading Beyond the Handshake
+
+In [narrative episode 01](../narrative/01-who-is-talking-to-whom.md), Ethan thought he understood the first conversation because he recognized the three-way handshake. Then Leah Moreno asked: *"Did the finance export complete?"* Ethan had to admit that while the HTTP status code was `200 OK`, he hadn't actually read the response. 
+
+Here is how an analyst reads a conversation end-to-end across both layers.
+
+### Step 1: Read the Packet Flow in Order
 
 Open the capture. The first ten frames are one complete conversation:
 
@@ -110,63 +116,85 @@ No.  Time      Source          Destination     Info
 10   0.004053  198.51.100.20   192.0.2.10      80 → 42876 [ACK] Seq=209 Ack=153
 ```
 
-Three phases, and you should be able to point at each one:
+Watch the three distinct phases:
 
-**Frames 1–3, the handshake.** SYN, SYN-ACK, ACK. This is the part that proves a two-way path exists. A SYN with no SYN-ACK means your packet arrived nowhere, or the answer could not get back — and those two are very different problems that look identical from here.
+* **Phase 1: The Transport Handshake (Frames 1–3):** `SYN` $\rightarrow$ `SYN, ACK` $\rightarrow$ `ACK`. This proves bidirectional path reachability between the two sockets.
+* **Phase 2: The Application Exchange (Frames 4–7):** The client sends 151 bytes of HTTP request. Frame 5 is the **bare ACK**—the server TCP stack acknowledging receipt before the application processes it. In Frame 6, the application returns `200 OK`.
+* **Phase 3: The Teardown (Frames 8–10):** The server initiates teardown (`FIN, ACK`) because the client sent `Connection: close`.
 
-**Frames 4–7, the exchange.** The client sends 151 bytes of request. Frame 5 is worth its own sentence: it is a **bare ACK carrying no data**, the server saying *received* before it says *answered*. Receipt and response are separate events. When someone reports that a service "didn't respond," the difference between no ACK and an ACK with no reply tells you which half of the system to look at.
+### Step 2: What the Packets Add to the Log
 
-**Frames 8–10, the teardown.** FIN, FIN, ACK — and notice **the server sent the first FIN.** The client asked for the connection to be closed (`Connection: close`) and the server obliged after answering. Who hangs up first is a real signal, and it is one of the first things that changes when something is wrong.
-
-## What the packets add that the log did not
-
-The log told you 151 bytes went out in `client.bytes`. The packets tell you what they were:
+The log showed `client.bytes: 151` and `server.bytes: 207`. The packets reveal the actual dialog:
 
 ```
 GET /api/v2/export?page=1 HTTP/1.1
 Host: files.harrowmere-group.example
 User-Agent: harrow-sync/3.21
-Accept: application/json
-Connection: close
-```
+...
 
-And the answer:
-
-```
 HTTP/1.1 200 OK
 Server: nginx/1.24.0
 Content-Type: application/json
 Content-Length: 90
-X-Request-Id: 7f3a91c2
 
 {"report":"finance-export","rows":1284,"generated":"2026-08-19T09:14:22Z","format":"json"}
 ```
 
-This is the pivot, and it is the working pattern for everything that follows: **the log tells you a conversation happened and roughly what shape it was; the packets tell you what was said.** You go to the log to find the conversation. You go to the capture to read it.
+**The Demonstrated Heuristic:**  
+* The transport layer succeeded (`SF`).
+* The HTTP transaction succeeded (`200 OK`).
+* But the business action did **not** export a file—it returned a *1-page metadata summary*.  
+**One-sentence narration:** *A client running `harrow-sync/3.21` requested a metadata summary for page 1 of a finance export, and the service returned a 90-byte JSON payload describing 1,284 rows before closing the connection.*
 
-**Fixture timestamp limitation:** `generated` is a fixed value in the lab server's response, not a measurement of when this request was served. Its `2026-08-19T09:14:22Z` value is later than the capture's approximately `05:20:35Z` start on that date. Preserve that discrepancy as a property of this synthetic fixture; it does not establish a production clock fault or a real export chronology. This exercise uses packet order and relative timing. A longitudinal case needs independently consistent event timestamps.
+---
 
-Narrated in one sentence: *a host called `harrow-sync/3.21` asked an internal file service for page 1 of a finance export, and the service returned a 90-byte JSON summary describing 1,284 rows.*
+## Guided Practice with Feedback — Conversation Two: The Log Deductions
 
-That sentence contains no judgment. It is what happened.
+Before touching Wireshark for Conversation Two, perform the deductions an analyst must make from the log alone in Hunt:
 
-## Guided practice — what the log alone will tell you
+```
+source.ip: 192.0.2.10    source.port: 42886
+destination.ip: 198.51.100.20    destination.port: 80
+connection.state: SF    event.duration: 0.000184s
+http.method: GET    http.uri: /api/v2/admin/users
+http.status_code: 403    http.status_message: Forbidden
+```
 
-Before you open the second conversation in Wireshark, work it from the log documents at the top of this lesson. You already have every field an analyst in Hunt would have.
+Work through these four guided questions:
 
-This is deliberately the harder direction. In real work the log is what you get first, and deciding what it does and does not establish — *before* you go looking at packets — is most of what stops an investigation wandering.
+### 1. Does `connection.state: SF` mean the request succeeded?
+* Formulate your answer for transport vs. application.
+* **Feedback:** No. `SF` proves TCP delivery succeeded (SYN/FIN completed). It says nothing about whether the application served the data.
 
-1. From `connection.state: SF` alone, write one sentence about the second conversation that you would defend in a meeting. Then write what that sentence does **not** say.
-2. From `http.status_code: 403` alone, do the same.
-3. Those two sentences are both true and they point in opposite directions. Which one answers *"did the network deliver the request?"* and which answers *"did the client get what it asked for?"*
-4. Subtract. The first conversation: `server.bytes` 207, `http.response.body.length` 90. The second: 144 and 44. Do the arithmetic on both, and say what the two results tell you about the part of each response you cannot see in either field.
-5. Name one thing you expect the packets to show you that the log has not, and one thing you expect the packets will not tell you either.
+### 2. Is this the same conversation as Conversation One?
+* Look at the socket pair.
+* **Feedback:** No. Conversation One used ephemeral port `42876`; Conversation Two used `42886`. A new source port defines a completely separate TCP conversation.
 
-No answer key. You are about to open the file, and the file is the answer key — which is the arrangement you want, and almost never get.
+### 3. The Duration Anomaly (0.000184 seconds)
+* What does a total conversation duration of 184 microseconds tell you about the client?
+* **Feedback:** A human cannot navigate to an admin page, type an address, or react in 0.18ms. This request was fired programmatically by an automated client.
 
-## Your work product — the second conversation
+### 4. What is still unknown from the log alone?
+* What can neither `conn.log` nor `http.log` tell you?
+* **Feedback:** The log cannot tell you why the server returned 403 (missing header? bad token? unmapped role?), or whether the client attempted authorization.
 
-Frames 11–20 are the second conversation. Read them yourself and write a description of it.
+---
+
+## Practice Application — Conversation Two: Packet Stream Dissection
+
+Now open the capture in Wireshark or `tshark` and inspect Frames 11–20:
+
+```
+tshark -r assets/pcaps/02-conversation.pcap -Y "frame.number >= 11"
+```
+
+Draft a half-page technical assessment answering:
+
+1. **Narrate the exchange in one sentence:** Who asked what of whom, and what came back? (Zero adjectives about probing or attacks).
+2. **Prove refusal from the packets:** Cite the specific frame number and the exact response payload bytes.
+3. **The Dual-Layer Split:** Explain why saying "the connection failed" is technically false, and state which layer succeeded and which layer refused.
+4. **Who hung up first?** Identify whether the client or server sent the first `FIN`, and contrast with Conversation One.
+5. **The Unobservable Boundaries:** Name at least two things this packet capture structurally cannot prove about authorization.
 
 ```
 tshark -r assets/pcaps/02-conversation.pcap -Y "frame.number >= 11"
@@ -207,6 +235,65 @@ This is also lesson 01's distinction arriving in technical form. *The connection
 - On question 5, did you actually check the response body, or did you infer from the byte count? The file will tell you. Inferring when the answer is available is a habit worth catching early.
 - Did any of your "cannot determine" items turn out to be determinable if you looked harder? That is a good failure. Note which, and what made you assume it was unavailable.
 - If a colleague read your description with no access to the capture, could they say what happened? Could they say what you were unsure of?
+
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+Learning how to read two layers in a lab does not guarantee you will do it on shift when an executive is asking why an application is broken. The tendency to look at only one layer and guess the other is a cognitive default.
+
+### 1. Pinned Desk Aid: The Transport vs. Application Diagnostic Split
+
+Pin this rule to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                     THE DUAL-LAYER DIAGNOSTIC SPLIT (BEFORE YOU ANSWER)                │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ LAYER               │ SOURCE FIELD / EVIDENCE         │ WHAT IT ANSWERS                │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ TRANSPORT LAYER     │ • `connection.state: SF`        │ "Did the network deliver?"     │
+│ (TCP / Delivery)    │ • SYN / SYN-ACK / ACK Handshake │                                │
+│                     │ • TCP Retransmissions / RSTs    │ YES: Network succeeded.       │
+│                     │                                 │ NO: Delivery failed in transit.│
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ APPLICATION LAYER   │ • `http.status_code: 200 / 403` │ "Did the app accept/process?"  │
+│ (HTTP / Processing) │ • Server response payload body  │                                │
+│                     │ • TLS Alert / Handshake Error   │ 200 OK: Application served it. │
+│                     │                                 │ 403/500: App refused or broke. │
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never answer "Did it work?" without naming which layer you are speaking about.   │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero misdiagnosed connection tickets; 100% layer separation.
+
+[ LEAD MEASURE ]: % of triage tickets where Transport Status (Delivery) and Application
+                 Status (Processing) are recorded as separate line items. (Target: 100%)
+
+  DAY       CONVERSATIONS TRIAGED   DUAL-LAYER SEPARATED?   FRAME # PROOF ATTACHED?
+  Mon               [   ]                   [   ]                    [   ]
+  Tue               [   ]                   [   ]                    [   ]
+  Wed               [   ]                   [   ]                    [   ]
+  Thu               [   ]                   [   ]                    [   ]
+  Fri               [   ]                   [   ]                    [   ]
+
+  WEEKLY DUAL-LAYER COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total triage tickets vs. dual-layer split compliance.
+2. **Review One Conversation Ticket (2 min):** *"On Ticket #4021, you reported 'connection succeeded'. Did you check the HTTP status code, or just `conn.log: SF`?"* Coach the distinction.
+3. **Commitment for Next Week (2 min):** Agree on checking application status on all `SF` records before marking as benign.
+
+---
 
 ## What this lesson does not do
 
