@@ -18,7 +18,7 @@ def main(root="."):
     for f in sorted(root.rglob("*.md")):
         if ".git" in f.parts:
             continue
-        for m in LINK.finditer(f.read_text()):
+        for m in LINK.finditer(f.read_text(encoding="utf-8", errors="replace")):
             target = m.group(1).strip()
             if target.startswith(("http://", "https://", "mailto:", "#")):
                 continue

@@ -127,6 +127,7 @@
       auto2top: true,
       relativePath: true,
       homepage: 'README.md',
+      notFoundPage: true,
       search: {
         maxAge: 86400000,
         paths: 'auto',
@@ -153,39 +154,44 @@
 
             function placeTooltip(e) {
               const pad = 14;
-              let x = e.pageX + pad;
-              let y = e.pageY + pad;
+              let x = (e.pageX || (e.touches && e.touches[0] ? e.touches[0].pageX : 0)) + pad;
+              let y = (e.pageY || (e.touches && e.touches[0] ? e.touches[0].pageY : 0)) + pad;
               tooltip.style.left = x + 'px';
               tooltip.style.top = y + 'px';
               const rect = tooltip.getBoundingClientRect();
               if (rect.right > window.innerWidth - 8) {
-                x = e.pageX - rect.width - pad;
+                x = (e.pageX || 0) - rect.width - pad;
                 tooltip.style.left = Math.max(8, x) + 'px';
               }
               if (rect.bottom > window.innerHeight - 8) {
-                y = e.pageY - rect.height - pad;
+                y = (e.pageY || 0) - rect.height - pad;
                 tooltip.style.top = Math.max(window.scrollY + 8, y) + 'px';
               }
             }
 
+            function showTooltip(el, e) {
+              const id = el.getAttribute('data-term');
+              const item = window.__GLOSSARY__[id];
+              if (!item) return;
+
+              ttTier.textContent = (item.category || 'Vocabulary').toUpperCase();
+              ttTitle.textContent = item.title || id;
+              ttBody.textContent = item.definition || '';
+              if (item.context) {
+                ttContext.textContent = item.context;
+                ttContext.style.display = 'block';
+              } else {
+                ttContext.style.display = 'none';
+              }
+              tooltip.style.display = 'block';
+              placeTooltip(e);
+            }
+
             // In-text hover & tap popovers
+            let activeTouchTerm = null;
             document.querySelectorAll('.term').forEach(function(el) {
               el.addEventListener('mouseenter', function(e) {
-                const id = el.getAttribute('data-term');
-                const item = window.__GLOSSARY__[id];
-                if (!item) return;
-
-                ttTier.textContent = (item.category || 'Vocabulary').toUpperCase();
-                ttTitle.textContent = item.title || id;
-                ttBody.textContent = item.definition || '';
-                if (item.context) {
-                  ttContext.textContent = item.context;
-                  ttContext.style.display = 'block';
-                } else {
-                  ttContext.style.display = 'none';
-                }
-                tooltip.style.display = 'block';
-                placeTooltip(e);
+                showTooltip(el, e);
               });
 
               el.addEventListener('mousemove', function(e) {
@@ -195,6 +201,26 @@
               el.addEventListener('mouseleave', function() {
                 tooltip.style.display = 'none';
               });
+
+              // Mobile tap handling
+              el.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                  if (activeTouchTerm === el && tooltip.style.display === 'block') {
+                    tooltip.style.display = 'none';
+                    activeTouchTerm = null;
+                  } else {
+                    activeTouchTerm = el;
+                    showTooltip(el, e);
+                  }
+                }
+              });
+            });
+
+            document.addEventListener('click', function(e) {
+              if (!e.target.closest('.term') && !e.target.closest('#lnk-tooltip')) {
+                tooltip.style.display = 'none';
+                activeTouchTerm = null;
+              }
             });
 
             // Intuitive Term Click: Clicking any term link in the glossary glides to story & flashes
@@ -231,5 +257,7 @@
   <!-- Code highlighting -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-http.min.js"></script>
 </body>
 </html>

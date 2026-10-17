@@ -221,7 +221,7 @@ def check_zeek(path, expected):
                 problems.append(f"no {logname} (zeek wrote: {', '.join(produced) or 'nothing'})")
                 continue
             rows = []
-            with open(os.path.join(d, logname)) as fh:
+            with open(os.path.join(d, logname), encoding="utf-8", errors="replace") as fh:
                 for line in fh:
                     line = line.strip()
                     if line and not line.startswith("#"):
