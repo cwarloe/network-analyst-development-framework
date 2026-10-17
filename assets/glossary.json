@@ -250,5 +250,131 @@
     "definition": "Crafting cleartext Server Name Indication fields requesting trusted company hostnames to fool egress monitoring.",
     "context": "SNI is unauthenticated on the wire; an adversary's client can send any string in ClientHello.",
     "category": "encryption"
+  },
+  "conn_state_sf": {
+    "id": "conn_state_sf",
+    "title": "connection.state: SF",
+    "definition": "Normal SYN/FIN completion in Zeek; both sides cleanly opened and closed the connection.",
+    "context": "Proves transport reachability and orderly socket teardown in both directions.",
+    "category": "transport"
+  },
+  "duration_microsecond": {
+    "id": "duration_microsecond",
+    "title": "Sub-millisecond Duration",
+    "definition": "Session elapsed time recorded in seconds; sub-millisecond durations indicate automated programmatic execution.",
+    "context": "A duration like 0.000184s (184 µs) proves automated software speed rather than human typing.",
+    "category": "telemetry"
+  },
+  "http_403": {
+    "id": "http_403",
+    "title": "403 Forbidden",
+    "definition": "HTTP status code where the server understood the request but actively refused to authorize it.",
+    "context": "Proves the network path and web server are operational; the refusal originates in application authorization.",
+    "category": "application"
+  },
+  "http_200": {
+    "id": "http_200",
+    "title": "200 OK",
+    "definition": "HTTP status code indicating the web server successfully accepted and processed the request.",
+    "context": "Confirms the HTTP exchange succeeded; does not prove whether the payload was the full dataset or just a metadata summary.",
+    "category": "application"
+  },
+  "layer_independence": {
+    "id": "layer_independence",
+    "title": "Layer Independence",
+    "definition": "The principle that transport success (TCP) says nothing about application authorization (HTTP), and vice versa.",
+    "context": "Avoid conflating layer statuses: a successful handshake does not mean an authorized request.",
+    "category": "architecture"
+  },
+  "client_demarcation": {
+    "id": "client_demarcation",
+    "title": "Client Demarcation",
+    "definition": "Determining which host originated a conversation by identifying which socket sent the initial SYN frame.",
+    "context": "Crucial for determining conversation initiator versus responder, regardless of port numbers.",
+    "category": "transport"
+  },
+  "tcp_ack": {
+    "id": "tcp_ack",
+    "title": "TCP Acknowledgment",
+    "definition": "The receiver's TCP stack confirming receipt of bytes, independent of whether the application has processed or answered.",
+    "context": "A bare ACK proves network delivery to the host OS; application think time happens after.",
+    "category": "transport"
+  },
+  "falsifiable_prediction": {
+    "id": "falsifiable_prediction",
+    "title": "Falsifiable Prediction",
+    "definition": "An explicit, written commitment stating what specific network behavior must occur next if a hypothesis is true.",
+    "context": "Writing down predictions before checking subsequent packets prevents hindsight bias.",
+    "category": "judgment"
+  },
+  "connection_reset": {
+    "id": "connection_reset",
+    "title": "Connection Reset (RST)",
+    "definition": "An abrupt termination frame sent by an endpoint indicating rejection, teardown, or abnormal closure.",
+    "context": "A reset is an explicit event with an origin; silence is an absence of observation.",
+    "category": "transport"
+  },
+  "reasoned_revision": {
+    "id": "reasoned_revision",
+    "title": "Reasoned Revision",
+    "definition": "Updating an analytical model based on contradictory evidence rather than rationalizing surprise or defending the previous model.",
+    "context": "Distinguishes disciplined investigation from guessing or defending ego.",
+    "category": "judgment"
+  },
+  "content_type_23": {
+    "id": "content_type_23",
+    "title": "Content Type 23 (Application Data)",
+    "definition": "TLS record type that encapsulates all post-ServerHello handshake messages and application payloads in TLS 1.3.",
+    "context": "In TLS 1.3, certificates and extensions are encrypted under Content Type 23.",
+    "category": "encryption"
+  },
+  "version_freeze": {
+    "id": "version_freeze",
+    "title": "TLS Version 0x0303 Freeze",
+    "definition": "The legacy outer record layer version field frozen at TLS 1.2 to prevent legacy middleboxes from dropping connections.",
+    "context": "Negotiated TLS 1.3 versions are carried inside the supported_versions extension.",
+    "category": "encryption"
+  },
+  "dropped_pipeline_fields": {
+    "id": "dropped_pipeline_fields",
+    "title": "Dropped Pipeline Fields",
+    "definition": "Log fields that exist on network sensors like Zeek but are discarded during ingestion before reaching the SIEM search index.",
+    "context": "Never confuse what the tool pipeline happens to store with what the network actually carried.",
+    "category": "telemetry"
+  },
+  "bounded_claim": {
+    "id": "bounded_claim",
+    "title": "3-Column Bounded Claim",
+    "definition": "Analytical method separating what is directly observable, what is inferable, and what cannot be determined without host telemetry.",
+    "context": "Prevents overreaching and identifies exactly which external data source to consult next.",
+    "category": "judgment"
+  },
+  "conn_state_rej": {
+    "id": "conn_state_rej",
+    "title": "connection.state: REJ",
+    "definition": "Zeek connection state indicating active transport refusal; server OS responded immediately with an RST packet.",
+    "context": "Proves bidirectional reachability; the server host is alive and actively refusing the connection.",
+    "category": "failures"
+  },
+  "conn_state_rstr": {
+    "id": "conn_state_rstr",
+    "title": "connection.state: RSTR",
+    "definition": "Zeek connection state indicating established session aborted by responder; server returned partial data then sent reset.",
+    "context": "Common when application workers crash or timeouts sever the server-side socket.",
+    "category": "failures"
+  },
+  "frame_15_proof": {
+    "id": "frame_15_proof",
+    "title": "Immediate TCP ACK",
+    "definition": "Immediate TCP ACK confirming instant network delivery before application think time begins.",
+    "context": "Separates network latency (< 1ms) from application latency (4+ seconds).",
+    "category": "investigation"
+  },
+  "exponential_backoff": {
+    "id": "exponential_backoff",
+    "title": "Exponential Backoff",
+    "definition": "Client TCP stack doubling retransmission delays across silence (1s, 2s, 4s) when packets are dropped.",
+    "context": "A classic hallmark of silent path drops or dead-end firewall rules.",
+    "category": "transport"
   }
 }

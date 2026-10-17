@@ -110,7 +110,7 @@ Work through these four steps before moving to Case C:
 
 ### 4. What Single Finding Would Shift the Blame?
 * What additional piece of evidence would prove whether the network was involved?
-* **Check:** Measuring TCP round-trip time (RTT) from the Portland client to the server. If RTT is normal ($< 20\text{ms}$) while server response time is 10 seconds, the network is eliminated.
+* **Check:** Measuring TCP round-trip time (RTT) from the Portland client to the server. If RTT is normal (< 20ms) while server response time is 10 seconds, the network is eliminated.
 
 ---
 

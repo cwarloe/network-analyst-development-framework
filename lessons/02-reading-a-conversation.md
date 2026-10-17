@@ -118,7 +118,7 @@ No.  Time      Source          Destination     Info
 
 Watch the three distinct phases:
 
-* **Phase 1: The Transport Handshake (Frames 1–3):** `SYN` $\rightarrow$ `SYN, ACK` $\rightarrow$ `ACK`. This proves bidirectional path reachability between the two sockets.
+* **Phase 1: The Transport Handshake (Frames 1–3):** `SYN` → `SYN, ACK` → `ACK`. This proves bidirectional path reachability between the two sockets.
 * **Phase 2: The Application Exchange (Frames 4–7):** The client sends 151 bytes of HTTP request. Frame 5 is the **bare ACK**—the server TCP stack acknowledging receipt before the application processes it. In Frame 6, the application returns `200 OK`.
 * **Phase 3: The Teardown (Frames 8–10):** The server initiates teardown (`FIN, ACK`) because the client sent `Connection: close`.
 

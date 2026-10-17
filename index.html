@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <style>
     :root {
-      --theme-color: #0d6efd;
+      --theme-color: #0284c7;
       --bg: #0f172a;
       --surface: #1e293b;
-      --primary: #38bdf8;
+      --primary: #0284c7;
       --accent: #f59e0b;
     }
     .sidebar {
@@ -26,39 +26,39 @@
       width: 100%;
     }
 
-    /* LNK In-text Term Hover Affordance */
+    /* Clean In-text Term Mark: subtle tint and underline, NO question mark cursor */
     .term {
-      border-bottom: 1.5px dotted var(--primary);
-      color: #0284c7;
-      cursor: help;
+      border-bottom: 1.5px dotted #0284c7;
+      color: #0369a1;
+      cursor: pointer;
       font-weight: 500;
       border-radius: 2px;
       padding: 0 2px;
       transition: background 0.15s, color 0.15s;
     }
     .term:hover {
-      background: rgba(56, 189, 248, 0.15);
-      color: #0369a1;
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284c7;
     }
 
-    /* Target In-Story Anchor Highlight Animation */
-    :target, .story-highlight {
-      animation: highlight-pulse 2s ease-out;
+    /* Target In-Story Anchor Highlight Animation (LNK Amber Flash) */
+    .term.flash, .story-highlight {
+      animation: highlight-pulse 1.4s ease-out;
       border-radius: 4px;
     }
     @keyframes highlight-pulse {
-      0% { background-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3); }
+      0% { background-color: rgba(245, 158, 11, 0.6); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.35); }
       70% { background-color: rgba(245, 158, 11, 0.25); box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15); }
       100% { background-color: transparent; box-shadow: none; }
     }
 
-    /* LNK Floating Tooltip / Popover */
+    /* Sleek LNK Popover Card */
     #lnk-tooltip {
       position: absolute;
       display: none;
       background: #0f172a;
       border: 1px solid #38bdf8;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.65);
       border-radius: 8px;
       padding: 0.85rem 1rem;
       width: 320px;
@@ -136,14 +136,14 @@
       },
       plugins: [
         function(hook) {
-          // Parse [[id|Surface Text]] into interactive LNK hover elements
+          // Parse [[id|Surface Text]] into interactive LNK hover elements with auto IDs
           hook.beforeEach(function(content) {
-            return content.replace(/\[\[([a-zA-Z0-9_-]+)\|([^\]]+)\]\]/g, function(match, id, text) {
-              return `<span class="term" data-term="${id}">${text}</span>`;
+            return content.replace(/`?\[\[([a-zA-Z0-9_-]+)\|([^\]]+)\]\]`?/g, function(match, id, text) {
+              return `<span class="term" id="term-${id}" data-term="${id}">${text}</span>`;
             });
           });
 
-          // Bind LNK tooltip events and handle anchor jumping
+          // Bind LNK tooltip events and handle intuitive glossary click-to-jump
           hook.doneEach(function() {
             const tooltip = document.getElementById('lnk-tooltip');
             const ttTier = document.getElementById('tt-tier');
@@ -168,6 +168,7 @@
               }
             }
 
+            // In-text hover & tap popovers
             document.querySelectorAll('.term').forEach(function(el) {
               el.addEventListener('mouseenter', function(e) {
                 const id = el.getAttribute('data-term');
@@ -196,17 +197,23 @@
               });
             });
 
-            // Handle smooth scroll & flash for in-story jumps
-            document.querySelectorAll('a[href^="#ref-"]').forEach(function(link) {
+            // Intuitive Term Click: Clicking any term link in the glossary glides to story & flashes
+            document.querySelectorAll('a[href*="#term-"], a[href*="#ref-"]').forEach(function(link) {
               link.addEventListener('click', function(e) {
-                const targetId = link.getAttribute('href').substring(1);
-                const targetEl = document.getElementById(targetId);
+                const href = link.getAttribute('href');
+                const hashIndex = href.indexOf('#');
+                if (hashIndex === -1) return;
+                const targetId = href.substring(hashIndex + 1);
+                const targetEl = document.getElementById(targetId) || document.querySelector(`.term[data-term="${targetId.replace('term-', '')}"]`);
                 if (targetEl) {
                   e.preventDefault();
                   targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  targetEl.classList.remove('story-highlight');
+                  targetEl.classList.remove('flash', 'story-highlight');
                   void targetEl.offsetWidth; // Trigger reflow
-                  targetEl.classList.add('story-highlight');
+                  targetEl.classList.add('flash');
+                  setTimeout(function() {
+                    targetEl.classList.remove('flash');
+                  }, 1400);
                 }
               });
             });

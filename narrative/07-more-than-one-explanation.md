@@ -147,12 +147,12 @@ The shapes on the wire were no longer a confusing tangle of possibilities. They 
 
 ### Vocabulary & Concepts
 
-| Concept / Identifier | Desk Translation |
+| Term | Desk Translation |
 |---|---|
-| [[c2_beaconing|C2 beacon]] | A recurring, scheduled outbound network connection initiated by an implant or background process to check in with an external command-and-control server for new instructions. |
-| [[dns_tunneling|DNS tunneling]] | An evasion and communications technique that encodes non-DNS application data or commands into the subdomains and payload fields of DNS queries and responses. |
-| [[apex_domain|apex domain]] | The root or base domain name (such as `example.com`) directly under the top-level domain, serving as the common administrative entity across multiple distinct subdomains and IP addresses. |
-| [[relational_convergence|relational convergence]] | An analytical finding where multiple superficially independent network behaviors (such as an HTTP poll, a DNS burst, and a file upload) converge upon the same external entity or infrastructure, providing far stronger evidence than any single behavior observed in isolation. |
+| [C2 Beacon](#term-c2_beaconing) | A recurring, scheduled outbound network connection initiated by an implant or background process to check in with an external command-and-control server for new instructions. |
+| [DNS Tunneling](#term-dns_tunneling) | An evasion and communications technique that encodes non-DNS application data or commands into the subdomains and payload fields of DNS queries and responses. |
+| [Apex Domain](#term-apex_domain) | The root or base domain name (such as `example.com`) directly under the top-level domain, serving as the common administrative entity across multiple distinct subdomains and IP addresses. |
+| [Relational Convergence](#term-relational_convergence) | An analytical finding where multiple superficially independent network behaviors (such as an HTTP poll, a DNS burst, and a file upload) converge upon the same external entity or infrastructure, providing far stronger evidence than any single behavior observed in isolation. |
 
 ---
 

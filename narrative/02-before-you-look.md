@@ -100,7 +100,7 @@ Owen sighed. “The next application data will travel from the server to the cli
 
 “Does acknowledgment mean the application accepted the request?”
 
-“No. It means the server’s TCP stack received the bytes.”
+“No. It means the server’s `[[tcp_ack|TCP stack received the bytes]]`.”
 
 “So what assumption is underneath your prediction?”
 
@@ -128,7 +128,7 @@ I thought about the bare acknowledgment in the earlier capture—the server sayi
 
 “Not from that alone.”
 
-Dana nodded. “Now you have a model that can be wrong in a useful way.”
+Dana nodded. “Now you have a `[[falsifiable_prediction|model that can be wrong in a useful way]]`.”
 
 Owen said, “This is the point where she makes you write it down.”
 
@@ -166,9 +166,9 @@ Dana read it.
 
 “What would make you revise?”
 
-“A reset. A close with no response. No response at all.”
+“A `[[connection_reset|reset]]`. A close with no response. No response at all.”
 
-“Those are different results. Would they all produce the same revision?”
+“Those are different results. Would they all produce the same `[[reasoned_revision|revision]]`?”
 
 I started to say yes, then stopped. A reset was an event. Silence was an absence from one observation point. They did not carry the same information.
 
@@ -187,6 +187,17 @@ Dana rested her hand on the hidden rows.
 I was not. That was different from having no prediction.
 
 “Yes.”
+
+---
+
+### Vocabulary & Concepts
+
+| Term | Desk Translation |
+|---|---|
+| [TCP Acknowledgment](#term-tcp_ack) | The receiver's TCP stack confirming receipt of bytes, independent of whether the application has processed or answered. |
+| [Falsifiable Prediction](#term-falsifiable_prediction) | An explicit, written commitment stating what specific network behavior must occur next if a hypothesis is true. |
+| [Connection Reset (RST)](#term-connection_reset) | An abrupt termination frame sent by an endpoint indicating rejection, teardown, or abnormal closure. |
+| [Reasoned Revision](#term-reasoned_revision) | Updating an analytical model based on contradictory evidence rather than rationalizing surprise or defending the previous model. |
 
 ---
 

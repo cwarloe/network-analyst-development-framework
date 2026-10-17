@@ -146,12 +146,12 @@ Across my desk, the four monitors still displayed four different numbers. But th
 
 ### Vocabulary & Concepts
 
-| Concept / Identifier | Desk Translation |
+| Term | Desk Translation |
 |---|---|
-| [[netflow_sampling|sampled NetFlow]] | A network telemetry protocol that exports flow summaries rather than packet payloads, often sampled at a fixed ratio (such as 1 out of every 100 packets) to reduce storage and processing overhead. |
-| [[vpn_hairpin|corporate VPN gateway]] | A network infrastructure boundary where traffic enters an encrypted tunnel, often undergoing address translation, encapsulation, or re-routing before exiting to external networks. |
-| [[rolling_pcap_buffer|rolling packet capture buffer]] | A finite storage disk array configured as a FIFO (First-In, First-Out) ring buffer that continuously captures raw packet bytes until disk capacity forces overwriting the oldest captures. |
-| [[discriminating_pair|discriminating inquiry]] | An analytical strategy that identifies a specific observation that must be present under one hypothesis and absent under another, allowing an analyst to decisively separate competing explanations. |
+| [Sampled NetFlow](#term-netflow_sampling) | A network telemetry protocol that exports flow summaries rather than packet payloads, often sampled at a fixed ratio (such as 1 out of every 100 packets) to reduce storage and processing overhead. |
+| [Corporate VPN Gateway](#term-vpn_hairpin) | A network infrastructure boundary where traffic enters an encrypted tunnel, often undergoing address translation, encapsulation, or re-routing before exiting to external networks. |
+| [Rolling Packet Capture Buffer](#term-rolling_pcap_buffer) | A finite storage disk array configured as a FIFO (First-In, First-Out) ring buffer that continuously captures raw packet bytes until disk capacity forces overwriting the oldest captures. |
+| [Discriminating Inquiry](#term-discriminating_pair) | An analytical strategy that identifies a specific observation that must be present under one hypothesis and absent under another, allowing an analyst to decisively separate competing explanations. |
 
 ---
 

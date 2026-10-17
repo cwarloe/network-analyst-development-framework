@@ -97,7 +97,7 @@ Nia sat back in her chair. The tension that had filled the room began to dispers
 
 She picked up her phone to dial the CIO.
 
-“Okay,” Nia said. “We execute the rollback on the WAN router now. Identity team, take Ethan’s IP list and review the branch executive accounts. Owen, monitor the transit path failure rates for the next fifteen minutes. Ethan, send your technical notes to Owen and your summary slide to my inbox.”
+“Okay,” Nia said. “We execute the rollback on the WAN router now. Identity team, take Ethan’s IP list and review the branch executive accounts. Owen, monitor the transit path failure rates for the next fifteen minutes. Ethan, prepare the `[[two_audience_handoff|technical notes for Owen and your summary slide for my inbox]]`.”
 
 The room broke into purposeful motion. Engineers headed for their keyboards, and managers began coordinating the rollback.
 
@@ -125,12 +125,12 @@ The incident was not over, but the work was moving in the right direction—guid
 
 ### Vocabulary & Concepts
 
-| Concept / Identifier | Desk Translation |
+| Term | Desk Translation |
 |---|---|
-| [[proportionate_action|proportionate action]] | A recommended operational or defensive response whose severity, impact, and disruption are balanced against the strength of the supporting evidence and the reversibility of the decision. |
-| [[confidence_breaker|confidence breaker]] | A specifically named future finding or test result that, if observed, would immediately falsify or dramatically reduce confidence in the currently leading hypothesis. |
-| [[action_reversibility|action reversibility]] | The ease and speed with which an operational or security decision (such as rolling back a route versus wiping an endpoint) can be undone without causing permanent data loss or operational damage. |
-| [[two_audience_handoff|two-audience handoff]] | An analytical communication discipline that presents identical claim strengths and evidence baselines to both technical peers and executive managers while appropriately tailoring technical depth and operational consequences to each group. |
+| [Proportionate Action](#term-proportionate_action) | A recommended operational or defensive response whose severity, impact, and disruption are balanced against the strength of the supporting evidence and the reversibility of the decision. |
+| [Confidence Breaker](#term-confidence_breaker) | A specifically named future finding or test result that, if observed, would immediately falsify or dramatically reduce confidence in the currently leading hypothesis. |
+| [Action Reversibility](#term-action_reversibility) | The ease and speed with which an operational or security decision (such as rolling back a route versus wiping an endpoint) can be undone without causing permanent data loss or operational damage. |
+| [Two-Audience Handoff](#term-two_audience_handoff) | An analytical communication discipline that presents identical claim strengths and evidence baselines to both technical peers and executive managers while appropriately tailoring technical depth and operational consequences to each group. |
 
 ---
 

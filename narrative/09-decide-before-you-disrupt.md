@@ -91,11 +91,11 @@ Then I remembered Dana’s voice from my very first week: *“A mentor who is ne
 
 I pushed my chair back, stood up, and walked straight to Nia’s desk.
 
-“Nia,” I said clearly, loud enough for the operations room to hear. “I need to formally revise my assessment.”
+“Nia,” I said clearly, loud enough for the operations room to hear. “I need to `[[model_revision|formally revise my assessment]]`.”
 
 Nia looked up from her screen, her expression instantly alert. “What changed?”
 
-“My earlier assessment that this traffic was an authorized telemetry check has failed,” I stated, keeping my voice level and controlled. “Cal verified that the destination IP belongs to an unauthorized overseas hosting provider, not our corporate cloud. Leah confirmed that the client binary on `192.0.2.10` does not match our signed release hash. The `sync-telemetry` SNI string was used as a decoy to mimic legitimate infrastructure.”
+“My earlier assessment that this traffic was an authorized telemetry check has failed,” I stated, keeping my voice level and controlled. “Cal verified that the destination IP belongs to an unauthorized overseas hosting provider, not our corporate cloud. Leah confirmed that the client binary on `192.0.2.10` does not match our signed release hash. The `sync-telemetry` SNI string was used as a `[[decoy_sni|decoy]]` to mimic legitimate infrastructure.”
 
 Nia’s eyes narrowed. “What is the revised claim?”
 
@@ -135,12 +135,12 @@ Across the room, the monitors were still active, the alerts were still tracking,
 
 ### Vocabulary & Concepts
 
-| Concept / Identifier | Desk Translation |
+| Term | Desk Translation |
 |---|---|
-| [[staged_c2_channel|staged C2 channel]] | A multi-phase command-and-control connection where initial check-ins use legitimate-looking domain names or small payloads to test egress filtering before escalating to active exfiltration. |
-| [[immediate_containment|immediate containment]] | The rapid network isolation of an endpoint to sever active adversary communication while preserving volatile system memory (RAM) for forensic investigation. |
-| [[model_revision|model revision out loud]] | The professional capability of an analyst to explicitly and publicly abandon a previous analytical hypothesis when new contradictory evidence invalidates its baseline assumptions. |
-| [[decoy_sni|decoy SNI]] | The adversary practice of crafting cleartext Server Name Indication fields in a `ClientHello` that spoof trusted corporate or vendor hostnames to blend into ordinary egress monitoring. |
+| [Staged C2 Channel](#term-staged_c2_channel) | A multi-phase command-and-control connection where initial check-ins use legitimate-looking domain names or small payloads to test egress filtering before escalating to active exfiltration. |
+| [Immediate Containment](#term-immediate_containment) | The rapid network isolation of an endpoint to sever active adversary communication while preserving volatile system memory (RAM) for forensic investigation. |
+| [Model Revision Out Loud](#term-model_revision) | The professional capability of an analyst to explicitly and publicly abandon a previous analytical hypothesis when new contradictory evidence invalidates its baseline assumptions. |
+| [Decoy SNI](#term-decoy_sni) | The adversary practice of crafting cleartext Server Name Indication fields in a `ClientHello` that spoof trusted corporate or vendor hostnames to blend into ordinary egress monitoring. |
 
 ---
 

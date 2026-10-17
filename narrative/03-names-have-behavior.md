@@ -133,4 +133,15 @@ I looked at the blank Wireshark screen one more time. It was no longer a mystery
 
 ---
 
+### Vocabulary & Concepts
+
+| Term | Desk Translation |
+|---|---|
+| [Recursive DNS Resolver](#term-dns_resolver) | A DNS server that accepts queries from clients and queries authoritative nameservers recursively to find the IP address. |
+| [CNAME Record](#term-cname_record) | A Canonical Name DNS record that maps an alias hostname to another true domain name in a lookup chain. |
+| [DNS TTL (Time to Live)](#term-dns_ttl) | A 32-bit field in a DNS resource record defining how many seconds a client or resolver may cache the answer. |
+| [DNS Cache](#term-dns_cache) | Temporary local memory where an operating system or browser stores recent DNS answers to avoid repeat queries. |
+
+---
+
 **What happens next.** [Lesson 03 — Names and Expectations](../lessons/03-names-and-expectations.md) explores how DNS records change over time, how Time to Live values govern client behavior, and why healthy name resolution routinely produces answers that look contradictory if you do not understand how names behave.
