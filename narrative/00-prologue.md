@@ -21,23 +21,23 @@ The ticket said:
 
 > **Possible unauthorized access attempt — internal file service**
 
-Underneath were two lines from a connection log, and I understood almost none of it.
+Underneath were two lines from a [[zeek_conn_log|Zeek connection log (`conn.log`)]], and I understood almost none of it.
 
 I had memorized port numbers on my own time for two years and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `SF` twice, about which I had nothing at all.
 
-Here is what I could actually read. Same workstation, same server, four tenths of a second apart. The first was a `GET` to an export endpoint and it came back `200 OK` with ninety bytes of JSON. The second was a `GET` to `/api/v2/admin/users` and it came back `403 Forbidden` with forty-four bytes.
+Here is what I could actually read: both requests came from the same workstation to the same server, spaced four tenths of a second apart. The first was an HTTP `GET` request to an export [[api_endpoint|API endpoint]], and it returned `200 OK` with ninety bytes of [[json_payload|JSON payload]]. The second was an HTTP `GET` request to `/api/v2/admin/users`, and it returned `403 Forbidden` with forty-four bytes.
 
-`403 Forbidden` I knew. `admin` I knew.
+I knew what a `403 Forbidden` status code meant, and I understood what `admin` implied.
 
-I counted twenty-six pieces of information in front of me and built my answer out of the two I recognized, and I felt the small hot satisfaction of knowing something. Somebody had tried an admin endpoint. The server had said no. That is what the ticket said too, so I was clearly right.
+I counted twenty-six pieces of information in front of me and built my answer out of the two I recognized, and I felt the small hot satisfaction of knowing something. Somebody had attempted to access an admin API endpoint, and the server had refused them. Because that matched the ticket's title, I assumed I was clearly right.
 
 I went and found Dana at her desk and said, "Someone's probing the admin API."
 
-She didn't answer. She has a way of not answering that is not rude and is not friendly either. She just looks at you with mild interest, the way you'd look at a bird doing something unexpected, and waits.
+She didn't answer right away. She has a way of pausing that is neither rude nor warm. She simply looks at you with mild, steady interest, the way you might watch a bird doing something unexpected, and waits.
 
-After about four seconds of that I got uncomfortable enough to keep talking.
+After about four seconds of that silence, I felt uncomfortable enough to keep talking.
 
-"There's a four-oh-three on `/api/v2/admin/users`. From a finance workstation. Four tenths of a second after a successful export."
+"There is a four-oh-three on `/api/v2/admin/users` coming from a finance workstation, four tenths of a second after a successful export."
 
 "Those are three things you saw," she said. "What did you think?"
 
@@ -45,39 +45,39 @@ After about four seconds of that I got uncomfortable enough to keep talking.
 
 "Where did the word *probing* come from?"
 
-I opened my mouth and closed it. I went back to my screen. It was not in the log. It was not in either of those two lines. It was in the ticket title, in the phrase *unauthorized access attempt*, and it had been sitting there before I opened the ticket, and I had spent four minutes assembling a case for a conclusion that somebody I'd never met had handed me on the way in.
+I opened my mouth and closed it. I turned back toward my screen. It was not in the log. It was not in either of those two lines. It was in the ticket title, in the phrase *unauthorized access attempt*, and it had been sitting there before I opened the ticket. I had spent four minutes assembling a case for a conclusion that somebody I had never met handed me on the way in.
 
-That is the whole thing. Nobody tells you that on your first day. I want to be clear that I am not describing a mistake I made and then stopped making. I still do it. Everybody does it. The difference is that now I go looking for the word.
+That is the whole thing. Nobody tells you that on your first day. I want to be clear that I am not describing a mistake I made once and then stopped making. I still catch myself doing it. Everybody does. The difference is that now I go looking for the word.
 
 Dana came over and leaned on the back of my chair.
 
 I told her I hadn't understood most of the columns, and braced for that to turn out to be the real problem.
 
-She looked genuinely uninterested. "Which ones?"
+She looked genuinely unconcerned. "Which ones?"
 
-I listed them. She stopped me about halfway down. "You'll have all of those inside a month and not one of them is the hard part. The hard part is the thing you just did with the word. I've been doing this nine years and I still do it."
+I listed them. She stopped me about halfway down. "You'll have all of those inside a month, and not one of them is the hard part. The hard part is the thing you just did with the word. I've been doing this for nine years and I still have to watch for it."
 
-She moved on. "All right. Somebody's poking at an admin endpoint. Who?"
+She moved on. "All right. Somebody's poking at an admin API endpoint. Who?"
 
 "A user on a finance laptop."
 
 "Show me the user."
 
-I looked. The log had an address. It had a port number. It had how many bytes went each way and how long the whole thing lasted. It did not have a user. It did not have a person, or a process, or a name, or an intention. It had two machines and a number of bytes.
+I looked back at the log. The record showed source and destination IP addresses, port numbers, how many bytes traveled in each direction, and the total session duration. It did not list a user. There was no username, no person, no process name, and no recorded intent—only two machines exchanging a sequence of bytes.
 
 "It's not in there," I said.
 
-"It's not in there," she agreed. "Keep that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
+"It's not in there," she agreed. "Keep hold of that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
 
-Nought point nought nought nought one eight four. I counted the zeros twice. A hundred and eighty-four millionths of a second in the connection log's duration field.
+The value read zero point zero zero zero one eight four. I counted the decimal places twice to be sure. That was one hundred and eighty-four microseconds in the Zeek connection log's `duration` field.
 
-"So," she said. "That's your person. Reading a page, deciding to try an admin URL, typing it in. In under a fifth of a millisecond." She stopped. "No. That's wrong, what I just said. I was about to walk you into it."
+"So," she said, "if that were a human user, they would have had to read the previous page, decide to try an administrative URL, and type it into the browser—all in under a fifth of a millisecond." She stopped herself. "No. That's wrong, what I just said. I was about to walk you into another assumption."
 
-She was quiet for a second, and then: "Look at the agent string on both of them."
+She was quiet for a second, and then: "Look at the [[user_agent_string|HTTP User-Agent string]] on both of them."
 
-They were identical. `harrow-sync/3.21`. The same string on the successful export and on the `403`.
+Both lines were identical: `harrow-sync/3.21`. The exact same string appeared on the successful export and on the `403 Forbidden` response.
 
-"So this is evidence of a software agent, not evidence of a person," she said. "The matching agent strings make one process or workflow plausible. They don't prove it. And the first request went to the export endpoint four tenths of a second earlier and was allowed. Which is a different question than the one the ticket asked, and I nearly got it wrong in front of you, so — that's the other thing to keep. I do this for a living and I still start from the story I walked in with."
+"So this is evidence of a software agent, not evidence of a person," she said. "The matching User-Agent strings make one process or workflow plausible, though they don't prove it. And the first request went to the export endpoint four tenths of a second earlier and was allowed. That points to an entirely different question than the one the ticket asked, and I nearly got it wrong right in front of you. That's the other lesson to keep. I do this for a living and I still catch myself starting from the story I walked in with."
 
 I asked her what it actually was, then. Whether it was bad.
 
@@ -85,7 +85,7 @@ I asked her what it actually was, then. Whether it was bad.
 
 "How do I find out?"
 
-"Some of it you can get from the traffic. Some of it you can't get from the traffic at any price, and knowing which is which is most of the job." She straightened up. "Here's what I actually want from you. Not an answer. Go write down what you *saw*, without any of the words the ticket gave you. Then, separately, write down what you think it might mean. Keep those two apart on the page. When they're apart, come find me."
+"Some of it you can get from the traffic. Some of it you can't get from the traffic at any price, and knowing which is which is most of the job." She straightened up. "Here is what I actually want you to do instead of guessing an answer. Go write down what you *saw*, without using any of the words the ticket handed you. Then, separately, write down what you think those observations might mean. Keep those two things completely apart on the page. Once you have separated them, come find me."
 
 It took me forty minutes and it was the hardest piece of writing I have ever done, and it was six sentences long.
 

@@ -15,255 +15,217 @@
 
 I came back to Dana with six sentences.
 
-The first two were observations. The next three were interpretations. The last one said I did not have enough evidence to decide whether the request was expected or harmful.
+The first two were observations. The next three were interpretations. The last one stated that I did not have enough evidence to decide whether the request was expected or harmful.
 
-I had rewritten them until every sentence sounded as if it had been assembled by a committee. I was proud of them anyway.
+I had rewritten them until every line sounded as if it had been assembled by an audit committee. I was proud of them anyway.
 
-Dana read the page once.
+Dana read the sheet through once.
 
 “This is better.”
 
-It was the first unqualified approval she had given me, and I made the mistake of relaxing.
+It was the first unqualified approval she had given me all week, and I made the immediate mistake of relaxing.
 
-She tapped the first sentence.
-
-“What happened?”
-
-I read it to her. “The workstation made two TCP connections to the internal file service. Both completed normally.”
-
-“That’s what the line says.”
-
-“Right.”
+She tapped the first sentence with the tip of her pen.
 
 “What happened?”
 
-I waited for the question to become a different question. It did not.
+I read it aloud to her: “The workstation made two TCP connections to the internal file service. Both completed normally.”
 
-“The first request succeeded and the second was forbidden.”
+“That is what the log line states,” Dana said evenly. “I’m asking what actually happened on the wire.”
 
-“Better. What did it request?”
+“Right.” I hesitated, waiting for the question to turn into something easier. When it didn't, I tried again. “The first request succeeded with a 200 OK, and the second was forbidden.”
 
-“An export, and then the admin users endpoint.”
+“Better,” she said. “What did the first one request?”
 
-“What did the export contain?”
+“An export endpoint, followed by an administrative users endpoint.”
 
-I looked back at the connection log, as if the answer might have appeared while we were talking. The row had addresses, ports, durations, byte counts, protocol, and state. It did not have an export.
+“And what did the export contain?”
 
-“I don’t know.”
+I looked down at the Zeek connection log (`conn.log`), as if the answer might have quietly appeared in the terminal while we were talking. The row listed IP addresses, port numbers, durations, byte counts, protocol, and connection state. It did not contain an export.
+
+“I don’t know,” I said.
 
 “Then how do you know it was an export?”
 
-“The URI.”
+“From the URI path in the HTTP log,” I said.
 
-“The URI says somebody named an endpoint `export`. Did the service actually export anything?”
+“The URI path only proves that an engineer named an endpoint `export`,” Dana said. “Did the service actually export any data?”
 
-“It returned `200 OK`.”
+“It returned an HTTP `200 OK` status.”
 
-“That answers a different question.”
+“That answers a different question,” she said. “A two-hundred OK only tells you the web server accepted the request and sent a response. It doesn't tell you what was in the payload.”
 
-I could feel the six sentences getting worse while they sat on the desk.
+I could feel my six carefully polished sentences getting weaker as they sat on the desk.
 
-“You told me to separate what I saw from what I thought.”
+“You told me to separate what I observed from what I thought.”
 
-“You did.” She handed the page back. “Now I’m asking whether you understand what you saw.”
+“You did that part correctly,” she said, handing the page back. “Now I’m asking whether you understand what you saw.”
 
-There are moments at the beginning of a new job when you discover that two abilities you had grouped together are not the same ability. Until then, I thought careful wording and technical understanding were two parts of being precise. Dana had separated them with one question.
+There are moments at the beginning of a technical career when you discover that two skills you had grouped together are entirely different abilities. Until that morning, I thought rigorous phrasing and technical understanding were simply two sides of being thorough. Dana had separated them with one question.
 
-I had written an accurate description of a conversation I could not explain.
+I had written a flawless grammatical description of a conversation I could not explain.
 
-“So I need the packets,” I said.
+“So I need to look at the raw packets,” I said.
 
-“Maybe.”
+“Maybe you do,” Dana replied. “What is it you think the packets will give you?”
 
-“The connection log doesn’t have the response body.”
+“The Zeek connection log summarizes bytes and status, but it doesn't show me the response body payload. The packets will actually have the payload.”
 
-“Correct.”
+“In this environment, with unencrypted internal traffic, yes, they will,” she noted.
 
-“The packets do.”
+I caught the qualification. “Only in this environment?”
 
-“These do.”
+“Hold onto that question for when we talk about TLS,” she said. “Today we have plaintext.”
 
-I noticed the qualification. “Not always?”
+She pulled up the [[packet_capture|Wireshark packet capture (`.pcap`)]] on her secondary monitor, opened the file, and stepped aside so I had the keyboard.
 
-“Keep that question. Not for today.”
+The Wireshark packet list displayed a stack of colored rows. I recognized the IP addresses from the Zeek log. I recognized the TCP protocol indicators. I saw `SYN`, then `SYN, ACK`, then `ACK`, and felt a sudden flare of relief because this was one of the textbook diagrams I had spent months memorizing.
 
-She opened the capture and then moved aside before I could pretend I knew what I was looking at.
+“That's the [[tcp_handshake|TCP three-way handshake]],” I said, pointing at the first three packets.
 
-The display was a stack of colored rows. I recognized the addresses from the log. I recognized `TCP`. I saw `SYN`, then `SYN, ACK`, then `ACK`, and felt a small flare of relief because this was one of the diagrams I had memorized.
+“It is,” Dana said. “Now, what does that handshake actually tell you?”
 
-“Three-way handshake,” I said.
+“That the connection succeeded.”
 
-“Yes.”
+“Be specific. Which layer of the connection succeeded?”
 
-I waited for the satisfaction to last longer than it did.
+I paused. She hadn't asked me to define a SYN packet; I had memorized the definition back when I was studying for certifications. She was asking what a completed handshake gave me the right to claim about the network.
 
-“What does that tell you?” she asked.
+“It tells me the transport layer connected,” I said slowly. “The client reached the server's IP address and port, and the server was listening and answered back.”
 
-“The connection succeeded.”
+“Good,” Dana said. “Does that handshake tell you whether the HTTP request succeeded?”
 
-“Which connection?”
+“No. The client hasn't even sent the request yet.”
 
-“The first one.”
-
-“At which layer?”
-
-I stopped.
-
-She had not asked what a SYN was. I knew what a SYN was. She had asked what the completed handshake allowed me to claim.
-
-“The client could reach the server and the server could answer.”
-
-“Good. Does it tell you the request succeeded?”
-
-“No. The request hasn’t happened yet.”
-
-“Does it tell you the client was authorized?”
+“Does it tell you whether the client was authenticated or authorized?”
 
 “No.”
 
-“Does it tell you this is the right server?”
+“Does it tell you that this is the correct server the client meant to talk to?”
 
-“It tells me the server at that address answered.”
+“It only proves that whatever machine is sitting at that IP address accepted the TCP connection.”
 
-Dana nodded. “That distinction will save you a surprising amount of time.”
+Dana nodded. “Keep that distinction in your pocket. It will save you a surprising amount of wasted time.”
 
-Someone stopped beside the desk. She had a laptop under one arm and the contained impatience of a person who had already explained a problem somewhere else.
+Someone stopped beside the desk. She carried a laptop under one arm and had the contained impatience of someone who had already explained the same problem to three other people that morning.
 
 “Dana, are you looking at the Reporting Platform ticket?”
 
 “Ethan is.”
 
-That transferred the impatience to me.
+That neatly transferred the impatience to me.
 
-Dana introduced us. Leah Moreno owned the application side of the Reporting Platform. I recognized her voice from a conversation I had overheard during my first week; this was the first time we had spoken directly. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much work that description concealed.
+Dana introduced us. Leah Moreno owned the application side of the Reporting Platform. I recognized her voice from a conversation I had overheard during my first week; this was the first time we had spoken directly. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much hard-won context that description concealed.
 
-“Did the finance export complete?”
+“Did the finance export complete?” Leah asked.
 
-I looked at the `200 OK` in the log. Then at Dana. She gave me nothing.
+I looked at the `200 OK` in the log, and then glanced at Dana. She gave me nothing.
 
-“The request to the export endpoint received a successful HTTP status,” I said carefully.
+“The request to the export endpoint received a successful HTTP status code,” I said carefully.
 
-Leah waited.
+Leah waited, looking at me with an unblinking stare.
 
 “That isn’t what I asked.”
 
-“No.”
+“No,” I admitted.
 
 “Did the export complete?”
 
-I looked at the packet list again. “I don’t know yet.”
+I looked back at the Wireshark packet list, feeling the uncomfortable gap between an HTTP response header and application reality. “I don’t know yet.”
 
 It sounded weaker out loud than it had in my head.
 
-Leah did not seem offended by it. “All right. What do you know?”
+Leah didn't look annoyed; if anything, she seemed relieved not to be given a false reassurance. “All right. What do you know for certain?”
 
-I pointed at the first rows. “A client opened a TCP connection to the file service. The server answered. The client sent an HTTP request to the export endpoint. The service returned `200 OK`.”
+I pointed at the opening frames. “A client opened a TCP connection to the file service. The server completed the handshake. The client sent an HTTP GET request to the export endpoint, and the service returned a `200 OK`.”
 
 “And?”
 
-“And I haven’t read the response.”
+“And I haven’t read the response payload yet.”
 
 “Good,” Leah said. “Because that endpoint does not return the export.”
 
-I looked at her.
+I looked up at her.
 
-“It returns a summary for one page. The actual export is another workflow.”
+“It returns a summary for one page,” she explained. “The actual data export runs through an entirely different workflow.”
 
-Dana asked, “How would he have known that?”
+Dana asked, “How would he have known that from the network data?”
 
-“From the response body. Or from me. Not from the endpoint name.”
+“From the response body,” Leah said. “Or from asking me. But definitely not from the endpoint name.”
 
-Different people can say the same thing in ways that produce different feelings. When Dana said *not from the endpoint name*, it sounded like a lesson. When Leah said it, it sounded like the system did not care what I had assumed.
+Different people can say the exact same words in ways that produce completely different reactions. When Dana said *not from the endpoint name*, it sounded like an instructional guideline. When Leah said it, it sounded like the production environment didn't care what assumptions I had brought to work.
 
-We opened the first stream. The body was short JSON. It named a finance export, said it covered 1,284 rows, and identified the format. It was a description of work, not the work itself.
+Dana right-clicked the HTTP packet and selected Follow TCP Stream. We inspected the first [[tcp_stream|TCP stream]]. The payload was a short JSON object. It referenced a finance export, indicated that it covered 1,284 rows, and specified the file format. It was a metadata description of work, not the work itself.
 
-My six sentences had called the first request “a successful export.”
+My six sentences had confidently called that first request “a successful export.”
 
-That was not what the evidence said. The evidence said the service successfully returned a summary.
+That was not what the evidence showed. The evidence showed that the service had successfully returned a summary record.
 
-“So the network worked,” I said, “and the HTTP request succeeded, but I still can’t say the export completed.”
+“So the transport network worked,” I said, “and the HTTP request succeeded, but I still can’t say the export itself took place.”
 
-Leah nodded. “Now you’re asking my question.”
+Leah nodded once. “Now you’re asking my question.”
 
-She left us with the ticket still open.
+She left us with the ticket still open on the screen.
 
-I looked at the second connection. Same source address. Same destination address. Different source port. Same user-agent string. A request to `/api/v2/admin/users`. `403 Forbidden`.
+Once Leah headed back toward the development pods, I turned back to the capture to examine the second connection.
+
+The Zeek log showed the same source IP address and destination IP address, but the client was using a different [[ephemeral_port|ephemeral source port]]—42886 instead of 42876. The HTTP User-Agent string matched identically. This time, the client requested `/api/v2/admin/users`, and the server returned a `403 Forbidden`.
 
 “It’s the same client,” I said.
 
-Dana tilted her head.
+Dana tilted her head slightly, waiting.
 
-I tried again. “The same source address.”
+“It has the same source IP address and the same User-Agent string,” I added, trying to support the claim.
 
-Nothing.
+“Those are observations,” Dana said. “They make it plausible that the same client software generated both requests, but they don't prove it. Multiple processes or users behind a NAT or sharing a workstation can originate from the same IP address.”
 
-“The same user-agent.”
+“And the client used a different source port,” I noted, pointing at the numbers. “Because the operating system opened a fresh socket, these are technically two distinct TCP connections.”
 
-“Those are observations.”
+“Exactly,” Dana said. “So you have to stop speaking about ‘the connection’ as if this entire ticket were a single event.”
 
-“They support it being the same software.”
+Dana pulled her chair closer. “Now walk me through the first conversation from start to finish.”
 
-“They do.”
+I started with the handshake, because I knew the protocol terms.
 
-“But they don’t prove it.”
+She stopped me immediately. “Don't just recite packet names. Tell me what the two machines actually did.”
 
-“They don’t.”
+I took a breath and started over.
 
-I pointed at the two source ports. “And these are separate connections.”
+“A client initiated contact with the internal file service.”
 
-“Yes.”
+“How do you know which host was the client?”
 
-“So I need to stop talking about ‘the connection’ as if the whole ticket is one event.”
+I checked which IP sent the initial SYN frame.
 
-Dana pulled her chair over. “Tell me the first conversation.”
-
-I started with the handshake, because I knew its name.
-
-She stopped me. “Not the packet names. Tell me what the machines did.”
-
-I started again.
-
-“A client contacted the internal file service.”
-
-“How do you know which one was the client?”
-
-I looked at who sent the first SYN.
-
-“It started the connection.”
+“It started the connection by sending the opening SYN.”
 
 “Good. Continue.”
 
-“It asked for the first page of a finance export summary. The service returned JSON describing 1,284 rows. Then the service closed the connection.”
+“It asked for the first page of a finance export summary. The service returned a JSON payload describing 1,284 rows. Then the service initiated a clean teardown to close the connection.”
 
-“Now the second.”
+“Now walk me through the second conversation,” Dana said.
 
-I could read enough of it to know where the traps were. That was not the same thing as being able to narrate it.
+I looked at the packets, knowing where the traps lay, but realizing that recognizing fields wasn't the same as narrating an event. At the transport layer, the TCP connection established and tore down cleanly. At the application layer, the server rejected the administrative request with a 403 Forbidden. The source IP address was identical, but the client negotiated a new ephemeral port. The User-Agent string matched, and the server closed both sessions after responding.
 
-The connection was successful. The request was refused. The source address was the same. The source port was different. The user-agent matched. The server closed both conversations. Each statement was easy by itself. Together they kept trying to become a story about a person, a program, or an attack.
+Each fact was straightforward in isolation, but my mind kept wanting to stitch them together into an unverified story about a malicious user, a compromised workstation, or a rogue script.
 
-“I need to go through it in order,” I said.
+“I need to reconstruct the sequence strictly in order,” I said. “First the transport establishment, then the application request, and then the teardown.”
 
-“Yes.”
+“Right,” Dana agreed. “And at every step, make sure you know which network layer is answering the question. Don't let an endpoint name or a status code do your thinking for you.”
 
-“And keep asking which layer each answer belongs to.”
+Dana pushed her chair back and stood up. “That ought to keep you occupied for the afternoon.”
 
-“Yes.”
+“Are you going to tell me what that software was actually doing?” I asked.
 
-“And not use the endpoint name as an explanation.”
+“Leah might tell both of us eventually,” she said with a faint smile. “But before that happens, I want to see if you can explain what the traffic shows without forcing the application owner to correct assumptions you smuggled into the report.”
 
-Dana stood. “That should keep you busy.”
+She walked back toward her desk.
 
-“Are you going to tell me what the software was doing?”
+I opened a clean document and laid the evidence for the two conversations side by side.
 
-“Leah may eventually tell both of us. But first I want to know whether you can tell her what the network shows without making her correct the parts you invented.”
+This time, I didn't reach for familiar jargon or guess at human intentions.
 
-She walked away.
-
-I opened a blank page and put the two conversations side by side.
-
-This time I did not begin with the words I recognized.
-
-I began with who spoke first.
+I began with which host spoke first.
 
 ---
 

@@ -56,13 +56,14 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 
 ## Status
 
-**Three chapters.** The first production slice now carries the learner from separating observation and interpretation, through reading a conversation, to the need for prediction and visible revision. The Episode 3 technical exercise is now built on the curriculum side and closes that handoff debt.
+**Four chapters.** The narrative track carries the learner from separating observation and interpretation, through reading a conversation and making visible predictions, to understanding vantage-dependent observation and name caching.
 
 | | Chapter | Leads into |
 |---|---|---|
 | 00 | [The Word in the Ticket](00-prologue.md) | [Lesson 01](../lessons/01-what-the-analyst-is-for.md) |
 | 01 | [Who Is Talking to Whom?](01-who-is-talking-to-whom.md) | [Lesson 02](../lessons/02-reading-a-conversation.md) |
 | 02 | [Before You Look](02-before-you-look.md) | [Episode 3 technical lesson](../lessons/e03-before-you-look/README.md) — built |
+| 03 | [Names Have Behavior](03-names-have-behavior.md) | [Lesson 03](../lessons/03-names-and-expectations.md) |
 
 The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
 
