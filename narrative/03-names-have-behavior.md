@@ -144,4 +144,9 @@ I looked at the blank Wireshark screen one more time. It was no longer a mystery
 
 ---
 
-**What happens next.** [Lesson 03 — Names and Expectations](../lessons/03-names-and-expectations.md) explores how DNS records change over time, how Time to Live values govern client behavior, and why healthy name resolution routinely produces answers that look contradictory if you do not understand how names behave.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 03 — Names and Expectations</div>
+  <p class="bridge-desc">Explore how DNS records change over time, how Time to Live (TTL) values govern client caching behavior, and why healthy name resolution routinely produces answers that look contradictory without temporal context.</p>
+  <a href="#/lessons/03-names-and-expectations" class="bridge-btn">Start Lesson 03 →</a>
+</div>

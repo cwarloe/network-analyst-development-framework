@@ -160,15 +160,15 @@ Owen laughed, but not at me.
 
 I wrote:
 
-> The client established a two-way connection and delivered a request to the server. I expect the next application data to come from the server to the client if the application handles the request. A TCP acknowledgment alone does not predict whether that response will indicate success.
+> The client established a two-way connection and delivered a request to the server. I expect the next application data to come from the server to the client if the application handles the request. A [[tcp_ack|TCP acknowledgment]] alone does not predict whether that response will indicate success.
 
 Dana read it.
 
 “What would make you revise?”
 
-“A `[[connection_reset|reset]]`. A close with no response. No response at all.”
+“A [[connection_reset|reset]]. A close with no response. No response at all.”
 
-“Those are different results. Would they all produce the same `[[reasoned_revision|revision]]`?”
+“Those are different results. Would they all produce the same [[reasoned_revision|revision]]?”
 
 I started to say yes, then stopped. A reset was an event. Silence was an absence from one observation point. They did not carry the same information.
 

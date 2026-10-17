@@ -230,6 +230,13 @@ Every Friday morning:
 
 ---
 
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 04 (Story) — What Encryption Leaves Behind</div>
+  <p class="bridge-desc">You now understand how names behave and why healthy DNS changes over time. But what happens when the session transitions into TLS? Watch Ethan and Dana confront encrypted payloads and discover what evidence remains visible.</p>
+  <a href="#/narrative/04-what-encryption-leaves-behind" class="bridge-btn">Continue to Chapter 04 →</a>
+</div>
+
 ## What this lesson does not do
 
 The capture is eight lookups from one client against one public resolver. That is enough to demonstrate the shapes; it is nowhere near enough to baseline a real environment, which would need volume, time, and every resolver in use.
