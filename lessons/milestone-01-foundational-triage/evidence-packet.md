@@ -64,3 +64,4 @@ Extracted from Zeek protocol dissection for Connection `C-1`:
 ## Item E-05: Colleague's Escalation Handoff
 Received from Tier-1 Analyst:
 > *"WS-108 is infected. It ran two rapid DNS lookups to different IPs within 43 seconds (clearly DNS fast-flux or poisoning), then attempted to probe the internal file server admin portal which failed, and then dumped 4.8 MB of staged data out to an external cloud IP over encrypted port 443. Recommend immediate network isolation of WS-108."*
+

@@ -56,3 +56,4 @@ Look for the application of baseline heuristics:
 | **OC-1 / OC-2 (Layered Reasoning)** | Distinguishes TCP `SF` delivery from HTTP `403` authorization. | Calls the connection "failed" without naming the layer. |
 | **OC-3 (Normal Baselines)** | Explains short TTLs and CDN pool rotation as expected cloud behavior. | Panics over changing IP addresses within TTL windows. |
 | **JU-4 (Proportionate Action)** | Recommends application owner verification; avoids disruptive isolation. | Recommends taking down an executive's workstation. |
+
