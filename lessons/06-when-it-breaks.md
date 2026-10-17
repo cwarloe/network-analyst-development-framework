@@ -247,6 +247,68 @@ It must contain:
 - Would your write-up survive one of these faults turning out to be deliberate — a firewall rule someone added on purpose? Nothing here proves intent either way, and your language should reflect that.
 - On fragmentation: did you describe it as a network fault, an application fault, or a policy decision? A defensible answer exists for more than one of those, and which you chose says something about how you framed the question.
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+In enterprise operations, the "IT ping-pong game" wastes hundreds of hours every month. A ticket says "network is broken," gets assigned to network engineering, sits for two days, and is returned as "server issue." Tracking the upstream diagnostic lead measure on the desk eliminates this waste.
+
+### 1. Pinned Desk Aid: Triage Before You Escalate (5-Second Matrix)
+
+Pin this to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        TRIAGE BEFORE YOU ESCALATE (5-SECOND CHECK)                     │
+├─────────┬───────────────────┬─────────────────────────────────┬───────────────────────┤
+│ STATE   │ WHAT HAPPENED     │ WHAT IT PROVES                  │ CAUSAL DOMAIN / OWNER │
+├─────────┼───────────────────┼─────────────────────────────────┼───────────────────────┤
+│ REJ     │ Instant RST-ACK   │ Path & routing 100% healthy!   │ Systems / Host OS     │
+│         │ (< 1ms)           │ Host is up; port is closed.     │ (Service daemon down) │
+├─────────┼───────────────────┼─────────────────────────────────┼───────────────────────┤
+│ S0      │ Repeated SYNs,    │ Delivery failed. No packets     │ Network Infrastructure│
+│         │ zero reply        │ returned.                       │ (Routing, drop rules) │
+├─────────┼───────────────────┼─────────────────────────────────┼───────────────────────┤
+│ SF      │ Normal handshake, │ Network delivered immediately.  │ App / Database Service│
+│ (Slow)  │ long duration     │ Delay is internal server think. │ (Query optimization)  │
+├─────────┼───────────────────┼─────────────────────────────────┼───────────────────────┤
+│ RSTR    │ 200 OK sent, then │ Truncation. Header promised     │ Application Developer │
+│         │ reset abruptly    │ more bytes than delivered.      │ (Unhandled exception) │
+├─────────┼───────────────────┼─────────────────────────────────┼───────────────────────┤
+│ Silent  │ Queries time out; │ Large UDP split into fragments; │ Security Policy       │
+│ Timeout │ no error logged   │ non-initial fragments dropped.  │ (Permit fragments/TCP)│
+└─────────┴───────────────────┴─────────────────────────────────┴───────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero misrouted outage tickets; < 5 emergency bridge escalations/month.
+
+[ LEAD MEASURE ]: % of reported "outage / slow app" tickets where Connection State and
+                 Delta Time were documented BEFORE assigning ticket to any team. (Target: 100%)
+
+  DAY       OUTAGE TICKETS   STATE IDENTIFIED?   DELTA TIME LOGGED?   PROPER OWNER ASSIGNED?
+  Mon             [   ]             [   ]                 [   ]                 [   ]
+  Tue             [   ]             [   ]                 [   ]                 [   ]
+  Wed             [   ]             [   ]                 [   ]                 [   ]
+  Thu             [   ]             [   ]                 [   ]                 [   ]
+  Fri             [   ]             [   ]                 [   ]                 [   ]
+
+  WEEKLY TRIAGE ACCURACY: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total outage tickets triaged vs. connection state verification rate.
+2. **Review One Escalation (2 min):** *"On Ticket #4120, the ticket was assigned to the network team for `REJ`. Walk me through the frame timestamps—what proved the network delivered?"* Coach the `REJ` heuristic.
+3. **Commitment for Next Week (2 min):** Verify frame 15 ACK times on any ticket claiming "the network is slow."
+
+---
+
 ## What this lesson does not do
 
 It does not cover packet loss or induced latency. Both need traffic impairment the [capture lab](../lab/README.md) cannot produce without `NET_ADMIN`, and they remain a real gap.
