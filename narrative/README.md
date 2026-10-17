@@ -56,7 +56,7 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 
 ## Status
 
-**Seven chapters.** The narrative track carries the learner from separating observation and interpretation, through reading a conversation, predicting name lifecycles, establishing bounded claims under encryption, evaluating sensor vantage points, to reading structural failure signatures.
+**Ten chapters.** The complete narrative track spans Ethan's development from day one through the independent capstone: separating observation from interpretation, reading conversations, predicting name behaviors, bounding claims under encryption, reconciling vantage contradictions, classifying conversation failure states, competing explanations, proportionate handoffs under pressure, and visible model revision.
 
 | | Chapter | Leads into |
 |---|---|---|
@@ -67,6 +67,9 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 | 04 | [What Encryption Leaves Behind](04-what-encryption-leaves-behind.md) | [Lesson 04](../lessons/04-what-encryption-hides.md) |
 | 05 | [Where Are You Standing?](05-where-are-you-standing.md) | [Lesson 05](../lessons/05-vantage-point-and-evidence.md) |
 | 06 | [Conversations Have Structure](06-conversations-have-structure.md) | [Lesson 06](../lessons/06-when-it-breaks.md) |
+| 07 | [More Than One Explanation](07-more-than-one-explanation.md) | [Lesson 07](../lessons/07-when-its-suspicious.md) |
+| 08 | [What Can You Responsibly Say?](08-what-can-you-responsibly-say.md) | [Lesson 08](../lessons/08-judgment-and-handoff.md) |
+| 09 | [Decide Before You Disrupt](09-decide-before-you-disrupt.md) | [Lesson 09 Capstone: Encrypted Outbound Traffic](../lessons/09-capstone-encrypted-outbound-traffic/README.md) |
 
 The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
 
