@@ -208,6 +208,65 @@ This is also lesson 01's distinction arriving in technical form. *The connection
 - Did any of your "cannot determine" items turn out to be determinable if you looked harder? That is a good failure. Note which, and what made you assume it was unavailable.
 - If a colleague read your description with no access to the capture, could they say what happened? Could they say what you were unsure of?
 
+---
+
+## The 4DX In-The-Flow-of-Work Transfer System
+
+Learning how to read two layers in a lab does not guarantee you will do it on shift when an executive is asking why an application is broken. The tendency to look at only one layer and guess the other is a cognitive default.
+
+### 1. Pinned Desk Aid: The Transport vs. Application Diagnostic Split
+
+Pin this rule to your monitor:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                     THE DUAL-LAYER DIAGNOSTIC SPLIT (BEFORE YOU ANSWER)                │
+├─────────────────────┬─────────────────────────────────┬────────────────────────────────┤
+│ LAYER               │ SOURCE FIELD / EVIDENCE         │ WHAT IT ANSWERS                │
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ TRANSPORT LAYER     │ • `connection.state: SF`        │ "Did the network deliver?"     │
+│ (TCP / Delivery)    │ • SYN / SYN-ACK / ACK Handshake │                                │
+│                     │ • TCP Retransmissions / RSTs    │ YES: Network succeeded.       │
+│                     │                                 │ NO: Delivery failed in transit.│
+├─────────────────────┼─────────────────────────────────┼────────────────────────────────┤
+│ APPLICATION LAYER   │ • `http.status_code: 200 / 403` │ "Did the app accept/process?"  │
+│ (HTTP / Processing) │ • Server response payload body  │                                │
+│                     │ • TLS Alert / Handshake Error   │ 200 OK: Application served it. │
+│                     │                                 │ 403/500: App refused or broke. │
+├─────────────────────┴─────────────────────────────────┴────────────────────────────────┤
+│ RULE: Never answer "Did it work?" without naming which layer you are speaking about.   │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2. The Analyst's Daily 4DX Scorecard
+
+```
+WEEKLY 4DX SCORECARD — ANALYST: [ ____________ ]  WEEK OF: [ _________ ]
+
+[ WIG / LAG TARGET ]: Zero misdiagnosed connection tickets; 100% layer separation.
+
+[ LEAD MEASURE ]: % of triage tickets where Transport Status (Delivery) and Application
+                 Status (Processing) are recorded as separate line items. (Target: 100%)
+
+  DAY       CONVERSATIONS TRIAGED   DUAL-LAYER SEPARATED?   FRAME # PROOF ATTACHED?
+  Mon               [   ]                   [   ]                    [   ]
+  Tue               [   ]                   [   ]                    [   ]
+  Wed               [   ]                   [   ]                    [   ]
+  Thu               [   ]                   [   ]                    [   ]
+  Fri               [   ]                   [   ]                    [   ]
+
+  WEEKLY DUAL-LAYER COMPLIANCE: [ _____ / _____ ] = [ _____ % ]
+```
+
+### 3. The 5-Minute Friday Supervisor Huddle
+
+Every Friday morning:
+1. **Review the Scorecard (1 min):** Check total triage tickets vs. dual-layer split compliance.
+2. **Review One Conversation Ticket (2 min):** *"On Ticket #4021, you reported 'connection succeeded'. Did you check the HTTP status code, or just `conn.log: SF`?"* Coach the distinction.
+3. **Commitment for Next Week (2 min):** Agree on checking application status on all `SF` records before marking as benign.
+
+---
+
 ## What this lesson does not do
 
 It does not establish that this traffic is normal or abnormal. Two conversations from one client is not a baseline, and lesson 03 is where expected behavior starts being built deliberately.
