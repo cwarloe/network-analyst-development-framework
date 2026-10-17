@@ -21,7 +21,9 @@ So this lesson is about failure. Four connections, one user complaint, four diff
 
 ## The situation
 
-> Users report that the finance application "isn't working." Some say it hangs. Some say it errors immediately. One says it is "just slow." The application talks to four backend services. You have a capture of one client's attempts to reach all four.
+In Episode 05 (*Conversations Have Structure*), several Harrowmere departments log tickets with essentially the same symptom: *"It won't connect."* Owen from Network Engineering insists the routing is clean, while application teams blame the core switches. Ethan is tempted to lump all the tickets together as a generic "connectivity outage." Dana stops him: *"Look at the conversation history before you assign a single owner."*
+
+> **The Ticket:** Users report that the finance application "isn't working." Some say it hangs. Some say it errors immediately. One says it is "just slow." The application talks to four backend services. You have a capture of one client's attempts to reach all four.
 
 That spread of descriptions is not users being unhelpful. It is the actual signature of four different faults, arriving as one ticket.
 
@@ -208,19 +210,37 @@ The consequence is concrete. A detection that counts `connection.state:S0` per h
 
 **A log is a rendering of events under a set of rules, not the events.** Knowing the rules of your own logs is part of knowing your evidence, which is what [lesson 05](05-vantage-point-and-evidence.md) was about.
 
-## Guided practice — predict, then check
+## Guided Practice with Immediate Feedback — Classify the Four Backends
 
-Do this before writing anything up, and write your predictions down first — the value is in being wrong on paper.
+Before writing your final assessment, stop and commit your diagnostic predictions for all four backend targets. Dana gives Ethan five minutes to fill out this table:
 
-For each of the four servers, predict:
+| Target IP | Zeek `conn_state` | User-Reported Symptom | True Causal Domain / Owner | Decisive Frame or Timestamp Proof |
+|---|---|---|---|---|
+| `198.51.100.30` | | | | |
+| `198.51.100.20` | | | | |
+| `198.51.100.50` | | | | |
+| `198.51.100.40` | | | | |
 
-1. What the user's description of the symptom would be, in their words.
-2. Which team owns the fix.
-3. What one additional piece of evidence would most increase your confidence.
+Write your predictions in your notes before checking the feedback below.
 
-Then check your predictions against the capture, and **record every place you were wrong.** Revising a model when a prediction fails is the capability this lesson exists to build; getting the predictions right on the first pass is not the point and does not develop it.
+---
 
-## Your work product
+### Guided Practice Feedback & Coaching Debrief
+
+Check your predictions against the expert triage matrix:
+
+| Target IP | State | User Symptom | True Owner | Decisive Frame Proof | Novice Trap to Catch |
+|---|---|---|---|---|---|
+| `198.51.100.30` | `REJ` | *"Immediate connection refused error"* | **Systems / Host Admin** (Service not listening or host firewall) | Frame 2: RST-ACK returned in 11 microseconds. | Routing to Network Engineering. Frame 2 proves the network delivered bidirectionally in under 1ms. |
+| `198.51.100.20` | `S0` | *"Application hangs for 15+ seconds, then times out"* | **Network Engineering** (Routing dead-end or firewall silent drop) | Frames 21–28: 8 SYNs sent with exponential backoff; 0 return bytes. | Assuming the server is "busy". Zero bytes returned across 11 seconds indicates delivery failure on the path. |
+| `198.51.100.50` | `SF` | *"Application is terribly slow"* | **Application / Database Team** (Slow query / server compute delay) | Frame 15: Server TCP ACK arrives in 0.2ms; Frame 16: HTTP 200 payload delayed by 4.0004s. | Escalating "network latency." The network delivered instantly; the 4-second delay was server-side think time. |
+| `198.51.100.40` | `RSTR` | *"Report crashes midway / partial data"* | **Application Developer** (Application crash or buffer abort) | Frame 8: `Content-Length: 5000` advertised; Frame 10: RST-ACK sent after only 400 bytes payload. | Believing HTTP `200 OK` means the request succeeded. The status code preceded an unhandled backend crash. |
+
+> **Dana's Coaching Note:** Notice that of the four backends, **only `198.51.100.20` (S0) is a true network infrastructure issue.** Routing the other three to Network Engineering guarantees days of wasted ping-pong.
+
+---
+
+## Your Work Product (Targeted Practice Application)
 
 Write a **diagnosis of about a page** for the ticket that says "the finance application isn't working."
 
