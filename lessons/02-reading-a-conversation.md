@@ -180,37 +180,86 @@ Work through these four guided questions:
 
 ---
 
+## Part-Task Automation Micro-Drills
+
+Before writing your technical assessment, build automaticity on the two most common cognitive friction points in conversation analysis.
+
+### Drill 2.1: The 30-Second Layer Decoupler (Speed Rep)
+
+In production triage, your brain will instinctively try to collapse transport state and application state into one verdict ("It worked" or "It broke"). 
+
+**Your Task:** Classify each of these 5 telemetry pairs in under 30 seconds into **Transport Delivery** vs. **Application Processing**:
+
+1. `conn.log: SF` + `http.log: 403 Forbidden`
+   - **Transport Layer:** [ Delivered | Dropped / Unreached | Refused / Reset ]
+   - **Application Layer:** [ Accepted / Success | Refused / Error | Unreached ]
+2. `conn.log: S0` + `http.log: — (absent)`
+   - **Transport Layer:** [ Delivered | Dropped / Unreached | Refused / Reset ]
+   - **Application Layer:** [ Accepted / Success | Refused / Error | Unreached ]
+3. `conn.log: REJ` + `http.log: — (absent)`
+   - **Transport Layer:** [ Delivered | Dropped / Unreached | Refused / Reset ]
+   - **Application Layer:** [ Accepted / Success | Refused / Error | Unreached ]
+4. `conn.log: SF` + `http.log: 200 OK`
+   - **Transport Layer:** [ Delivered | Dropped / Unreached | Refused / Reset ]
+   - **Application Layer:** [ Accepted / Success | Refused / Error | Unreached ]
+5. `conn.log: RSTR` + `http.log: 500 Internal Server Error`
+   - **Transport Layer:** [ Delivered | Dropped / Unreached | Refused / Reset ]
+   - **Application Layer:** [ Accepted / Success | Refused / Error | Unreached ]
+
+<details class="reveal-gate">
+  <summary>🔍 Check Your Layer Decoupling Key</summary>
+  <div class="reveal-content">
+    <ol>
+      <li><strong>Pair 1:</strong> Transport Delivered (<code>SF</code>) | Application Refused (<code>403</code>). <em>The network did its job cleanly; the web application denied authorization.</em></li>
+      <li><strong>Pair 2:</strong> Transport Dropped/Unreached (<code>S0</code> = SYN seen, no SYN-ACK) | Application Unreached. <em>No session ever reached the web daemon.</em></li>
+      <li><strong>Pair 3:</strong> Transport Refused (<code>REJ</code> = OS reset handshake) | Application Unreached. <em>Port closed or rejected by host firewall.</em></li>
+      <li><strong>Pair 4:</strong> Transport Delivered (<code>SF</code>) | Application Accepted (<code>200</code>). <em>Both layers succeeded.</em></li>
+      <li><strong>Pair 5:</strong> Transport Aborted by Responder (<code>RSTR</code>) | Application Error (<code>500</code>). <em>Application encountered an unhandled server error and reset the connection.</em></li>
+    </ol>
+  </div>
+</details>
+
+### Drill 2.2: The Bare ACK Hunter (15-Second Spotting Rep)
+
+Inspect Frames 13–18 in `assets/pcaps/02-conversation.pcap`:
+
+```
+13  0.000000000  192.0.2.10     80     0   [SYN]
+14  0.000101000  198.51.100.20  42886  0   [SYN, ACK]
+15  0.000118000  192.0.2.10     80     0   [ACK]
+16  0.000164000  192.0.2.10     80     149 [ACK, PSH] GET /admin HTTP/1.1
+17  0.000184000  198.51.100.20  42886  0   [ACK]
+18  0.000215000  198.51.100.20  42886  144 [ACK, PSH] HTTP/1.1 403 Forbidden
+```
+
+**Question:** Which frame is the **Bare ACK** confirming delivery of the client request bytes *before* the application produces its answer?
+
+<details class="reveal-gate">
+  <summary>🔍 Check Frame Answer</summary>
+  <div class="reveal-content">
+    <p><strong>Answer: Frame 17.</strong> It carries <code>tcp.len == 0</code> from <code>198.51.100.20</code> to <code>192.0.2.10</code>. It proves the receiver's OS TCP stack acknowledged receipt of the 149 request bytes at 0.184ms, exactly 31 microseconds before the web server application emitted its 144-byte <code>403 Forbidden</code> response in Frame 18.</p>
+  </div>
+</details>
+
+---
+
 ## Practice Application — Conversation Two: Packet Stream Dissection
 
-Now open the capture in Wireshark or `tshark` and inspect Frames 11–20:
+Now open the capture in Wireshark (right-click any frame from 11 onward → Follow → TCP Stream) or inspect with `tshark`:
 
 ```
 tshark -r assets/pcaps/02-conversation.pcap -Y "frame.number >= 11"
 ```
 
-Draft a half-page technical assessment answering:
+Write **half a page** answering all of the following. Every answer is checkable against the file:
 
-1. **Narrate the exchange in one sentence:** Who asked what of whom, and what came back? (Zero adjectives about probing or attacks).
-2. **Prove refusal from the packets:** Cite the specific frame number and the exact response payload bytes.
-3. **The Dual-Layer Split:** Explain why saying "the connection failed" is technically false, and state which layer succeeded and which layer refused.
-4. **Who hung up first?** Identify whether the client or server sent the first `FIN`, and contrast with Conversation One.
-5. **The Unobservable Boundaries:** Name at least two things this packet capture structurally cannot prove about authorization.
-
-```
-tshark -r assets/pcaps/02-conversation.pcap -Y "frame.number >= 11"
-```
-
-Or in Wireshark: right-click any frame from 11 onward → Follow → TCP Stream.
-
-Write **half a page** that answers all of the following. Every answer is checkable against the file, so check it.
-
-1. **Narrate the conversation** the way the first one was narrated above: one sentence, no judgment, naming who asked what of whom and what came back.
+1. **Narrate the conversation** the way the first one was narrated above: one sentence, zero smuggled adjectives (no "probing"), naming who asked what of whom and what came back.
 2. **Is this the same conversation as the first one, continued?** Justify your answer by pointing at a specific field, and name it as Security Onion would.
-3. **You already know from `http.status_code` that this request was refused.** Prove it from the packets alone — name the frame and the bytes. Then answer, separately: did the TCP connection succeed? Say which specific evidence answers which question, and why one cannot substitute for the other.
-4. **Who closed the connection, and does it differ from the first conversation?**
-5. **The response was 144 bytes against the first response's 207.** Before looking, write down at least two explanations a smaller response could have. Then look, and say which one it was and what distinguished it. The point is the habit of generating alternatives before checking, not the answer.
-6. **What did the client do differently between the two conversations?** There is more than one answer.
-7. **What can you not determine from this capture?** Name at least three things. Be specific — "I don't know everything" is not an answer, but "I cannot tell whether this client is authorised to make this request, because authorisation state lives on the server and is not on the wire" is.
+3. **Prove refusal from the packets alone:** Name the frame number and the exact bytes. Then answer separately: did the TCP connection succeed? Say which specific evidence answers which question, and why one cannot substitute for the other.
+4. **Who closed the connection, and does it differ from the first conversation?** (Identify whether the client or server sent the first `FIN`).
+5. **The response was 144 bytes against the first response's 207.** Before looking, write down at least two explanations a smaller response could have. Then look, and say which one it was.
+6. **What did the client do differently between the two conversations?**
+7. **What can you not determine from this capture?** Name at least three unobservable boundaries (e.g. server authorization state, process ancestry).
 
 ## The thing this lesson is really about
 

@@ -140,25 +140,75 @@ frame 16  (t=5.849s)   en.wikipedia.org  CNAME  ttl 15928
 
 ---
 
+## Part-Task Automation Micro-Drills
+
+Before drafting your baseline, build speed and pattern recognition on the two most common DNS alert failure modes in a SOC.
+
+### Drill 3.1: CDN Pool Rotation vs. Fast-Flux Sorter (45 Seconds)
+
+In a live queue, you will routinely see alerts for *"Rapid IP address resolution changes on endpoint."*
+
+**Your Task:** Classify each of these 4 DNS behaviors as **Benign CDN / Anycast Steering** or **Potential Adversarial Fast-Flux**:
+
+1. `Domain: cdn.cloudvendor.example` · TTL: `20s` · CNAME chain: `2 canonical aliases ending in akamaiedge.net` · IPs: 4 addresses in Microsoft ASN 8075.
+   - [ Benign CDN / Anycast Pool | Potential Adversarial Fast-Flux ]
+2. `Domain: login-portal-auth77.top` · TTL: `30s` · CNAME chain: `None` · IPs: 8 addresses across consumer residential broadband ISPs in Romania, Brazil, and Vietnam.
+   - [ Benign CDN / Anycast Pool | Potential Adversarial Fast-Flux ]
+3. `Domain: telemetry.os-updates.example` · TTL: `60s` · CNAME chain: `1 alias to trafficmanager.net` · IPs: 2 addresses in Fastly ASN 54113.
+   - [ Benign CDN / Anycast Pool | Potential Adversarial Fast-Flux ]
+4. `Domain: qx991a-update.biz` · TTL: `10s` · NS records: 5 distinct dynamic IP nameservers changing every 2 minutes · IPs: 10 non-contiguous residential IP pools.
+   - [ Benign CDN / Anycast Pool | Potential Adversarial Fast-Flux ]
+
+<details class="reveal-gate">
+  <summary>🔍 Check Your Classification Key</summary>
+  <div class="reveal-content">
+    <ol>
+      <li><strong>Case 1: Benign CDN / Anycast Pool.</strong> Known vendor CNAME chain, enterprise ASN, low TTL used for geographic load balancing.</li>
+      <li><strong>Case 2: Potential Adversarial Fast-Flux.</strong> High-risk TLD, zero CDN infrastructure, disparate residential broadband ASNs (compromised botnet proxy nodes).</li>
+      <li><strong>Case 3: Benign CDN / Anycast Pool.</strong> Valid trafficmanager routing, consistent enterprise CDN infrastructure.</li>
+      <li><strong>Case 4: Potential Adversarial Fast-Flux.</strong> High nameserver churn (Double Fast-Flux), short TTLs, residential pools masking bulletproof hosting.</li>
+    </ol>
+  </div>
+</details>
+
+### Drill 3.2: The "NOERROR / NODATA" Trap Check (20 Seconds)
+
+SIEM dashboards frequently filter on `dns.rcode: NOERROR` to measure successful resolutions. 
+
+**Your Task:** Match each DNS response to its true diagnostic meaning:
+
+1. `rcode: NOERROR`, `answers: 0`, `authoritative: 1 (SOA in authority)`
+   - Meaning: [ Successful Resolution | NODATA (Name exists, record type does not) | Non-Existent Domain ]
+2. `rcode: NXDOMAIN`, `answers: 0`
+   - Meaning: [ Successful Resolution | NODATA (Name exists, record type does not) | Non-Existent Domain ]
+3. `rcode: NOERROR`, `answers: 3`
+   - Meaning: [ Successful Resolution | NODATA (Name exists, record type does not) | Non-Existent Domain ]
+
+<details class="reveal-gate">
+  <summary>🔍 Check Your DNS Response Key</summary>
+  <div class="reveal-content">
+    <ol>
+      <li><strong>Response 1: NODATA (Name exists, record type does not).</strong> Example: querying for an IPv6 <code>AAAA</code> record on a domain that only has IPv4 <code>A</code> records. The domain is valid, but returns zero IP answers. <em>Treating this as 'resolution success' in a SIEM causes ghost connection tracking.</em></li>
+      <li><strong>Response 2: Non-Existent Domain (NXDOMAIN).</strong> The authoritative server confirms the domain name does not exist.</li>
+      <li><strong>Response 3: Successful Resolution.</strong> The resolver returned 3 valid resource records.</li>
+    </ol>
+  </div>
+</details>
+
+---
+
 ## Practice Application — Building the 1-Page Environment Baseline
 
 Apply this method to Frames 5–12 in `assets/pcaps/03-dns.pcap` (covering `www.example.com`, `outlook.office365.com`, and `nonexistent-host-fbc19.example.com`).
 
-Draft a 1-Page Environment Baseline answering:
+Draft a 1-Page Environment Baseline answering all six prompts below. Use the capture to ground every claim:
 
 1. **The `NOERROR` / Zero Answers Trap:** Inspect Frame 12. The response flag is `NOERROR`, but `Answer RRs: 0`. Explain why querying `dns.response.code: NOERROR` in a SIEM will falsely report this as a successful resolution.
 2. **The 8-Second Steering Chain:** Inspect the 8-record chain for `outlook.office365.com` (Frames 9–10). Why does an 8-second TTL prove active routing rather than malicious fluxing?
-3. **Three Noisy Detection Rules:** Name three detection rules that this clean capture proves would fire false alarms in production.
-4. **The Conn.log Bridge:** Identify which specific log file and field in Zeek/Security Onion must be checked before you can report that a DNS query resulted in actual data transfer.
-
-Use the capture to ground every claim, and answer these inside it:
-
-1. **What is the observed range of TTLs, and what does the spread tell you?** The capture holds values from 8 seconds to 15,928. Explain what a very short TTL and a very long TTL each imply about the service behind the name.
-2. **Which of these would you expect to be stable over a day, and which would you expect to change?** Cover: the queried name, the CNAME target, the A record, the number of A records, and the TTL. Justify each from the capture.
-3. **`www.example.com` was asked for both A and AAAA** (frames 5–8). Compare the two answers. What would you conclude if a host queried only one of them? What would you conclude if the two disagreed about how many addresses exist?
-4. **Write three detection ideas that this capture proves would be noisy**, and for each, name the frames that would trigger it falsely.
-5. **Write one thing in this capture that you would want to look at more closely if you saw it on your own network**, and say precisely what additional evidence would settle it. This is not a trick — there is a defensible answer — but your reason has to be about the observation, not about the vendor.
-6. **State what a DNS log cannot tell you** about whether anything actually happened as a result of these lookups. Be specific about which source would, and name the field you would search there.
+3. **What is the observed range of TTLs, and what does the spread tell you?** The capture holds values from 8 seconds to 15,928. Explain what a very short TTL and a very long TTL each imply about the service behind the name.
+4. **Which records would you expect to be stable over a day, and which would you expect to change?** Cover: the queried name, the CNAME target, the A record, the number of A records, and the TTL.
+5. **Write three detection rules that this clean capture proves would be noisy**, and for each, name the frames that would trigger it falsely.
+6. **The Conn.log Bridge:** Identify which specific log file and field in Zeek/Security Onion must be checked before you can report that a DNS query resulted in actual data transfer. State what a DNS log cannot tell you about whether a connection occurred.
 
 ## Reviewing your own work
 

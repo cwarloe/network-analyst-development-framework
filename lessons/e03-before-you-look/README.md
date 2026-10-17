@@ -199,7 +199,54 @@ connection.state     SF
 
 Question 3 is the one to spend time on. Nearly everyone predicts this conversation correctly in shape and incorrectly in one specific respect, and the assumption behind the error is not usually visible until it is written down.
 
-When all five are written, open **[reveal 1](reveal-1-guided.md)**.
+<div class="prediction-gate">
+  <h4>🔒 Stage 1: Commit Before You Reveal</h4>
+  <p><strong>Rule:</strong> Do not open the reveal below until all 5 entries (Explanation, Evidence, Assumption, 3-Part Prediction, and Weakeners) are written in your notes.</p>
+
+  <details class="reveal-gate">
+    <summary>🔓 I Have Written All 5 Commitments — Reveal Frame Telemetry</summary>
+    <div class="reveal-content">
+
+### What the packets show
+
+```
+tshark -r assets/pcaps/e03-prediction.pcap -Y "tcp.stream==1 && frame.number<=22" -T fields -e frame.number -e frame.time_relative -e ip.src -e tcp.dstport -e tcp.len
+```
+
+```
+13	1.001417000	192.0.2.10	9110	0
+14	1.001522000	198.51.100.30	44103	0
+15	1.001536000	192.0.2.10	9110	0
+16	1.001786000	198.51.100.30	44103	36
+17	1.001812000	192.0.2.10	9110	0
+18	1.001851000	192.0.2.10	9110	17
+19	1.001874000	198.51.100.30	44103	0
+20	1.001908000	198.51.100.30	44103	25
+21	1.001943000	192.0.2.10	9110	16
+22	1.001991000	198.51.100.30	44103	1035
+```
+
+Frames 13 to 15 are the handshake. Then **frame 16 carries 36 bytes from `198.51.100.30` — the server — and the client has sent no application data at all.**
+
+The 36 bytes are readable:
+```
+220 hsync-1.4 inventory sync ready
+```
+
+The client answers in frame 18 with 17 bytes (`HELLO agent/1.4`), the server acknowledges it in frame 20, the client asks for something in frame 21, and frame 22 returns 1,035 bytes.
+
+**The server spoke first.**
+
+#### The Material Assumption Revealed
+Most predictions here get the *shape* right (39 bytes vs 1,105 bytes). The part that usually fails is direction, which breaks on an unchecked assumption:
+> **"The side that opens the connection is the side that sends the first application data."**
+
+This holds true for HTTP, but not for network services in general (FTP, SMTP, SSH banners greet on connect).
+
+*(You can also review the standalone file at [reveal-1-guided.md](reveal-1-guided.md)).*
+    </div>
+  </details>
+</div>
 
 ---
 
@@ -289,7 +336,52 @@ Copy this and fill it in:
 10. SPECIFIC LEARNING NEED
 ```
 
-When fields 1 to 5 are written, open **[reveal 2](reveal-2-work-product.md)**.
+<div class="prediction-gate">
+  <h4>🔒 Stage 2: Commit Fields 1 to 5 Before You Reveal</h4>
+  <p><strong>Rule:</strong> Fields 1 to 5 must be completed in your notes before opening this gate. <em>Do not edit fields 1 to 5 after revealing. Leaving an inaccurate prediction intact is the entire diagnostic mechanism of this lesson.</em></p>
+
+  <details class="reveal-gate">
+    <summary>🔓 I Have Written Fields 1 to 5 — Reveal Frame Telemetry & Diagnostic Breakdown</summary>
+    <div class="reveal-content">
+
+### What the packets show
+
+```
+tshark -r assets/pcaps/e03-prediction.pcap -Y "tcp.stream==2" -T fields -e frame.number -e frame.time_relative -e ip.src -e tcp.dstport -e tcp.len
+```
+
+```
+30	1.703133000	192.0.2.10	80	0
+31	1.703245000	198.51.100.20	44102	0
+32	1.703263000	192.0.2.10	80	0
+33	1.703326000	192.0.2.10	80	135
+34	1.703331000	198.51.100.20	44102	0
+```
+
+Handshake, a 135-byte request, and a bare acknowledgment from the server.
+
+Then nothing.
+
+#### The Fact That Decides This
+**Frame 34 is the last frame in the file.** The capture contains 34 packets in total:
+```
+capinfos -c assets/pcaps/e03-prediction.pcap
+```
+The conversation does not end in this capture. **The capture ends.**
+
+- `server.bytes: 0` — no response bytes **were captured**. It does not say none were sent.
+- `http.status_code` empty — Zeek recorded no status **within the file it was given**.
+- `connection.state: S1` — established, not seen to close. Zeek is describing the file, not the conversation.
+
+#### Contradicted, or Not Tested?
+If your prediction was *"the next application data comes from the server, if the application handles the request"* — **the evidence did not contradict that.** It did not test it. The capture stopped before the prediction's claim could be evaluated.
+
+**A prediction that cannot be evaluated is not a failed prediction.** It is an unfinished check, and knowing the difference is what stops an analyst reporting an absence as a finding.
+
+*(You can also review the standalone file at [reveal-2-work-product.md](reveal-2-work-product.md)).*
+    </div>
+  </details>
+</div>
 
 Then use the **[review guide](review-guide.md)**.
 
