@@ -53,3 +53,5 @@
   * [Book 1 Canon Architecture](BOOK-1.md)
   * [Book 2 Hunt Architecture](BOOK-2.md)
   * [Capture Lab Guide](lab/README.md)
+  * [Hunt Telemetry Engine Guide](lab/HUNT-DATA-GUIDE.md)
+  * [Research R010: Telemetry Simulation](docs/research/R010-synthetic-telemetry-simulation.md)
