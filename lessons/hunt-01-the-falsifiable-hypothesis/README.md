@@ -47,23 +47,12 @@ A hunting hypothesis is not an alert and it is not a guess. It is a formal, test
 
 Every valid hunting hypothesis contains four distinct components:
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        ANATOMY OF A HUNTING HYPOTHESIS                                 │
-├─────────────────────┬──────────────────────────────────────────────────────────────────┤
-│ 1. Threat Actor     │ MITRE ATT&CK technique or observable adversary tradecraft.       │
-│    Tradecraft       │ (e.g., T1071.001: Web Protocols, T1071.004: DNS Tunneling).      │
-├─────────────────────┼──────────────────────────────────────────────────────────────────┤
-│ 2. Environmental    │ Specific subnet, device role, or business workflow under hunt.   │
-│    Scope            │ (e.g., Engineering CAD workstations, branch VPN egress).        │
-├─────────────────────┼──────────────────────────────────────────────────────────────────┤
-│ 3. Observable Wire  │ Exact data fields and metrics that MUST appear if the attack     │
-│    Footprint        │ is occurring (e.g., long connection durations, byte ratios).     │
-├─────────────────────┼──────────────────────────────────────────────────────────────────┤
-│ 4. Falsification    │ The specific finding that invalidates the hunt and proves the   │
-│    Condition        │ traffic is legitimate enterprise activity.                       │
-└─────────────────────┴──────────────────────────────────────────────────────────────────┘
-```
+| Component | Scope & Description | Concrete Example |
+| :--- | :--- | :--- |
+| **1. Threat Actor Tradecraft** | MITRE ATT&CK technique or observable adversary tradecraft. | `T1071.001: Web Protocols`, `T1071.004: DNS Tunneling` |
+| **2. Environmental Scope** | Specific subnet, device role, or business workflow under hunt. | Engineering CAD workstations (`10.42.0.0/16`), branch VPN egress |
+| **3. Observable Wire Footprint** | Exact data fields and metrics that MUST appear if attack is occurring. | Low cardinality (`source.ip == 1`), persistent `conn_state`, script User-Agents |
+| **4. Falsification Condition** | Specific empirical finding that proves traffic is legitimate enterprise activity. | Destination resolves to approved CDN tenant list, managed browser hash match |
 
 ### The Falsification Test
 An unfalsifiable hypothesis is dangerous because any query result can be interpreted as "suspicious."

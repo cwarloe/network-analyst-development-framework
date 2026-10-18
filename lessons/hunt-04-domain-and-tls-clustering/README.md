@@ -34,19 +34,20 @@ $$H(X) = -\sum_{i=1}^{n} P(x_i) \log_2 P(x_i)$$
 
 Where $P(x_i)$ is the probability of character $x_i$ appearing in the string.
 
-```
+```text
 Entropy Score (Bits / Char)
 ▲
-│                         ┌────────────────┐
-│                         │ TUNNELED DATA  │  ◄── H(X) > 4.5 bits/char
-│                         │ (Base32/64/Hex)│      Uniform character distribution,
-│                         └────────────────┘      no vowel/consonant grammar.
-│ ──────────────────────────────────────────
-│ ┌────────────────┐
-│ │ BENIGN DOMAINS │  ◄── H(X) 2.0 to 3.2 bits/char
-│ │ (Human / Cloud)│      High redundancy, repeating prefixes/suffixes.
-│ └────────────────┘
-└─────────────────────────────────────────────────────────────────────────────► Subdomain Query Stream
+│              ┌───────────────┐
+│              │ TUNNELED DATA │  ◄── H(X) > 4.5 bits/char
+│              │ (Base32/64/Hex│      Uniform distribution,
+│              └───────────────┘      no vowel/consonant grammar.
+│ ─────────────┴───────────────┴────────────────
+│ ┌───────────────┐
+│ │ BENIGN LABELS │  ◄── H(X) 2.0 to 3.2 bits/char
+│ │ (Human/Cloud) │      High redundancy, repeating patterns.
+│ └───────────────┘
+└──────────────────────────────────────────────►
+  Low Entropy ────────────────────► High Entropy
 ```
 
 ### High-Volume Query Rate + Cache-Busting

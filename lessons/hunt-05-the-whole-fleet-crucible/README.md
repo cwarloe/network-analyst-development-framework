@@ -34,24 +34,24 @@ Your mission is to independently execute the 6-phase **Proactive Hunt Loop**:
 
 ## 1. The 3-Stage Adversary Campaign Architecture
 
-```
+```text
 [ Chicago Manufacturing ]
   Workstation 10.120.32.14
           │
-          ├──────────────────────────► C2 Egress: 198.51.100.84:443
-          │                            (5-min interval ± 15% jitter, CV = 0.08, JA4 Go runtime)
+          ├─► C2 Egress: 198.51.100.84:443
+          │   (5-min interval ± 15% jitter, CV = 0.08, JA4 Go)
           │
           ▼ (Lateral Movement across WAN IPsec Tunnel)
 [ Portland Warehouse ]
   Repository Server 10.110.16.5
-  (Living off the Land: SMB IPC$/ADMIN$ pipes, staged CAD archives)
+  (Living off the Land: SMB ADMIN$ pipes, staged CAD archives)
           │
-          ▼ (Strict Egress Deny-All Firewall Policy Bypassed)
+          ▼ (Strict Egress Deny-All Firewall Bypassed)
 [ Corporate Recursive DNS Resolvers ]
   10.100.1.10 / 10.100.1.11
           │
-          └──────────────────────────► Covert Exfiltration: data-sync-telemetry[.]net
-                                       (142,890 TXT queries, 62-char subdomains, Shannon Entropy 4.86 bits)
+          └─► Covert DNS Exfiltration: data-sync-telemetry[.]net
+              (142,890 TXT queries, Shannon Entropy 4.86 bits)
 ```
 
 ---

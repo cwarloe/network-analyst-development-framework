@@ -30,21 +30,19 @@ As Cal Rowan and Owen Kline demonstrated:
 
 In enterprise network traffic, connection volume follows a steep power-law distribution (the Pareto principle or "long tail"):
 
-```
+```text
 Volume (Events)
 ▲
 │ ████████
-│ ████████  ◄── Head (95% of traffic): Microsoft, Google, AWS, Internal DBs
-│ ████████      (High connection count, high host cardinality: > 1,500 hosts)
-│ █
-│ █
-│ █ 
-│ █ ▂ ▂ ▂   ◄── Torso: IT management tools, software build runners, dev mirrors
-│               (Moderate connection count, verified host cardinality)
+│ ████████  ◄── Head (95% of traffic):
+│ ████████      Microsoft, Google, Internal DBs
+│ █             (High volume, > 1,500 hosts)
+│ █ ▂ ▂ ▂   ◄── Torso: IT tools, dev mirrors
+│               (Moderate volume, multi-host)
 │
-│ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ◄── Long Tail (5% of traffic)
-└───────────────────────────────────────────────────────────────────────────────────► Unique Destinations
-   (Tens of thousands of rare destinations; stealthy implants hide here with cardinality == 1)
+│ ░░░░░░░░  ◄── Long Tail (5% of traffic)
+└─────────► Unique Destinations
+  (Rare destinations; implants hide with source.ip == 1)
 ```
 
 ### Why Raw Destination Stacking Fails

@@ -26,12 +26,12 @@ In an enterprise environment, however:
 
 ## 1. Mathematical Foundation: Human vs. Machine Egress
 
-### The Inter-Arrival Delta ($\Delta t$)
+### The Inter-Arrival Delta ($\Delta t$) :id=the-inter-arrival-delta-delta-t
 For an ordered series of connections occurring at timestamps $t_1, t_2, \dots, t_n$, the inter-arrival delta time is defined as:
 
 $$\Delta t_i = t_i - t_{i-1}$$
 
-### Coefficient of Variation ($CV$)
+### Coefficient of Variation ($CV$) :id=coefficient-of-variation-cv
 The coefficient of variation standardizes dispersion relative to the mean:
 
 $$CV = \frac{\sigma}{\mu}$$
@@ -40,21 +40,20 @@ Where:
 - $\mu = \frac{1}{N}\sum_{i=1}^N \Delta t_i$ (Mean Interval)
 - $\sigma = \sqrt{\frac{1}{N}\sum_{i=1}^N (\Delta t_i - \mu)^2}$ (Standard Deviation)
 
-```
+```text
 Distribution Density
 ▲
-│         ┌─┐ ◄── Jittered Machine Beacon (60s ± 20%)
-│        ┌┘ └┐    Mean μ ≈ 60s, Std Dev σ ≈ 6.9s, CV ≈ 0.11
-│       ┌┘   └┐   Bounded strictly between 48s and 72s.
-│      ┌┘     └┐
-│ ─────┴───────┴────────────────────────────────────────
+│        ┌─┐  ◄── Jittered Beacon (60s ± 20%)
+│       ┌┘ └┐     μ ≈ 60s, σ ≈ 6.9s, CV ≈ 0.11
+│      ┌┘   └┐    Bounded: 48s to 72s
+│ ────┴───────┴───────────────────────────────
 │ 
-│ █ ◄── Human Browsing (Power-law / Pareto)
-│ █     Bursts of sub-second requests (CV > 1.5)
-│ █     followed by long idle think times (minutes to hours).
-│ █▂▂▂▂▂                                           ▂▂▂▂
-└───────────────────────────────────────────────────────► Delta Time (Δt) in Seconds
-  0s   10s    20s    30s    40s    50s    60s    70s    80s
+│ █  ◄── Human Browsing (Power-law / Pareto)
+│ █      Sub-second bursts (CV > 1.5)
+│ █      punctuated by long idle think times.
+│ █▂▂▂▂▂                                  ▂▂▂▂
+└─────────────────────────────────────────────►
+  0s   10s   20s   30s   40s   50s   60s   70s  (Δt)
 ```
 
 * **Human Web Browsing:** Highly bursty, heavy-tailed ($CV > 1.0$). Long idle periods punctuated by rapid multi-tab clicks.
