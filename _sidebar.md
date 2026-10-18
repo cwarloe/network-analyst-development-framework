@@ -14,6 +14,10 @@
   * [08: What Can You Responsibly Say?](narrative/08-what-can-you-responsibly-say.md)
   * [09: Decide Before You Disrupt](narrative/09-decide-before-you-disrupt.md)
   * [10: The Silence of the Data Lake](narrative/10-the-silence-of-the-data-lake.md)
+  * [11: The Long Tail](narrative/11-the-long-tail.md)
+  * [12: The Heartbeat with a Stutter](narrative/12-the-heartbeat-with-a-stutter.md)
+  * [13: The Forest and the Trees](narrative/13-the-forest-and-the-trees.md)
+  * [14: The Hunter's Crucible](narrative/14-the-hunters-crucible.md)
 
 * [**The Technical Lessons**](lessons/README.md)
   * [Self Check](lessons/self-check.md)
@@ -34,6 +38,14 @@
 * [**Book 2: Threat Hunting (Proactive)**](BOOK-2.md)
   * [Chapter 10: The Silence of the Data Lake (Story)](narrative/10-the-silence-of-the-data-lake.md)
   * [Hunt 01: The Falsifiable Hypothesis (Workbench)](lessons/hunt-01-the-falsifiable-hypothesis/README.md)
+  * [Chapter 11: The Long Tail (Story)](narrative/11-the-long-tail.md)
+  * [Hunt 02: Least-Frequency Analysis (Workbench)](lessons/hunt-02-least-frequency-analysis/README.md)
+  * [Chapter 12: The Heartbeat with a Stutter (Story)](narrative/12-the-heartbeat-with-a-stutter.md)
+  * [Hunt 03: Beaconing & Statistical Jitter (Workbench)](lessons/hunt-03-beaconing-and-jitter/README.md)
+  * [Chapter 13: The Forest and the Trees (Story)](narrative/13-the-forest-and-the-trees.md)
+  * [Hunt 04: Domain & TLS Clustering (Workbench)](lessons/hunt-04-domain-and-tls-clustering/README.md)
+  * [Chapter 14: The Hunter's Crucible (Story)](narrative/14-the-hunters-crucible.md)
+  * [Hunt 05: The Whole-Fleet Crucible (Capstone)](lessons/hunt-05-the-whole-fleet-crucible/README.md)
 
 * **Reference & Field Guides**
   * [Master Glossary](glossary.md)

@@ -404,5 +404,89 @@
     "definition": "An Elasticsearch multi-bucket query that groups documents by unique field values and calculates bucket metrics (e.g. unique host counts per IP).",
     "context": "Essential for stacking millions of connection records into inspectable frequency tables without pulling raw documents.",
     "category": "telemetry"
+  },
+  "cardinality_aggregation": {
+    "id": "cardinality_aggregation",
+    "title": "Cardinality Aggregation",
+    "definition": "A multi-bucket metric in Elasticsearch that calculates the approximate count of distinct, unique values for a field within a dataset.",
+    "context": "Used in threat hunting to isolate single-host outliers (such as destinations contacted with source.ip cardinality equal to 1).",
+    "category": "investigation"
+  },
+  "long_tail_distribution": {
+    "id": "long_tail_distribution",
+    "title": "Long Tail Distribution",
+    "definition": "A statistical distribution where a small number of common items account for the vast majority of volume, while a massive number of rare items each occur with extremely low individual frequency.",
+    "context": "In enterprise telemetry, 95% of traffic concentrates in standard cloud services, while stealthy adversary egress hides within the noisy tail of single-host anomalies.",
+    "category": "investigation"
+  },
+  "beacon_jitter": {
+    "id": "beacon_jitter",
+    "title": "Beacon Jitter",
+    "definition": "A deliberate percentage of pseudo-random variance added to an automated C2 sleep interval to prevent detection by fixed-interval timing signatures.",
+    "context": "For a 60-second sleep with 20% jitter, check-ins fluctuate randomly between 48 and 72 seconds, masquerading as sporadic traffic.",
+    "category": "investigation"
+  },
+  "delta_time": {
+    "id": "delta_time",
+    "title": "Delta Time (Δt)",
+    "definition": "The elapsed interval between consecutive network events in a series, calculated as Δt = t[i] - t[i-1].",
+    "context": "Evaluating the distribution of delta times exposes underlying programmatic pacing that is invisible when looking at isolated timestamps.",
+    "category": "investigation"
+  },
+  "coefficient_of_variation": {
+    "id": "coefficient_of_variation",
+    "title": "Coefficient of Variation (CV)",
+    "definition": "A standardized measure of dispersion calculated as the ratio of the standard deviation to the mean (σ / μ).",
+    "context": "Used in threat hunting to distinguish machine beaconing (low CV, typically < 0.3) from highly erratic human browsing (high CV, often > 1.0).",
+    "category": "investigation"
+  },
+  "domain_fronting": {
+    "id": "domain_fronting",
+    "title": "Domain Fronting",
+    "definition": "An evasion technique where an adversary uses the cleartext SNI and DNS of a trusted domain hosted on a public CDN while using the encrypted HTTP Host header to route requests to an attacker-controlled origin server.",
+    "context": "Perimeter IP and SNI filters see only legitimate CDN infrastructure, blinding perimeter controls that do not inspect inner HTTP headers.",
+    "category": "evasion"
+  },
+  "shannon_entropy": {
+    "id": "shannon_entropy",
+    "title": "Shannon Entropy",
+    "definition": "A mathematical measure of information density and randomness (H(X)) in a string of characters, measured in bits per symbol.",
+    "context": "Standard human hostnames score between 2.0 and 3.2 bits; encoded tunneling payloads in DNS subdomains typically exceed 4.5 bits.",
+    "category": "investigation"
+  },
+  "ja4_fingerprint": {
+    "id": "ja4_fingerprint",
+    "title": "JA4 Fingerprint",
+    "definition": "A modular cryptographic client fingerprint derived from TLS ClientHello attributes (protocol, cipher count, extensions, and sorted algorithm hashes).",
+    "context": "Identifies the underlying software TLS implementation (e.g. Go runtime vs Chrome browser) independent of spoofed User-Agent headers.",
+    "category": "encryption"
+  },
+  "proactive_hunt_loop": {
+    "id": "proactive_hunt_loop",
+    "title": "Proactive Hunt Loop",
+    "definition": "A recurring six-phase analytical methodology comprising threat modeling/hypothesis, scoping, outlier stacking, behavioral pivoting, adversary discrimination, and detection engineering.",
+    "context": "Transforms threat hunting from ad-hoc data browsing into a repeatable, evidence-grounded engineering discipline.",
+    "category": "investigation"
+  },
+  "living_off_the_land": {
+    "id": "living_off_the_land",
+    "title": "Living off the Land (LotL)",
+    "definition": "Adversary tradecraft utilizing built-in operating system binaries, trusted administrative protocols (e.g., SMB, RPC, WMI), and native administrative tools to conduct lateral movement and execution without introducing external malware binaries.",
+    "context": "Leaves zero unfamiliar file hashes, forcing analysts to hunt for behavioral protocol abuse and uncharacteristic socket telemetry.",
+    "category": "evasion"
+  },
+  "adversary_campaign_dossier": {
+    "id": "adversary_campaign_dossier",
+    "title": "Adversary Campaign Dossier",
+    "definition": "A comprehensive intelligence and analytical assessment reconstructing an adversary's multi-stage kill chain, mapped assets, command-and-control channels, exfiltration volumes, and temporal timelines.",
+    "context": "Moves beyond disconnected point-in-time alerts to synthesize disparate network anomalies into an actionable enterprise mitigation package.",
+    "category": "judgment"
+  },
+  "detection_engineering": {
+    "id": "detection_engineering",
+    "title": "Detection Engineering",
+    "definition": "The disciplined process of designing, testing, tuning, and deploying production-grade detection logic (such as Sigma or Elastic Detection rules) derived from hunting discoveries to permanently eliminate enterprise visibility blind spots.",
+    "context": "Closes the hunt loop by ensuring discovered adversary tradecraft is automatically alerted on upon future recurrence.",
+    "category": "detection"
   }
 }

@@ -76,6 +76,10 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 | | Chapter | Leads into |
 |---|---|---|
 | 10 | [The Silence of the Data Lake](10-the-silence-of-the-data-lake.md) | [Hunt 01 — The Falsifiable Hypothesis](../lessons/hunt-01-the-falsifiable-hypothesis/README.md) |
+| 11 | [The Long Tail](11-the-long-tail.md) | [Hunt 02 — Least-Frequency Analysis](../lessons/hunt-02-least-frequency-analysis/README.md) |
+| 12 | [The Heartbeat with a Stutter](12-the-heartbeat-with-a-stutter.md) | [Hunt 03 — Beaconing & Statistical Jitter](../lessons/hunt-03-beaconing-and-jitter/README.md) |
+| 13 | [The Forest and the Trees](13-the-forest-and-the-trees.md) | [Hunt 04 — Domain & TLS Clustering](../lessons/hunt-04-domain-and-tls-clustering/README.md) |
+| 14 | [The Hunter's Crucible](14-the-hunters-crucible.md) | [Hunt 05 — The Whole-Fleet Crucible (Capstone)](../lessons/hunt-05-the-whole-fleet-crucible/README.md) |
 
 
 The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
