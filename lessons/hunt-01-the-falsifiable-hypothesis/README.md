@@ -3,6 +3,7 @@
 ## At a glance
 
 - **Part of:** [Book 2 — The Hunter's Eye](#/BOOK-2) · Proactive Network Threat Hunting Track
+- **Follows:** [Chapter 10 (Story) — The Silence of the Data Lake](#/narrative/10-the-silence-of-the-data-lake)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-23
 - **Capability targets:** TH-1 (Hypothesis Formulation), TH-2 (Telemetry Scoping), OE-4 (Boundary Declaration), IR-1 (Observation vs Interpretation)

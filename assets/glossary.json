@@ -376,5 +376,33 @@
     "definition": "Client TCP stack doubling retransmission delays across silence (1s, 2s, 4s) when packets are dropped.",
     "context": "A classic hallmark of silent path drops or dead-end firewall rules.",
     "category": "transport"
+  },
+  "falsifiable_hypothesis": {
+    "id": "falsifiable_hypothesis",
+    "title": "Falsifiable Hunting Hypothesis",
+    "definition": "A structured proposition asserting that if a specific adversary behavior is occurring, named telemetry fields will exhibit an observable footprint—with explicit criteria that prove the hypothesis false.",
+    "context": "Prevents confirmation bias and aimless 'browsing' across large data lakes.",
+    "category": "judgment"
+  },
+  "elastic_common_schema": {
+    "id": "elastic_common_schema",
+    "title": "Elastic Common Schema (ECS)",
+    "definition": "An open-source specification that standardizes field names (such as destination.ip, source.bytes, event.dataset) across disparate log sources.",
+    "context": "Allows a single threat hunting query to search across Zeek, Suricata, Windows event logs, and firewall streams.",
+    "category": "telemetry"
+  },
+  "least_frequency_analysis": {
+    "id": "least_frequency_analysis",
+    "title": "Least-Frequency Analysis (Long Tail)",
+    "definition": "A threat hunting technique that aggregates events by cardinality and sorts by lowest occurrence to surface the rarest 0.01% of outbound connections.",
+    "context": "Adversaries trying to avoid noise often blend into the long tail rather than high-volume aggregates.",
+    "category": "investigation"
+  },
+  "terms_aggregation": {
+    "id": "terms_aggregation",
+    "title": "Terms Aggregation",
+    "definition": "An Elasticsearch multi-bucket query that groups documents by unique field values and calculates bucket metrics (e.g. unique host counts per IP).",
+    "context": "Essential for stacking millions of connection records into inspectable frequency tables without pulling raw documents.",
+    "category": "telemetry"
   }
 }

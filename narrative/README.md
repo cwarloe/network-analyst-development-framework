@@ -71,6 +71,13 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 | 08 | [What Can You Responsibly Say?](08-what-can-you-responsibly-say.md) | [Lesson 08](../lessons/08-judgment-and-handoff.md) |
 | 09 | [Decide Before You Disrupt](09-decide-before-you-disrupt.md) | [Lesson 09 Capstone: Encrypted Outbound Traffic](../lessons/09-capstone-encrypted-outbound-traffic/README.md) |
 
+### Book 2 — The Hunter's Eye (Proactive Threat Hunting Track)
+
+| | Chapter | Leads into |
+|---|---|---|
+| 10 | [The Silence of the Data Lake](10-the-silence-of-the-data-lake.md) | [Hunt 01 — The Falsifiable Hypothesis](../lessons/hunt-01-the-falsifiable-hypothesis/README.md) |
+
+
 The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
 
 ## Author-only continuity

@@ -13,6 +13,7 @@
   * [07: More Than One Explanation](narrative/07-more-than-one-explanation.md)
   * [08: What Can You Responsibly Say?](narrative/08-what-can-you-responsibly-say.md)
   * [09: Decide Before You Disrupt](narrative/09-decide-before-you-disrupt.md)
+  * [10: The Silence of the Data Lake](narrative/10-the-silence-of-the-data-lake.md)
 
 * [**The Technical Lessons**](lessons/README.md)
   * [Self Check](lessons/self-check.md)
@@ -31,7 +32,8 @@
   * [Lesson 09: Capstone — Encrypted Outbound](lessons/09-capstone-encrypted-outbound-traffic/README.md)
 
 * [**Book 2: Threat Hunting (Proactive)**](BOOK-2.md)
-  * [Hunt 01: The Falsifiable Hypothesis](lessons/hunt-01-the-falsifiable-hypothesis/README.md)
+  * [Chapter 10: The Silence of the Data Lake (Story)](narrative/10-the-silence-of-the-data-lake.md)
+  * [Hunt 01: The Falsifiable Hypothesis (Workbench)](lessons/hunt-01-the-falsifiable-hypothesis/README.md)
 
 * **Reference & Field Guides**
   * [Master Glossary](glossary.md)
