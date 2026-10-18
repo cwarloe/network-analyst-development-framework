@@ -11,6 +11,14 @@
 - **Requires:** [`assets/pcaps/e03-prediction.pcap`](../../assets/pcaps/e03-prediction.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lesson 02](../02-reading-a-conversation.md). You can narrate one completed conversation: who started it, what was asked, what came back, who closed it.
 
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">e03-prediction.pcap</span>
+    <span class="pcap-meta">Size: 4.5 KB · 34 packets · 3 sequential prediction exercises</span>
+  </div>
+  <a href="assets/pcaps/e03-prediction.pcap" download="e03-prediction.pcap" class="pcap-download-btn">📥 Download PCAP</a>
+</div>
+
 > This lesson works whether or not you read the narrative chapter. Nothing below depends on it.
 
 ## Why this lesson exists

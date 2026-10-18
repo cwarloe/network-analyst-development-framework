@@ -11,6 +11,14 @@
 - **Requires:** [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text. Everything else is in this file.
 - **Assumes:** [Lesson 01](01-what-the-analyst-is-for.md). You can separate what you saw from what you concluded.
 
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">02-conversation.pcap</span>
+    <span class="pcap-meta">Size: 2.3 KB · 20 packets · 2 TCP conversations</span>
+  </div>
+  <a href="assets/pcaps/02-conversation.pcap" download="02-conversation.pcap" class="pcap-download-btn">📥 Download PCAP</a>
+</div>
+
 ## Why this lesson exists
 
 Lesson 01 was about not overstating. This one is about having something to state.

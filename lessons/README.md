@@ -17,9 +17,11 @@ The technical lessons form the rigorous analytical spine of the **Network Analys
 | **02** | [Lesson 02: Reading a Conversation](#/lessons/02-reading-a-conversation) | Layer decoupling (TCP vs HTTP) & bare ACK hunting | `02-conversation.pcap` |
 | **E03** | [Episode 03: Prediction Before Inspection](#/lessons/e03-before-you-look/README) | Committing to hypotheses before looking; model revision | `e03-prediction.pcap` |
 | **03** | [Lesson 03: Names and Expectations](#/lessons/03-names-and-expectations) | DNS resolution, client caching, TTLs, and CDN baselines | `03-dns.pcap` |
+| **M1** | [Milestone 1: Foundational Triage](#/lessons/milestone-01-foundational-triage/README) | Multi-service triage: stripping smuggled words, dual-layer reading, CDN baselines | Synthetic triage packet |
 | **04** | [Lesson 04: What Encryption Hides](#/lessons/04-what-encryption-hides) | TLS 1.3 visibility boundaries & 3-column bounded claims | `04-tls.pcap` |
 | **05** | [Lesson 05: Vantage Point and Evidence](#/lessons/05-vantage-point-and-evidence) | Multi-vantage reasoning & evidence perishability clocks | Architecture case study |
 | **06** | [Lesson 06: When It Breaks](#/lessons/06-when-it-breaks) | Active refusal (REJ) vs silent drop (S0) vs server stalls | `06-failures.pcap` & `06-fragmentation.pcap` |
+| **M2** | [Milestone 2: Path Failure & Encryption](#/lessons/milestone-02-path-failure-and-encryption/README) | Diagnosing path impairment vs server delays vs encrypted blindspots | Synthetic triage packet |
 | **07** | [Lesson 07: When It's Suspicious](#/lessons/07-when-its-suspicious) | Beacon regularity, DNS entropy, and SOC Tri-Check | `07-suspicious.pcap` |
 | **08** | [Lesson 08: Judgment and Handoff](#/lessons/08-judgment-and-handoff) | Two-audience handoffs, confidence breakers, reversibility | 94/6 incident case study |
 | **09** | [Lesson 09: Capstone — Encrypted Outbound](#/lessons/09-capstone-encrypted-outbound-traffic/README) | Whole-chain synthesis, staged contradictory telemetry | Capstone evidence packet |

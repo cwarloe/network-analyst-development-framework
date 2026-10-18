@@ -11,6 +11,14 @@
 - **Requires:** [`assets/pcaps/07-suspicious.pcap`](../assets/pcaps/07-suspicious.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lessons 02 through 06](02-reading-a-conversation.md). In particular lesson 06 — you have diagnosed benign faults and have alternatives available.
 
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">07-suspicious.pcap</span>
+    <span class="pcap-meta">Size: 98.4 KB · 500+ packets · C2 beacons, DNS queries, and POST uploads</span>
+  </div>
+  <a href="assets/pcaps/07-suspicious.pcap" download="07-suspicious.pcap" class="pcap-download-btn">📥 Download PCAP</a>
+</div>
+
 ## Why this lesson comes last
 
 Everything before this taught you what normal looks like and how ordinary things break. That was the preparation. The failure mode this lesson exists to prevent is **indicator-first labeling**: learning a list of suspicious shapes, matching against it, and reporting the match as a finding.

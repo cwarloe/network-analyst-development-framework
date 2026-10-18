@@ -11,6 +11,14 @@
 - **Requires:** [`assets/pcaps/04-tls.pcap`](../assets/pcaps/04-tls.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lessons 02 and 03](02-reading-a-conversation.md). You can narrate a conversation and describe expected behavior.
 
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">04-tls.pcap</span>
+    <span class="pcap-meta">Size: 7.9 KB · 38 packets · TLS 1.2 vs TLS 1.3 comparisons</span>
+  </div>
+  <a href="assets/pcaps/04-tls.pcap" download="04-tls.pcap" class="pcap-download-btn">📥 Download PCAP</a>
+</div>
+
 ## Why this lesson exists
 
 Most of the traffic you will ever look at is encrypted, and the honest response to that is neither despair nor pretending otherwise. It is knowing exactly where the line falls.

@@ -11,6 +11,22 @@
 - **Requires:** [`assets/pcaps/06-failures.pcap`](../assets/pcaps/06-failures.pcap) and [`06-fragmentation.pcap`](../assets/pcaps/06-fragmentation.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lessons 02 through 05](02-reading-a-conversation.md). You can narrate a conversation, describe expected behavior, and plan what evidence to gather.
 
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">06-failures.pcap</span>
+    <span class="pcap-meta">Size: 3.1 KB · 28 packets · 4 failure modes (REJ, S0, 4s delay, RSTR)</span>
+  </div>
+  <a href="assets/pcaps/06-failures.pcap" download="06-failures.pcap" class="pcap-download-btn">📥 Download Failures PCAP</a>
+</div>
+
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">06-fragmentation.pcap</span>
+    <span class="pcap-meta">Size: 2.5 KB · 2 packets · Path MTU & non-initial UDP fragment</span>
+  </div>
+  <a href="assets/pcaps/06-fragmentation.pcap" download="06-fragmentation.pcap" class="pcap-download-btn">📥 Download Frag PCAP</a>
+</div>
+
 ## Why this lesson exists
 
 This lesson comes before the one about suspicious activity, deliberately, and the reason is worth stating plainly rather than leaving in the course plan.

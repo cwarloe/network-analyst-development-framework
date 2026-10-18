@@ -11,6 +11,14 @@
 - **Requires:** [`assets/pcaps/03-dns.pcap`](../assets/pcaps/03-dns.pcap), and Wireshark or `tshark`. Zeek is useful but optional — its output is reproduced in the text.
 - **Assumes:** [Lesson 02](02-reading-a-conversation.md). You can narrate a conversation from a capture.
 
+<div class="pcap-download-box">
+  <div class="pcap-info">
+    <span class="pcap-filename">03-dns.pcap</span>
+    <span class="pcap-meta">Size: 2.0 KB · 14 packets · Live DNS lookups against 1.1.1.1</span>
+  </div>
+  <a href="assets/pcaps/03-dns.pcap" download="03-dns.pcap" class="pcap-download-btn">📥 Download PCAP</a>
+</div>
+
 ## Why this lesson exists
 
 This is the first lesson where you build an expectation rather than read an event, and it is deliberately placed before anything about threats.
