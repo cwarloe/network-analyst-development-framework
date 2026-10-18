@@ -2,7 +2,7 @@
 
 ## At a glance
 
-- **Part of:** [the course plan](../../COURSE.md) · Book 1 [Episode 3](../../BOOK-1.md) · follows [`narrative/02-before-you-look.md`](../../narrative/02-before-you-look.md)
+- **Part of:** [the course plan](#/COURSE) · Book 1 [Episode 3](../../BOOK-1.md) · follows [`narrative/02-before-you-look.md`](../../narrative/02-before-you-look.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-22
 - **Capability targets:** IR-3, LR-1, LR-2

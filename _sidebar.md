@@ -14,7 +14,7 @@
   * [08: What Can You Responsibly Say?](narrative/08-what-can-you-responsibly-say.md)
   * [09: Decide Before You Disrupt](narrative/09-decide-before-you-disrupt.md)
 
-* **The Technical Lessons**
+* [**The Technical Lessons**](lessons/README.md)
   * [Self Check](lessons/self-check.md)
   * [Day 0: Baseline Triage Alert](lessons/00-baseline-alert.md)
   * [Lesson 01: What the Analyst Is For](lessons/01-what-the-analyst-is-for.md)

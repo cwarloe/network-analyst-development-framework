@@ -2,7 +2,7 @@
 
 ## At a glance
 
-- **Part of:** [the course plan](../COURSE.md)
+- **Part of:** [the course plan](#/COURSE)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-19
 - **Capability targets:** OC-4, IR-2, IR-3, IR-5, IR-6
