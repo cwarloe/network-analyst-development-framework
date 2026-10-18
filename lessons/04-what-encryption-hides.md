@@ -347,7 +347,12 @@ Every Friday morning:
 2. **Review One Escalation (2 min):** *"On Ticket #4105, you assessed a TLS 1.3 connection. Did your report declare that the certificate and HTTP response code were unobservable from the PCAP?"* Coach the boundary.
 3. **Commitment for Next Week (2 min):** Ensure every TLS 1.3 ticket specifies the exact endpoint log needed to verify the application transaction.
 
----
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 05 (Story) — Where Are You Standing?</div>
+  <p class="bridge-desc">You now recognize the boundaries of encrypted traffic. But where your sensor sits changes what you can see just as much as encryption does. Follow Ethan and Dana as they discover how vantage point dictates evidence.</p>
+  <a href="#/narrative/05-where-are-you-standing" class="bridge-btn">Continue to Chapter 05 →</a>
+</div>
 
 ## What this lesson does not do
 

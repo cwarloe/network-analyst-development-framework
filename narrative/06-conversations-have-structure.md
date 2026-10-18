@@ -191,6 +191,9 @@ I picked up my pen and began drafting the incident ticket update. For the first 
 | [Immediate TCP ACK (Frame 15)](#term-frame_15_proof) | Immediate TCP ACK confirming instant network delivery before a 4-second application think time began. |
 | [Exponential Backoff](#term-exponential_backoff) | Client TCP stack doubling retransmission delays across silence (1s, 2s, 4s) when packets are dropped. |
 
----
-
-**What happens next.** [Lesson 06 — When It Breaks](../lessons/06-when-it-breaks.md) explores these four connection states in detail using `06-failures.pcap` and `06-fragmentation.pcap`, providing hands-on practice in isolating transport refusals, silent drops, application stalls, and fragmentation drops.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 06 — When It Breaks</div>
+  <p class="bridge-desc">Dissect <code>06-failures.pcap</code> and <code>06-fragmentation.pcap</code> to isolate active transport refusals (REJ), silent routing drops (S0), application-tier stalls, and dropped non-initial IP fragments without misrouting the incident.</p>
+  <a href="#/lessons/06-when-it-breaks" class="bridge-btn">Open Lesson 06 →</a>
+</div>

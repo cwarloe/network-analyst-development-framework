@@ -153,6 +153,9 @@ Across my desk, the four monitors still displayed four different numbers. But th
 | [Rolling Packet Capture Buffer](#term-rolling_pcap_buffer) | A finite storage disk array configured as a FIFO (First-In, First-Out) ring buffer that continuously captures raw packet bytes until disk capacity forces overwriting the oldest captures. |
 | [Discriminating Inquiry](#term-discriminating_pair) | An analytical strategy that identifies a specific observation that must be present under one hypothesis and absent under another, allowing an analyst to decisively separate competing explanations. |
 
----
-
-**What happens next.** [Lesson 05 — Vantage Point and Evidence](../lessons/05-vantage-point-and-evidence.md) puts this discipline into practice, walking through multi-vantage architectural analysis, retention clock management, and the construction of defensible evidence plans.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 05 — Vantage Point and Evidence</div>
+  <p class="bridge-desc">Put multi-vantage architectural reasoning into practice. Work out what a sensor can and cannot attribute across VPN hairpins, prioritize evidence collection against the perishability clock, and construct defensible evidence plans.</p>
+  <a href="#/lessons/05-vantage-point-and-evidence" class="bridge-btn">Open Lesson 05 →</a>
+</div>

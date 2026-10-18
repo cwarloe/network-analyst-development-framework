@@ -395,6 +395,15 @@ The [review guide](review-guide.md) carries the full set. The three that matter 
 - Did you distinguish **contradicted** from **not yet tested**? Those license different revisions.
 - Did your revision explain **why** the model changed, or does it just restate the outcome?
 
+---
+
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 03 (Story) — Names Have Behavior</div>
+  <p class="bridge-desc">You have experienced why committing to a prediction before looking matters. Now see what happens when the name resolution you took for granted starts behaving in unexpected ways. Follow Ethan and Priya as they tackle DNS caching and TTLs.</p>
+  <a href="#/narrative/03-names-have-behavior" class="bridge-btn">Continue to Chapter 03 →</a>
+</div>
+
 ## What this lesson does not do
 
 It does not teach TCP. Sequence numbers, windows, retransmission, congestion behaviour and the full set of connection states are outside it, and one `S1` record is not a substitute for any of them.

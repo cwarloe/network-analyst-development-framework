@@ -68,4 +68,11 @@ Upon completing the capstone and transfer case, record your final audit against 
 
 ---
 
+<div class="bridge-card">
+  <div class="bridge-label">Curriculum Completion & Longitudinal Debrief</div>
+  <div class="bridge-title">Day N: Same-Task-Twice Capability Delta</div>
+  <p class="bridge-desc">You have completed the Capstone! Now return to Alert 00 (<code>SEC-3904</code>) in the Run Records and conduct your 10-minute comparative delta debrief: measure your Day 0 baseline triage against your post-capstone rigor.</p>
+  <a href="#/lessons/run-records" class="bridge-btn">Complete Longitudinal Debrief →</a>
+</div>
+
 **Running this pilot?** Record what you learn in [run records](../run-records.md) before revising the pilot or the models it implements.

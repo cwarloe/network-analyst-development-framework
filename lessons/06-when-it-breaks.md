@@ -327,7 +327,12 @@ Every Friday morning:
 2. **Review One Escalation (2 min):** *"On Ticket #4120, the ticket was assigned to the network team for `REJ`. Walk me through the frame timestamps—what proved the network delivered?"* Coach the `REJ` heuristic.
 3. **Commitment for Next Week (2 min):** Verify frame 15 ACK times on any ticket claiming "the network is slow."
 
----
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 07 (Story) — More Than One Explanation</div>
+  <p class="bridge-desc">You can now diagnose functional faults with precision. But what happens when anomalous behavior could be either a legitimate operational shortcut or a genuine intrusion? Follow Ethan and Dana as they navigate competing hypotheses.</p>
+  <a href="#/narrative/07-more-than-one-explanation" class="bridge-btn">Continue to Chapter 07 →</a>
+</div>
 
 ## What this lesson does not do
 

@@ -188,6 +188,9 @@ I looked at the opaque Type 23 records on my screen. They were still dark, and t
 | [Dropped Pipeline Fields](#term-dropped_pipeline_fields) | Zeek log fields that exist on the sensor but are discarded during ingestion before reaching the SIEM/search index. |
 | [3-Column Bounded Claim](#term-bounded_claim) | Method separating what is directly observable, what is inferable, and what cannot be determined without host telemetry. |
 
----
-
-**What happens next.** [Lesson 04 — What Encryption Hides](../lessons/04-what-encryption-hides.md) steps directly into `04-tls.pcap`, walking through the seven-point prediction exercise to test what survives the jump to TLS 1.3 and showing how to construct bounded claims when payloads go dark.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 04 — What Encryption Hides</div>
+  <p class="bridge-desc">Open <code>04-tls.pcap</code> to inspect the TLS 1.3 handshake, verify the <code>supported_versions</code> extension, compare SNI against certificate SANs, and construct rigorous three-column bounded claims when payloads go dark.</p>
+  <a href="#/lessons/04-what-encryption-hides" class="bridge-btn">Open Lesson 04 →</a>
+</div>

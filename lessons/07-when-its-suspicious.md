@@ -297,7 +297,12 @@ Every Friday morning:
 2. **Review One Escalation (2 min):** *"On Alert #10495, you noticed a periodic beacon to a cloud IP and ran the peer check, but skipped the domain convergence query. What was happening during that shift?"* Coach the distinction.
 3. **Commitment for Next Week (2 min):** Agree never to recommend host isolation without peer baseline query results in the ticket.
 
----
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 08 (Story) — What Can You Responsibly Say?</div>
+  <p class="bridge-desc">You now know how to weigh competing hypotheses without shape panic. But how do you communicate technical ambiguity under executive pressure without overclaiming? Join Ethan as he prepares his first formal escalation.</p>
+  <a href="#/narrative/08-what-can-you-responsibly-say" class="bridge-btn">Continue to Chapter 08 →</a>
+</div>
 
 ## What this lesson does not do
 

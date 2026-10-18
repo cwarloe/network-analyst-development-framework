@@ -142,6 +142,9 @@ Across the room, the monitors were still active, the alerts were still tracking,
 | [Model Revision Out Loud](#term-model_revision) | The professional capability of an analyst to explicitly and publicly abandon a previous analytical hypothesis when new contradictory evidence invalidates its baseline assumptions. |
 | [Decoy SNI](#term-decoy_sni) | The adversary practice of crafting cleartext Server Name Indication fields in a `ClientHello` that spoof trusted corporate or vendor hostnames to blend into ordinary egress monitoring. |
 
----
-
-**What happens next.** [Lesson 09 — Encrypted Outbound Traffic Capstone](../lessons/09-capstone-encrypted-outbound-traffic/README.md) puts you in the analyst's seat for this full performance: analyzing initial encrypted outbound packets, committing to an initial assessment, receiving contradictory endpoint and network telemetry, and executing a defensible model revision under operational pressure.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 09 — Encrypted Outbound Traffic Capstone</div>
+  <p class="bridge-desc">Put all six capability targets to the test: analyze initial encrypted outbound packets, commit to an initial assessment, receive contradictory endpoint and network telemetry, and execute a defensible model revision under operational pressure.</p>
+  <a href="#/lessons/09-capstone-encrypted-outbound-traffic/README" class="bridge-btn">Begin Capstone Performance →</a>
+</div>

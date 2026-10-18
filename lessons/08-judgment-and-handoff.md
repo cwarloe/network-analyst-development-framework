@@ -221,7 +221,12 @@ Every Friday morning:
 2. **Review One Escalation Handoff (2 min):** *"On Ticket #4130, you recommended disabling accounts. Did the handoff state the reversibility of the action and what single observation would overturn the hypothesis?"* Coach calibrated handoffs.
 3. **Commitment for Next Week (2 min):** Ensure every leadership summary includes an explicit "Stopping Condition".
 
----
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 09 (Story) — Decide Before You Disrupt</div>
+  <p class="bridge-desc">You can now construct defensible peer handoffs and calibrated manager summaries. But what happens when an active outage threatens payroll and a leadership bridge demands immediate action? Watch Ethan face the capstone crucible.</p>
+  <a href="#/narrative/09-decide-before-you-disrupt" class="bridge-btn">Continue to Chapter 09 →</a>
+</div>
 
 ## What this lesson does not do
 

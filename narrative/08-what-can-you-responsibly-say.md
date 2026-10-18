@@ -132,6 +132,9 @@ The incident was not over, but the work was moving in the right direction—guid
 | [Action Reversibility](#term-action_reversibility) | The ease and speed with which an operational or security decision (such as rolling back a route versus wiping an endpoint) can be undone without causing permanent data loss or operational damage. |
 | [Two-Audience Handoff](#term-two_audience_handoff) | An analytical communication discipline that presents identical claim strengths and evidence baselines to both technical peers and executive managers while appropriately tailoring technical depth and operational consequences to each group. |
 
----
-
-**What happens next.** [Lesson 08 — Judgment and Handoff](../lessons/08-judgment-and-handoff.md) puts this communication discipline into practice, walking through the 94/6 authentication incident, the construction of confidence breakers, and the authoring of defensible peer handoffs and manager summaries.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 08 — Judgment and Handoff</div>
+  <p class="bridge-desc">Master the two-audience handoff discipline: write calibrated incident reports for engineers and leadership, define decisive confidence breakers, and recommend actions proportional to evidence reversibility.</p>
+  <a href="#/lessons/08-judgment-and-handoff" class="bridge-btn">Open Lesson 08 →</a>
+</div>

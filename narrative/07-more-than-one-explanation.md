@@ -154,6 +154,9 @@ The shapes on the wire were no longer a confusing tangle of possibilities. They 
 | [Apex Domain](#term-apex_domain) | The root or base domain name (such as `example.com`) directly under the top-level domain, serving as the common administrative entity across multiple distinct subdomains and IP addresses. |
 | [Relational Convergence](#term-relational_convergence) | An analytical finding where multiple superficially independent network behaviors (such as an HTTP poll, a DNS burst, and a file upload) converge upon the same external entity or infrastructure, providing far stronger evidence than any single behavior observed in isolation. |
 
----
-
-**What happens next.** [Lesson 07 — When It's Suspicious](../lessons/07-when-its-suspicious.md) dives directly into `07-suspicious.pcap`, evaluating beacon regularity, DNS entropy, and the 4DX Tri-Check methodology to separate legitimate software polling from true malicious convergence.
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Lesson 07 — When It's Suspicious</div>
+  <p class="bridge-desc">Dive into <code>07-suspicious.pcap</code> to evaluate beacon interval regularity, analyze DNS query entropy, and apply the SOC Triage Tri-Check to separate benign analytics software from true relational convergence.</p>
+  <a href="#/lessons/07-when-its-suspicious" class="bridge-btn">Open Lesson 07 →</a>
+</div>

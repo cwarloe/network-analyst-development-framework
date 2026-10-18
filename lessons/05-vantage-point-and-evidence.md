@@ -224,7 +224,12 @@ Every Friday morning:
 2. **Review One Investigation (2 min):** *"On Ticket #4112, you queried proxy logs first. What was the retention on the rolling packet capture at that branch edge, and did we preserve it before searching the index?"*
 3. **Commitment for Next Week (2 min):** Commit to preserving rolling capture buffers as the first action on high-priority triage.
 
----
+<div class="bridge-card">
+  <div class="bridge-label">Next Step in Curriculum</div>
+  <div class="bridge-title">Chapter 06 (Story) — Conversations Have Structure</div>
+  <p class="bridge-desc">You can now construct defensible evidence plans and prioritize perishability. But what happens when the conversation itself breaks down? Join Ethan as he learns to spot the structural anatomy of transport failures.</p>
+  <a href="#/narrative/06-conversations-have-structure" class="bridge-btn">Continue to Chapter 06 →</a>
+</div>
 
 ## What this lesson does not do
 
