@@ -24,7 +24,7 @@ Start with **[lesson 01](lessons/01-what-the-analyst-is-for.md)**. It takes abou
 
 Optionally, first: **[what do you already have?](lessons/self-check.md)** — fifteen minutes, seven prompts, no score and nobody sees it. It exists because the course assumes a few things it never teaches, and because the usual way to be missing one is not knowing you are. Most gaps it finds want no action, and it says which.
 
-New to Wireshark? A [two-minute primer](lessons/wireshark-first-look.md) before lesson 02 covers opening a capture, filtering it, and following a stream.
+New to Wireshark? A [two-minute primer](lessons/wireshark-first-look.md) before lesson 02 covers opening a capture, filtering it, and following a stream. A [second primer](lessons/wireshark-fields-primer.md) before lessons 03, 04 and 06 covers filtering on fields, adding columns, and pulling fields out with `tshark`.
 
 ### A story running alongside
 

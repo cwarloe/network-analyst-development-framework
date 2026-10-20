@@ -27,6 +27,7 @@
     * [Primer: Wireshark, a first look](lessons/wireshark-first-look.md)
   * [Episode 03: Before You Look (Practice)](lessons/e03-before-you-look/README.md)
   * [Lesson 03: Names and Expectations](lessons/03-names-and-expectations.md)
+    * [Primer: Wireshark, pull out the fields you need](lessons/wireshark-fields-primer.md)
   * [Milestone 1: Foundational Triage](lessons/milestone-01-foundational-triage/README.md)
   * [Lesson 04: What Encryption Hides](lessons/04-what-encryption-hides.md)
   * [Lesson 05: Vantage Point and Evidence](lessons/05-vantage-point-and-evidence.md)

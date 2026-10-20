@@ -35,6 +35,8 @@ Two TLS connections, generated live by [`lab/generate-captures.py`](../lab/gener
 
 **One thing to be clear about before you start.** That the two servers present the *same certificate* is something the lab knows because the lab configured it. It is not something this capture shows, and by the end of the lesson you will be able to say exactly why. Where the text below states it as fact, it is stating the lab's ground truth. Keeping that separate from what the evidence supports is the habit [lesson 01](01-what-the-analyst-is-for.md) started building, and this lesson is where it gets uncomfortable.
 
+New to pulling fields out of a capture? Watch the two-minute primer first: [Wireshark: pull out the fields you need](wireshark-fields-primer.md).
+
 ```
 tshark -r assets/pcaps/04-tls.pcap -Y tls -T fields \
        -e frame.number -e tcp.stream -e ip.dst -e tls.handshake.type -e tls.record.length

@@ -1,0 +1,342 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- Wireshark: pull out the fields you need. Primer for Lessons 03, 04 and 06, a sequel to wireshark-first-look. Render: CHROMIUM_PATH=... python3 render.py scenes.html out.mp4 (render.py lives in the instructions-to-training-video playbook, cwarloe/knowledge-harvest). Data below comes from tshark on assets/pcaps/03-dns.pcap and 04-tls.pcap; nameSize is the size attribute of dns.qry.name in frame 1 from tshark -T pdml. -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0e1829;--panel:#16233a;--panel2:#1d2d49;--line:#2c3f63;--yel:#f5c518;--txt:#e9eef7;--mut:#93a3bf;--ok:#22c38e;--bad:#ff6b6b;--blue:#4ea1ff}
+body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif;color:var(--txt)}
+.scene{position:absolute;inset:0;display:none}
+.hdr{position:absolute;left:40px;top:26px;display:flex;align-items:center;gap:14px}
+.chip{background:var(--yel);color:#1a1300;font-weight:800;font-size:15px;padding:5px 12px;border-radius:14px;letter-spacing:.5px}
+.htitle{font-size:28px;font-weight:700}
+.cap{position:absolute;left:0;right:0;bottom:0;height:70px;background:#081020;border-top:2px solid var(--line);display:flex;align-items:center;padding:0 40px;font-size:20px;color:#dfe7f5}
+.cap b{color:var(--yel)}
+.prog{position:absolute;left:0;bottom:0;height:4px;background:var(--yel)}
+.steps{position:absolute;list-style:none}
+.steps li{display:flex;gap:12px;align-items:flex-start;font-size:20px;line-height:1.35;margin-bottom:16px;opacity:0}
+.n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--yel);color:#1a1300;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px;margin-top:1px}
+.mono{font-family:"Consolas","DejaVu Sans Mono",monospace;color:var(--yel)}
+.lbl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+/* model view */
+.canvas{position:absolute;left:40px;top:90px;width:760px;height:548px;background:#e6e4e2;border-radius:10px;overflow:hidden}
+.card{position:absolute;width:200px;background:#fff;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.18);color:#222;font-size:14px}
+.card h4{font-size:16px;font-weight:600;padding:9px 12px;border-bottom:1px solid #ddd}
+.card div{padding:4px 14px;color:#444}
+.card div.hl{background:#fff3b0;color:#000;font-weight:600}
+.tag{position:absolute;background:var(--bad);color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:12px}
+.ghost{position:absolute;background:#fff3b0;border:2px solid #c9a200;color:#000;font-size:14px;font-weight:600;padding:3px 10px;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+svg.ov{position:absolute;inset:0;width:100%;height:100%}
+/* build pane */
+.pane{position:absolute;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+.well{border:1.5px dashed #4a5f86;border-radius:6px;min-height:44px;padding:6px;margin:6px 0 14px}
+.fld{background:#2a3d61;border-radius:4px;padding:6px 10px;font-size:15px;margin:4px 0;display:flex;justify-content:space-between}
+.fld i{font-style:normal;color:var(--mut);font-size:12px}
+.shot{position:absolute;background:#fff;border-radius:8px;padding:8px;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.shot img{display:block}
+.shotlbl{position:absolute;font-size:14px;color:var(--mut)}
+.callout{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--yel);color:#1a1300;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:17px;border:3px solid #fff;box-shadow:0 0 0 4px rgba(245,197,24,.35);transform:translate(-50%,-50%)}
+.ring{position:absolute;border:3px solid var(--yel);border-radius:8px;box-shadow:0 0 0 5px rgba(245,197,24,.25)}
+.click{position:absolute;width:40px;height:40px;border-radius:50%;border:3px solid var(--yel);transform:translate(-50%,-50%)}
+table.mx{border-collapse:collapse;font-size:16px;color:#222;background:#fff}
+table.mx th{font-weight:600;text-align:right;padding:8px 14px;border-bottom:2px solid #4ea1ff;position:relative}
+table.mx th:first-child,table.mx td:first-child{text-align:left}
+table.mx td{padding:6px 14px;text-align:right;border-bottom:1px solid #eee}
+.note{position:absolute;background:#3a2a05;border:2px solid var(--yel);border-radius:10px;padding:16px 20px;font-size:18px;line-height:1.4}
+.ddl{background:#fff;color:#222;border:1px solid #999;border-radius:3px;padding:7px 10px;font-size:16px;height:36px;margin:4px 0 14px;position:relative}
+.ddl:after{content:"⌄";position:absolute;right:10px;top:4px;color:#555}
+.ddl.inp:after{content:""}
+.btn{display:inline-block;padding:8px 18px;border-radius:4px;font-size:16px;font-weight:600}
+
+/* ---- Wireshark first look: additions ---- */
+.win{position:absolute;background:#f3f3f3;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.5);color:#222;overflow:hidden}
+.fb{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#e4e4e4;border-bottom:1px solid #c9c9c9}
+.fin{flex:1;height:30px;border:1.5px solid #999;border-radius:4px;background:#fff;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:16px;display:flex;align-items:center;padding:0 10px;white-space:nowrap;overflow:hidden}
+.fin.ok{background:#d9f7d9;border-color:#3aa33a}.fin.bad{background:#ffd9d9;border-color:#d33}
+.fbtn{height:30px;padding:0 12px;border:1px solid #aaa;border-radius:4px;background:#fafafa;font-size:14px;display:flex;align-items:center}
+.car{display:inline-block;width:2px;height:18px;background:#222;margin-left:1px}
+table.pl{border-collapse:collapse;width:100%;font-size:12.5px;font-family:"Consolas","DejaVu Sans Mono",monospace;background:#fff}
+table.pl th{background:#e9e9e9;text-align:left;font-weight:600;padding:3px 6px;border-bottom:1px solid #bbb;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif;font-size:12px}
+table.pl td{padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:330px}
+table.pl tr.sel td{background:#3b82f6;color:#fff}
+table.pl tr.hi td{background:#fff3b0}
+.tree{background:#fff;border-top:1px solid #bbb;padding:6px 10px;font-size:13px;line-height:1.55;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif}
+.tree div.on{background:#bcd7ff}
+.hex{background:#fff;border-top:1px solid #bbb;padding:6px 10px;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:12.5px;line-height:1.5;white-space:pre}
+.hex b{background:#bcd7ff;font-weight:400}
+.plab{position:absolute;right:8px;font-size:11px;color:#888;font-family:"Segoe UI",Arial,sans-serif;text-transform:uppercase;letter-spacing:.8px}
+.cm{position:absolute;background:#fff;color:#222;border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.55);padding:5px 0;font-size:15px;width:230px;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif}
+.cm div{padding:6px 14px}.cm div.hl{background:#3b82f6;color:#fff}
+.call{position:absolute;background:#3a2a05;border:2px solid var(--yel);border-radius:10px;padding:12px 16px;font-size:18px;line-height:1.4}
+.term{position:absolute;background:#0b1424;border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:17px;line-height:1.8;color:#dfe7f5;white-space:pre}
+.term .p{color:var(--yel)}
+table.cs{border-collapse:collapse;width:100%;font-size:19px;color:#dfe7f5}
+table.cs td{padding:9px 12px;border-bottom:1px solid #2c3f63}
+table.cs td:first-child{color:var(--yel);font-family:"Consolas","DejaVu Sans Mono",monospace;width:610px;font-size:17px}
+.sb{position:absolute;left:0;right:0;bottom:0;height:26px;background:#e4e4e4;border-top:1px solid #c9c9c9;display:flex;justify-content:space-between;align-items:center;padding:0 12px;font-size:13px;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif;color:#222}
+.sb .fl{outline:3px solid #f5c518;outline-offset:2px;padding:0 6px;background:#fff3b0}
+.tree div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hl2{background:#fff3b0;color:#000}
+.term .dim{color:#7c8db0}.term .hi{background:#3a2a05;color:#fff;outline:2px solid #f5c518}
+table.mp{border-collapse:collapse;width:100%;font-size:19px;color:#dfe7f5}
+table.mp td,table.mp th{padding:10px 12px;border-bottom:1px solid #2c3f63;text-align:left}
+table.mp th{font-size:13px;color:var(--mut);letter-spacing:1px;text-transform:uppercase;font-weight:600}
+table.mp td.m{font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:16px}
+table.mp td.y{color:var(--yel)}
+</style></head><body>
+
+<section class="scene" id="s0">
+  <div style="position:absolute;left:110px;top:190px;width:10px;height:270px;background:var(--yel)" id="s0bar"></div>
+  <div style="position:absolute;left:150px;top:195px" id="s0txt">
+    <div style="font-size:50px;font-weight:800">Wireshark: pull out the fields you need</div>
+    <div style="font-size:28px;color:var(--yel);margin-top:14px">A short primer for Lessons 03, 04 and 06</div>
+    <div style="font-size:20px;color:var(--mut);margin-top:40px">Name a field &nbsp;•&nbsp; Filter on it &nbsp;•&nbsp; Pull it out</div>
+    <div style="font-size:16px;color:var(--mut);margin-top:10px">Follows <i>Wireshark: a first look</i> &nbsp;·&nbsp; uses <span class="mono" style="font-size:16px">03-dns.pcap</span> and <span class="mono" style="font-size:16px">04-tls.pcap</span> from this course</div>
+  </div>
+  <div class="cap">Lessons 03, 04 and 06 pull single fields out of packets. This video covers how.</div>
+</section>
+
+<section class="scene" id="s1">
+  <div class="hdr"><span class="chip">STEP 1</span><span class="htitle">Every field has a name</span></div>
+  <div class="win" id="s1w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Click a field in the <b>details</b> pane.</span></li>
+    <li><span class="n">2</span><span>Read the <b>status bar</b>. The name in brackets is the field's name for filters.</span></li>
+    <li><span class="n">3</span><span>Or right-click the field and choose <b>Copy → Fieldname</b>.</span></li>
+  </ul>
+  <div class="cap">The text in the details pane is a label. The name in brackets is what you type.</div>
+</section>
+
+<section class="scene" id="s2">
+  <div class="hdr"><span class="chip">STEP 2</span><span class="htitle">Filter on a protocol</span></div>
+  <div class="win" id="s2w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Type just a protocol name: <span class="mono">tls</span>.</span></li>
+    <li><span class="n">2</span><span>Press <b>Enter</b>. Only packets that contain that protocol stay.</span></li>
+    <li><span class="n">3</span><span>The status bar counts them: <b>13 of 29</b>.</span></li>
+  </ul>
+  <div class="cap">A protocol name alone keeps every packet that has that protocol in it.</div>
+</section>
+
+<section class="scene" id="s3">
+  <div class="hdr"><span class="chip">STEP 3</span><span class="htitle">Filter on a field's value</span></div>
+  <div class="win" id="s3w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Write <span class="mono">protocol.field</span>, then <span class="mono">==</span>, then a value.</span></li>
+    <li><span class="n">2</span><span>Handshake type <b>1</b> is the Client Hello. Two packets match.</span></li>
+    <li><span class="n">3</span><span>Same colors as before: red until the filter is complete.</span></li>
+  </ul>
+  <div class="cap">Name the field, compare it to a value, and only matching packets remain.</div>
+</section>
+
+<section class="scene" id="s4">
+  <div class="hdr"><span class="chip">STEP 3b</span><span class="htitle">Numbers pick a conversation or a port</span></div>
+  <div class="win" id="s4w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span><span class="mono">tcp.stream == 0</span> keeps one TCP conversation. Streams are numbered from 0.</span></li>
+    <li><span class="n">2</span><span><span class="mono">udp.port == 53</span> matches the port on <b>either</b> side, source or destination.</span></li>
+  </ul>
+  <div class="call" id="s4n" style="left:900px;top:400px;width:340px;font-size:16px">On <span class="mono" style="font-size:15px">03-dns.pcap</span>, <span class="mono" style="font-size:15px">udp.port == 53</span> keeps <b>16 of 16</b> packets: every packet there is DNS on port 53.</div>
+  <div class="cap">Follow → TCP Stream sets a filter like this for you. You can also type it.</div>
+</section>
+
+<section class="scene" id="s5">
+  <div class="hdr"><span class="chip">STEP 4</span><span class="htitle">Show a field as a column</span></div>
+  <div class="win" id="s5w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <div class="cm" id="s5m" style="left:260px;top:408px;width:200px"><div>Expand Subtrees</div><div class="hl" id="s5h">Apply as Column</div><div>Apply as Filter</div><div>Prepare as Filter</div><div>Copy ▸</div></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Click the field in the details pane.</span></li>
+    <li><span class="n">2</span><span>Right-click it and choose <b>Apply as Column</b>.</span></li>
+    <li><span class="n">3</span><span>Every packet now shows that field's value in the list.</span></li>
+    <li><span class="n">4</span><span>To undo it: right-click the column heading → <b>Remove Column</b>.</span></li>
+  </ul>
+  <div class="cap">A column puts one field's value for every packet side by side.</div>
+</section>
+
+<section class="scene" id="s6">
+  <div class="hdr"><span class="chip">NO GUI?</span><span class="htitle">Pull out fields with tshark</span></div>
+  <div class="term" id="s6t" style="left:40px;top:100px;width:740px;height:540px;font-size:16px;line-height:1.4"></div>
+  <ul class="steps" style="left:820px;top:110px;width:420px">
+    <li><span class="n">1</span><span><span class="mono">-T fields</span> prints only the fields you ask for.</span></li>
+    <li><span class="n">2</span><span>Add one <span class="mono">-e</span> for each field, in the order you want the columns.</span></li>
+    <li><span class="n">3</span><span>Columns are separated by tabs. These are the same names as in Wireshark.</span></li>
+  </ul>
+  <div class="cap">One row per packet. One column per <span class="mono">-e</span>.</div>
+</section>
+
+<section class="scene" id="s7">
+  <div class="hdr"><span class="chip">READ THE ROWS</span><span class="htitle">Blank cells and commas</span></div>
+  <div class="term" id="s7t" style="left:40px;top:110px;width:760px;height:400px"></div>
+  <ul class="steps" style="left:830px;top:120px;width:410px">
+    <li><span class="n">1</span><span>A <b>blank</b> cell means that packet has no such field.</span></li>
+    <li><span class="n">2</span><span>A <b>comma</b> means the packet has the field more than once.</span></li>
+    <li><span class="n">3</span><span>Filter with <span class="mono">-Y</span> and pick fields with <span class="mono">-e</span> in the same command.</span></li>
+  </ul>
+  <div class="cap">Frame 6 has several values. Frames 10 and 11 have none. Both are normal.</div>
+</section>
+
+<section class="scene" id="s8">
+  <div class="hdr"><span class="chip">SEE EVERYTHING</span><span class="htitle">tshark -V shows one packet in full</span></div>
+  <div class="term" id="s8t" style="left:40px;top:100px;width:870px;height:540px;font-size:13.5px;line-height:1.38;padding:14px 16px"></div>
+  <ul class="steps" style="left:940px;top:110px;width:300px">
+    <li><span class="n">1</span><span><span class="mono">-V</span> prints the whole details tree, as Wireshark's details pane shows it.</span></li>
+    <li><span class="n">2</span><span>Pick one packet with <span class="mono">-Y</span>, or the output is very long. Here, … marks lines cut for space.</span></li>
+    <li><span class="n">3</span><span>It shows labels, such as <b>Name</b>. To filter or extract, you still need the field name.</span></li>
+  </ul>
+  <div class="cap">Use <span class="mono">-V</span> to look. Use <span class="mono">-T fields</span> to extract.</div>
+</section>
+
+<section class="scene" id="s9">
+  <div class="hdr"><span class="chip">NAMES</span><span class="htitle">Wireshark and Security Onion name things differently</span></div>
+  <div class="pane" style="left:60px;top:100px;width:1160px;padding:12px 16px"><table class="mp"><thead><tr><th>Wireshark / tshark field</th><th>Value in this capture</th><th>Security Onion field</th></tr></thead><tbody id="s9t"></tbody></table></div>
+  <div class="call" id="s9n" style="left:60px;top:470px;width:1160px;font-size:19px">Match them by <b>meaning</b>, not by spelling. Look each one up in <span class="mono" style="font-size:17px">lessons/field-names.md</span>. Some differ in form, too: a number on one side, a word on the other.</div>
+  <div class="cap">Wireshark and Security Onion each use their own names. Check before you assume they match.</div>
+</section>
+
+<section class="scene" id="s10">
+  <div class="hdr"><span class="chip">RECAP</span><span class="htitle">Six moves</span></div>
+  <div class="pane" style="left:90px;top:100px;width:1100px;padding:12px 16px"><table class="cs"><tbody id="s10t">
+    <tr><td>tls</td><td>Keep packets that contain a protocol</td></tr>
+    <tr><td>tls.handshake.type == 1</td><td>Keep packets where a field has a value</td></tr>
+    <tr><td>tcp.stream == 0</td><td>Keep one TCP conversation</td></tr>
+    <tr><td>Apply as Column</td><td>Show a field for every packet</td></tr>
+    <tr><td>-T fields -e name</td><td>Print only the fields you ask for</td></tr>
+    <tr><td>-V</td><td>Print every field of a packet</td></tr>
+  </tbody></table></div>
+  <div class="cap">That's enough Wireshark to start Lessons 03, 04 and 06.</div>
+</section>
+
+<section class="scene" id="s11">
+  <div class="hdr"><span class="chip">YOUR TURN</span><span class="htitle">Take it into the lessons</span></div>
+  <ul class="steps" style="left:120px;top:140px;width:1040px;font-size:24px">
+    <li><span class="n">1</span><span><b>Lesson 03:</b> run the <span class="mono">-T fields</span> command it prints and read the table.</span></li>
+    <li><span class="n">2</span><span><b>Lesson 04:</b> filter on <span class="mono">tls</span>, then pick fields by name.</span></li>
+    <li><span class="n">3</span><span><b>Lesson 06:</b> use <span class="mono">-T fields</span> on the second capture, as the lesson shows.</span></li>
+    <li><span class="n">4</span><span>Then answer the lesson's questions in your own words.</span></li>
+  </ul>
+  <div class="note" id="s11n" style="left:120px;top:460px;width:1040px;font-size:20px">A field name tells you where to look. What the value means is your call.</div>
+  <div class="cap">Everything here used traffic the lessons already explain. The questions are yours to answer.</div>
+</section>
+
+<div class="prog" id="prog"></div>
+
+<script>
+const D={"dns": [["1", "0.000000000", "192.0.2.2", "1.1.1.1", "DNS", "74", "Standard query 0x0624 A www.github.com"], ["2", "0.014423000", "1.1.1.1", "192.0.2.2", "DNS", "104", "Standard query response 0x0624 A www.github.com CNAME github.com A 140.82.113.3"], ["3", "0.415206000", "192.0.2.2", "1.1.1.1", "DNS", "76", "Standard query 0xdd00 A en.wikipedia.org"], ["4", "0.434677000", "1.1.1.1", "192.0.2.2", "DNS", "121", "Standard query response 0xdd00 A en.wikipedia.org CNAME dyna.wikimedia.org A 208.80.153.224"], ["5", "0.835393000", "192.0.2.2", "1.1.1.1", "DNS", "75", "Standard query 0xbcb5 A www.example.com"], ["6", "0.849853000", "1.1.1.1", "192.0.2.2", "DNS", "107", "Standard query response 0xbcb5 A www.example.com A 104.20.23.154 A 172.66.147.243"], ["7", "1.250447000", "192.0.2.2", "1.1.1.1", "DNS", "75", "Standard query 0x5473 AAAA www.example.com"], ["8", "1.282615000", "1.1.1.1", "192.0.2.2", "DNS", "131", "Standard query response 0x5473 AAAA www.example.com AAAA 2606:4700:10::6814:179a AAAA 2606:4700:10::ac42:93f3"], ["9", "1.683196000", "192.0.2.2", "1.1.1.1", "DNS", "81", "Standard query 0x2e50 A outlook.office365.com"], ["10", "1.697492000", "1.1.1.1", "192.0.2.2", "DNS", "283", "Standard query response 0x2e50 A outlook.office365.com CNAME outlook.cloud.microsoft CNAME acdcatm.outlook.mira.tm.svc.cloud.microsoft CNAME outlook.ms-acdc.office.com CNAME MDW-efz.ms-acdc.office.com A 52.96.164.146 A 52.96.79.50 A 52.96.164.130 A 52.96.79.146"], ["11", "2.098237000", "192.0.2.2", "1.1.1.1", "DNS", "94", "Standard query 0x17be A nonexistent-host-fbc19.example.com"], ["12", "2.113070000", "1.1.1.1", "192.0.2.2", "DNS", "156", "Standard query response 0x17be A nonexistent-host-fbc19.example.com SOA elliott.ns.cloudflare.com"], ["13", "5.514264000", "192.0.2.2", "1.1.1.1", "DNS", "74", "Standard query 0xe821 A www.github.com"], ["14", "5.529734000", "1.1.1.1", "192.0.2.2", "DNS", "104", "Standard query response 0xe821 A www.github.com CNAME github.com A 140.82.112.4"], ["15", "5.830366000", "192.0.2.2", "1.1.1.1", "DNS", "76", "Standard query 0x584b A en.wikipedia.org"], ["16", "5.849743000", "1.1.1.1", "192.0.2.2", "DNS", "121", "Standard query response 0x584b A en.wikipedia.org CNAME dyna.wikimedia.org A 208.80.153.224"]], "tls": [["1", "0.000000000", "192.0.2.10", "198.51.100.20", "TCP", "74", "44120 → 443 [SYN] Seq=0 Win=65495 Len=0 MSS=65495 SACK_PERM TSval=3463384642 TSecr=0 WS=1024"], ["2", "0.000120000", "198.51.100.20", "192.0.2.10", "TCP", "74", "443 → 44120 [SYN, ACK] Seq=0 Ack=1 Win=65483 Len=0 MSS=65495 SACK_PERM TSval=485785802 TSecr=3463384642 WS=1024"], ["3", "0.000133000", "192.0.2.10", "198.51.100.20", "TCP", "66", "44120 → 443 [ACK] Seq=1 Ack=1 Win=65536 Len=0 TSval=3463384642 TSecr=485785802"], ["4", "0.003848000", "192.0.2.10", "198.51.100.20", "TLSv1", "583", "Client Hello (SNI=files.harrowmere-group.example)"], ["5", "0.003875000", "198.51.100.20", "192.0.2.10", "TCP", "66", "443 → 44120 [ACK] Seq=1 Ack=518 Win=65536 Len=0 TSval=485785806 TSecr=3463384646"], ["6", "0.005424000", "198.51.100.20", "192.0.2.10", "TLSv1.2", "1503", "Server Hello, Certificate, Server Key Exchange, Server Hello Done"], ["7", "0.005451000", "192.0.2.10", "198.51.100.20", "TCP", "66", "44120 → 443 [ACK] Seq=518 Ack=1438 Win=81920 Len=0 TSval=3463384648 TSecr=485785808"], ["8", "0.007152000", "192.0.2.10", "198.51.100.20", "TLSv1.2", "159", "Client Key Exchange, Change Cipher Spec, Encrypted Handshake Message"], ["9", "0.007440000", "198.51.100.20", "192.0.2.10", "TLSv1.2", "308", "New Session Ticket, Change Cipher Spec, Encrypted Handshake Message"], ["10", "0.007663000", "192.0.2.10", "198.51.100.20", "TLSv1.2", "201", "Application Data"], ["11", "0.007736000", "198.51.100.20", "192.0.2.10", "TLSv1.2", "203", "Application Data"], ["12", "0.007829000", "198.51.100.20", "192.0.2.10", "TCP", "66", "443 → 44120 [FIN, ACK] Seq=1817 Ack=746 Win=65536 Len=0 TSval=485785810 TSecr=3463384650"], ["13", "0.007895000", "192.0.2.10", "198.51.100.20", "TCP", "66", "44120 → 443 [FIN, ACK] Seq=746 Ack=1818 Win=82944 Len=0 TSval=3463384650 TSecr=485785810"], ["14", "0.008087000", "198.51.100.20", "192.0.2.10", "TCP", "66", "443 → 44120 [ACK] Seq=1818 Ack=747 Win=65536 Len=0 TSval=485785810 TSecr=3463384650"], ["15", "0.533369000", "192.0.2.10", "198.51.100.30", "TCP", "74", "44130 → 443 [SYN] Seq=0 Win=65495 Len=0 MSS=65495 SACK_PERM TSval=127215443 TSecr=0 WS=1024"], ["16", "0.533460000", "198.51.100.30", "192.0.2.10", "TCP", "74", "443 → 44130 [SYN, ACK] Seq=0 Ack=1 Win=65483 Len=0 MSS=65495 SACK_PERM TSval=2620062381 TSecr=127215443 WS=1024"], ["17", "0.533471000", "192.0.2.10", "198.51.100.30", "TCP", "66", "44130 → 443 [ACK] Seq=1 Ack=1 Win=65536 Len=0 TSval=127215443 TSecr=2620062381"], ["18", "0.533910000", "192.0.2.10", "198.51.100.30", "TLSv1", "583", "Client Hello (SNI=files.harrowmere-group.example)"], ["19", "0.533939000", "198.51.100.30", "192.0.2.10", "TCP", "66", "443 → 44130 [ACK] Seq=1 Ack=518 Win=65536 Len=0 TSval=2620062381 TSecr=127215443"], ["20", "0.535460000", "198.51.100.30", "192.0.2.10", "TLSv1.3", "1660", "Server Hello, Change Cipher Spec, Application Data, Application Data, Application Data, Application Data"], ["21", "0.535486000", "192.0.2.10", "198.51.100.30", "TCP", "66", "44130 → 443 [ACK] Seq=518 Ack=1595 Win=84992 Len=0 TSval=127215445 TSecr=2620062383"], ["22", "0.536317000", "192.0.2.10", "198.51.100.30", "TLSv1.3", "146", "Change Cipher Spec, Application Data"], ["23", "0.536469000", "198.51.100.30", "192.0.2.10", "TLSv1.3", "321", "Application Data"], ["24", "0.537469000", "192.0.2.10", "198.51.100.30", "TLSv1.3", "194", "Application Data"], ["25", "0.537502000", "198.51.100.30", "192.0.2.10", "TLSv1.3", "321", "Application Data"], ["26", "0.537606000", "198.51.100.30", "192.0.2.10", "TLSv1.3", "196", "Application Data"], ["27", "0.537621000", "192.0.2.10", "198.51.100.30", "TCP", "66", "44130 → 443 [ACK] Seq=726 Ack=2236 Win=86016 Len=0 TSval=127215447 TSecr=2620062385"], ["28", "0.537663000", "192.0.2.10", "198.51.100.30", "TCP", "66", "44130 → 443 [FIN, ACK] Seq=726 Ack=2236 Win=86016 Len=0 TSval=127215447 TSecr=2620062385"], ["29", "0.537672000", "198.51.100.30", "192.0.2.10", "TCP", "66", "443 → 44130 [ACK] Seq=2236 Ack=727 Win=65536 Len=0 TSval=2620062385 TSecr=127215447"]], "dnsNames": [["1", "www.github.com"], ["2", "www.github.com"], ["3", "en.wikipedia.org"], ["4", "en.wikipedia.org"], ["5", "www.example.com"], ["6", "www.example.com"], ["7", "www.example.com"], ["8", "www.example.com"], ["9", "outlook.office365.com"], ["10", "outlook.office365.com"], ["11", "nonexistent-host-fbc19.example.com"], ["12", "nonexistent-host-fbc19.example.com"], ["13", "www.github.com"], ["14", "www.github.com"], ["15", "en.wikipedia.org"], ["16", "en.wikipedia.org"]], "tlsTypes": [["4", "1"], ["6", "2,11,12,14"], ["8", "16"], ["9", "4"], ["10", ""], ["11", ""]], "sni": [["4", "files.harrowmere-group.example"], ["18", "files.harrowmere-group.example"]], "qtype": [["1"]], "V": ["Frame 1: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)", "    Encapsulation type: Ethernet (1)", "    Arrival Time: Aug 19, 2026 05:06:30.479253000 UTC", "    UTC Arrival Time: Aug 19, 2026 05:06:30.479253000 UTC", "    Epoch Arrival Time: 1787115990.479253000", "    [Time shift for this packet: 0.000000000 seconds]", "    [Time delta from previous captured frame: 0.000000000 seconds]", "    [Time delta from previous displayed frame: 0.000000000 seconds]", "    [Time since reference or first frame: 0.000000000 seconds]", "    Frame Number: 1", "    Frame Length: 74 bytes (592 bits)", "    Capture Length: 74 bytes (592 bits)", "    [Frame is marked: False]", "    [Frame is ignored: False]", "    [Protocols in frame: eth:ethertype:ip:udp:dns]", "Ethernet II, Src: 02:fc:00:00:00:01 (02:fc:00:00:00:01), Dst: 02:fc:00:00:00:05 (02:fc:00:00:00:05)", "    Destination: 02:fc:00:00:00:05 (02:fc:00:00:00:05)", "        Address: 02:fc:00:00:00:05 (02:fc:00:00:00:05)", "        .... ..1. .... .... .... .... = LG bit: Locally administered address (this is NOT the factory default)", "        .... ...0 .... .... .... .... = IG bit: Individual address (unicast)", "    Source: 02:fc:00:00:00:01 (02:fc:00:00:00:01)", "        Address: 02:fc:00:00:00:01 (02:fc:00:00:00:01)", "        .... ..1. .... .... .... .... = LG bit: Locally administered address (this is NOT the factory default)", "        .... ...0 .... .... .... .... = IG bit: Individual address (unicast)", "    Type: IPv4 (0x0800)", "Internet Protocol Version 4, Src: 192.0.2.2, Dst: 1.1.1.1", "    0100 .... = Version: 4", "    .... 0101 = Header Length: 20 bytes (5)", "    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)", "        0000 00.. = Differentiated Services Codepoint: Default (0)", "        .... ..00 = Explicit Congestion Notification: Not ECN-Capable Transport (0)", "    Total Length: 60", "    Identification: 0x8a14 (35348)", "    010. .... = Flags: 0x2, Don't fragment", "        0... .... = Reserved bit: Not set", "        .1.. .... = Don't fragment: Set", "        ..0. .... = More fragments: Not set", "    ...0 0000 0000 0000 = Fragment Offset: 0", "    Time to Live: 64", "    Protocol: UDP (17)", "    Header Checksum: 0xec98 [validation disabled]", "    [Header checksum status: Unverified]", "    Source Address: 192.0.2.2", "    Destination Address: 1.1.1.1", "User Datagram Protocol, Src Port: 49943, Dst Port: 53", "    Source Port: 49943", "    Destination Port: 53", "    Length: 40", "    Checksum: 0xeb73 [unverified]", "    [Checksum Status: Unverified]", "    [Stream index: 0]", "    [Timestamps]", "        [Time since first frame: 0.000000000 seconds]", "        [Time since previous frame: 0.000000000 seconds]", "    UDP payload (32 bytes)", "Domain Name System (query)", "    Transaction ID: 0x0624", "    Flags: 0x0100 Standard query", "        0... .... .... .... = Response: Message is a query", "        .000 0... .... .... = Opcode: Standard query (0)", "        .... ..0. .... .... = Truncated: Message is not truncated", "        .... ...1 .... .... = Recursion desired: Do query recursively", "        .... .... .0.. .... = Z: reserved (0)", "        .... .... ...0 .... = Non-authenticated data: Unacceptable", "    Questions: 1", "    Answer RRs: 0", "    Authority RRs: 0", "    Additional RRs: 0", "    Queries", "        www.github.com: type A, class IN", "            Name: www.github.com", "            [Name Length: 14]", "            [Label Count: 3]", "            Type: A (1) (Host Address)", "            Class: IN (0x0001)"], "nameSize": 16};
+const $=id=>document.getElementById(id);
+const clamp=x=>Math.max(0,Math.min(1,x));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const P=(lt,a,d=.5)=>ease(clamp((lt-a)/d));
+const fade=(el,v,dy=12)=>{if(!el)return;el.style.opacity=v;el.style.transform=`translateY(${(1-v)*dy}px)`};
+const lis=sc=>[...document.querySelectorAll(`#${sc} .steps li`)];
+const stepIn=(sc,lt,times)=>lis(sc).forEach((li,i)=>fade(li,P(lt,times[i]??99)));
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const setHTML=(el,h)=>{if(el.__h!==h){el.innerHTML=h;el.__h=h}};
+const typedText=(s,lt,a,d)=>s.slice(0,Math.floor(clamp((lt-a)/d)*s.length));
+/* a typed filter is green only where the whole text is a valid filter (each checked with tshark) */
+const VALID=new Set(['tls','tls.handshake.type','tls.handshake.type == 1','tcp','tcp.stream','tcp.stream == 0']);
+const vstate=s=>s.length?(VALID.has(s)?'ok':'bad'):'none';
+
+const DNS=D.dns,TLS=D.tls;
+const pct=(a,b)=>(100*a/b).toFixed(1);
+const sbar=(left,shown,total,hl)=>`<div class="sb"><span class="${hl?'fl':''}">${esc(left||'')}</span><span>Packets: ${total} · Displayed: ${shown} (${pct(shown,total)}%)</span></div>`;
+
+function winHTML(o){
+  const rows=o.rows.map(i=>o.data[i]);
+  const rh=o.rowH||21, im=o.infoMax||50;
+  const xc=o.col;
+  const list=`<table class="pl"><thead><tr><th style="width:34px">No.</th><th style="width:78px">Time</th><th style="width:96px">Source</th><th style="width:104px">Destination</th><th style="width:56px">Protocol</th><th style="width:40px">Length</th><th>Info</th>${xc?`<th style="width:150px;background:#fff3b0">${esc(xc.title)}</th>`:''}</tr></thead><tbody>`+
+   rows.map(r=>{const n=+r[0];const c=o.sel===n?'sel':(o.hi&&o.hi.includes(n)?'hi':'');
+     const info=r[6].length>im?r[6].slice(0,im-1)+'…':r[6];
+     const x=xc?`<td style="${xc.show?'':'visibility:hidden'}">${esc(xc.vals[n]||'')}</td>`:'';
+     return `<tr class="${c}" style="height:${rh}px"><td>${r[0]}</td><td>${(+r[1]).toFixed(6)}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${esc(info)}</td>${x}</tr>`}).join('')+`</tbody></table>`;
+  const state=o.state||'none';
+  const bar=`<div class="fb"><div class="fin ${state==='none'?'':state}"><span>${esc(o.filter||'')}</span>${o.caret?'<span class="car"></span>':''}</div><div class="fbtn" style="${o.hiApply?'outline:3px solid #f5c518':''}">Apply</div><div class="fbtn">Clear</div></div>`;
+  let extra='';
+  if(o.tree){
+    extra=`<div class="tree" style="height:${o.tree.h}px">`+o.tree.lines.map((l,i)=>`<div class="${o.tree.sel===i?'on':''}" style="padding-left:${l[0]*18}px">${l[2]} ${esc(l[1])}</div>`).join('')+`</div>`;
+  }
+  const lh=o.listH?`height:${o.listH}px;overflow:hidden`:'';
+  return bar+`<div style="${lh}">${list}</div>`+extra+sbar(o.status,o.shown??rows.length,o.data.length,o.hiStatus);
+}
+const idx=(a,b)=>Array.from({length:b-a+1},(_,i)=>a-1+i);   // frame a..b -> row indexes
+
+/* real -V output for frame 1 of 03-dns.pcap, in order, with the DNS section expanded */
+const V=D.V;
+const find=s=>V.findIndex(l=>l.trim().startsWith(s));
+const dnsAt=find('Domain Name System');
+const treeLines=[
+ [0,V[0],'▸'],[0,V[find('Ethernet II')],'▸'],[0,V[find('Internet Protocol')],'▸'],[0,V[find('User Datagram')],'▸'],[0,V[dnsAt],'▾'],
+ ...V.slice(dnsAt+1).map(l=>{const ind=(l.length-l.trimStart().length)/4;return [ind,l.trim(),ind===1&&l.trim()==='Queries'?'▾':(l.trim().includes(': type ')?'▾':'')]})
+].filter(l=>!/^\s*\.{4}|^\.{3}|^\d{4} \.|^\.\.\.\./.test(l[1]));
+const NAMEIDX=treeLines.findIndex(l=>l[1].startsWith('Name: '));
+/* keep the tree short: drop the flag-bit lines under Flags */
+const tl=treeLines.filter(l=>!/^(\d|\.)/.test(l[1])&&!l[1].startsWith('[Name Length')&&!l[1].startsWith('[Label Count'));
+const tlName=tl.findIndex(l=>l[1].startsWith('Name: '));
+
+const namePad=(a,b,w)=>a+' '.repeat(Math.max(2,w-a.length))+b;
+
+const SC=[
+ ['s0',6,lt=>{fade($('s0bar'),P(lt,.2,.6),0);$('s0bar').style.transform=`scaleY(${P(lt,.2,.6)})`;fade($('s0txt'),P(lt,.5,.8),20)}],
+ ['s1',13,lt=>{stepIn('s1',lt,[1.5,4,8]);
+   const sel=lt>3?tlName:-1;
+   setHTML($('s1w'),winHTML({data:DNS,rows:idx(1,3),sel:1,rowH:19,listH:76,tree:{lines:tl,sel,h:tl.length*19+10},status:sel>=0?`Name (dns.qry.name), ${D.nameSize} bytes`:'',hiStatus:lt>4.5,shown:16}))}],
+ ['s2',11,lt=>{stepIn('s2',lt,[1,5.5,7.5]);
+   const full='tls',s=typedText(full,lt,.8,1.2);const done=lt>5;
+   setHTML($('s2w'),winHTML({data:TLS,rows:done?TLS.map((r,i)=>i).filter(i=>/TLS/.test(TLS[i][4])):idx(1,24),filter:s,state:vstate(s),caret:!done&&Math.floor(lt*2)%2===0,rowH:done?21:17,listH:450,hiApply:lt>4&&lt<5,shown:done?13:29}))}],
+ ['s3',12,lt=>{stepIn('s3',lt,[1,6.5,8.5]);
+   const full='tls.handshake.type == 1',s=typedText(full,lt,.8,4.2);const done=lt>6.2;
+   setHTML($('s3w'),winHTML({data:TLS,rows:done?[3,17]:idx(1,24),filter:s,state:vstate(s),caret:!done&&Math.floor(lt*2)%2===0,rowH:done?24:17,listH:450,hi:done?[4,18]:[],hiApply:lt>5.2&&lt<6.2,shown:done?2:29}))}],
+ ['s4',12,lt=>{stepIn('s4',lt,[1,6]);fade($('s4n'),P(lt,8.5));
+   const full='tcp.stream == 0',s=typedText(full,lt,.6,3);const done=lt>4.5;
+   setHTML($('s4w'),winHTML({data:TLS,rows:done?idx(1,14):idx(1,24),filter:s,state:vstate(s),caret:!done&&Math.floor(lt*2)%2===0,rowH:done?21:17,listH:450,hiApply:lt>3.6&&lt<4.5,shown:done?14:29}))}],
+ ['s5',14,lt=>{const menu=lt>2.2&&lt<7;const added=lt>7.6;
+   $('s5m').style.opacity=menu?P(lt,2.2,.3):0;$('s5h').className=lt>4.8?'hl':'';
+   stepIn('s5',lt,[1,3,8,11]);
+   const vals={};D.dnsNames.forEach(r=>vals[+r[0]]=r[1]);
+   setHTML($('s5w'),winHTML({data:DNS,rows:idx(1,3),sel:1,rowH:19,listH:76,infoMax:22,col:{title:'Name',vals,show:added},tree:{lines:tl,sel:lt>1.6?tlName:-1,h:tl.length*19+10},shown:16,status:lt>1.6?`Name (dns.qry.name), ${D.nameSize} bytes`:''}))}],
+ ['s6',13,lt=>{
+   const cmd='tshark -r assets/pcaps/03-dns.pcap -T fields \\\n       -e frame.number -e dns.qry.name';
+   const n=D.dnsNames.length;const k=Math.floor(clamp((lt-3.2)/3.5)*n);
+   const rows=D.dnsNames.slice(0,k).map(r=>namePad(r[0],r[1],4)).join('\n');
+   $('s6t').innerHTML='<span class="p">$</span> '+esc(typedText(cmd,lt,.5,2.4))+(k?'\n'+esc(rows):'');
+   stepIn('s6',lt,[3,6,9])}],
+ ['s7',13,lt=>{
+   const l1='tshark -r assets/pcaps/04-tls.pcap -Y "tcp.stream == 0 &amp;&amp; tls" \\'.replace(/&amp;/g,'&');
+   const l2='       -T fields -e frame.number -e tls.handshake.type';
+   const k=Math.floor(clamp((lt-3)/2.5)*D.tlsTypes.length);
+   const rows=D.tlsTypes.slice(0,k).map(r=>{const t=r[0]+' '.repeat(4-r[0].length)+r[1];
+     const ex=r[0]==='6'&&lt>7?'<span class="hi">'+esc(t)+'</span><span class="dim">   ◂ four values in one packet</span>':(r[1]===''&&lt>9.5?'<span class="hi">'+esc(t)+'</span><span class="dim">   ◂ nothing to show</span>':esc(t));return ex}).join('\n');
+   const cmd=(l1+'\n'+l2);
+   $('s7t').innerHTML='<span class="p">$</span> '+esc(typedText(cmd,lt,.4,2.4))+(k?'\n'+rows:'');
+   stepIn('s7',lt,[6.5,8.5,10.5])}],
+ ['s8',12,lt=>{
+   const cmd='tshark -r assets/pcaps/03-dns.pcap -Y "frame.number == 1" -V';
+   const full=[];tl.forEach((l,i)=>{full.push(l);
+     if(i<4)full.push([1,'…','',1]);
+     if(l[1].startsWith('Flags'))full.push([2,'…','',1]);
+     if(l[1].startsWith('Name: '))full.push([3,'…','',1]);});
+   const lines=full.map(l=>' '.repeat(l[0]*4)+l[1]);
+   const n=Math.floor(clamp((lt-2.5)/5)*lines.length);
+   $('s8t').innerHTML='<span class="p">$</span> '+esc(typedText(cmd,lt,.4,1.8))+'\n'+lines.slice(0,n).map((s,i)=>{const nm=full[i][1].startsWith('Name: ');return nm?'<span class="hi">'+esc(s)+'</span>':(full[i][3]?'<span class="dim">'+esc(s)+'</span>':esc(s))}).join('\n');
+   stepIn('s8',lt,[3.5,6,8])}],
+ ['s9',11,lt=>{
+   const sni=D.sni[0][1];
+   const rows=[['dns.qry.name',D.dnsNames[0][1],'dns.query.name'],['tls.handshake.extensions_server_name',sni,'ssl.server_name'],['dns.qry.type',D.qtype[0][0],'dns.query.type_name   (shows A)']];
+   $('s9t').innerHTML=rows.map(r=>`<tr><td class="m y">${esc(r[0])}</td><td class="m">${esc(r[1])}</td><td class="m y">${esc(r[2])}</td></tr>`).join('');
+   [...$('s9t').children].forEach((r,i)=>fade(r,P(lt,.5+i*1.6,.5),8));
+   fade($('s9n'),P(lt,6.5))}],
+ ['s10',10,lt=>{[...$('s10t').children].forEach((r,i)=>fade(r,P(lt,.4+i*.7,.5),8))}],
+ ['s11',10,lt=>{stepIn('s11',lt,[.5,1.8,3.1,4.4]);fade($('s11n'),P(lt,6))}],
+];
+let acc=0;SC.forEach(s=>{s.start=acc;acc+=s[1]});
+window.TOTAL=acc;
+window.render=function(t){
+  let cur=SC[SC.length-1];for(const s of SC){if(t>=s.start&&t<s.start+s[1]){cur=s;break}}
+  SC.forEach(s=>$(s[0]).style.display=s===cur?'block':'none');
+  const lt=t-cur.start;cur[2](lt);
+  const el=$(cur[0]);el.style.opacity=Math.min(clamp(lt/.35),clamp((cur[1]-lt)/.35));
+  $('prog').style.width=(t/acc*100)+'%';
+};
+document.querySelectorAll('.cap').forEach(c=>c.innerHTML='<span>'+c.innerHTML+'</span>');
+window.render(0);
+</script>
+</body></html>

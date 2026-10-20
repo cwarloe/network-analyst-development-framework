@@ -159,7 +159,7 @@ Two things worth extracting. **A `200 OK` is a promise, not a delivery** — the
 
 ## The fifth fault, in a second capture
 
-Open [`assets/pcaps/06-fragmentation.pcap`](../assets/pcaps/06-fragmentation.pcap). Two frames.
+Open [`assets/pcaps/06-fragmentation.pcap`](../assets/pcaps/06-fragmentation.pcap). Two frames. New to `-T fields`? Watch the two-minute primer first: [Wireshark: pull out the fields you need](wireshark-fields-primer.md).
 
 ```
 tshark -r assets/pcaps/06-fragmentation.pcap -T fields \

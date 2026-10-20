@@ -31,7 +31,9 @@ DNS is the right place to learn this because DNS looks alarming when you first w
 
 Real queries against a real public resolver (1.1.1.1), captured live by [`lab/generate-captures.py`](../lab/generate-captures.py). The answers are whatever the internet actually returned on the day it ran. Nothing here was arranged to make a point; the points are what turned up.
 
-Sixteen frames, eight query/response pairs. Start with the whole picture:
+Sixteen frames, eight query/response pairs. New to pulling fields out of a capture? Watch the two-minute primer first: [Wireshark: pull out the fields you need](wireshark-fields-primer.md).
+
+Start with the whole picture:
 
 ```
 tshark -r assets/pcaps/03-dns.pcap -T fields -e frame.number -e dns.flags.response \
