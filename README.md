@@ -2,6 +2,8 @@
 
 Training material for network analysts working in cyber defense. It teaches the reasoning — how to frame a question, weigh evidence, hold competing explanations open, and hand off a judgment someone else can act on — through network subject matter rather than alongside it.
 
+**Read it online:** <https://cwarloe.github.io/network-analyst-development-framework/>
+
 **All nine lessons now exist.** They are listed below and you can read them right now. None has been used by a learner yet — see the [roadmap](ROADMAP.md).
 
 ## The lessons
