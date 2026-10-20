@@ -36,6 +36,7 @@
       subMaxLevel: 3,
       auto2top: true,
       homepage: 'README.md',
+      relativePath: true,
       notFoundPage: true,
       search: {
         maxAge: 86400000,
@@ -50,6 +51,35 @@
         overflowScroll: true
       },
       plugins: [
+        function(hook) {
+          // Docsify turns every local link into a page route, so links to captures, videos,
+          // scripts and folders (which are files, not pages) find nothing. Point them at the
+          // real file on this site, or at GitHub where the site does not serve one.
+          var GH = 'https://github.com/cwarloe/network-analyst-development-framework/';
+          var SITE = ['pcap', 'mp4', 'html', 'png', 'svg'];
+          function open(a, url) { a.setAttribute('href', url); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); }
+          hook.doneEach(function() {
+            document.querySelectorAll('.markdown-section a[href^="#/"]').forEach(function(a) {
+              var p = a.getAttribute('href').slice(2).split('?')[0];
+              try { p = decodeURIComponent(p); } catch (e) {}
+              p = p.replace(/\/+$/, '');
+              if (!p) return;
+              var ext = (p.split('/').pop().match(/\.([A-Za-z0-9]+)$/) || [])[1];
+              if (ext) {
+                if (SITE.indexOf(ext.toLowerCase()) >= 0) open(a, p);
+                else open(a, GH + 'blob/main/' + p);
+                return;
+              }
+              // No extension: a page, a folder, or a file such as LICENSE. Ask the site.
+              Promise.all([fetch(p + '.md', {method: 'HEAD'}), fetch(p + '/README.md', {method: 'HEAD'})])
+                .then(function(r) {
+                  if (r[0].ok) return;
+                  if (r[1].ok) { a.setAttribute('href', '#/' + p + '/'); return; }
+                  open(a, GH + (p === 'LICENSE' ? 'blob' : 'tree') + '/main/' + p);
+                }).catch(function() {});
+            });
+          });
+        },
         function(hook) {
           // Parse [[id|Surface Text]] into interactive LNK hover elements with auto IDs and tier classes
           hook.beforeEach(function(content) {

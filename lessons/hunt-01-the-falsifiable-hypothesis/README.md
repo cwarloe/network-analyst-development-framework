@@ -183,5 +183,5 @@ WEEKLY 4DX THREAT HUNTING SCORECARD — HUNTER: [ ____________ ]  WEEK: [ ______
   <div class="bridge-label">Next Step in Curriculum</div>
   <div class="bridge-title">Hunt 02 — The Long Tail & Stacking Analysis</div>
   <p class="bridge-desc">Learn the mathematics of the Long Tail: how to use Elasticsearch Terms Aggregations to stack millions of network events and bubble the single 1-in-a-million outlier to the surface.</p>
-  <a href="#/lessons/hunt-02-the-long-tail" class="bridge-btn">Continue to Hunt 02 →</a>
+  <a href="#/lessons/hunt-02-least-frequency-analysis/README" class="bridge-btn">Continue to Hunt 02 →</a>
 </div>
