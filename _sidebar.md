@@ -24,6 +24,7 @@
   * [Day 0: Baseline Triage Alert](lessons/00-baseline-alert.md)
   * [Lesson 01: What the Analyst Is For](lessons/01-what-the-analyst-is-for.md)
   * [Lesson 02: Reading a Conversation](lessons/02-reading-a-conversation.md)
+    * [Primer: Wireshark, a first look](lessons/wireshark-first-look.md)
   * [Episode 03: Before You Look (Practice)](lessons/e03-before-you-look/README.md)
   * [Lesson 03: Names and Expectations](lessons/03-names-and-expectations.md)
   * [Milestone 1: Foundational Triage](lessons/milestone-01-foundational-triage/README.md)

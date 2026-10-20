@@ -37,6 +37,8 @@ So there are two views of the same traffic: **the packets themselves, and Zeek's
 
 One wrinkle worth knowing now rather than being confused by later: Security Onion **renames Zeek's fields** as it ingests them. Zeek writes `id.orig_h`; Security Onion indexes it as `source.ip`. Same value, two names, depending on where in the pipeline you are standing. [`field-names.md`](field-names.md) is the mapping.
 
+New to Wireshark itself? Watch the two-minute primer first: [Wireshark: a first look](wireshark-first-look.md).
+
 ## Where this data came from
 
 The capture in `assets/pcaps/` was generated in a lab by [`lab/generate-captures.py`](../lab/generate-captures.py). The traffic is real — a real client, a real server, a real TCP stack — and then the addresses were rewritten into documentation ranges so it reads as an ordinary internal exchange. Protocol behavior, timing and payloads are untouched.
