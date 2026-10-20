@@ -42,6 +42,7 @@
   * [Hunt 01: The Falsifiable Hypothesis (Workbench)](lessons/hunt-01-the-falsifiable-hypothesis/README.md)
   * [Chapter 11: The Long Tail (Story)](narrative/11-the-long-tail.md)
   * [Hunt 02: Least-Frequency Analysis (Workbench)](lessons/hunt-02-least-frequency-analysis/README.md)
+    * [Primer: Stacking in Security Onion Hunt](lessons/security-onion-groupby-primer.md)
   * [Chapter 12: The Heartbeat with a Stutter (Story)](narrative/12-the-heartbeat-with-a-stutter.md)
   * [Hunt 03: Beaconing & Statistical Jitter (Workbench)](lessons/hunt-03-beaconing-and-jitter/README.md)
   * [Chapter 13: The Forest and the Trees (Story)](narrative/13-the-forest-and-the-trees.md)

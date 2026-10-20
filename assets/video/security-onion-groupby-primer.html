@@ -1,0 +1,300 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<!-- NADF primer: Stacking in Security Onion Hunt (groupby). Render: CHROMIUM_PATH=... python3 render.py scenes.html out.mp4 (render.py is in the instructions-to-training-video playbook, cwarloe/knowledge-harvest). Table values come from Zeek 7.0 run on assets/pcaps/07-suspicious.pcap and 06-failures.pcap, shown with the Security Onion field names in lessons/field-names.md. -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0e1829;--panel:#16233a;--panel2:#1d2d49;--line:#2c3f63;--yel:#f5c518;--txt:#e9eef7;--mut:#93a3bf;--ok:#22c38e;--bad:#ff6b6b;--blue:#4ea1ff}
+body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif;color:var(--txt)}
+.scene{position:absolute;inset:0;display:none}
+.hdr{position:absolute;left:40px;top:26px;display:flex;align-items:center;gap:14px}
+.chip{background:var(--yel);color:#1a1300;font-weight:800;font-size:15px;padding:5px 12px;border-radius:14px;letter-spacing:.5px}
+.htitle{font-size:28px;font-weight:700}
+.cap{position:absolute;left:0;right:0;bottom:0;height:70px;background:#081020;border-top:2px solid var(--line);display:flex;align-items:center;padding:0 40px;font-size:20px;color:#dfe7f5}
+.cap b{color:var(--yel)}
+.prog{position:absolute;left:0;bottom:0;height:4px;background:var(--yel)}
+.steps{position:absolute;list-style:none}
+.steps li{display:flex;gap:12px;align-items:flex-start;font-size:20px;line-height:1.35;margin-bottom:16px;opacity:0}
+.n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--yel);color:#1a1300;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px;margin-top:1px}
+.mono{font-family:"Consolas","DejaVu Sans Mono",monospace;color:var(--yel)}
+.lbl{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+/* model view */
+.canvas{position:absolute;left:40px;top:90px;width:760px;height:548px;background:#e6e4e2;border-radius:10px;overflow:hidden}
+.card{position:absolute;width:200px;background:#fff;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.18);color:#222;font-size:14px}
+.card h4{font-size:16px;font-weight:600;padding:9px 12px;border-bottom:1px solid #ddd}
+.card div{padding:4px 14px;color:#444}
+.card div.hl{background:#fff3b0;color:#000;font-weight:600}
+.tag{position:absolute;background:var(--bad);color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:12px}
+.ghost{position:absolute;background:#fff3b0;border:2px solid #c9a200;color:#000;font-size:14px;font-weight:600;padding:3px 10px;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+svg.ov{position:absolute;inset:0;width:100%;height:100%}
+/* build pane */
+.pane{position:absolute;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+.well{border:1.5px dashed #4a5f86;border-radius:6px;min-height:44px;padding:6px;margin:6px 0 14px}
+.fld{background:#2a3d61;border-radius:4px;padding:6px 10px;font-size:15px;margin:4px 0;display:flex;justify-content:space-between}
+.fld i{font-style:normal;color:var(--mut);font-size:12px}
+.shot{position:absolute;background:#fff;border-radius:8px;padding:8px;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.shot img{display:block}
+.shotlbl{position:absolute;font-size:14px;color:var(--mut)}
+.callout{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--yel);color:#1a1300;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:17px;border:3px solid #fff;box-shadow:0 0 0 4px rgba(245,197,24,.35);transform:translate(-50%,-50%)}
+.ring{position:absolute;border:3px solid var(--yel);border-radius:8px;box-shadow:0 0 0 5px rgba(245,197,24,.25)}
+.click{position:absolute;width:40px;height:40px;border-radius:50%;border:3px solid var(--yel);transform:translate(-50%,-50%)}
+table.mx{border-collapse:collapse;font-size:16px;color:#222;background:#fff}
+table.mx th{font-weight:600;text-align:right;padding:8px 14px;border-bottom:2px solid #4ea1ff;position:relative}
+table.mx th:first-child,table.mx td:first-child{text-align:left}
+table.mx td{padding:6px 14px;text-align:right;border-bottom:1px solid #eee}
+.note{position:absolute;background:#3a2a05;border:2px solid var(--yel);border-radius:10px;padding:16px 20px;font-size:18px;line-height:1.4}
+.ddl{background:#fff;color:#222;border:1px solid #999;border-radius:3px;padding:7px 10px;font-size:16px;height:36px;margin:4px 0 14px;position:relative}
+.ddl:after{content:"⌄";position:absolute;right:10px;top:4px;color:#555}
+.ddl.inp:after{content:""}
+.btn{display:inline-block;padding:8px 18px;border-radius:4px;font-size:16px;font-weight:600}
+
+/* ---- Wireshark first look: additions ---- */
+.win{position:absolute;background:#f3f3f3;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.5);color:#222;overflow:hidden}
+.fb{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#e4e4e4;border-bottom:1px solid #c9c9c9}
+.fin{flex:1;height:30px;border:1.5px solid #999;border-radius:4px;background:#fff;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:16px;display:flex;align-items:center;padding:0 10px;white-space:nowrap;overflow:hidden}
+.fin.ok{background:#d9f7d9;border-color:#3aa33a}.fin.bad{background:#ffd9d9;border-color:#d33}
+.fbtn{height:30px;padding:0 12px;border:1px solid #aaa;border-radius:4px;background:#fafafa;font-size:14px;display:flex;align-items:center}
+.car{display:inline-block;width:2px;height:18px;background:#222;margin-left:1px}
+table.pl{border-collapse:collapse;width:100%;font-size:12.5px;font-family:"Consolas","DejaVu Sans Mono",monospace;background:#fff}
+table.pl th{background:#e9e9e9;text-align:left;font-weight:600;padding:3px 6px;border-bottom:1px solid #bbb;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif;font-size:12px}
+table.pl td{padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:330px}
+table.pl tr.sel td{background:#3b82f6;color:#fff}
+table.pl tr.hi td{background:#fff3b0}
+.tree{background:#fff;border-top:1px solid #bbb;padding:6px 10px;font-size:13px;line-height:1.55;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif}
+.tree div.on{background:#bcd7ff}
+.hex{background:#fff;border-top:1px solid #bbb;padding:6px 10px;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:12.5px;line-height:1.5;white-space:pre}
+.hex b{background:#bcd7ff;font-weight:400}
+.plab{position:absolute;right:8px;font-size:11px;color:#888;font-family:"Segoe UI",Arial,sans-serif;text-transform:uppercase;letter-spacing:.8px}
+.cm{position:absolute;background:#fff;color:#222;border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.55);padding:5px 0;font-size:15px;width:230px;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif}
+.cm div{padding:6px 14px}.cm div.hl{background:#3b82f6;color:#fff}
+.call{position:absolute;background:#3a2a05;border:2px solid var(--yel);border-radius:10px;padding:12px 16px;font-size:18px;line-height:1.4}
+.term{position:absolute;background:#0b1424;border:1px solid var(--line);border-radius:8px;padding:16px 18px;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:17px;line-height:1.8;color:#dfe7f5;white-space:pre}
+.term .p{color:var(--yel)}
+table.cs{border-collapse:collapse;width:100%;font-size:19px;color:#dfe7f5}
+table.cs td{padding:9px 12px;border-bottom:1px solid #2c3f63}
+table.cs td:first-child{color:var(--yel);font-family:"Consolas","DejaVu Sans Mono",monospace;width:610px;font-size:17px}
+
+.scr{position:absolute;background:#0b1424;border:1px solid #2c3f63;border-radius:10px;overflow:hidden}
+.scr .top{display:flex;gap:10px;align-items:center;padding:10px 12px;background:#101c30;border-bottom:1px solid #2c3f63}
+.scr .qbar{flex:1;height:38px;background:#0b1424;border:1.5px solid #3a5280;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:16px;color:#e9eef7;white-space:nowrap;overflow:hidden}
+.scr .time{height:38px;background:#16233a;border:1.5px solid #3a5280;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-size:14px;color:#dfe7f5;white-space:nowrap}
+.scr .cards{display:flex;gap:10px;padding:10px 12px 0}
+.scr .card2{flex:1;background:#16233a;border:1px solid #2c3f63;border-radius:8px;padding:8px 12px}
+.scr .card2 .k{font-size:12px;color:#93a3bf}.scr .card2 .v{font-size:19px;font-weight:700;margin-top:2px}
+.scr .gmwrap{padding:10px 12px;display:flex;gap:12px;align-items:flex-start}
+.gt2{border-collapse:collapse;font-size:15px;color:#dfe7f5;background:#16233a;border-radius:6px;overflow:hidden;min-width:300px}
+.gt2 th{font-weight:600;text-align:left;padding:7px 12px;border-bottom:2px solid #4ea1ff;color:#b9c7e0;font-size:14px}
+.gt2 td{padding:7px 12px;border-bottom:1px solid #2c3f63;font-family:"Consolas","DejaVu Sans Mono",monospace;font-size:15px}
+.gt2 td:first-child,.gt2 th:first-child{text-align:right;width:70px}
+.gt2 tr.hi td{background:#3a2a05}
+.gt2 td.blank{color:#ffb86b;font-style:italic;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif}
+.gt2 caption{caption-side:top;text-align:left;font-size:12px;color:#93a3bf;padding:0 0 6px;text-transform:uppercase;letter-spacing:.8px}
+.sidebar{width:150px;background:#0b1424;border-right:1px solid #2c3f63;padding:8px 0;font-size:14px;float:left;height:100%}
+.sidebar div{padding:8px 14px;color:#93a3bf}.sidebar div.on{background:#2a3d61;color:#fff;font-weight:700}
+.cnt-arrow{color:var(--yel);font-weight:900;margin-left:6px}
+.dots{display:flex;flex-wrap:wrap;gap:5px}
+.dots div{width:13px;height:13px;border-radius:3px}
+.seg{color:var(--yel)}
+.car{display:inline-block;width:2px;height:18px;background:#fff;margin-left:2px;vertical-align:middle}
+.cm2{position:absolute;background:#fff;color:#222;border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.55);padding:5px 0;font-size:15px;width:210px;font-family:"Segoe UI","DejaVu Sans",Arial,sans-serif}
+.cm2 div{padding:6px 14px}.cm2 div.hl{background:#3b82f6;color:#fff}
+</style></head><body>
+
+<section class="scene" id="s0">
+  <div style="position:absolute;left:110px;top:190px;width:10px;height:270px;background:var(--yel)" id="s0bar"></div>
+  <div style="position:absolute;left:150px;top:195px" id="s0txt">
+    <div style="font-size:54px;font-weight:800">Stacking in Security Onion Hunt</div>
+    <div style="font-size:28px;color:var(--yel);margin-top:14px">A short primer before Hunt 02</div>
+    <div style="font-size:20px;color:var(--mut);margin-top:40px">Count by any field &nbsp;•&nbsp; Sort rarest first &nbsp;•&nbsp; Keep the rows with missing values</div>
+    <div style="font-size:16px;color:var(--mut);margin-top:10px">Uses captures from Book 1, so finish those lessons first</div>
+  </div>
+  <div class="cap">Hunt 02 stacks events to find the rare ones. Here is how to do it on the Hunt screen with groupby.</div>
+</section>
+
+<section class="scene" id="s1">
+  <div class="hdr"><span class="chip">THE IDEA</span><span class="htitle">Stacking: group, then count</span></div>
+  <div class="pane" id="s1a" style="left:60px;top:110px;width:480px;height:430px"><div class="lbl">61 connection records from one capture</div>
+    <div class="dots" id="s1d" style="margin-top:14px"></div>
+    <div style="font-size:15px;color:var(--mut);margin-top:18px;line-height:1.5">One square = one record.<br><span style="color:#4ea1ff">■</span> to port 53 &nbsp;&nbsp; <span style="color:#f5c518">■</span> to port 80</div></div>
+  <div id="s1arr" style="position:absolute;left:545px;top:270px;width:180px;text-align:center;color:var(--yel);font-size:15px;font-weight:700">| groupby<br><span class="mono" style="font-size:14px">destination.port</span><br><span style="font-size:40px">➜</span></div>
+  <div id="s1t" style="position:absolute;left:750px;top:200px;width:470px"></div>
+  <div id="s1n" style="position:absolute;left:750px;top:370px;width:470px;font-size:20px;line-height:1.45;color:#dfe7f5">61 records in. Two rows out, each with a <b style="color:var(--yel)">Count</b>. That's a stack.</div>
+  <div class="cap">Stacking means grouping events by a field and counting them. In Hunt, the groupby segment does it.</div>
+</section>
+
+<section class="scene" id="s2">
+  <div class="hdr"><span class="chip">STEP 1</span><span class="htitle">Get a capture into Security Onion</span></div>
+  <div class="term" id="s2t" style="left:40px;top:110px;width:1200px;font-size:17px"></div>
+  <ul class="steps" style="left:40px;top:250px;width:1200px">
+    <li><span class="n">1</span><span>Run <span class="mono">so-import-pcap</span> with the full path to the file. It needs an <b>Import</b> node, or another node with sensor services such as <b>Eval</b> or <b>Standalone</b>.</span></li>
+    <li><span class="n">2</span><span>Security Onion generates alerts with Suricata and network logs with Zeek, and stores them <b>with the original timestamps</b>.</span></li>
+    <li><span class="n">3</span><span>Or upload the pcap in Grid, and it runs the import for you.</span></li>
+  </ul>
+  <div class="cap">Import one pcap per command if you want a link to each one.</div>
+</section>
+
+<section class="scene" id="s3">
+  <div class="hdr"><span class="chip">STEP 2</span><span class="htitle">Open Hunt and set the time range</span></div>
+  <div class="scr" id="s3w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Click <b>Hunt</b> in the left menu.</span></li>
+    <li><span class="n">2</span><span>The time picker starts at the <b>last 24 hours</b>. An imported capture is older, so you'd see nothing.</span></li>
+    <li><span class="n">3</span><span>Set a time range that covers the date the capture was recorded.</span></li>
+    <li><span class="n">4</span><span>Search <span class="mono">event.dataset:conn</span>.</span></li>
+  </ul>
+  <div class="cap">Hunt is similar to Dashboards, so the same query bar and time picker apply.</div>
+</section>
+
+<section class="scene" id="s4">
+  <div class="hdr"><span class="chip">STEP 3</span><span class="htitle">Stack one field</span></div>
+  <div class="scr" id="s4w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Add <span class="mono">|</span> and <span class="mono" style="color:var(--yel)">groupby</span> and a field name to your search.</span></li>
+    <li><span class="n">2</span><span>A <b>Group Metrics</b> table appears: the field, and a <b>Count</b> for each value.</span></li>
+  </ul>
+  <div class="cap">Here the stack is the destination port: 40 records to port 53 and 21 to port 80.</div>
+</section>
+
+<section class="scene" id="s5">
+  <div class="hdr"><span class="chip">STEP 4</span><span class="htitle">Stack two fields together</span></div>
+  <div class="scr" id="s5w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Put more than one field after <span class="mono">groupby</span>, separated by spaces.</span></li>
+    <li><span class="n">2</span><span>You get one table with a column for each field, and one row per combination.</span></li>
+  </ul>
+  <div class="cap">Destination IP and destination port together: four combinations in this capture.</div>
+</section>
+
+<section class="scene" id="s6">
+  <div class="hdr"><span class="chip">STEP 5</span><span class="htitle">Sort rarest first</span></div>
+  <div class="scr" id="s6w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Click the <b>Count</b> heading to sort the table. Click again to flip the order.</span></li>
+    <li><span class="n">2</span><span>Ascending puts the rarest combinations at the top. That's least-frequency analysis.</span></li>
+  </ul>
+  <div class="call" id="s6n" style="left:900px;top:350px;width:350px;font-size:17px"><b style="color:var(--yel)">Rare isn't the same as bad.</b><br>A count tells you where to look first. It doesn't tell you what you found.</div>
+  <div class="cap">The rarest combination here appears once. What it means is still your call.</div>
+</section>
+
+<section class="scene" id="s7">
+  <div class="hdr"><span class="chip">STEP 6</span><span class="htitle">Don't lose rows with missing values</span></div>
+  <div class="scr" id="s7w" style="left:40px;top:90px;width:1200px;height:300px"></div>
+  <div class="note" id="s7n" style="left:40px;top:420px;width:1200px;font-size:19px">A groupby leaves out events where the field is <b>missing</b>. Add an <b>asterisk</b> after the field name to keep them: <span class="mono">network.protocol*</span>. Failed connections often have no protocol at all, so they're exactly the rows you'd lose.</div>
+  <div class="cap">Capture from Lesson 06, which has failed connections. The blank row is the four that never got a protocol.</div>
+</section>
+
+<section class="scene" id="s8">
+  <div class="hdr"><span class="chip">STEP 7</span><span class="htitle">Click a value to pivot</span></div>
+  <div class="scr" id="s8w" style="left:40px;top:90px;width:820px;height:548px"></div>
+  <div class="cm2" id="s8m" style="left:330px;top:300px"><div class="hl" id="s8h">Only</div><div>Correlate</div><div>PCAP</div><div>Add to Case</div></div>
+  <ul class="steps" style="left:900px;top:110px;width:350px">
+    <li><span class="n">1</span><span>Click a <b>value</b> in the table to open a menu.</span></li>
+    <li><span class="n">2</span><span><b>Only</b> starts a new search for that value but <b>keeps your groupby terms</b>.</span></li>
+    <li><span class="n">3</span><span><b>Correlate</b> finds related logs for the same conversation.</span></li>
+  </ul>
+  <div class="cap">Your menu has more items than this drawing shows. These are the ones used most in this course.</div>
+</section>
+
+<section class="scene" id="s9">
+  <div class="hdr"><span class="chip">RECAP</span><span class="htitle">Five moves</span></div>
+  <div class="pane" style="left:90px;top:100px;width:1100px;padding:12px 16px"><table class="cs"><tbody id="s9t">
+    <tr><td>sudo so-import-pcap /full/path/file.pcap</td><td>Load a capture, with its original timestamps</td></tr>
+    <tr><td>Time picker</td><td>Cover the date the capture was recorded</td></tr>
+    <tr><td>| groupby destination.ip destination.port</td><td>Stack by one or more fields</td></tr>
+    <tr><td>Click the Count heading</td><td>Sort rarest first (or most common first)</td></tr>
+    <tr><td>| groupby network.protocol*</td><td>Keep rows where the field is missing</td></tr>
+  </tbody></table></div>
+  <div class="cap">That's the Hunt-screen version of the stack Hunt 02 builds as a query.</div>
+</section>
+
+<section class="scene" id="s10">
+  <div class="hdr"><span class="chip">YOUR TURN</span><span class="htitle">Try it on your own capture</span></div>
+  <ul class="steps" style="left:100px;top:130px;width:1080px;font-size:23px">
+    <li><span class="n">1</span><span>Import <span class="mono">07-suspicious.pcap</span> into your Security Onion.</span></li>
+    <li><span class="n">2</span><span>Set the time range to cover August 19, 2026.</span></li>
+    <li><span class="n">3</span><span>Search <span class="mono">event.dataset:conn | groupby destination.ip destination.port</span></span></li>
+    <li><span class="n">4</span><span>Click <b>Count</b> to sort, then write down what you notice before you decide what it means.</span></li>
+    <li><span class="n">5</span><span>Then load the Hunt data, using the Hunt data guide, and start <b>Hunt 02</b>.</span></li>
+  </ul>
+  <div class="note" id="s10n" style="left:100px;top:450px;width:1080px;font-size:19px;line-height:1.5">Hunt 02 builds a stack like this as an Elasticsearch query. The Hunt data uses its own field names, such as <span class="mono">user_agent.original</span>. Imported captures use Security Onion's, such as <span class="mono">http.useragent</span>. Check the field list in your data before you copy a query.</div>
+  <div class="cap">No Security Onion yet? The capture still opens in Wireshark, as in the Wireshark primers.</div>
+</section>
+
+<div class="prog" id="prog"></div>
+
+<script>
+const D={"total7": 61, "port": [[53, 40], [80, 21]], "ipport": [[["198.51.100.80", 53], 40], [["198.51.100.60", 80], 11], [["198.51.100.70", 80], 9], [["198.51.100.90", 80], 1]], "total6": 6, "proto_noast": [["http", 2]], "proto_ast": [["", 4], ["http", 2]]};
+const $=id=>document.getElementById(id);
+const clamp=x=>Math.max(0,Math.min(1,x));
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const P=(lt,a,d=.5)=>ease(clamp((lt-a)/d));
+const fade=(el,v,dy=12)=>{if(!el)return;el.style.opacity=v;el.style.transform=`translateY(${(1-v)*dy}px)`};
+const lis=sc=>[...document.querySelectorAll(`#${sc} .steps li`)];
+const stepIn=(sc,lt,times)=>lis(sc).forEach((li,i)=>fade(li,P(lt,times[i]??99)));
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const setHTML=(el,h)=>{if(el.__h!==h){el.innerHTML=h;el.__h=h}};
+const typedText=(s,lt,a,d)=>s.slice(0,Math.floor(clamp((lt-a)/d)*s.length));
+const colorQuery=q=>esc(q).replace(/\| groupby/g,'<span class="seg">| groupby</span>');
+
+/* a drawn Hunt screen: menu, time picker, query bar, cards, then tables */
+function table(cap,cols,rows,o){o=o||{};
+  return `<table class="gt2"><caption>${cap}</caption><thead><tr><th>Count${o.sort?`<span class="cnt-arrow">${o.sort}</span>`:''}</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>`+
+    rows.map((r,i)=>`<tr class="${o.hiRow===i?'hi':''}"><td>${r[0]}</td>${r.slice(1).map(v=>v===''?`<td class="blank">(blank)</td>`:`<td>${esc(String(v))}</td>`).join('')}</tr>`).join('')+`</tbody></table>`;}
+function scr(o){
+  const side=`<div class="sidebar"><div>Alerts</div><div>Dashboards</div><div class="${o.hunt?'on':''}">Hunt</div><div>Cases</div><div>PCAP</div><div>Grid</div></div>`;
+  const q=`<div class="qbar"><span>${colorQuery(o.query||'')}</span>${o.caret?'<span class="car"></span>':''}</div>`;
+  const t=`<div class="time" style="${o.hiTime?'outline:3px solid #f5c518':''}">${esc(o.time||'Last 24 hours')}</div>`;
+  const cards=`<div class="cards"><div class="card2"><div class="k">Total Found</div><div class="v">${o.total===undefined?'0':o.total}</div></div><div class="card2"><div class="k">Time range</div><div class="v" style="font-size:15px">${esc(o.time||'Last 24 hours')}</div></div></div>`;
+  return `<div style="display:flex;height:100%">${side}<div style="flex:1;min-width:0"><div class="top">${q}${t}</div>${cards}<div class="gmwrap">${o.body||''}</div></div></div>`;}
+
+const IP=D.ipport.map(([k,n])=>[n,k[0],k[1]]);            // [count, ip, port]
+const PORT=D.port.map(([p,n])=>[n,p]);
+const IPASC=[...IP].reverse();                              // ascending by count
+const TIME='Aug 19, 2026 05:00 – 06:00 UTC';
+
+/* overview dots: 61 records, 40 to port 53 then 21 to port 80 */
+$('s1d').innerHTML=Array.from({length:D.total7},(_,i)=>`<div style="background:${i<40?'#4ea1ff':'#f5c518'}"></div>`).join('');
+
+const SC=[
+ ['s0',6,lt=>{fade($('s0bar'),P(lt,.2,.6),0);$('s0bar').style.transform=`scaleY(${P(lt,.2,.6)})`;fade($('s0txt'),P(lt,.5,.8),20)}],
+ ['s1',12,lt=>{fade($('s1a'),P(lt,.3));[...$('s1d').children].forEach((c,i)=>c.style.opacity=P(lt,.8+i*.02,.2));
+   fade($('s1arr'),P(lt,3.2));setHTML($('s1t'),table('Group Metrics',['destination.port'],PORT));fade($('s1t'),P(lt,4.5));fade($('s1n'),P(lt,7))}],
+ ['s2',13,lt=>{
+   const cmd='<span class="p">$</span> sudo so-import-pcap /full/path/to/07-suspicious.pcap';
+   $('s2t').innerHTML=cmd+(lt>2.5?'\n<span style="color:#93a3bf"># Runs Suricata and Zeek on the file and keeps the original timestamps</span>':'');
+   stepIn('s2',lt,[4,6.5,9.5])}],
+ ['s3',13,lt=>{stepIn('s3',lt,[.8,3,6.5,9.5]);
+   const widened=lt>7,full='event.dataset:conn',s=lt>9.5?full:'';
+   setHTML($('s3w'),scr({hunt:true,query:lt>9.5?typedText(full,lt,9.5,2.2):'',time:widened?TIME:'Last 24 hours',hiTime:lt>3&&lt<7.5,total:lt>11.8?String(D.total7):'0',caret:lt>9.2&&lt<11.8&&Math.floor(lt*2)%2===0}))}],
+ ['s4',13,lt=>{stepIn('s4',lt,[1,6]);
+   const full='event.dataset:conn | groupby destination.port',s=typedText(full,lt,.8,3.8),done=lt>5.5;
+   setHTML($('s4w'),scr({hunt:true,query:s,time:TIME,total:String(D.total7),caret:!done&&Math.floor(lt*2)%2===0,body:done?table('Group Metrics',['destination.port'],PORT):''}))}],
+ ['s5',13,lt=>{stepIn('s5',lt,[1,6]);
+   const full='event.dataset:conn | groupby destination.ip destination.port',s=typedText(full,lt,.8,4.4),done=lt>6;
+   setHTML($('s5w'),scr({hunt:true,query:s,time:TIME,total:String(D.total7),caret:!done&&Math.floor(lt*2)%2===0,body:done?table('Group Metrics',['destination.ip','destination.port'],IP):''}))}],
+ ['s6',14,lt=>{stepIn('s6',lt,[.8,5]);const asc=lt>3.2;
+   setHTML($('s6w'),scr({hunt:true,query:'event.dataset:conn | groupby destination.ip destination.port',time:TIME,total:String(D.total7),
+     body:table('Group Metrics',['destination.ip','destination.port'],asc?IPASC:IP,{sort:asc?'▲':'▼',hiRow:asc&&lt>5?0:undefined})}));fade($('s6n'),P(lt,8))}],
+ ['s7',15,lt=>{
+   const A=D.proto_noast.map(([k,n])=>[n,k]),B=D.proto_ast.map(([k,n])=>[n,k]);
+   const two=`<div style="display:flex;gap:30px;flex-wrap:nowrap">${table('Without the asterisk',['network.protocol'],A)}${lt>5?table('With the asterisk',['network.protocol'],B,{hiRow:B.findIndex(r=>r[1]==='')}):''}</div>`;
+   setHTML($('s7w'),scr({hunt:true,query:lt>5?'event.dataset:conn | groupby network.protocol*':'event.dataset:conn | groupby network.protocol',time:'Aug 19, 2026 05:00 – 06:00 UTC',total:String(D.total6),body:two}));
+   fade($('s7n'),P(lt,8.5))}],
+ ['s8',11,lt=>{stepIn('s8',lt,[.5,3,6]);const menu=lt>1.4&&lt<8;
+   setHTML($('s8w'),scr({hunt:true,query:'event.dataset:conn | groupby destination.ip destination.port',time:TIME,total:String(D.total7),body:table('Group Metrics',['destination.ip','destination.port'],IP,{sort:'▼',hiRow:lt>1?1:undefined})}));
+   fade($('s8m'),menu?P(lt,1.4,.3):0,0);$('s8h').className=lt>3?'hl':''}],
+ ['s9',10,lt=>{[...$('s9t').children].forEach((r,i)=>fade(r,P(lt,.4+i*.8,.5),8))}],
+ ['s10',12,lt=>{stepIn('s10',lt,[.5,1.7,2.9,4.1,5.5]);fade($('s10n'),P(lt,7))}],
+];
+let acc=0;SC.forEach(s=>{s.start=acc;acc+=s[1]});
+window.TOTAL=acc;
+window.render=function(t){
+  let cur=SC[SC.length-1];for(const s of SC){if(t>=s.start&&t<s.start+s[1]){cur=s;break}}
+  SC.forEach(s=>$(s[0]).style.display=s===cur?'block':'none');
+  const lt=t-cur.start;cur[2](lt);
+  const el=$(cur[0]);el.style.opacity=Math.min(clamp(lt/.35),clamp((cur[1]-lt)/.35));
+  $('prog').style.width=(t/acc*100)+'%';
+};
+document.querySelectorAll('.cap').forEach(c=>c.innerHTML='<span>'+c.innerHTML+'</span>');
+window.render(0);
+</script>
+</body></html>

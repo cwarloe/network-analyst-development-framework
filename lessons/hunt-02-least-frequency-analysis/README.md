@@ -11,6 +11,8 @@
 - **Workbench:** Security Onion Hunt, Kibana, Elasticsearch (KQL / Lucene / ES|QL)
 - **Dataset:** 500,000 Zeek connection & HTTP records across Harrowmere Engineering & CAD subnets (`conn.log`, `http.log`)
 
+> **New to the Hunt screen?** Watch the [two-minute primer](../security-onion-groupby-primer.md) first. It shows this lesson's stack on the Hunt screen with `| groupby`. The data comes from the [Hunt data guide](../../lab/HUNT-DATA-GUIDE.md). It uses ECS-style field names such as `user_agent.original`, while Zeek logs imported from a pcap use Security Onion's names such as `http.useragent` (see [field-names.md](../field-names.md)). Check your data's field list before you copy a query.
+
 ---
 
 ## The Situation: The Trap of the High-Volume Outlier
