@@ -22,6 +22,10 @@ Security Onion's Elasticsearch ingest pipelines, which are the authority — not
 
 Read against the `2.4/main` branch on 2026-08-19. **Pipelines change between releases — check yours before relying on this.** On a live deployment they are at `/opt/so/conf/elasticsearch/ingest/`.
 
+**Checked again against the `3/main` branch on 2026-10-21.** The six pipelines above are in the same place on `3/main` (replace `2.4/main` with `3/main` in each link), and their rename steps are identical to `2.4/main`: 111 renames compared, no differences. Only the rename steps were compared, not the other steps (computed fields such as `connection.state_description`). So this table holds for Security Onion 2.4 and 3.x as of that date.
+
+Two related facts from the same repository's template files (`salt/elasticsearch/templates/`): a string field that has no specific mapping is indexed as a `keyword`, so you can group on fields such as `http.useragent`; and ECS fields such as `user_agent.original` and `hash.ja4` are mapped as `keyword` too. Security Onion's own [Zeek Fields](https://docs.securityonion.net/en/3/main/zeek-fields/) and [Data Fields](https://docs.securityonion.net/en/3/main/data-fields/) pages point to these same pipelines and templates as the authority.
+
 A note on standards: Security Onion is ECS-influenced but not strictly ECS. HTTP is the clearest case — it uses `http.method` and `http.status_code`, where strict ECS would be `http.request.method` and `http.response.status_code`. **The names below are what Security Onion actually produces**, which is what matters when you are searching it.
 
 ## Common to every Zeek log

@@ -28,7 +28,7 @@ An imported capture gets Security Onion's field names. The generated Hunt data u
 | Protocol | `network.protocol` | `service` |
 | JA4 fingerprint | `hash.ja4` | `tls.ja4` |
 
-The examples above use Security Onion's names because they come from imported captures. Hunt 02 uses the generated data from [`lab/generate-hunt-telemetry.py`](../lab/HUNT-DATA-GUIDE.md), so check the field list in your data before you copy a query. [`field-names.md`](field-names.md) lists Security Onion's names.
+The left column is the same in Security Onion 2.4 and 3.x ([checked](field-names.md) against both). The examples above use Security Onion's names because they come from imported captures. Hunt 02 uses the generated data from [`lab/generate-hunt-telemetry.py`](../lab/HUNT-DATA-GUIDE.md), so check the field list in your data before you copy a query. [`field-names.md`](field-names.md) lists Security Onion's names.
 
 ## What has and hasn't been checked
 
