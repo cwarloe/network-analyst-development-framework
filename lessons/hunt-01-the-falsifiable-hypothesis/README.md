@@ -2,14 +2,14 @@
 
 ## At a glance
 
-- **Part of:** [Book 2 — The Hunter's Eye](#/BOOK-2) · Proactive Network Threat Hunting Track
-- **Follows:** [Chapter 10 (Story) — The Silence of the Data Lake](#/narrative/10-the-silence-of-the-data-lake)
+- **Part of:** [Book 2 — The Hunter's Eye](/BOOK-2.md) · Proactive Network Threat Hunting Track
+- **Follows:** [Chapter 10 (Story) — The Silence of the Data Lake](/narrative/10-the-silence-of-the-data-lake.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-23
 - **Capability targets:** TH-1 (Hypothesis Formulation), TH-2 (Telemetry Scoping), OE-4 (Boundary Declaration), IR-1 (Observation vs Interpretation)
 - **Time:** about 2.5 hours
 - **Workbench:** Security Onion Hunt, Kibana, Elasticsearch (KQL / Lucene / ES|QL)
-- **Assumes:** [Book 1 Capstone](#/lessons/09-capstone-encrypted-outbound-traffic/README). You can separate observation from interpretation, understand TCP/HTTP/TLS protocol mechanics, and declare evidence boundaries.
+- **Assumes:** [Book 1 Capstone](/lessons/09-capstone-encrypted-outbound-traffic/README.md). You can separate observation from interpretation, understand TCP/HTTP/TLS protocol mechanics, and declare evidence boundaries.
 
 ---
 

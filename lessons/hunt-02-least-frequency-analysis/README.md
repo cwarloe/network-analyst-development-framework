@@ -2,8 +2,8 @@
 
 ## At a glance
 
-- **Part of:** [Book 2 — The Hunter's Eye](#/BOOK-2) · Proactive Network Threat Hunting Track
-- **Follows:** [Chapter 11 (Story) — The Long Tail](#/narrative/11-the-long-tail)
+- **Part of:** [Book 2 — The Hunter's Eye](/BOOK-2.md) · Proactive Network Threat Hunting Track
+- **Follows:** [Chapter 11 (Story) — The Long Tail](/narrative/11-the-long-tail.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-24
 - **Capability targets:** TH-3 (Least-Frequency Analysis), TH-4 (Cardinality & Stacking), OE-4 (Administrative Noise Discrimination), IR-2 (Hypothesis Testing)

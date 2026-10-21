@@ -29,7 +29,8 @@ def main(root="."):
             if not path:
                 continue
             checked += 1
-            if not (f.parent / path).resolve().exists():
+            base = root if path.startswith("/") else f.parent   # site-absolute links start at the repo root
+            if not (base / path.lstrip("/") if path.startswith("/") else f.parent / path).resolve().exists():
                 print(f"BROKEN  {f}  ->  {target}")
                 broken += 1
         for m in ROUTE.finditer(f.read_text(encoding="utf-8", errors="replace")):

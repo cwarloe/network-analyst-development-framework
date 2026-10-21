@@ -2,8 +2,8 @@
 
 ## At a glance
 
-- **Part of:** [Book 2 — The Hunter's Eye](#/BOOK-2) · Proactive Network Threat Hunting Track
-- **Follows:** [Chapter 12 (Story) — The Heartbeat with a Stutter](#/narrative/12-the-heartbeat-with-a-stutter)
+- **Part of:** [Book 2 — The Hunter's Eye](/BOOK-2.md) · Proactive Network Threat Hunting Track
+- **Follows:** [Chapter 12 (Story) — The Heartbeat with a Stutter](/narrative/12-the-heartbeat-with-a-stutter.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-25
 - **Capability targets:** TH-5 (Beacon Timing Analysis), TH-6 (Statistical Jitter Profiling), IR-3 (Machine vs Human Behavioral Discrimination)

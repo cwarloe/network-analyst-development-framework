@@ -2,7 +2,7 @@
 
 ## At a glance
 
-- **Part of:** [the course plan](#/COURSE)
+- **Part of:** [the course plan](/COURSE.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-19
 - **Capability targets:** all six domains. The revision task exercises LR-1 and LR-2, the transfer case LR-3, and the review guide's learning-need discussion LR-4 — the only place in the course those four are reached.

@@ -60,6 +60,7 @@
           function open(a, url) { a.setAttribute('href', url); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener'); }
           hook.doneEach(function() {
             document.querySelectorAll('.markdown-section a[href^="#/"]').forEach(function(a) {
+              if (a.getAttribute('href').indexOf('?id=') >= 0) return;   // in-page heading link
               var p = a.getAttribute('href').slice(2).split('?')[0];
               try { p = decodeURIComponent(p); } catch (e) {}
               p = p.replace(/\/+$/, '');

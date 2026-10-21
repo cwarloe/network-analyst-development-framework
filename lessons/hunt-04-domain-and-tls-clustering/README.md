@@ -2,8 +2,8 @@
 
 ## At a glance
 
-- **Part of:** [Book 2 — The Hunter's Eye](#/BOOK-2) · Proactive Network Threat Hunting Track
-- **Follows:** [Chapter 13 (Story) — The Forest and the Trees](#/narrative/13-the-forest-and-the-trees)
+- **Part of:** [Book 2 — The Hunter's Eye](/BOOK-2.md) · Proactive Network Threat Hunting Track
+- **Follows:** [Chapter 13 (Story) — The Forest and the Trees](/narrative/13-the-forest-and-the-trees.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-26
 - **Capability targets:** TH-7 (Shannon Entropy on DNS), TH-8 (JA4/JA3 Handshake Stacking), IR-4 (CDN Discrimination & Domain Fronting)

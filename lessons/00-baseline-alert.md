@@ -2,7 +2,7 @@
 
 ## At a glance
 
-- **Part of:** [The Technical Lessons](#/lessons/README) · Pre-Course Diagnostic Baseline
+- **Part of:** [The Technical Lessons](/lessons/README.md) · Pre-Course Diagnostic Baseline
 - **When to take this:** **Day 0, BEFORE reading the Prologue or starting Lesson 01.**
 - **Time:** exactly 20 minutes (timed).
 - **Prerequisites:** None. Do not consult RFCs, search engines, or AI assistants. Use only your current analytical instincts.

@@ -2,8 +2,8 @@
 
 ## At a glance
 
-- **Part of:** [Book 2 — The Hunter's Eye](#/BOOK-2) · Proactive Network Threat Hunting Track
-- **Follows:** [Chapter 14 (Story) — The Hunter's Crucible](#/narrative/14-the-hunters-crucible)
+- **Part of:** [Book 2 — The Hunter's Eye](/BOOK-2.md) · Proactive Network Threat Hunting Track
+- **Follows:** [Chapter 14 (Story) — The Hunter's Crucible](/narrative/14-the-hunters-crucible.md)
 - **Version:** 0.1 — draft
 - **Date:** 2026-08-27
 - **Capability targets:** TH-1 through TH-8 (Complete Proactive Threat Hunting Loop), OE-4 (Evidence Boundary Declaration), IR-4 (Multi-Site Adversary Campaign Reconstruction)
