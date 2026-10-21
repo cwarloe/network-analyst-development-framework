@@ -20,8 +20,8 @@
 
 ## Ethan Mercer — protagonist
 
-**Working age:** 27–28.  
-**Background:** Several years in civilian IT support: service desk → desktop/Tier II → broader enterprise support with some exposure to networking, identity, servers, and security. Certification/self-study-heavy. First dedicated network/security analyst role.
+**Working age:** 23 turning 24 at the start of Book 1; 24 in Book 2.  
+**Background:** High school at 18 → up to two years in a restaurant job → about fourteen months on the non-technical graveyard dock at Harrowmere's Gresham distribution warehouse → Ken's internal referral after the Line 4 fix → a six-month day-shift IT rotation at a slight pay cut → about two years on Jules Brooks's help desk at Harrowmere's Portland Regional Operations Center, ending in Tier 2 work (Portland Desk, Book 0). Some exposure to networking, identity, servers, and security. Certification/self-study-heavy: A+ (~10 months of study), Network+ (~13 months into IT), Security+ (~26 months into IT). His father is a retired precision machinist. First dedicated network/security analyst role, an internal move. He stays in the Portland area; he never relocates.
 
 **Starting condition:** Credential-literate / model-poor. Broad, uneven technical vocabulary and fragmented factual knowledge. He may remember that DNS uses port 53, HTTPS uses TLS, TCP has a three-way handshake, ARP maps IP to MAC, and 403 means Forbidden, yet struggle to predict actual sequences, distinguish actors from evidence, understand vantage limits, or transfer memorized facts into unfamiliar behavior.
 
