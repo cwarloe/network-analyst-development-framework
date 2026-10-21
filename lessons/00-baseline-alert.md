@@ -99,6 +99,6 @@ Comparing Work Product A (Day 0) and Work Product B (Post-Capstone) side-by-side
 <div class="bridge-card">
   <div class="bridge-label">Baseline Recorded</div>
   <div class="bridge-title">Begin the Curriculum: Prologue — The Word in the Ticket</div>
-  <p class="bridge-desc">Your Day 0 baseline is now recorded. Step into the shoes of apprentice analyst Ethan Vance on his first morning in the SOC as he encounters Ticket SEC-4021.</p>
+  <p class="bridge-desc">Your Day 0 baseline is now recorded. Step into the shoes of apprentice analyst Ethan Mercer on his first morning in the SOC as he encounters Ticket SEC-4021.</p>
   <a href="#/narrative/00-prologue" class="bridge-btn">Start Prologue (Story) →</a>
 </div>

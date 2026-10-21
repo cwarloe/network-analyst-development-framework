@@ -46,7 +46,7 @@ If you read the [prologue](../narrative/00-prologue.md), you watched Ethan make 
     <div class="ticket-bar">
       <span class="ticket-id">SEC-4021</span>
       <span class="sev high">High</span>
-      <span class="ticket-status">Triaged by: Ethan Vance</span>
+      <span class="ticket-status">Triaged by: Ethan Mercer</span>
     </div>
     <div class="ticket-subject">Possible unauthorized access attempt — internal file service</div>
     <dl class="ticket-meta">

@@ -6,7 +6,7 @@ Generates realistic network telemetry modeling Harrowmere Equipment Group:
   1. Head (95% volume): Power-law Pareto distribution of corporate web/cloud traffic
      (Chrome/Edge browsers, Microsoft 365, Google Workspace, AWS CloudFront, internal Active Directory).
   2. Torso (5% volume): Legitimate administrative jobs (Dave Henderson's CAD video streams,
-     Priya's Azure DB backup, Leah's ERP sync, Marcus Vance's Rust crate downloads).
+     Priya's Azure DB backup, Leah's ERP sync, Marcus Whitlock's Rust crate downloads).
   3. Long Tail (0.01% volume): Administrative weirdness (Portland 2011 basement boiler NTP checks,
      HP LaserJet SNMP sweeps).
   4. Three Embedded Adversary Campaigns:
@@ -227,7 +227,7 @@ class HarrowmereTelemetryGenerator:
             "conn_state": "SF"
         })
 
-        # 3. Marcus Vance Rust crate package downloads (single connection, rare European IP)
+        # 3. Marcus Whitlock Rust crate package downloads (single connection, rare European IP)
         ts_marcus = self._random_timestamp(day_offset=2, hour=11)
         self.conn_logs.append({
             "@timestamp": ts_marcus,

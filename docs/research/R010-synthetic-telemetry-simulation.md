@@ -37,7 +37,7 @@ Enterprise Volume (Events)
 │ █ ▂ ▂ ▂ ▂ ▂           ◄── Tier 2: The Torso (5.0% - 9.99% Volume)
 │                           Moderate volume, verified business owners.
 │                           Dave Henderson's CAD video stream, Priya's Sunday DB backups,
-│                           Marcus Vance's developer package compiler pulls.
+│                           Marcus Whitlock's developer package compiler pulls.
 │
 │ ░░░░░░░░░░░░░░░░░░░░░ ◄── Tier 3: The Long Tail (0.01% Volume)
 └───────────────────────►   Low volume, single-host cardinality (source.ip == 1).

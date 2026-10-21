@@ -158,7 +158,7 @@ When executing an enterprise hunt using Least-Frequency Analysis, you must docum
 | Candidate Anomaly | Telemetry Observation | Host Cardinality | Verified Environmental Context | Operational Disposition |
 |---|---|---|---|---|
 | **Anomaly A** | `user_agent: "Mozilla/5.0 ..."` contacting `52.84.120.45` (48 GB) | 1 (`10.100.12.44`) | Dave Henderson streaming authorized lathe training video archive via AWS CloudFront CDN. | **Benign Volume Outlier (Closed)** |
-| **Anomaly B** | `conn.log` 312 bytes to European IP, no DNS query | 1 (`10.100.42.18`) | Marcus Vance downloading Rust crate dependencies from an unmanaged mirror. | **Administrative Weirdness (Referred to IT)** |
+| **Anomaly B** | `conn.log` 312 bytes to European IP, no DNS query | 1 (`10.100.42.18`) | Marcus Whitlock downloading Rust crate dependencies from an unmanaged mirror. | **Administrative Weirdness (Referred to IT)** |
 | **Anomaly C** | `user_agent: "python-requests/2.28.1"` to `198.51.100.84:8080` | 1 (`10.100.14.88`) | Workstation is a CAD terminal with no authorized scripting tools; regular check-in interval. | **High-Confidence Intrusion Indicator (Escalated to IR)** |
 
 ---

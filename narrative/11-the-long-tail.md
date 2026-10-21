@@ -58,7 +58,7 @@ Determined not to give up, I began manually reading down the list. On row forty-
 
 Owen set his mug down, leaned over my shoulder, and examined the timestamp and source machine. Then he sighed and shook his head.
 
-“That’s Marcus Vance’s development desktop,” Owen said. “Marcus is currently rewriting our telemetry ingestion pipeline in Rust. Every time he pulls an experimental library package, his local compiler reaches directly out to a community package mirror to download raw dependency metadata. He does it dozens of times a week from different test containers.”
+“That’s Marcus Whitlock’s development desktop,” Owen said. “Marcus is currently rewriting our telemetry ingestion pipeline in Rust. Every time he pulls an experimental library package, his local compiler reaches directly out to a community package mirror to download raw dependency metadata. He does it dozens of times a week from different test containers.”
 
 Owen tapped the monitor with the tip of his pen.
 
@@ -80,7 +80,7 @@ Cal Rowan pulled up a rolling chair between Owen and me. He had a terminal windo
 
 Cal reached over, minimized my raw document viewer, and opened the Elasticsearch Aggregations console.
 
-“Tell me, Ethan: what makes an adversary’s command-and-control connection truly unique compared to Marcus Vance downloading a software library?”
+“Tell me, Ethan: what makes an adversary’s command-and-control connection truly unique compared to Marcus Whitlock downloading a software library?”
 
 “The destination?” I guessed.
 

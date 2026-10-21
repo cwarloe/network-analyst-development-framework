@@ -22,11 +22,11 @@ The incident began on a Friday afternoon, thirty minutes after a scheduled softw
 Harrowmere’s IT systems team had just rolled out a maintenance update to the fleet of engineering workstations, updating our internal client libraries and synchronizing package dependencies with Leah Moreno's HarrowSync application infrastructure.
 
 At 15:42 UTC, an automated detection fired in the SOC console:
-*Workstation `192.0.2.10`—an engineering desktop assigned to developer Marcus Vance—had established persistent, high-frequency encrypted outbound connections to an external destination, `198.51.100.24`, over TCP port 443.*
+*Workstation `192.0.2.10`—an engineering desktop assigned to developer Marcus Whitlock—had established persistent, high-frequency encrypted outbound connections to an external destination, `198.51.100.24`, over TCP port 443.*
 
 Nia Alvarez called an immediate stand-up at the operations desk.
 
-“Marcus Vance is working on the next-generation machine controller firmware,” Nia said, her voice sharp. “If that workstation is exfiltrating proprietary design files, we have a major intellectual property breach. But if we sever his network connection mid-compile, we wipe out two days of uncommitted engineering builds. What does the network evidence say?”
+“Marcus Whitlock is working on the next-generation machine controller firmware,” Nia said, her voice sharp. “If that workstation is exfiltrating proprietary design files, we have a major intellectual property breach. But if we sever his network connection mid-compile, we wipe out two days of uncommitted engineering builds. What does the network evidence say?”
 
 I opened the evidence packet on my console.
 

@@ -20,7 +20,7 @@ Enterprise Noise Distribution
 │ █ ▂ ▂ ▂ ▂ ▂       ◄── Torso (9.99% Volume):
 │                       Dave Henderson's 48 GB lathe maintenance videos (10.100.12.44),
 │                       Priya's Sunday midnight Azure backup (10.100.1.25),
-│                       Marcus Vance's Rust crate downloads (10.100.42.18).
+│                       Marcus Whitlock's Rust crate downloads (10.100.42.18).
 │
 │ ░░░░░░░░░░░░░░░░░ ◄── Long Tail & Adversary Needles (0.01% Volume):
 └───────────────────►   - 2011 Portland basement heating boiler (Tuesdays at 03:00, 128 bytes)
