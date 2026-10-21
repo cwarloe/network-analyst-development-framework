@@ -25,7 +25,7 @@ def main(root="."):
             target = m.group(1).strip()
             if target.startswith(("http://", "https://", "mailto:", "#")):
                 continue
-            path = target.split("#", 1)[0]
+            path = target.split("#", 1)[0].split("?", 1)[0]
             if not path:
                 continue
             checked += 1
