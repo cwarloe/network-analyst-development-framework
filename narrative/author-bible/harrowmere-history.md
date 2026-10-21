@@ -175,6 +175,8 @@ The developmental culture has begun changing, but “ask Owen” still works. Th
 They have all been burned by confusing intent, configuration, instrumentation, or context with reality. None has fully eliminated the habit.
 
 ### H-30 — Ethan arrives into a living system
+He is not new to Harrowmere: he came up through the Gresham dock and the Portland help desk (Book 0), so he knows the sites and many of the people. He is new to security operations and to how the analysts think.
+
 The organization already contains old jokes, known exceptions, half-forgotten incidents, successful migrations, scars, trust patterns, dashboards, workarounds, and unresolved debts.
 
 He initially interprets that accumulated expertise as: **these people know everything.**
