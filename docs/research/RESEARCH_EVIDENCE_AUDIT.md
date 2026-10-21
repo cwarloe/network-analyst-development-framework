@@ -147,6 +147,37 @@ A comprehensive fact-check was conducted across all research files in both repos
 
 ---
 
+### Category E: Narrative Craft, Signaling & Case-Method Pedagogy
+
+#### 18. Mayer’s Signaling Principle & Text Signaling Devices
+* **Status:** Verified Educational Psychology Research (Governs heading rules, scene breaks, and artifact callouts)
+* **Primary Citations:**
+  * Mautone, P. D., & Mayer, R. E. (2001). Signaling as a cognitive guide in multimedia learning. *Journal of Educational Psychology*, 93(2), 377–389. [DOI: 10.1037/0022-0663.93.2.377](https://doi.org/10.1037/0022-0663.93.2.377)
+  * Lorch, R. F. (1989). Text-signaling devices and their effects on reading and memory processes. *Educational Psychology Review*, 1(3), 209–234. [DOI: 10.1007/BF01326585](https://doi.org/10.1007/BF01326585)
+* **What it proves:** Explicit typographical and structural cues (clear section headings, visual scene breaks, and formatted data callouts) guide attentional allocation and significantly improve problem-solving transfer ($d \approx 0.74$).
+
+#### 19. Narrative Transportation, POV & Perspective Taking
+* **Status:** Verified Cognitive & Reading Psychology (Empirical basis for LNK's first-person past-tense standard)
+* **Primary Citations:**
+  * Green, M. C., & Brock, T. C. (2000). The role of transportation in the persuasiveness of public narratives. *Journal of Personality and Social Psychology*, 79(5), 701–721. [DOI: 10.1037/0022-3514.79.5.701](https://doi.org/10.1037/0022-3514.79.5.701)
+  * Hartung, F., Hagoort, P., & Willems, R. M. (2017). Taking perspective: Personal pronouns affect experiential aspects of literary reading. *PLOS ONE*, 12(5), e0177257. [DOI: 10.1371/journal.pone.0177257](https://doi.org/10.1371/journal.pone.0177257)
+* **What it proves:** First-person narrative voice evokes stronger reader identification, affective engagement, and perspective-taking than third-person, while grammatical tense (present vs. past) exhibits negligible differences in mental simulation or comprehension.
+
+#### 20. The Clinicopathological Conference (CPC) Case Architecture
+* **Status:** Verified Landmark Medical Case Teaching Method (Governs Act IV's Incident Commander & Forensic Handoff)
+* **Primary Citation:** Cabot, R. C. (1900/1906). Case records of the Massachusetts General Hospital: Weekly clinicopathological exercises. *The New England Journal of Medicine (NEJM)*.
+* **URL:** [NEJM Case Records Archive](https://www.nejm.org/case-records-of-the-mass-general-hospital)
+* **What it proves:** The gold standard for case-based clinical education, inspiring Act IV's "Incident Commander" and clinical handoff format where evidence is evaluated before ground-truth post-mortem disclosure.
+
+#### 21. Official IANA & RFC Internet Protocol Specifications
+* **Status:** Verified Official Technical RFCs (Governs 100% technical accuracy across networking/security tracks)
+* **Primary Citations:**
+  * IANA Service Name and Transport Protocol Port Number Registry: [IANA Registry](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml)
+  * RFC 793 (TCP), RFC 768 (UDP), RFC 2818 (HTTP over TLS), RFC 8484 (DNS over HTTPS / DoH), RFC 7858 (DNS over TLS / DoT), RFC 4251 (SSH Architecture), RFC 854 (Telnet).
+* **What it proves:** Enforces ground-truth accuracy for all port numbers, cryptographic boundaries, and transport characteristics, ensuring fiction remains 100% compatible with CompTIA, Cisco, and real-world packet traces.
+
+---
+
 ## 3. How to Audit and Trace Citations in this Repository
 
 To verify any claim or source across the codebase:
