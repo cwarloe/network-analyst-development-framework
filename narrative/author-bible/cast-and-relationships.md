@@ -21,7 +21,7 @@
 ## Ethan Mercer — protagonist
 
 **Working age:** 23 turning 24 at the start of Book 1; 24 in Book 2.  
-**Background:** High school at 18 → up to two years in a restaurant job → about fourteen months on the non-technical graveyard dock at Harrowmere's Gresham distribution warehouse → Ken's internal referral after the Line 4 fix → a six-month day-shift IT rotation at a slight pay cut → about two years on Jules Brooks's help desk at Harrowmere's Portland Regional Operations Center, ending in Tier 2 work (Portland Desk, Book 0). Some exposure to networking, identity, servers, and security. Certification/self-study-heavy: A+ (~10 months of study), Network+ (~13 months into IT), Security+ (~26 months into IT). His father is a retired precision machinist. First dedicated network/security analyst role, an internal move. He stays in the Portland area; he never relocates.
+**Background:** High school at 18 → up to two years in a restaurant job → about fourteen months on the non-technical graveyard dock at the Gresham distribution warehouse of Harrowmere Northwest Distribution & Services (a wholly owned subsidiary) → Ken's internal referral after the Line 4 fix → a six-month day-shift IT rotation at a slight pay cut → about two years on Jules Brooks's help desk at the subsidiary's Portland Regional Operations Center, ending in Tier 2 work (Portland Desk, Book 0) → Jules's referral when Nia asked her for a name. Some exposure to networking, identity, servers, and security. Certification/self-study-heavy: A+ (~10 months of study), Network+ (~13 months into IT), Security+ (~26 months into IT). His father is a retired precision machinist. First dedicated network/security analyst role, and his first job with the parent company. He is a partial outsider: new to the parent and to security work, but in the same building and known to many of the people. He stays in the Portland area; he never relocates.
 
 **Starting condition:** Credential-literate / model-poor. Broad, uneven technical vocabulary and fragmented factual knowledge. He may remember that DNS uses port 53, HTTPS uses TLS, TCP has a three-way handshake, ARP maps IP to MAC, and 403 means Forbidden, yet struggle to predict actual sequences, distinguish actors from evidence, understand vantage limits, or transfer memorized facts into unfamiliar behavior.
 
@@ -96,7 +96,8 @@ Possible voice lines:
 
 ## Nia Alvarez — Security Operations Manager
 
-**Working age:** 41–44.
+**Working age:** 41–44.  
+**History:** Senior Incident Response Lead in Chicago (HQ) through Book 0; promoted to Security Operations Manager right after the Portland incident in Book 0 Ep 12. Staffing the Portland seat was her first hiring decision, and she filled it by asking Jules Brooks for a name.
 
 **Essence:** A capable security operations manager who learned that leadership is not having the best answer in the room, but making timely decisions when every available answer is incomplete.
 
@@ -203,7 +204,8 @@ Possible voice lines:
 
 ## Leah Moreno — Enterprise Applications Lead
 
-**Working age:** ~36.
+**Working age:** ~36 (35 in Book 0; she turns 36 just before Book 1).  
+**History:** Senior Controls & SCADA Technician at the Northwest subsidiary's Willamette River plant in Book 0. She moved up to the parent's Enterprise Applications team a few months ahead of Ethan to own the warehouse, plant, and finance sync. She is the one familiar face who made the same jump before him.
 
 **Essence:** An experienced application owner who understands business processes, integrations, schedules, users, and compromises behind critical enterprise systems—and who must continually distinguish what the application is intended to do from what it is actually doing.
 
