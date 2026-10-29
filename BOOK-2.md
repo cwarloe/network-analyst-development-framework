@@ -108,7 +108,7 @@ The setting remains **Harrowmere Equipment Group**, now months into Ethan's tenu
 ---
 
 ### Module H-05: The Whole-Fleet Hunt Crucible (Capstone)
-* **The Situation:** A multi-site enterprise telemetry dump covering 14 days of operations across Portland, Chicago, and Harrowmere HQ (over 10 million records). Three separate adversary campaigns are embedded:
+* **The Situation:** A multi-site enterprise telemetry dump covering 14 days of operations across Portland, the Chicago manufacturing site, and corporate HQ in Chicago (over 10 million records). Three separate adversary campaigns are embedded:
   1. A low-and-slow jittered C2 beacon.
   2. A high-entropy DNS tunneling channel exfiltrating intellectual property.
   3. An internal living-off-the-land lateral movement campaign using non-standard SMB/RPC pipes.
