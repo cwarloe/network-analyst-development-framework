@@ -181,7 +181,7 @@ A comprehensive fact-check was conducted across all research files in both repos
 ## 3. How to Audit and Trace Citations in this Repository
 
 To verify any claim or source across the codebase:
-1. **Foundational Instructional Design & 4C/ID:** Read [`docs/research/FOUR_RUBBER_BANDS_FRAMEWORK.md`](FOUR_RUBBER_BANDS_FRAMEWORK.md) and [`docs/research/PEDAGOGICAL_AGENCY_ARCHITECTURE.md`](PEDAGOGICAL_AGENCY_ARCHITECTURE.md).
-2. **SOC Operational Fieldwork & Cognitive Outcomes:** Read [`network-analyst-development-framework/docs/research/R006-literature-scan.md`](../../network-analyst-development-framework/docs/research/R006-literature-scan.md).
-3. **Role Alignment:** Read [`network-analyst-development-framework/docs/research/R007-nice-role-mapping.md`](../../network-analyst-development-framework/docs/research/R007-nice-role-mapping.md).
-4. **Vocabulary & UX Contracts:** Read [`research/perplexity-2026-09/02-story-pedagogy.md`](../../research/perplexity-2026-09/02-story-pedagogy.md) and [`04-tooltip-contract.md`](../../research/perplexity-2026-09/04-tooltip-contract.md).
+1. **Foundational Instructional Design & 4C/ID:** Read [`learning-narrative-kit/docs/research/FOUR_RUBBER_BANDS_FRAMEWORK.md`](https://github.com/cwarloe/learning-narrative-kit/blob/main/docs/research/FOUR_RUBBER_BANDS_FRAMEWORK.md) and [`learning-narrative-kit/docs/research/PEDAGOGICAL_AGENCY_ARCHITECTURE.md`](https://github.com/cwarloe/learning-narrative-kit/blob/main/docs/research/PEDAGOGICAL_AGENCY_ARCHITECTURE.md).
+2. **SOC Operational Fieldwork & Cognitive Outcomes:** Read [`docs/research/R006-literature-scan.md`](R006-literature-scan.md).
+3. **Role Alignment:** Read [`docs/research/R007-nice-role-mapping.md`](R007-nice-role-mapping.md).
+4. **Vocabulary & UX Contracts:** Read [`learning-narrative-kit/research/perplexity-2026-09/02-story-pedagogy.md`](https://github.com/cwarloe/learning-narrative-kit/blob/main/research/perplexity-2026-09/02-story-pedagogy.md) and [`04-tooltip-contract.md`](https://github.com/cwarloe/learning-narrative-kit/blob/main/research/perplexity-2026-09/04-tooltip-contract.md).
