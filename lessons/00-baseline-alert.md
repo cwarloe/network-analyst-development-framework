@@ -6,7 +6,7 @@
 - **When to take this:** **Day 0, BEFORE reading the Prologue or starting Lesson 01.**
 - **Time:** exactly 20 minutes (timed).
 - **Prerequisites:** None. Do not consult RFCs, search engines, or AI assistants. Use only your current analytical instincts.
-- **Why this exists:** To measure your genuine capability delta without artificial multiple-choice tests or bureaucratic grading rubrics.
+- **Why this exists:** To preserve a first work sample for comparison with a later response. This is not a validated measure of capability or a causal test of the course.
 
 > *"Detecting real capability change does not require a rubric, levels, or a passing standard. It requires the same task twice."*  
 > — Research Review R005
@@ -92,7 +92,7 @@ Write your initial triage note for Ticket `SEC-3904` answering:
 
 You will seal this document away. After you complete the entire curriculum and work through the Capstone in Lesson 09, you will be handed this **exact same alert** and asked to write a fresh triage note without reviewing your Day 0 baseline. 
 
-Comparing Work Product A (Day 0) and Work Product B (Post-Capstone) side-by-side will provide indisputable, empirical proof of how your analytical judgment, epistemic discipline, and technical precision have transformed.
+Comparing Work Product A (Day 0) and Work Product B (Post-Capstone) can reveal changes in the response. Familiarity with this alert and intervening practice can also change the answer, so the comparison does not prove that the course caused improvement or that the reasoning transfers. After the capstone, try the separate [later case](09-capstone-encrypted-outbound-traffic/later-case.md) to examine reasoning on unfamiliar evidence after a delay.
 
 ---
 

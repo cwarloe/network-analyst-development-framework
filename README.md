@@ -48,6 +48,8 @@ Every lesson ends in a work product — a written assessment, a plan, a handoff 
 
 **No lesson here has been used by anyone other than its author.** That is the single biggest gap in the project — bigger than any missing content. If you run one with someone, [`lessons/run-records.md`](lessons/run-records.md) covers which lesson to pick, how to sit in the room without wrecking the data, and what to write down.
 
+The capstone also has a [fresh case for a later session](lessons/09-capstone-encrypted-outbound-traffic/later-case.md), with a separate review and optional supervised workplace application. Its purpose is to inspect reasoning after a delay; it has not been tried with a learner.
+
 ## The rest of the repository
 
 - **[COURSE.md](COURSE.md)** — the nine-lesson plan and why it's ordered this way
