@@ -81,7 +81,7 @@ I stared at the millions of records in the data lake. My earlier sense of contro
 
 “So what is our discriminator?” I asked, looking between Dana and Priya. “If the IPs are shared, the hostnames are unauthenticated, and the payloads are encrypted, what does the adversary have that they cannot fake?”
 
-Cal Rowan was already at the next console.
+Cal Rowan answered from the whiteboard beside my desk, a marker already in his hand.
 
 “They cannot fake the mathematics of the data, Ethan,” Cal said. “And they cannot easily fake the cryptographic anatomy of their client software.”
 
@@ -107,7 +107,7 @@ A sharp, unmistakable spike appeared on the chart: while all standard Harrowmere
 
 “Exactly,” Cal said. “Now look at the TLS connections to the CDN IPs. If they’re using domain fronting, the adversary might send a clean SNI header in the cleartext `ClientHello` claiming to reach an innocuous website. But what software is actually sending those packets?”
 
-“The User-Agent header is inside the encrypted payload,” I noted, recalling Lesson 04. “We can’t read it.”
+“The User-Agent header is inside the encrypted payload,” I noted. “We can’t read it.”
 
 “We don’t care about the User-Agent header,” Cal said dismissively. “User-Agent strings are trivial to spoof. Any two-line Python or Go script can claim to be the latest version of Google Chrome. But when a piece of software initiates a TLS handshake, the operating system's cryptographic library assembles the `ClientHello` packet according to its own hardcoded implementation. It specifies a precise list of supported cipher suites, in a specific order, along with a specific set of TLS extensions, elliptic curve algorithms, and signature algorithms.”
 
@@ -144,23 +144,3 @@ Dana offered a rare, approving nod.
 “Don’t touch the perimeter firewall,” Dana instructed, turning toward the incident response channel on her phone. “Isolate host `10.100.40.12` at the switch port immediately to preserve the volatile memory on the machine. Then export the JA4 fingerprint and the entropy script into a permanent detection rule for Nia. That’s how you find the needle without burning down the haystack.”
 
 I clicked into the network management console to issue the switch-port isolation command. The forest was as vast and crowded as it had been an hour ago, but the shadows between the trees were no longer dark.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Domain Fronting](#term-domain_fronting) | An evasion technique where an adversary uses the cleartext SNI and DNS of a trusted domain hosted on a public CDN while using the encrypted HTTP Host header to route requests to an attacker-controlled origin server. |
-| [DNS Tunneling](#term-dns_tunneling) | An evasion technique encoding non-DNS payloads or commands into subdomains and TXT response records, bypassing recursive resolver caching through unique query labels. |
-| [Shannon Entropy](#term-shannon_entropy) | A mathematical measure of information density and randomness ($H(X)$); values above 4.5 bits per character in domain labels indicate machine-encoded data rather than natural language. |
-| [JA4 Fingerprint](#term-ja4_fingerprint) | A standardized, modular cryptographic hash of a client's TLS ClientHello parameters (ciphers, extensions, algorithms) that identifies the underlying client software independent of spoofed headers. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Hunt 04 — Domain & TLS Clustering</div>
-  <p class="bridge-desc">Enter the hunting pod with Cal Rowan and Priya Raman: calculate Shannon entropy across live DNS query labels, stack JA4 cryptographic handshakes to unmask unauthorized client runtimes, and cluster high-volume CDN egress to expose covert tunneling channels.</p>
-  <a href="#/lessons/hunt-04-domain-and-tls-clustering/README" class="bridge-btn">Open Hunt 04 Workbench →</a>
-</div>

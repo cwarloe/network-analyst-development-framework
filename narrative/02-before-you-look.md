@@ -1,17 +1,5 @@
 # Before You Look
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read after [lesson 02](../lessons/02-reading-a-conversation.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-22
-- **Time:** about 8 minutes
-- **Requires:** nothing. No tooling, capture, or account.
-- **Creates the question:** How can a prediction expose whether an explanation is usable before the answer is visible?
-- **Technical exercise:** [`lessons/e03-before-you-look/`](../lessons/e03-before-you-look/README.md) is built and uses [`e03-prediction.pcap`](../assets/pcaps/e03-prediction.pcap).
-
----
-
 After working through the two conversations from my first ticket, I could reconstruct what Dana had made me do.
 
 On those conversations, with the completed evidence in front of me, I could point to the handshake and say that both directions worked. I could point to the `403` and keep the application refusal separate from the transport connection underneath it. If somebody asked who closed first, I knew where to look.
@@ -120,7 +108,7 @@ I said, “That still sounds like guessing with extra steps.”
 
 “And if there’s a long silence before a normal response?”
 
-I thought about the bare acknowledgment in the earlier capture—the server saying *received* before it said *answered*.
+I thought about the bare acknowledgment in the earlier capture, the server saying *received* before it said *answered*.
 
 “Then the request reached the server quickly, but whatever generated the response took longer.”
 
@@ -187,23 +175,3 @@ Dana rested her hand on the hidden rows.
 I was not. That was different from having no prediction.
 
 “Yes.”
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [TCP Acknowledgment](#term-tcp_ack) | The receiver's TCP stack confirming receipt of bytes, independent of whether the application has processed or answered. |
-| [Falsifiable Prediction](#term-falsifiable_prediction) | An explicit, written commitment stating what specific network behavior must occur next if a hypothesis is true. |
-| [Connection Reset (RST)](#term-connection_reset) | An abrupt termination frame sent by an endpoint indicating rejection, teardown, or abnormal closure. |
-| [Reasoned Revision](#term-reasoned_revision) | Updating an analytical model based on contradictory evidence rather than rationalizing surprise or defending the previous model. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Episode 03 Technical Exercise — Before You Look</div>
-  <p class="bridge-desc">Open <code>e03-prediction.pcap</code>, inspect the initial exchange, commit your written prediction, and test what happens when the hidden packet is revealed.</p>
-  <a href="#/lessons/e03-before-you-look/README" class="bridge-btn">Start Episode 03 Practice →</a>
-</div>

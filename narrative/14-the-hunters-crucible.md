@@ -65,7 +65,7 @@ I pivoted immediately into `ssl.log` and `x509.log` to inspect the transport-lay
 
 A surge of adrenaline hit my chest. I had isolated an active command-and-control beacon on an industrial engineering terminal.
 
-This time I opened the asset inventory before I wrote anything longer. Workstation `10.120.32.14` was not a development desktop, and `198.51.100.84` was not a community package mirror. The falsification conditions I had written did not fire.
+I opened the asset inventory. Workstation `10.120.32.14` was not a development desktop, and `198.51.100.84` was not a community package mirror.
 
 I treated it as the whole hunt. I spent hours tightening a finding around workstation `10.120.32.14` alone: the five-minute beacon, the false SNI, the Go fingerprint, and the quarantine I planned to recommend. I had that draft open when I reached for the internal phone to call Nia.
 
@@ -217,23 +217,3 @@ Nia picked up the campaign dossier and turned toward the door.
 “The executive committee is waiting,” she said, and she took the dossier down the hall.
 
 The three phases were in it. How workstation `10.120.32.14` was first compromised was not.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Proactive Hunt Loop](#term-proactive_hunt_loop) | A recurring six-phase analytical methodology comprising threat modeling/hypothesis, scoping, outlier stacking, behavioral pivoting, adversary discrimination, and detection engineering. |
-| [Living off the Land (LotL)](#term-living_off_the_land) | Adversary tradecraft utilizing built-in operating system binaries, trusted administrative protocols (e.g., SMB, RPC, WMI), and native administrative tools to conduct lateral movement and execution without introducing external malware binaries. |
-| [Adversary Campaign Dossier](#term-adversary_campaign_dossier) | A comprehensive intelligence and analytical assessment reconstructing an adversary's multi-stage kill chain, mapped assets, command-and-control channels, exfiltration volumes, and temporal timelines. |
-| [Detection Engineering](#term-detection_engineering) | The disciplined process of designing, testing, tuning, and deploying production-grade detection logic (such as Sigma or Elastic Detection rules) derived from hunting discoveries to permanently eliminate enterprise visibility blind spots. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Hunt 05 — The Whole-Fleet Hunt Crucible (Capstone)</div>
-  <p class="bridge-desc">Execute an autonomous, multi-site threat hunt across 14 days of enterprise telemetry: formulate falsifiable hypotheses, stack the long tail, compute delta-time jitter, measure DNS entropy, synthesize an Adversary Campaign Dossier, and author permanent detection engineering rules.</p>
-  <a href="#/lessons/hunt-05-the-whole-fleet-crucible/README" class="bridge-btn">Open Hunt 05 Workbench →</a>
-</div>

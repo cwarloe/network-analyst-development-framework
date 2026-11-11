@@ -1,16 +1,5 @@
 # What Can You Responsibly Say?
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read before [Lesson 08](../lessons/08-judgment-and-handoff.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-22
-- **Time:** about 12 minutes
-- **Requires:** nothing. No tooling, capture, or account.
-- **Creates the question:** When operational pressure demands a single headline, how does an analyst deliver a proportionate judgment without destroying vital distinctions?
-
----
-
 By the fifth month of my time at Harrowmere Equipment Group, I had learned how to investigate.
 
 I could trace a connection through an enterprise switch fabric, distinguish an active TCP reset from a silent firewall drop, and evaluate whether periodic traffic represented background software or malicious convergence. I had stopped guessing at what took place inside encrypted tunnels, and I had learned to ask what each physical sensor was capable of seeing before relying on its silence.
@@ -47,7 +36,7 @@ I stood up and plugged my laptop into the conference room projector.
 
 “Look at the distribution of the failures,” I said, bringing up a split chart.
 
-“Of those 3,240 failures, exactly 3,046 events—or 94% of the total—originated exclusively from workstations traversing the specific transit router where the 08:12 configuration update was applied. In the packet captures on that segment, client authentication requests to the directory servers are receiving no response. The TCP connections to port 88 and port 389 are terminating in `S0` states. The clients are timing out before they ever receive an authentication challenge.”
+“Of those 3,240 failures, exactly 3,046 events, or 94% of the total, originated exclusively from workstations traversing the specific transit router where the 08:12 configuration update was applied. In the packet captures on that segment, client authentication requests to the directory servers are receiving no response. The TCP connections to port 88 and port 389 are terminating in `S0` states. The clients are timing out before they ever receive an authentication challenge.”
 
 “So the routing change broke the path,” Owen Kline said, leaning forward.
 
@@ -57,7 +46,7 @@ I stood up and plugged my laptop into the conference room projector.
 
 I clicked to the next slide, displaying the residual traffic.
 
-“The remaining 194 failures originated from twenty-four external IP addresses across three different branch offices that do *not* traverse the modified transit path. These failures are not transport timeouts; they are explicit application rejections—`STATUS_LOGON_FAILURE`. They show a single source attempting dozens of different executive account names using a small, fixed dictionary of passwords at twenty-second intervals.”
+“The remaining 194 failures originated from twenty-four external IP addresses across three different branch offices that do *not* traverse the modified transit path. These failures are not transport timeouts; they are explicit application rejections, `STATUS_LOGON_FAILURE`. They show a single source attempting dozens of different executive account names using a small, fixed dictionary of passwords at twenty-second intervals.”
 
 The room went dead silent.
 
@@ -113,28 +102,10 @@ Dana looked at me with a slight, satisfied smile.
 
 She tapped the printout in my hand.
 
-“When you write your handoff in Lesson 08,” Dana added, “remember what just happened in that room. The people who read your reports will often want a single headline. If you give it to them at the cost of truth, you aren’t serving leadership. You’re just hiding the work.”
+“When you write the handoff,” Dana added, “remember what just happened in that room. The people who read your reports will often want a single headline. If you give it to them at the cost of truth, you aren’t serving leadership. You’re just hiding the work.”
 
 I walked back to my desk and opened the ticket queue. 
 
 On the monitoring dashboard, the WAN router rollback was applied. Within three minutes, the 3,000 connection timeouts dropped to zero. Across the room, the identity team was quietly blocking the branch IP addresses.
 
-The incident was not over, but the work was moving in the right direction—guided not by noise or panic, but by a judgment sized honestly to the evidence.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Proportionate Action](#term-proportionate_action) | A recommended operational or defensive response whose severity, impact, and disruption are balanced against the strength of the supporting evidence and the reversibility of the decision. |
-| [Confidence Breaker](#term-confidence_breaker) | A specifically named future finding or test result that, if observed, would immediately falsify or dramatically reduce confidence in the currently leading hypothesis. |
-| [Action Reversibility](#term-action_reversibility) | The ease and speed with which an operational or security decision (such as rolling back a route versus wiping an endpoint) can be undone without causing permanent data loss or operational damage. |
-| [Two-Audience Handoff](#term-two_audience_handoff) | An analytical communication discipline that presents identical claim strengths and evidence baselines to both technical peers and executive managers while appropriately tailoring technical depth and operational consequences to each group. |
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Lesson 08 — Judgment and Handoff</div>
-  <p class="bridge-desc">Master the two-audience handoff discipline: write calibrated incident reports for engineers and leadership, define decisive confidence breakers, and recommend actions proportional to evidence reversibility.</p>
-  <a href="#/lessons/08-judgment-and-handoff" class="bridge-btn">Open Lesson 08 →</a>
-</div>
+The incident was not over, but the work was moving in the right direction, guided not by noise or panic, but by a judgment sized honestly to the evidence.

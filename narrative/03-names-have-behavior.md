@@ -1,16 +1,5 @@
 # Names Have Behavior
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read before [Lesson 03](../lessons/03-names-and-expectations.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-22
-- **Time:** about 10 minutes
-- **Requires:** nothing. No tooling, capture, or account.
-- **Creates the question:** Why does name resolution appear differently across two otherwise identical client interactions?
-
----
-
 By the end of my first month at Harrowmere Equipment Group, I believed I was finally developing an instinct for network evidence.
 
 I had spent weeks working under Dana Shah’s exacting supervision. I had learned to stop treating ticket descriptions as facts. I had practiced reading packet handshakes from the transport layer up to the application payload. Most importantly, I had begun writing down predictions before inspecting raw captures, forcing myself to commit to what healthy traffic ought to look like before the terminal revealed the outcome.
@@ -33,7 +22,7 @@ I pulled out my notebook and drafted a concise three-sentence summary for Dana:
 
 > Workstation A resolved `files.harrowmere-group.example` normally via the corporate resolver before establishing a TLS session. Workstation B bypassed corporate name resolution entirely and connected directly to the destination IP address. This suggests manual hostfile modification or a hardcoded address in an unauthorized script.
 
-I took the pad to Dana at her desk. She glanced at the open terminals on my screen, then read the lines.
+I crossed to Dana’s desk and set the pad down. She read the three sentences, then we walked back to my row so she could see the open terminals.
 
 “You’ve made an accusation,” she said calmly.
 
@@ -130,23 +119,3 @@ Dana turned back toward her desk. “DNS is not a static directory lookup that h
 Priya wheeled her chair back toward the network engineering pod, leaving me alone with the two captures.
 
 I looked at the blank Wireshark screen one more time. It was no longer a mystery or a failure. It was simply the boundary of what that specific wire was capable of showing me.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Recursive DNS Resolver](#term-dns_resolver) | A DNS server that accepts queries from clients and queries authoritative nameservers recursively to find the IP address. |
-| [CNAME Record](#term-cname_record) | A Canonical Name DNS record that maps an alias hostname to another true domain name in a lookup chain. |
-| [DNS TTL (Time to Live)](#term-dns_ttl) | A 32-bit field in a DNS resource record defining how many seconds a client or resolver may cache the answer. |
-| [DNS Cache](#term-dns_cache) | Temporary local memory where an operating system or browser stores recent DNS answers to avoid repeat queries. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Lesson 03 — Names and Expectations</div>
-  <p class="bridge-desc">Explore how DNS records change over time, how Time to Live (TTL) values govern client caching behavior, and why healthy name resolution routinely produces answers that look contradictory without temporal context.</p>
-  <a href="#/lessons/03-names-and-expectations" class="bridge-btn">Start Lesson 03 →</a>
-</div>

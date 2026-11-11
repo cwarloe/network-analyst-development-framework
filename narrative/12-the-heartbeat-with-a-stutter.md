@@ -49,7 +49,7 @@ I leaned in closer, reading through two dozen rows. Sometimes the gap between co
 
 I let out a slow breath of disappointment and reached for the mouse to close the tab. I had already spent a day on a European address with no DNS and a tiny payload, and that one had been Marcus Whitlock pulling compiler dependencies. I was not going to spend another day on a destination with no reverse DNS and no baseline history.
 
-"What are you closing, Ethan?" Dana Shah asked from the next desk. Across the aisle, Owen Kline tilted his chair back on two legs, peering over his dual monitors with a pen tucked behind his ear.
+"What are you closing, Ethan?" Dana Shah asked, still watching her own query. Across the aisle, Owen Kline tilted his chair back on two legs, peering over his dual monitors with a pen tucked behind his ear.
 
 "It looks like interactive web traffic," I explained, gesturing toward the screen. "An engineering laptop has hundreds of connections to a VPS provider in Virginia, but the timing is all over the place. If this were [[c2_beaconing|C2 beaconing]], the connections would be firing on a predictable schedule. A script or implant wakes up on a set timer. Here, the timing is ragged. It looks like an engineer reading a web forum or refreshing a remote project dashboard between typing paragraphs."
 
@@ -136,23 +136,3 @@ As Cal reached for his phone to notify incident response, I looked back at the c
 For weeks, I had thought threat hunting was about finding anomalies that stood out like glaring alarms. Now I understood that the most dangerous threats did not scream for attention; they disguised themselves in artificial imperfections. 
 
 An adversary could program an implant to stutter, but as long as we knew how to measure the variance, the machine could never truly hide its pulse.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [C2 Beaconing](#term-c2_beaconing) | Recurring, scheduled outbound network connections initiated by an implant to check in with a command server. |
-| [Beacon Jitter](#term-beacon_jitter) | A deliberate percentage of pseudo-random variance added to an automated C2 sleep interval to prevent detection by fixed-interval timing signatures. |
-| [Delta Time (Δt)](#term-delta_time) | The elapsed interval between consecutive network events in a series, calculated as $\Delta t = t_i - t_{i-1}$. |
-| [Coefficient of Variation (CV)](#term-coefficient_of_variation) | A standardized measure of dispersion calculated as the ratio of the standard deviation to the mean ($\sigma / \mu$), used to separate machine automation from erratic human traffic. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Hunt 03 — Beaconing & Statistical Jitter</div>
-  <p class="bridge-desc">Step onto the threat hunting workbench with Cal Rowan: extract inter-arrival delta times, build Elasticsearch date histogram aggregations, calculate variance and standard deviation across network flows, and separate jittered machine heartbeats from human web browsing.</p>
-  <a href="#/lessons/hunt-03-beaconing-and-jitter/README" class="bridge-btn">Open Hunt 03 Workbench →</a>
-</div>

@@ -1,16 +1,5 @@
 # More Than One Explanation
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read before [Lesson 07](../lessons/07-when-its-suspicious.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-22
-- **Time:** about 12 minutes
-- **Requires:** nothing. No tooling, capture, or account.
-- **Creates the question:** When recurring outbound network traffic exhibits periodic timing, how do competing explanations prevent premature indicator-first labeling?
-
----
-
 By the middle of my fourth month at Harrowmere Equipment Group, I had traded my early overconfidence for a new and equally paralyzing habit: I was terrified of committing to a conclusion too soon.
 
 In my first weeks, I had jumped at every anomaly, treating benign TCP retransmissions as outages and protocol upgrades as covert channels. Dana Shah and the senior engineers had systematically dismantled those impulses. They had taught me to inspect physical vantage points, respect caching lifecycles, and draw rigid boundaries around what encrypted sessions could prove.
@@ -53,7 +42,7 @@ I took out my notepad and wrote down four possible explanations:
 
 I stared at my list. All four explanations could account for periodic HTTP requests. All four were technically compatible with the presence of outbound connections. I couldn't disprove any of them from the terminal.
 
-I took the list to Owen Kline at the next desk.
+I held the list up without leaving my chair, and Owen Kline came over to read it.
 
 “What are you working on?” Owen asked.
 
@@ -142,21 +131,3 @@ Dana turned back to her desk with a nod of quiet satisfaction.
 I opened the ticketing system and began drafting my response. 
 
 The shapes on the wire were no longer a confusing tangle of possibilities. They were clues in a deliberate competition, waiting for an analyst who knew how to ask the evidence to decide.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [C2 Beacon](#term-c2_beaconing) | A recurring, scheduled outbound network connection initiated by an implant or background process to check in with an external command-and-control server for new instructions. |
-| [DNS Tunneling](#term-dns_tunneling) | An evasion and communications technique that encodes non-DNS application data or commands into the subdomains and payload fields of DNS queries and responses. |
-| [Apex Domain](#term-apex_domain) | The root or base domain name (such as `example.com`) directly under the top-level domain, serving as the common administrative entity across multiple distinct subdomains and IP addresses. |
-| [Relational Convergence](#term-relational_convergence) | An analytical finding where multiple superficially independent network behaviors (such as an HTTP poll, a DNS burst, and a file upload) converge upon the same external entity or infrastructure, providing far stronger evidence than any single behavior observed in isolation. |
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Lesson 07 — When It's Suspicious</div>
-  <p class="bridge-desc">Dive into <code>07-suspicious.pcap</code> to evaluate beacon interval regularity, analyze DNS query entropy, and apply the SOC Triage Tri-Check to separate benign analytics software from true relational convergence.</p>
-  <a href="#/lessons/07-when-its-suspicious" class="bridge-btn">Open Lesson 07 →</a>
-</div>
