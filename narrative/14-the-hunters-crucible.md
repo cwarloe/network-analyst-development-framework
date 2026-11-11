@@ -18,7 +18,7 @@ Nia stopped at the corner of my desk and set the manila folder down beside my ke
 
 I looked at the folder, then up at Nia. “What’s the scope?”
 
-“The entire company,” Nia answered. “The executive committee convenes on Friday afternoon for our quarterly risk review. If there is an adversary operating inside our network—bypassing our perimeter firewalls, evading our endpoint signatures, and moving between our production facilities—I do not want an educated guess, and I do not want an isolated point-in-time triage ticket. I want a comprehensive dossier, and I want permanent detection logic in place so we never have to hunt for it manually again.”
+“The entire company,” Nia answered. “The executive committee convenes on Friday afternoon for our quarterly risk review. If there is an adversary operating inside our network, bypassing our perimeter firewalls, evading our endpoint signatures, and moving between our production facilities, I do not want an educated guess, and I do not want an isolated point-in-time triage ticket. I want a comprehensive dossier, and I want permanent detection logic in place so we never have to hunt for it manually again.”
 
 Dana stepped forward, resting a hand on the back of my empty visitor chair. Her expression was calm, but her dark eyes were intensely focused.
 
@@ -59,11 +59,11 @@ I switched to the console and executed an Elasticsearch multi-bucket terms aggre
 
 The query completed in 1.4 seconds. Out of hundreds of low-frequency external destinations, one particular IP address immediately commanded attention: `198.51.100.84`.
 
-Over the fourteen-day window, exactly one internal machine—workstation `10.120.32.14`, located in the Chicago manufacturing engineering pool—had connected to `198.51.100.84` across TCP port 443. The connection count was modest: precisely 3,840 sessions.
+Over the fourteen-day window, exactly one internal machine, workstation `10.120.32.14`, located in the Chicago manufacturing engineering pool, had connected to `198.51.100.84` across TCP port 443. The connection count was modest: precisely 3,840 sessions.
 
 I extracted the timestamps for all 3,840 connections and computed the consecutive delta-time intervals ($\Delta t = t_i - t_{i-1}$). 
 
-The mathematical distribution was unmistakable. The inter-packet arrival times did not resemble human web browsing, which typically exhibited an erratic, bursty distribution with a high coefficient of variation ($CV > 1.2$). Instead, the connection intervals clustered tightly between 255 seconds and 345 seconds. The arithmetic mean was 300.2 seconds—exactly five minutes—with a standard deviation of 24.1 seconds. The calculated coefficient of variation was $0.08$.
+The mathematical distribution was unmistakable. The inter-packet arrival times did not resemble human web browsing, which typically exhibited an erratic, bursty distribution with a high coefficient of variation ($CV > 1.2$). Instead, the connection intervals clustered tightly between 255 seconds and 345 seconds. The arithmetic mean was 300.2 seconds, exactly five minutes, with a standard deviation of 24.1 seconds. The calculated coefficient of variation was $0.08$.
 
 It was a classic five-minute automated beacon configured with an intentional fifteen-percent pseudo-random jitter.
 
@@ -71,13 +71,13 @@ I pivoted immediately into `ssl.log` and `x509.log` to inspect the transport-lay
 
 A surge of adrenaline hit my chest. I had isolated an active command-and-control beacon on an industrial engineering terminal.
 
-My initial, reactive impulse was to immediately hit the panic button: log a critical security incident, call Nia, and request an immediate network quarantine of workstation `10.120.32.14`.
+I treated it as the whole hunt. I spent hours tightening a finding around workstation `10.120.32.14` alone: the five-minute beacon, the false SNI, the Go fingerprint, and the quarantine I planned to recommend. I had that draft open when I reached for the internal phone to call Nia.
 
-I reached for the internal phone. But as my hand touched the receiver, Dana's words from our past debriefs echoed in my mind: *What can you responsibly say? What is the scope? If you disrupt before you understand the adversary's posture, you blind yourself to the rest of the intrusion.*
+But as my hand touched the receiver, Dana's words from our past debriefs echoed in my mind: *What can you responsibly say? What is the scope? If you disrupt before you understand the adversary's posture, you blind yourself to the rest of the intrusion.*
 
 I slowly took my hand off the receiver. 
 
-Why would an adversary maintain a quiet, five-minute beacon on a single CAD workstation in Chicago for two full weeks without attempting direct data exfiltration from that host? In fourteen days, the total byte count transmitted by `10.120.32.14` to `198.51.100.84` was less than two megabytes—barely enough for heartbeat check-ins and basic tasking strings.
+Why would an adversary maintain a quiet, five-minute beacon on a single CAD workstation in Chicago for two full weeks without attempting direct data exfiltration from that host? In fourteen days, the total byte count transmitted by `10.120.32.14` to `198.51.100.84` was less than two megabytes, barely enough for heartbeat check-ins and basic tasking strings.
 
 Where was the rest of the operation?
 
@@ -135,7 +135,7 @@ I opened the Zeek `dns.log` index, encompassing over four million query records.
 
 I constructed an aggregation pipeline. First, I filtered for external queries where `id.orig_h` matched Harrowmere’s internal recursive resolver cluster (`10.100.1.10`, `10.100.1.11`). Next, I filtered for queries requesting `TXT` resource records. Finally, I applied an algorithmic script to compute the Shannon entropy ($H(X)$) across the extracted subdomains of all incoming query strings.
 
-Standard human-typed domain lookups—such as `mail.harrowmere.com` or `portal.office.com`—exhibited Shannon entropy scores between 2.1 and 3.2 bits per symbol, reflecting the normal structural predictability of natural language.
+Standard human-typed domain lookups, such as `mail.harrowmere.com` or `portal.office.com`, exhibited Shannon entropy scores between 2.1 and 3.2 bits per symbol, reflecting the normal structural predictability of natural language.
 
 At the very top of my entropy sort sat an anomalous cluster: 142,890 queries directed to subdomains of an apex domain registered in an offshore registry: `data-sync-telemetry[.]net`.
 
@@ -144,7 +144,7 @@ The subdomains were massive, each measuring precisely 62 characters in length, c
 - `7a8f9c1e4b3d2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f.data-sync-telemetry[.]net`
 - `9b2c4e6a8d0f1a3b5c7e9f0a2b4c6d8e0f1a3b5c7d9e0f1a2b3c4d5e6f7a8b9c.data-sync-telemetry[.]net`
 
-The Shannon entropy of these labels averaged 4.86 bits per symbol—statistically indistinguishable from pure, compressed and base64-encoded binary ciphertext.
+The Shannon entropy of these labels averaged 4.86 bits per symbol, statistically indistinguishable from pure, compressed and base64-encoded binary ciphertext.
 
 I traced the resolver transactions backward to determine which internal client had initiated the lookups. 
 
@@ -160,11 +160,11 @@ It was not three disconnected events. It was a single, highly coordinated, multi
 
 I sat back in my chair, staring at the three synchronized timelines spanning my monitors. 
 
-If I had reported only the Chicago beacon, the adversary’s persistence in Portland would have survived unnoticed. If I had simply blocked the DNS domain, the implant in Chicago would have re-tasked a new exfiltration channel overnight. 
+I had spent hours on a report that would have left Portland untouched. If I had sent it, the adversary’s persistence in Portland would have survived unnoticed. If I had simply blocked the DNS domain, the implant in Chicago would have re-tasked a new exfiltration channel overnight. 
 
 I checked the wall clock: 2:15 AM on Friday morning. I had fourteen hours before the executive committee convened.
 
-I opened a blank technical document and began assembling the two required deliverables: a complete `[[adversary_campaign_dossier|Adversary Campaign Dossier]]` and three permanent `[[detection_engineering|detection engineering]]` rules to eliminate Harrowmere's blind spots forever.
+I opened a blank technical document and began assembling the two required deliverables: a complete `[[adversary_campaign_dossier|Adversary Campaign Dossier]]` and three permanent `[[detection_engineering|detection engineering]]` rules for the paths I had actually found.
 
 ---
 
@@ -184,7 +184,7 @@ I stepped through the evidence with surgical precision:
 
 Owen leaned forward, his eyes tracking the mathematical dispersion curve. “A $CV$ of zero point zero eight. That rules out human browsing completely. No user clicks a mouse with eight percent standard deviation over fourteen days.”
 
-“Phase Two,” I continued, switching to the inter-site East-West matrix, “occurred between Day 4 and Day 7. The actor did not drop custom malware. They used native Windows RPC and SMB pipes—living off the land—to traverse our inter-campus IPsec tunnel from Chicago into Portland, compromising our engineering documentation archive on `10.110.16.5`.”
+“Phase Two,” I continued, switching to the inter-site East-West matrix, “occurred between Day 4 and Day 7. The actor did not drop custom malware. They used native Windows RPC and SMB pipes, living off the land, to traverse our inter-campus IPsec tunnel from Chicago into Portland, compromising our engineering documentation archive on `10.110.16.5`.”
 
 “And Phase Three?” Nia asked, her eyes narrowing. “Portland has a strict egress deny policy on the firewall.”
 
@@ -198,7 +198,7 @@ Owen slowly shook his head in astonishment. “They were walking out the front d
 
 “Containment is already mapped,” I said, handing Nia the printed network impact ledger containing the exact machine GUIDs, compromised service accounts, and IPsec access control list revisions. “Incident Response can isolate both machines and reset the compromised domain service accounts simultaneously in ten minutes.”
 
-“And what stops them—or anyone else—from doing this again next month?” Cal asked from the back of the room, a slight, expectant grin playing at the corner of his mouth.
+“And what stops them, or anyone else, from doing this again next month?” Cal asked from the back of the room, a slight, expectant grin playing at the corner of his mouth.
 
 “That was the second deliverable,” I answered. 
 
@@ -208,27 +208,19 @@ I brought up my three finalized Sigma and Elastic Detection rules on my third sc
 
 Cal walked over, leaned down, and carefully reviewed the Sigma rule YAML structure and the Elasticsearch ES|QL logic. He traced the field names: `source.ip`, `destination.ip`, `dns.question.name`, `tls.client.ja4`, and `event.duration`.
 
-“Zero syntax errors,” Cal said, looking up at Nia. “The index aggregations are bounded to prevent pipeline memory exhaustion. I can push these directly into our production Elastic Detection Engine in five minutes.”
+“The index aggregations are bounded to prevent pipeline memory exhaustion,” Cal said, looking up at Nia. “I can push these directly into our production Elastic Detection Engine in five minutes.”
 
-Nia closed the manila folder on my desk with a firm, resounding snap. 
+Nia closed the manila folder on my desk with a firm, resounding snap.
 
-She looked at the screens, then at Cal and Owen, and finally turned to Dana Shah.
+She looked at the screens, then at Cal and Owen, and finally at Dana Shah.
 
-Dana had not spoken during the entire presentation. She stood quietly by the whiteboard, studying the multi-stage campaign architecture I had assembled. For months, Dana had pushed me to abandon easy assumptions, forced me to prove my claims against the raw wire, and challenged every conclusion I had ever put on paper.
+Dana had not spoken during the entire presentation. She stood quietly by the whiteboard, studying the multi-stage campaign architecture I had assembled.
 
-Dana looked at me, a rare, unmistakable warmth softening her disciplined expression.
+Nia picked up the campaign dossier and turned toward the door.
 
-“Six months ago, Ethan, you sat in Tier-1 and let a ticket tell you what to believe before you opened the capture,” Dana said quietly. “Today, you took ten million records of pure silence, found an adversary operating across three physical campuses, proved every link in their operational chain with mathematical rigor, and authored the engineering logic to protect this company permanently.”
+“The executive committee is waiting,” she said, and she took the dossier down the hall.
 
-Dana straightened up and offered a slow, decisive nod.
-
-“You didn’t just work an alert, Ethan. You closed the hunt loop. You own this desk now.”
-
-Nia smiled—a sharp, satisfied expression—and picked up the campaign dossier.
-
-“The executive committee is waiting, Ethan,” Nia said, gesturing toward the door. “Grab your notebook. You’re presenting with me.”
-
-I stood up from the console, straightened my lanyard, and picked up my pen. The vast data lake on my screens was no longer a silent, intimidating void. It was an open, understandable landscape—and for the first time, I knew with complete certainty that I was ready to defend it.
+The three phases were in it. How workstation `10.120.32.14` was first compromised was not.
 
 ---
 
