@@ -157,7 +157,7 @@ If the run changes nothing, I will record that too. A run that supports the curr
 
 ## The "Same Task Twice" Longitudinal Delta Protocol
 
-To operationalize Research Review R005 Finding 2 (*"Detecting change does not require a rubric, levels, or a passing standard. It requires the same task twice"*), facilitators and mentors should use this protocol to measure genuine capability growth across the full cohort.
+Use the repeated alert to compare two work samples. This does not establish genuine capability growth by itself: learners may remember the alert, and intervening experience or feedback can change the response. The unfamiliar later case below asks a separate question and is not a calibrated equivalent of the baseline.
 
 ### The Protocol
 
@@ -171,17 +171,32 @@ To operationalize Research Review R005 Finding 2 (*"Detecting change does not re
    - Collect their output: **Work Product B (Post-Course Endpoint)**.
 3. **The 10-Minute Comparative Delta Debrief:**
    - Place Work Product A and Work Product B side-by-side with the analyst.
-   - Evaluate against the 5 Epistemic Transformation Signals:
+   - Discuss these five features in both samples. These are prompts for review, not a score or a required progression:
 
-| Transformation Signal | What Novice Work Product A Shows | What Transformed Work Product B Shows |
+| Transformation Signal | What to examine in Work Product A | What to examine in Work Product B |
 | :--- | :--- | :--- |
-| **1. Smuggled Words** | Ingests ticket words: "confirmed probing", "malicious beaconing". | Strips adjectives: cites bytes, ports, timestamps, zero intent claims. |
-| **2. Physical Structure** | One rambling paragraph mixing facts and guesses together. | Physical 3-column split: Observation \| Interpretation \| Action. |
+| **1. Supported claims** | Which ticket labels were accepted without checking their evidence? | Are intent claims supported, qualified, or explicitly left unresolved? |
+| **2. Distinguishable claims** | Are observations and interpretations mixed together? | Can the reader distinguish facts, interpretations, and proposed action in any clear format? |
 | **3. Layer Decoupling** | Collapses layers: "connection worked so data leaked". | Decouples layers: transport delivery (`SF`) vs. TLS encryption hiding payload. |
-| **4. Visibility Boundary** | Claims to know what happened ("no data was stolen"). | Declares boundary: "TLS 1.3 hides payload; host EDR required to verify PID." |
+| **4. Visibility Boundary** | Claims to know what happened ("no data was stolen"). | States what the network evidence cannot establish and requests the appropriate endpoint evidence. |
 | **5. Action Proportionality** | Nuclear or passive: "Isolate host!" or "Wait and see." | Calibrated: low-disruption check (query process table), stated decision breaker. |
 
 ---
+
+## A fresh case after a delay
+
+After the capstone and its immediate transfer case, offer [the later export case](09-capstone-encrypted-outbound-traffic/later-case.md) in a separate session, roughly 7–14 days later. This interval is a pilot choice, not a proven optimum. The case and its [discussion](09-capstone-encrypted-outbound-traffic/later-case-review.md) are ready to use without a lab.
+
+Keep the first attempt and revision. In the existing run entry, record the actual gap,
+related practice, time spent, help used, and the specific claims or decisions the
+review changed. Do not infer understanding from the presence of a three-column layout
+or preferred vocabulary. This check samples delayed reasoning on a fresh case; it
+does not establish hands-on tool performance or workplace transfer.
+
+Where feasible, agree with the supervisor on one authorized workplace handoff, time
+and access to complete it, and a reviewer. Record whether the opportunity actually
+occurred and what blocked application if it did not. Keep sensitive workplace material
+in approved organizational systems. No learner outcomes are claimed until a run occurs.
 
 ## Records
 

@@ -17,7 +17,7 @@ Nothing here requires exposition. Most of it exists so characters can behave as 
 
 ### Organization
 
-**Harrowmere Equipment Group** is a mid-sized industrial equipment manufacturer and distributor with multiple offices, warehouses, operational sites, internal business systems, remote connectivity, cloud services, and a mixture of modern and legacy technology.
+**Harrowmere Equipment Group** is a mid-sized industrial equipment manufacturer and distributor, headquartered in Chicago, with wholly owned regional subsidiaries (Portland's is Harrowmere Northwest Distribution & Services) and multiple offices, warehouses, operational sites, internal business systems, remote connectivity, cloud services, and a mixture of modern and legacy technology.
 
 It is neither a cyber disaster nor a model laboratory.
 

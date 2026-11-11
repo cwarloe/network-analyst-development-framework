@@ -33,6 +33,10 @@ Allow about 60–90 minutes. No account, paid resource, specialized platform, or
 
 If a concept is unfamiliar, consult the optional [just-in-time scaffolds](scaffolds.md). Use only what helps you reason through the situation.
 
+## Return for a fresh case
+
+After completing this capstone and its immediate transfer case, try [the later export case](later-case.md) in a separate session about 7–14 days later. Save its first response before opening feedback. The interval is a pilot choice, not a proven optimum; this is an unfamiliar written case, not a validated assessment or evidence of workplace transfer. See [run records](../run-records.md#a-fresh-case-after-a-delay) for what to retain.
+
 ## Initial work product
 
 Use any clear format. Aim for one or two pages, not a long report. Make these elements inspectable:
