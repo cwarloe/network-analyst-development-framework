@@ -47,7 +47,7 @@ Instead, the timestamps looked completely erratic:
 
 I leaned in closer, reading through two dozen rows. Sometimes the gap between connections was fifty-one seconds. Then it was sixty-eight seconds. Then seventy-one seconds, followed immediately by forty-nine seconds. The session durations varied as well, fluctuating between zero-point-two and zero-point-eight seconds.
 
-I let out a slow breath of disappointment and reached for the mouse to close the tab.
+I let out a slow breath of disappointment and reached for the mouse to close the tab. I had already spent a day on a European address with no DNS and a tiny payload, and that one had been Marcus Whitlock pulling compiler dependencies. I was not going to spend another day on a destination with no reverse DNS and no baseline history.
 
 "What are you closing, Ethan?" Dana Shah asked from the next desk. Across the aisle, Owen Kline tilted his chair back on two legs, peering over his dual monitors with a pen tucked behind his ear.
 

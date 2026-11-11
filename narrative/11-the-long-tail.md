@@ -52,9 +52,15 @@ Fourteen thousand isolated, single-connection records. It was an impenetrable wa
 
 Determined not to give up, I began manually reading down the list. On row forty-seven, my eyes locked onto an anomaly: workstation `10.100.42.18` in the mechanical engineering group had initiated a single outbound HTTP session to an unclassified IP address hosted in a European data facility. The session had transmitted exactly 312 bytes and received 140 bytes. Crucially, there was no matching lookup for the destination hostname anywhere in `dns.log`.
 
-“Look at this one,” I said, calling Owen back over. “Direct IP connection. No preceding DNS resolution. Tiny payload size. It matches every parameter of an unclassified command-and-control check-in.”
+Direct IP connection. No preceding DNS resolution. Tiny payload size. It matched every parameter of an unclassified command-and-control check-in.
 
-Owen leaned over my shoulder and examined the timestamp and source machine. Then he sighed and shook his head.
+I did not call Owen back over. I opened a blank hunt package and wrote the four headings Cal had given me on my first day in the pod. The threat model was a low-frequency implant checking in from the engineering subnet. The observable footprint was a direct IP session with no DNS query and a payload measured in hundreds of bytes. For a falsification condition I wrote that the hypothesis would fail if the destination belonged to an approved software update vendor. I did not write down the asset inventory, and I did not test the condition against it.
+
+I spent the rest of the day on that one row. I pulled the registration record for the European address. I lined the 312-byte payload up against the heating-controller story Owen had told me, and I told myself this was different because the host sat in mechanical engineering, not in a warehouse basement. I started a briefing: the timestamp, the missing DNS query, a short note on the destination, and a recommendation to isolate the workstation. When the pod emptied for the night, the draft was still open.
+
+In the morning I walked the draft to Owen’s console.
+
+He read the pages, then leaned over my shoulder and examined the timestamp and the source machine. Then he sighed and shook his head.
 
 “That’s Marcus Whitlock’s development desktop,” Owen said. “Marcus is currently rewriting our telemetry ingestion pipeline in Rust. Every time he pulls an experimental library package, his local compiler reaches directly out to a community package mirror to download raw dependency metadata. He does it dozens of times a week from different test containers.”
 
@@ -66,7 +72,7 @@ He looked straight at me, his operational skepticism on full display.
 
 “The long tail is filled with administrative weirdness. It is overflowing with rogue developer scripts, obsolete printer drivers phoning home to dead portals, warehouse temperature monitors running forgotten NTP checks, and engineers testing unapproved tools. If you treat every single-connection outlier as an active cyber attack, you will spend sixty hours a week chasing ghosts while an actual adversary operates right under your nose.”
 
-I slumped back in my chair, looking at the fourteen thousand rows.
+I slumped back in my chair, looking at the fourteen thousand rows. I put the pages in the recycle bin. A day of the sprint was gone, and the five hundred thousand records were still unstacked.
 
 “If top talkers only reveal legitimate business operations, and the long tail is drowning in administrative weirdness, how do we find a real threat? We can’t manually inspect fourteen thousand connections.”
 
@@ -134,6 +140,8 @@ A concise, structured table appeared on the screen, completely transforming the 
 I stared at the row. The hair on the back of my neck prickled.
 
 “One machine,” I murmured. “Workstation `10.100.14.88`. Generating forty-eight connections over two days, exclusively using an unmanaged Python library.”
+
+Those forty-eight connections had been in the slice the entire day I spent on Marcus’s compiler.
 
 “Check the destination IP for that bucket,” Cal urged softly.
 
