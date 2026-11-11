@@ -23,7 +23,7 @@ On Wednesday afternoon, she dropped a printout of an internal security review on
 
 > *“WS-10 exhibits recurring periodic outbound connections on an exact 4-second timer to external IP `198.51.100.60`. Jitter is under 1.5%. Pattern is characteristic of malware command-and-control beaconing. Recommend immediate host isolation.”*
 
-“Look at the capture file—`07-suspicious.pcap`—and read the connection logs,” Dana said. “Tell me whether you agree with the isolation recommendation.”
+“Look at the capture file, `07-suspicious.pcap`, and read the connection logs,” Dana said. “Tell me whether you agree with the isolation recommendation.”
 
 I loaded the capture into our terminal and ran a summary over the hour of traffic:
 
@@ -37,9 +37,9 @@ count  destination.ip   destination.port  network.protocol  client.bytes  server
 
 I checked the two periodic HTTP destinations first.
 
-Destination `198.51.100.60` had 11 connections with a mean interval of 4.02 seconds and a standard deviation of 0.048 seconds—barely 1.2% variation. Every request was an HTTP GET for `/api/v1/tasks?id=8842` carrying a browser User-Agent string.
+Destination `198.51.100.60` had 11 connections with a mean interval of 4.02 seconds and a standard deviation of 0.048 seconds, barely 1.2% variation. Every request was an HTTP GET for `/api/v1/tasks?id=8842` carrying a browser User-Agent string.
 
-Destination `198.51.100.70` had 9 connections with a mean interval of 4.96 seconds and a standard deviation of 0.234 seconds—about 4.7% variation. Every request was an HTTP GET for `/hb`.
+Destination `198.51.100.70` had 9 connections with a mean interval of 4.96 seconds and a standard deviation of 0.234 seconds, about 4.7% variation. Every request was an HTTP GET for `/hb`.
 
 Then I looked at the DNS traffic to `198.51.100.80`. Forty queries, all requesting TXT records, each query string 78 characters long and starting with a unique 48-character high-entropy label.
 
@@ -53,7 +53,7 @@ I took out my notepad and wrote down four possible explanations:
 
 I stared at my list. All four explanations could account for periodic HTTP requests. All four were technically compatible with the presence of outbound connections. I couldn't disprove any of them from the terminal.
 
-Owen Kline walked past our row, carrying a cup of tea, and paused behind my monitor.
+I took the list to Owen Kline at the next desk.
 
 “What are you working on?” Owen asked.
 
@@ -69,7 +69,7 @@ Dana turned her chair toward us.
 
 She tapped my notepad with a pencil.
 
-“Look at your four explanations,” Dana challenged. “Take Explanation 1—the approved corporate agent—and Explanation 4—the malicious implant. If Explanation 1 is true, what specific observable facts should exist on the network that would *not* exist if Explanation 4 is true?”
+“Look at your four explanations,” Dana challenged. “Take Explanation 1, the approved corporate agent, and Explanation 4, the malicious implant. If Explanation 1 is true, what specific observable facts should exist on the network that would *not* exist if Explanation 4 is true?”
 
 I paused, forcing myself to visualize the physical mechanisms behind the traffic.
 
@@ -79,11 +79,11 @@ I paused, forcing myself to visualize the physical mechanisms behind the traffic
 
 “If it’s an approved corporate agent, the destination domain should align with an established infrastructure vendor or internal service name. And the DNS queries shouldn't need to defeat local caching unless there’s a specific functional reason to bypass it.”
 
-“Now reverse it,” Dana said. “If Explanation 4 is true—if this is an adversary implant—what does that model predict?”
+“Now reverse it,” Dana said. “If Explanation 4 is true, if this is an adversary implant, what does that model predict?”
 
 “It predicts high domain isolation,” I answered. “The external destination should not appear across peer workstations. It predicts that the beaconing interval, the DNS queries, and the outbound upload are coordinated parts of the same operational footprint rather than unrelated background noise.”
 
-Owen set his tea down on the edge of the filing cabinet.
+Owen leaned in.
 
 “So look at the fields you already have on your screen,” Owen said. “Stop staring at the jitter calculations. Look at the names.”
 
@@ -95,7 +95,7 @@ For weeks, I had been trained to evaluate IP addresses and connection timing. Bu
 - Destination `198.51.100.80` (the 40 high-rate TXT queries): `dns.query.name` was formatted as `<unique-string>.sync.cdn-metrics.example`.
 - Destination `198.51.100.90` (the 61KB outbound data transfer): `http.virtual_host` was `cdn-metrics.example`.
 
-Three completely different IP addresses. Three completely different network protocols—HTTP polling, DNS TXT queries, and a bulk TCP data transfer.
+Three completely different IP addresses. Three completely different network protocols, HTTP polling, DNS TXT queries, and a bulk TCP data transfer.
 
 All three converged on the exact same [[apex_domain|apex domain]]: `cdn-metrics.example`.
 
@@ -103,7 +103,7 @@ I looked at the fourth destination in the capture: `198.51.100.70`, the other pe
 
 “The two beacons aren't the same,” I said, the realization hitting me. “The colleague who flagged this ticket saw 1.2% jitter on `198.51.100.60` and jumped straight to C2. But the real discriminator isn't the jitter. It’s that `198.51.100.60`, the DNS queries, and the data transfer all share the same apex domain.”
 
-“That is [[relational_convergence|relational convergence]],” Dana said approvingly. “Morphology—the visual shape of a single connection—is easy to mimic and easy to mistake. An adversary can add jitter to a beacon with three lines of code. What is far harder to disguise is the relational linkage between separate infrastructure components serving the same operation.”
+“That is [[relational_convergence|relational convergence]],” Dana said approvingly. “Morphology, the visual shape of a single connection, is easy to mimic and easy to mistake. An adversary can add jitter to a beacon with three lines of code. What is far harder to disguise is the relational linkage between separate infrastructure components serving the same operation.”
 
 Dana leaned closer to the screen.
 
@@ -131,7 +131,7 @@ I considered the reversibility of the action and the evidence we had gathered.
 
 “No,” I answered firmly. “Not immediately. Isolating an engineering workstation disrupts ongoing work and alerts anyone with an active implant that their activity has been detected. The traffic is sending small periodic queries, not dumping customer databases. The appropriate next step is a calibrated triage: pull the process telemetry from the endpoint to identify the parent executable opening sockets to `cdn-metrics.example`, verify whether the binary is signed, and check whether other unmanaged devices share the traffic. If the endpoint telemetry reveals an unapproved binary running out of a user temp directory, then we isolate with full justification.”
 
-Owen smiled, picked up his tea, and nodded toward Dana.
+Owen nodded toward Dana.
 
 “He didn't say ‘it depends,’” Owen noted. “He ranked them, named the discriminator, and stated the breaker.”
 

@@ -30,7 +30,7 @@ Dana didn’t tell me I was wrong. Instead, she leaned forward and pointed at th
 
 I opened a shell and queried our external resolver. The Autonomous System Number and registry allocation resolved in less than a second:
 
-`AS13335 — Cloudflare, Inc.`
+`AS13335, Cloudflare, Inc.`
 
 “It’s a commercial Content Delivery Network,” I said, looking back at her.
 
@@ -73,7 +73,7 @@ I stared at the sequence of queries, the realization hitting me like cold water.
 
 “The resolver cache is completely useless,” I whispered.
 
-“It isn’t just useless—it is being intentionally defeated,” Priya explained. “Because every single query string is globally unique, our corporate recursive resolver has never seen it before. The resolver is forced to query the authoritative nameserver for `data-relay.example` across the public Internet for every single packet. The adversary is using `[[dns_tunneling|DNS tunneling]]` to exfiltrate data directly through the query strings, bypassing our egress inspection by turning our own internal DNS infrastructure into a recursive proxy.”
+“It isn’t just useless. It is being intentionally defeated,” Priya explained. “Because every single query string is globally unique, our corporate recursive resolver has never seen it before. The resolver is forced to query the authoritative nameserver for `data-relay.example` across the public Internet for every single packet. The adversary is using `[[dns_tunneling|DNS tunneling]]` to exfiltrate data directly through the query strings, bypassing our egress inspection by turning our own internal DNS infrastructure into a recursive proxy.”
 
 “And when they need a high-capacity command channel,” Dana added, “they combine that covert signaling with `[[domain_fronting|domain fronting]]` across the CDN. On the wire, the client initiates a TLS connection to a reputable public domain hosted on the CDN. The Server Name Indication and the initial DNS lookup look completely benign. But inside the encrypted HTTP request headers, the inner `Host` header instructs the CDN edge router to forward the request to an entirely different, attacker-controlled origin server.”
 
@@ -81,11 +81,11 @@ I stared at the millions of records in the data lake. My earlier sense of contro
 
 “So what is our discriminator?” I asked, looking between Dana and Priya. “If the IPs are shared, the hostnames are unauthenticated, and the payloads are encrypted, what does the adversary have that they cannot fake?”
 
-A rolling stool squeaked against the raised floor behind us. Cal Rowan slid into position next to my console, setting down his ubiquitous ceramic mug.
+Cal Rowan was already at the next console.
 
 “They cannot fake the mathematics of the data, Ethan,” Cal said. “And they cannot easily fake the cryptographic anatomy of their client software.”
 
-Cal reached across my desk, pulled my keyboard toward him, and split my main display into two distinct analysis windows.
+He came over, pulled my keyboard toward him, and split my main display into two distinct analysis windows.
 
 “First,” Cal said, “let’s address those forty-one thousand bizarre subdomains. You thought they might be legitimate cloud load balancing. But machine-encoded data does not look like natural human language, and it does not look like standard cloud infrastructure naming conventions. In computer science, we measure the randomness and information density of a string using `[[shannon_entropy|Shannon entropy]]`.”
 
@@ -93,7 +93,7 @@ Cal grabbed a marker and sketched a simple mathematical equation on the small wh
 
 $$H(X) = -\sum_{i=1}^{n} P(x_i) \log_2 P(x_i)$$
 
-“Shannon entropy measures the uncertainty or information content carried by each character in a sequence,” Cal explained, tapping the whiteboard. “In standard English words and common corporate hostnames like `mail.harrowmere.com` or `files-east.internal`, letters appear in predictable combinations—vowels pair with consonants, prefixes repeat, and character redundancy is high. Standard domain names exhibit an entropy score typically between 2.0 and 3.2 bits per character.”
+“Shannon entropy measures the uncertainty or information content carried by each character in a sequence,” Cal explained, tapping the whiteboard. “In standard English words and common corporate hostnames like `mail.harrowmere.com` or `files-east.internal`, letters appear in predictable combinations: vowels pair with consonants, prefixes repeat, and character redundancy is high. Standard domain names exhibit an entropy score typically between 2.0 and 3.2 bits per character.”
 
 He pointed to the garbled query strings on my screen.
 

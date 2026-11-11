@@ -33,7 +33,7 @@ I pulled out my notebook and drafted a concise three-sentence summary for Dana:
 
 > Workstation A resolved `files.harrowmere-group.example` normally via the corporate resolver before establishing a TLS session. Workstation B bypassed corporate name resolution entirely and connected directly to the destination IP address. This suggests manual hostfile modification or a hardcoded address in an unauthorized script.
 
-Dana walked past my desk carrying a fresh cup of tea. She stopped, glanced down at the open terminals, and then read the lines on my pad.
+I took the pad to Dana at her desk. She glanced at the open terminals on my screen, then read the lines.
 
 “You’ve made an accusation,” she said calmly.
 
@@ -125,7 +125,7 @@ I turned the notepad toward Dana. She read the revision carefully, then looked o
 
 “That’s an analyst’s statement,” Priya said with a brief, approving smile. “It describes what the vantage point captured without pretending to know what happened before the capture started.”
 
-“Remember this when you start Lesson 03,” Dana added, turning back toward her desk. “DNS is not a static directory lookup that happens once and disappears. Names have lifecycles. They have durations, aliases, and memory. If you assume that every conceptual step must leave a visible footprint on the wire at the exact moment you happen to be watching, you will spend half your career investigating ghosts.”
+Dana turned back toward her desk. “DNS is not a static directory lookup that happens once and disappears. Names have lifecycles. They have durations, aliases, and memory. If you assume that every conceptual step must leave a visible footprint on the wire at the exact moment you happen to be watching, you will spend half your career investigating ghosts.”
 
 Priya wheeled her chair back toward the network engineering pod, leaving me alone with the two captures.
 

@@ -17,11 +17,11 @@ Plaintext was honest. In unencrypted traffic, if an application requested a fina
 
 Then Dana Shah assigned me to monitor an application test on our internal file repository.
 
-The file server—`files.harrowmere-group.example` at `198.51.100.30`—was being evaluated by Leah Moreno’s enterprise applications team for automated synchronizations. To evaluate new transport configurations, Leah had generated two live test connections from an internal host at `192.0.2.10`. Both used port 443. Both targeted the same internal service.
+The file server, `files.harrowmere-group.example` at `198.51.100.30`, was being evaluated by Leah Moreno’s enterprise applications team for automated synchronizations. To evaluate new transport configurations, Leah had generated two live test connections from an internal host at `192.0.2.10`. Both used port 443. Both targeted the same internal service.
 
 I opened our terminal dashboard and queried the [[zeek_conn_log|Zeek connection log (`conn.log`)]]. Both connections were present. Both showed normal establishment and clean teardowns. But when I inspected the protocol logs and packet captures, the two sessions looked completely different.
 
-Connection 1, using ephemeral port 51000, had negotiated TLS 1.2. In Wireshark, the handshake laid its cards on the table. In Frame 4, the client sent a `ClientHello` advertising the [[server_name_indication|Server Name Indication (SNI)]] for `files.harrowmere-group.example`. In Frame 6, the server replied with a `ServerHello`, selected cipher suite `0xc02f`, and then—in plain view—handed over its full cryptographic certificate. 
+Connection 1, using ephemeral port 51000, had negotiated TLS 1.2. In Wireshark, the handshake laid its cards on the table. In Frame 4, the client sent a `ClientHello` advertising the [[server_name_indication|Server Name Indication (SNI)]] for `files.harrowmere-group.example`. In Frame 6, the server replied with a `ServerHello`, selected cipher suite `0xc02f`, and then, in plain view, handed over its full cryptographic certificate. 
 
 I opened Zeek’s `x509.log` and saw the certificate parsed into structured fields. The subject was `files.harrowmere-group.example`. The issuer was also `files.harrowmere-group.example`. It was an unverified [[self_signed_cert|self-signed certificate]], generated locally for internal staging.
 
@@ -43,7 +43,7 @@ A dry voice spoke from the aisle behind me.
 
 “Or Leah’s server negotiated TLS 1.3, and the wire did exactly what the standard told it to do.”
 
-I turned around. Cal Rowan, our telemetry and detection lead, was leaning against the partition, holding a fresh mug of black coffee. He glanced at my monitors, then looked at Dana.
+Cal Rowan, our telemetry and detection lead, spoke from the next aisle, already looking at my monitors. He glanced at Dana.
 
 “Is he trying to hunt covert channels in the morning lab traffic again?” Cal asked.
 
@@ -55,7 +55,7 @@ I clicked on Frame 23 in Wireshark and expanded the TLS record layer.
 
 “Look at the version field,” I said, pointing to the hex display. “The record layer says TLS 1.2, version `0x0303`. The handshake layer also says TLS 1.2, version `0x0303`. It’s claiming to be TLS 1.2, but the certificate frame is missing.”
 
-Cal took a slow sip of coffee and shook his head.
+Cal shook his head.
 
 “You’re reading the legacy version field,” Cal said. “When the TLS working group drafted version 1.3, they discovered that thousands of broken firewalls and middleboxes across the Internet were programmed to drop any packet with a `[[version_freeze|version number higher than 0x0303]]`. If they had stamped `0x0304` into that header, half the corporate networks in the world would have severed the connections on sight.”
 
@@ -63,13 +63,13 @@ He pointed his pen toward the bottom of the `ClientHello` packet detail tree.
 
 “To keep legacy equipment from panicking, TLS 1.3 freezes the outer version field at TLS 1.2. If you want to know what version was actually negotiated, you have to scroll down past the ciphers to the extensions. Look for the [[tls_supported_versions|`supported_versions` extension]].”
 
-I scrolled down through the extension list in Frame 21. There it was: Extension 43, `supported_versions`. Inside, the client had listed `0x0304`—TLS 1.3.
+I scrolled down through the extension list in Frame 21. There it was: Extension 43, `supported_versions`. Inside, the client had listed `0x0304`, TLS 1.3.
 
 I checked Frame 23, the server’s response. In its own extensions list, the server had returned Extension 43 with a single value: `0x0304`.
 
 “The server accepted TLS 1.3,” I realized.
 
-“Right,” Cal said. “And in TLS 1.3, cryptographic key derivation happens immediately after the `ServerHello`. Everything that follows—the server’s encrypted extensions, its identity, its certificate, its handshake verification—is encapsulated inside encrypted records. To a network sensor sitting on the wire, the server certificate doesn’t look like a certificate anymore. It looks like random binary noise. It looks like `[[content_type_23|Type 23 application data]]`.”
+“Right,” Cal said. “And in TLS 1.3, cryptographic key derivation happens immediately after the `ServerHello`. Everything that follows, the server’s encrypted extensions, its identity, its certificate, and its handshake verification, is encapsulated inside encrypted records. To a network sensor sitting on the wire, the server certificate doesn’t look like a certificate anymore. It looks like random binary noise. It looks like `[[content_type_23|Type 23 application data]]`.”
 
 I looked from the Wireshark screen back to our terminal.
 
@@ -139,17 +139,17 @@ He tapped the screen. “Never confuse what the tool pipeline happens to store w
 
 I took a clean sheet of paper and divided it into `[[bounded_claim|three columns]]`.
 
-In the first column—*Directly Observable*—I wrote:
+In the first column, *Directly Observable*, I wrote:
 - Client IP `192.0.2.10` contacted Server IP `198.51.100.30` on TCP port 443.
 - Handshake negotiated TLS 1.3 via the `supported_versions` extension using cipher suite `0x1302`.
 - Client presented cleartext Server Name Indication for `files.harrowmere-group.example`.
 - Connection lasted 4.09 seconds and transferred 1,280 client bytes and 4,820 server bytes.
 
-In the second column—*Inferable from Context*—I wrote:
+In the second column, *Inferable from Context*, I wrote:
 - Timing and endpoint match Leah Moreno’s scheduled HarrowSync integration test.
 - Packet byte counts and duration are consistent with a small manifest download rather than large bulk data exfiltration.
 
-In the third column—*Cannot Determine from Network Evidence*—I wrote:
+In the third column, *Cannot Determine from Network Evidence*, I wrote:
 - Identity of the executing client process or user account on `192.0.2.10`.
 - Specific HTTP request URIs, query parameters, or response payloads transmitted inside the TLS tunnel.
 - Validity of the server certificate presented inside the encrypted TLS 1.3 session.
@@ -171,7 +171,7 @@ Dana turned back to me.
 
 She walked back to her station. Cal pushed his stool back and headed down the aisle toward the engineering pod, leaving me alone with the two captures.
 
-I looked at the opaque Type 23 records on my screen. They were still dark, and the application bytes were still hidden. But they were no longer a threat. They were simply a protocol boundary, clearly marked and understood.
+I looked at the opaque Type 23 records on my screen. They were still dark, and the application bytes were still hidden. I knew why the certificate was missing from the log. I still could not say, from the wire alone, which process had opened the socket.
 
 ---
 
