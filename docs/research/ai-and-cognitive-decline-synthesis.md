@@ -1,8 +1,10 @@
 > Imported from Google Drive on 2026-11-09. Source: [AI_and_Cognitive_Decline_Research.md](https://docs.google.com/document/d/1wDgT_biJNjmCG2NXi6LOWjXmZ6Gh3R6zHbL3NRCsupQ/edit).
 > Literature synthesis supporting the 'hollowed mind' and cognitive sovereignty concerns in technical training.
+>
+> **Supporting file for [R012](R012-spatial-memory-and-session-design.md), not a numbered record.** Figures below are as given in the Drive original and were not independently verified here. Studies 1, 3 and 4 appear in the verified source list archived in learning-narrative-kit ([`sources.md`](https://github.com/cwarloe/learning-narrative-kit/blob/main/research/memory-palace-spatial-learning/sources.md), #55, #53, #56). Studies 2 and 5 are not on that list and should be checked before they are quoted. Nothing here measures NADF learners, and none of it supports a claim that any learner has reached a level.
 
 # AI and Cognitive Decline: Research Synthesis & Key Takeaways
-A summary of current research on how artificial intelligence impacts learning, mastery, brain connectivity, and workplace verification.
+A summary of current research on how artificial intelligence impacts learning, skill retention, brain connectivity, and workplace verification.
 
 # 1. High School Math Experiment in Turkey (PNAS, June 2025)
 * **Study Overview**: 839 students (9th–11th grade) across four 90-minute class sessions split into three learning environments:  
@@ -13,16 +15,16 @@ A summary of current research on how artificial intelligence impacts learning, m
   * **Practice Phase**: Basic GPT-4 students scored 48% higher during practice relative to control.  
   * **Unassisted Exam**: On closed-book exams without AI, the Basic GPT-4 group scored 17% lower than control (a 5.4 percentage point deficit against a 32.1% control average).  
   * **Root Cause**: 67% of initial messages to the basic AI simply requested direct answers, eliminating the struggle required for learning ("illusion of competence").  
-  * **The Tutor Effect**: Students using the AI Tutor performed 127% better during practice and showed **no exam deficit** when tested unassisted.
+  * **The Tutor Effect**: Students using the AI Tutor performed 127% better during practice and showed no significant exam deficit when tested unassisted (the archived source list summarizes this as removing most of the harm).
 
-# 2. Python Developer Mastery Study (Anthropic, January 2026)
+# 2. Python Developer Skill Study (Anthropic, January 2026)
 * **Study Overview**: 52 experienced Python developers (7+ years experience) given 35 minutes to complete coding tasks in an unfamiliar Python library (Trio).  
   * Half used a GPT-4o assistant capable of generating full code.  
   * Half worked without AI support.  
   * All took a 14-question conceptual quiz afterwards with AI disabled.  
 * **Key Findings**:  
   * **Conceptual Quiz Scores**: AI group averaged **50%** vs. **65%** for non-AI users (a statistically significant 15-point gap).  
-  * **Usage Behavior**: Developers who used AI as a challenger or tutor maintained higher mastery than those who copy-pasted generated code without engagement.
+  * **Usage Behavior**: Developers who used AI as a challenger or tutor scored higher on the quiz than those who copy-pasted generated code without engagement.
 
 # 3. "Your Brain on ChatGPT" EEG Study (MIT, June 2025 Preprint)
 * **Study Overview**: 54 participants (ages 18–39) wrote SAT-style essays while EEG caps measured brain connectivity across three groups: ChatGPT-only, Search Engine-only, and No-Tools.  
@@ -43,7 +45,7 @@ A summary of current research on how artificial intelligence impacts learning, m
 # 5. Digital Technology & Long-Term Cognition Meta-Analysis (Nature Human Behaviour, April 2025)
 * **Study Overview**: 57 studies following 411,430 adults (age 50+) over 1–18 years.  
 * **Key Findings**:  
-  * General digital technology use was associated with **58% lower odds of cognitive impairment** and a **26% slower rate of cognitive decline**.
+  * General digital technology use was associated with **58% lower odds of cognitive impairment** and a **26% slower rate of cognitive decline**. These are associations in older adults using digital technology in general, not AI, and do not show cause.
 
 # Strategic Recommendations & Best Practices
 1. **Struggle First**: Engage with a problem independently before requesting AI assistance to ensure active cognitive processing.  
