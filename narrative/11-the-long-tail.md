@@ -1,8 +1,6 @@
 # Chapter 11 — The Long Tail
 
-The threat hunting pod was unusually quiet on Monday morning, save for the low hum of the auxiliary cooling fans circulating chilled air across Cal Rowan’s server racks.
-
-On my primary display, a new dataset sat staged in the Security Onion console. Nia Alvarez had signed off on my second hunting sprint the previous Friday, granting me access to a forty-eight-hour telemetry slice extracted directly from the corporate sensor taps: precisely five hundred thousand connection records spanning Harrowmere’s engineering design network and manufacturing control boundary.
+On Monday morning, a new dataset sat staged in the Security Onion console. Nia Alvarez had signed off on my second hunting sprint the previous Friday, granting me access to a forty-eight-hour telemetry slice extracted directly from the corporate sensor taps: precisely five hundred thousand connection records spanning Harrowmere’s engineering design network and manufacturing control boundary.
 
 My objective was clear. I was hunting for unauthorized outbound command-and-control communication that had bypassed our perimeter signature defenses.
 
@@ -139,7 +137,7 @@ I stared at the row. The hair on the back of my neck prickled.
 
 “Check the destination IP for that bucket,” Cal urged softly.
 
-I clicked into the bucket, pulling the destination metadata for `10.100.14.88`. All forty-eight connections reached out to a single external IP address hosted by an unclassified VPS provider on port 8080. The requests occurred at regular intervals, transmitting tiny payloads of identical length. Workstation `10.100.14.88` was an industrial drafting terminal in the CAD pool—a machine whose assigned user had no legitimate reason to execute raw Python scripts against an external socket.
+I clicked into the bucket, pulling the destination metadata for `10.100.14.88`. All forty-eight connections reached out to a single external IP address hosted by an unclassified VPS provider on port 8080. The requests occurred at regular intervals, transmitting tiny payloads of identical length. Workstation `10.100.14.88` was an industrial drafting terminal in the CAD pool, a machine whose assigned user had no legitimate reason to execute raw Python scripts against an external socket.
 
 Owen leaned in, studying the cardinality metric and the destination profile. The skepticism on his face melted into sharp, focused attention.
 

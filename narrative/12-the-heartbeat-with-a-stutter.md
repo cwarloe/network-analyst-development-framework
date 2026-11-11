@@ -1,7 +1,5 @@
 # Chapter 12 — The Heartbeat with a Stutter
 
-The morning sun reflected off the glass partitions of the threat hunting platform, cutting across three 32-inch displays that showed Harrowmere’s rolling telemetry window. In the bottom tray of my primary console, the cluster status indicator showed fifty-two million connection records indexed over the preceding seven days.
-
 Three weeks had passed since Nia Alvarez transferred me out of the reactive triage queue. I had spent that time learning how to construct falsifiable hypotheses with Cal Rowan and discovering that an empty ticket queue was far more demanding than an overflowing one. In the reactive queue, an alert provided an explicit starting point. Here, if you did not know how to interrogate the data lake, the data lake simply stared back at you.
 
 My assignment for Thursday morning was focused on egress persistence. Two days earlier, a threat intelligence bulletin had warned that manufacturing firms in our sector were being targeted by an intrusion group that established long-term footholds using lightweight, modular command implants. The implants did not exfiltrate gigabytes of files immediately. Instead, they sat quietly on internal endpoints, maintaining outbound communication channels back to adversary infrastructure while waiting for tasking.
@@ -28,7 +26,7 @@ I decided to relax the query constraints. Instead of demanding an exact sixty-se
 
 The table refreshed, presenting thirty-eight candidate destinations. Most were standard SaaS platforms and software update repositories, but one entry near the middle of the list caught my attention.
 
-An internal workstation in our mechanical engineering design pool—`10.42.18.91`, assigned to a senior CAD modeling engineer—had initiated six hundred and forty-two outbound TLS sessions to an external IP address in Virginia: `198.51.100.84`. The destination IP was registered to a budget cloud hosting provider, with no matching reverse DNS hostname and zero prior history in Harrowmere’s historical baselines.
+An internal workstation in our mechanical engineering design pool, `10.42.18.91`, assigned to a senior CAD modeling engineer, had initiated six hundred and forty-two outbound TLS sessions to an external IP address in Virginia: `198.51.100.84`. The destination IP was registered to a budget cloud hosting provider, with no matching reverse DNS hostname and zero prior history in Harrowmere’s historical baselines.
 
 My heart rate picked up. I pivoted to Kibana’s Discover view, filtered on `source.ip: "10.42.18.91"` and `destination.ip: "198.51.100.84"`, and added `@timestamp`, `duration`, `orig_bytes`, and `resp_bytes` to my column view.
 
@@ -77,7 +75,7 @@ I paused, looking back down at my initial failed Elasticsearch query. "A signatu
 
 "Jitter?" I repeated.
 
-"A randomized timing delta deliberately injected into the sleep cycle," Cal Rowan said, rolling his chair over to join us. Harrowmere’s Senior Security Engineer leaned his elbows on the back of his chair. "Frameworks like Cobalt Strike, Sliver, or Brute Ratel don't execute a rigid sleep call. The operator configures a base sleep time—say, sixty seconds—and a jitter percentage, typically twenty percent. Every time the implant prepares to sleep, it draws a pseudorandom number between minus twenty percent and plus twenty percent of that base interval."
+"A randomized timing delta deliberately injected into the sleep cycle," Cal Rowan said, rolling his chair over to join us. Harrowmere’s Senior Security Engineer leaned his elbows on the back of his chair. "Frameworks like Cobalt Strike, Sliver, or Brute Ratel don't execute a rigid sleep call. The operator configures a base sleep time, say sixty seconds, and a jitter percentage, typically twenty percent. Every time the implant prepares to sleep, it draws a pseudorandom number between minus twenty percent and plus twenty percent of that base interval."
 
 I looked back at my log table. "So sixty seconds plus or minus twenty percent..."
 
@@ -121,7 +119,7 @@ $$\frac{6.91}{59.85} \approx 0.115$$
 
 "Zero point one one five," I said. "Eleven and a half percent."
 
-"That number is your smoking gun," Dana explained. "A human browsing the web does not behave with a coefficient of variation of zero point one one. When an engineer reads documentation, their network traffic follows a power-law Pareto distribution. They open five tabs in three seconds—burst traffic with delta times under one second. Then they spend four minutes reading an article—delta time of two hundred and forty seconds. Then they get up to grab coffee or take a phone call—delta time of nine hundred seconds. A human web session has massive dispersion. Its coefficient of variation is almost always greater than one point zero, often reaching two or three."
+"That number is your smoking gun," Dana explained. "A human browsing the web does not behave with a coefficient of variation of zero point one one. When an engineer reads documentation, their network traffic follows a power-law Pareto distribution. They open five tabs in three seconds, burst traffic with delta times under one second. Then they spend four minutes reading an article, a delta time of two hundred and forty seconds. Then they get up to grab coffee or take a phone call, a delta time of nine hundred seconds. A human web session has massive dispersion. Its coefficient of variation is almost always greater than one point zero, often reaching two or three."
 
 She tapped the screen beside my summary output.
 
