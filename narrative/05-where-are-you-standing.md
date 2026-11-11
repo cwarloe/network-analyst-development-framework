@@ -27,10 +27,10 @@ I arranged four telemetry dashboards across my screens:
 
 I spent forty-five minutes querying the timestamps. By the end of the hour, I had four separate accounts of the exact same thirty-second window, and they appeared to directly contradict one another.
 
-Screen 1—the sampled flow collector—reported an outbound transfer of approximately 140 megabytes to `198.51.100.99`.
-Screen 2—the perimeter Zeek sensor—showed three completed connections to that external IP, but recorded a total of only 42 kilobytes transferred.
-Screen 3—the edge firewall—showed no outbound sessions to `198.51.100.99` originating from `FS-FIN-01`’s internal IP address at all.
-Screen 4—the file service application log—recorded a status message stating: *“Backup synchronization completed successfully; 142 MB transferred.”*
+Screen 1, the sampled flow collector, reported an outbound transfer of approximately 140 megabytes to `198.51.100.99`.
+Screen 2, the perimeter Zeek sensor, showed three completed connections to that external IP, but recorded a total of only 42 kilobytes transferred.
+Screen 3, the edge firewall, showed no outbound sessions to `198.51.100.99` originating from `FS-FIN-01`’s internal IP address at all.
+Screen 4, the file service application log, recorded a status message stating: *“Backup synchronization completed successfully; 142 MB transferred.”*
 
 I stared at the monitors, my jaw clenched. Either our firewall was dropping logs, our flow collector was hallucinating gigabytes of traffic, or our packet sensors were blind.
 
@@ -64,7 +64,7 @@ I looked at the diagram. A dotted line ran from the datacenter subnet, through a
 
 “No,” I realized, the realization beginning to dawn. “Outbound backup transfers are tunneled through the [[vpn_hairpin|corporate VPN gateway]] to our offsite storage provider.”
 
-“Right,” Priya explained. “The server establishes an IPsec tunnel to the backup vault. To the core routing switch, every packet between `FS-FIN-01` and the internal VPN gateway is visible in the clear before encapsulation—142 megabytes of raw file data. That is what your core switch exported to NetFlow.”
+“Right,” Priya explained. “The server establishes an IPsec tunnel to the backup vault. To the core routing switch, every packet between `FS-FIN-01` and the internal VPN gateway is visible in the clear before encapsulation: 142 megabytes of raw file data. That is what your core switch exported to NetFlow.”
 
 “Then what did Zeek see on the DMZ tap?” I asked.
 
@@ -98,7 +98,7 @@ I thought about what Priya and Cal had just demonstrated.
 
 “The analyst’s question is: *Could this source have observed the thing I am asking about in the first place?*”
 
-“Exactly,” Dana said. “If a sensor could not have observed the event—because of placement, translation, encapsulation, or logging configuration—its silence carries zero evidential weight. Writing *‘the firewall showed no traffic, therefore no connection occurred’* is not analysis. It is an assumption disguised as evidence.”
+“Exactly,” Dana said. “If a sensor could not have observed the event, because of placement, translation, encapsulation, or logging configuration, its silence carries zero evidential weight. Writing *‘the firewall showed no traffic, therefore no connection occurred’* is not analysis. It is an assumption disguised as evidence.”
 
 She drew four columns on the whiteboard: *Source*, *Vantage Point*, *Can Establish*, and *Blind Spots*.
 
@@ -136,7 +136,7 @@ Dana wiped a section of the whiteboard clean.
 
 She pointed to my notepad.
 
-“Write this down in your case notes before you touch Lesson 05: A log is not reality. A log is a partial projection of reality, recorded from a specific physical vantage point, through a specific configuration, over a finite retention window. If you do not know where your sensor was standing, you do not know what its silence means.”
+“Write this down in your case notes. A log is not reality. A log is a partial projection of reality, recorded from a specific physical vantage point, through a specific configuration, over a finite retention window. If you do not know where your sensor was standing, you do not know what its silence means.”
 
 I picked up my pen and wrote the rule at the top of a clean page.
 

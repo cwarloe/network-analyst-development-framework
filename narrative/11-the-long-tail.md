@@ -18,7 +18,7 @@ The top row immediately caught my attention: a single connection originating fro
 
 I leaned forward, a sense of immediate triumph rising in my chest. Finding an active data exfiltration channel within my first ten minutes of hunting felt almost too easy.
 
-Owen Kline walked past my desk carrying a fresh pot of French press coffee. He glanced down at the bright red data-volume visualizer glowing on my screen, paused mid-stride, and rested one hand on the partition wall.
+Owen Kline was at the next console. I asked him to look at the volume ranking, and he glanced at the bright red data-volume visualizer on my screen.
 
 “What did you catch there, Mercer?” Owen asked, his tone dry and noncommittal.
 
@@ -32,7 +32,7 @@ He pointed to the second connection on my list, the 18-gigabyte transfer.
 
 “And that one,” Owen continued, “is Priya Raman’s automated database replication worker syncing compressed operational logs to our secondary Azure disaster recovery container. It fires every Sunday night at midnight.”
 
-Owen took a slow sip of coffee and gave me a faint, knowing grin.
+Owen gave me a faint, knowing grin.
 
 “Congratulations, Mercer. You just spent forty-five minutes discovering that high-definition video takes up bandwidth, and that backups transfer large files.”
 
@@ -56,7 +56,7 @@ Determined not to give up, I began manually reading down the list. On row forty-
 
 “Look at this one,” I said, calling Owen back over. “Direct IP connection. No preceding DNS resolution. Tiny payload size. It matches every parameter of an unclassified command-and-control check-in.”
 
-Owen set his mug down, leaned over my shoulder, and examined the timestamp and source machine. Then he sighed and shook his head.
+Owen leaned over my shoulder and examined the timestamp and source machine. Then he sighed and shook his head.
 
 “That’s Marcus Whitlock’s development desktop,” Owen said. “Marcus is currently rewriting our telemetry ingestion pipeline in Rust. Every time he pulls an experimental library package, his local compiler reaches directly out to a community package mirror to download raw dependency metadata. He does it dozens of times a week from different test containers.”
 
@@ -139,7 +139,7 @@ I stared at the row. The hair on the back of my neck prickled.
 
 “Check the destination IP for that bucket,” Cal urged softly.
 
-I clicked into the bucket, pulling the destination metadata for `10.100.14.88`. All forty-eight connections reached out to a single external IP address hosted by an unclassified VPS provider on port 8080. The requests occurred at regular intervals, transmitting tiny payloads of identical length. Workstation `10.100.14.88` was an industrial drafting terminal in the CAD pool—a machine whose assigned user had no legitimate reason to execute raw Python scripts against an external socket.
+I clicked into the bucket, pulling the destination metadata for `10.100.14.88`. All forty-eight connections reached out to a single external IP address hosted by an unclassified VPS provider on port 8080. The requests occurred at regular intervals, transmitting tiny payloads of identical length. Workstation `10.100.14.88` was an industrial drafting terminal in the CAD pool, a machine whose assigned user had no legitimate reason to execute raw Python scripts against an external socket.
 
 Owen leaned in, studying the cardinality metric and the destination profile. The skepticism on his face melted into sharp, focused attention.
 

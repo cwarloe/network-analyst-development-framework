@@ -28,7 +28,7 @@ I decided to relax the query constraints. Instead of demanding an exact sixty-se
 
 The table refreshed, presenting thirty-eight candidate destinations. Most were standard SaaS platforms and software update repositories, but one entry near the middle of the list caught my attention.
 
-An internal workstation in our mechanical engineering design pool—`10.42.18.91`, assigned to a senior CAD modeling engineer—had initiated six hundred and forty-two outbound TLS sessions to an external IP address in Virginia: `198.51.100.84`. The destination IP was registered to a budget cloud hosting provider, with no matching reverse DNS hostname and zero prior history in Harrowmere’s historical baselines.
+An internal workstation in our mechanical engineering design pool, `10.42.18.91`, assigned to a senior CAD modeling engineer, had initiated six hundred and forty-two outbound TLS sessions to an external IP address in Virginia: `198.51.100.84`. The destination IP was registered to a budget cloud hosting provider, with no matching reverse DNS hostname and zero prior history in Harrowmere’s historical baselines.
 
 My heart rate picked up. I pivoted to Kibana’s Discover view, filtered on `source.ip: "10.42.18.91"` and `destination.ip: "198.51.100.84"`, and added `@timestamp`, `duration`, `orig_bytes`, and `resp_bytes` to my column view.
 
@@ -51,9 +51,7 @@ I leaned in closer, reading through two dozen rows. Sometimes the gap between co
 
 I let out a slow breath of disappointment and reached for the mouse to close the tab.
 
-"What are you closing, Ethan?"
-
-Dana Shah was standing just behind my left shoulder, holding a ceramic mug of steaming green tea. Across the aisle, Owen Kline tilted his chair back on two legs, peering over his dual monitors with a pen tucked behind his ear.
+"What are you closing, Ethan?" Dana Shah asked from the next desk. Across the aisle, Owen Kline tilted his chair back on two legs, peering over his dual monitors with a pen tucked behind his ear.
 
 "It looks like interactive web traffic," I explained, gesturing toward the screen. "An engineering laptop has hundreds of connections to a VPS provider in Virginia, but the timing is all over the place. If this were [[c2_beaconing|C2 beaconing]], the connections would be firing on a predictable schedule. A script or implant wakes up on a set timer. Here, the timing is ragged. It looks like an engineer reading a web forum or refreshing a remote project dashboard between typing paragraphs."
 
@@ -63,7 +61,7 @@ Owen let out a dry, raspy laugh that drew the attention of Cal Rowan two desks d
 
 I turned around, feeling my face warm. "What does that mean?"
 
-Dana did not laugh. She set her mug down on the edge of the desk, pulled over a rolling stool, and looked directly into my display.
+Dana did not laugh. She pulled over a rolling stool and looked directly into my display.
 
 "Ethan, why did you assume an automated implant would communicate on an exact, fixed interval?" Dana asked calmly.
 
@@ -77,7 +75,7 @@ I paused, looking back down at my initial failed Elasticsearch query. "A signatu
 
 "Jitter?" I repeated.
 
-"A randomized timing delta deliberately injected into the sleep cycle," Cal Rowan said, rolling his chair over to join us. Harrowmere’s Senior Security Engineer leaned his elbows on the back of his chair. "Frameworks like Cobalt Strike, Sliver, or Brute Ratel don't execute a rigid sleep call. The operator configures a base sleep time—say, sixty seconds—and a jitter percentage, typically twenty percent. Every time the implant prepares to sleep, it draws a pseudorandom number between minus twenty percent and plus twenty percent of that base interval."
+"A randomized timing delta deliberately injected into the sleep cycle," Cal Rowan said, rolling his chair over to join us. Harrowmere’s Senior Security Engineer leaned his elbows on the back of his chair. "Frameworks like Cobalt Strike, Sliver, or Brute Ratel don't execute a rigid sleep call. The operator configures a base sleep time, say sixty seconds, and a jitter percentage, typically twenty percent. Every time the implant prepares to sleep, it draws a pseudorandom number between minus twenty percent and plus twenty percent of that base interval."
 
 I looked back at my log table. "So sixty seconds plus or minus twenty percent..."
 
@@ -121,7 +119,7 @@ $$\frac{6.91}{59.85} \approx 0.115$$
 
 "Zero point one one five," I said. "Eleven and a half percent."
 
-"That number is your smoking gun," Dana explained. "A human browsing the web does not behave with a coefficient of variation of zero point one one. When an engineer reads documentation, their network traffic follows a power-law Pareto distribution. They open five tabs in three seconds—burst traffic with delta times under one second. Then they spend four minutes reading an article—delta time of two hundred and forty seconds. Then they get up to grab coffee or take a phone call—delta time of nine hundred seconds. A human web session has massive dispersion. Its coefficient of variation is almost always greater than one point zero, often reaching two or three."
+"That number is your smoking gun," Dana explained. "A human browsing the web does not behave with a coefficient of variation of zero point one one. When an engineer reads documentation, their network traffic follows a power-law Pareto distribution. They open five tabs in three seconds, burst traffic with delta times under one second. Then they spend four minutes reading an article, a delta time of two hundred and forty seconds. Then they get up to grab coffee or take a phone call, a delta time of nine hundred seconds. A human web session has massive dispersion. Its coefficient of variation is almost always greater than one point zero, often reaching two or three."
 
 She tapped the screen beside my summary output.
 
