@@ -17,7 +17,7 @@ Portland sources (do not copy them here):
 - The prologue's first ticket is already stamped 2026-08-20 in the current chapter file.
 - Ethan is 23 at the open and turns 24 in September of Year 4.
 - **Security+:** Ethan holds Security+ when Book 1 opens. He earned it just after Book 0 Episode 12, off the page. Treat it as a floor, not a skill. The paper does not help in the first real hunt; that is for the prologue to show, not for this file to invent.
-- **Ticket IDs:** yearless, monotonic, fixed-width counters with a SOC prefix, in the style `SEC0004021`. They run in their own sequence, increasing by chapter, with no year and no reuse. The checker accepts that prefix. Current chapter prose still uses the short form `SEC-4021`; later chapter PRs should migrate those IDs. Do not introduce a year into a ticket or evidence ID.
+- **Ticket IDs:** yearless, monotonic, fixed-width counters with a SOC prefix, in the style `SEC0004021`. They run in their own sequence, increasing by chapter, with no year and no reuse. The checker accepts that prefix. The prologue uses `SEC0004021`. Chapters 01-14 still use the short form `SEC-4021`; later chapter PRs should migrate those IDs. Do not introduce a year into a ticket or evidence ID.
 - Ethan works for the parent, one floor above PROC, still in the Portland area. He never relocates.
 - Leah Moreno moved up to the parent's Enterprise Applications team a few weeks ahead of him. They know each other; they are not close. A first ticket together is fine. A first meeting is not.
 - Nia Alvarez is Security Operations Manager in Portland at the open. In Book 0 Episode 12 she was still in Chicago, on the bridge only.

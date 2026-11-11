@@ -8,7 +8,7 @@
 
 ## 1. The Core Paradigm Shift
 
-In Book 1 (*Learning to See*), the analyst was **reactive**: an alert fired, a ticket was assigned (`SEC-4021`), and the data was bounded to a single connection or capture file. The analyst's job was to prevent hindsight bias, separate observation from interpretation, and make a safe operational call.
+In Book 1 (*Learning to See*), the analyst was **reactive**: an alert fired, a ticket was assigned (`SEC0004021`), and the data was bounded to a single connection or capture file. The analyst's job was to prevent hindsight bias, separate observation from interpretation, and make a safe operational call.
 
 In Book 2 (*The Hunter's Eye*), the analyst is **proactive**:
 
