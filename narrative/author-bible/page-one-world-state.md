@@ -920,7 +920,7 @@ He feels ready for more.
 
 ## Day 11 — The Word in the Ticket
 
-The working canon is eleven days on this floor and this badge, after the August offer, one floor above the desk he worked for twenty-two months. The internal start date is about 9 August Year 4 (2026-08-09); do not print that date in the prose. The current chapter still opens “I had been at Harrowmere eleven days when Dana let me take a ticket.” That wording is stale and waits for the prologue PR. He was not eleven days at Harrowmere.
+The working canon is eleven days on this floor and this badge, after the August offer, one floor above the desk he worked for twenty-two months. The internal start date is about 9 August Year 4 (2026-08-09); do not print that date in the prose. The prologue now opens on this floor, with the Equipment Group badge and the twenty-two-month desk one floor down. It does not say he was eleven days at Harrowmere.
 
 He does not feel utterly new anymore.
 

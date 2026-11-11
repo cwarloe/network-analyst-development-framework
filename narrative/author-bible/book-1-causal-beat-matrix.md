@@ -25,7 +25,7 @@ Technical instruction alone is not sufficient narrative movement.
 
 ## Opening story state
 
-Ethan has been at Harrowmere eleven days.
+Ethan has been on this floor eleven days.
 
 He has:
 
