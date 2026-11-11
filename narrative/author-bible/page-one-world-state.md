@@ -123,6 +123,8 @@ He does not consciously phrase them this way.
 
 > I have studied enough that I should recognize most foundational things immediately.
 
+He holds Security+ at arrival (earned just after Book 0 Episode 12, off the page). Treat it as a floor, not a skill. The paper does not help in the first real hunt.
+
 ### About asking questions
 
 > Questions expose what I should already know.
@@ -790,7 +792,7 @@ Ethan meets:
 - Owen as an immediately accessible experienced analyst;
 - Cal around the security tooling environment.
 
-Priya and Leah may be names before they are people to him.
+Priya may be a name before she is a person to him. Leah he already knows from the plant review in Book 0; they are not close, and he may not yet have a clear picture of her new Enterprise Applications role.
 
 He receives:
 
@@ -849,9 +851,9 @@ Ethan notices the answer, not the retrieval behavior.
 
 ---
 
-## Day 5 — Ethan overhears Leah
+## Day 5 — Ethan hears Leah in her new role
 
-Someone asks Leah about a scheduled application behavior while Ethan shadows the team. He overhears her answer but is not introduced and does not learn her full role. Their first direct introduction occurs in Episode 2.
+Someone asks Leah about a scheduled application behavior while Ethan shadows the team. He already knows her from the plant review in Book 0; this is not a first meeting. He may still be catching up to her new parent-company title and what she owns now. Their first ticket together is in Chapter 01, which is not a first meeting.
 
 She provides context that immediately narrows a question.
 
@@ -918,9 +920,7 @@ He feels ready for more.
 
 ## Day 11 — The Word in the Ticket
 
-Now the opening line earns its context:
-
-> “I had been at Harrowmere eleven days when Dana let me take a ticket.”
+The working canon is eleven days on this floor and this badge, after the August offer, one floor above the desk he worked for twenty-two months. The internal start date is about 9 August Year 4 (2026-08-09); do not print that date in the prose. The current chapter still opens “I had been at Harrowmere eleven days when Dana let me take a ticket.” That wording is stale and waits for the prologue PR. He was not eleven days at Harrowmere.
 
 He does not feel utterly new anymore.
 
