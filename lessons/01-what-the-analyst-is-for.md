@@ -39,12 +39,12 @@ The most common one in real work is the second, and it usually arrives pre-insta
 
 ## Demonstration — Case A: The Word in the Ticket
 
-If you read the [prologue](../narrative/00-prologue.md), you watched Ethan make this exact mistake on his eleventh day at Harrowmere. Here is the ticket he was handed:
+If you read the [prologue](../narrative/00-prologue.md), you watched Ethan make this exact mistake eleven days into the analyst job. Here is the ticket he was handed:
 
 <div class="artifact">
   <div class="ticket-chrome">
     <div class="ticket-bar">
-      <span class="ticket-id">SEC-4021</span>
+      <span class="ticket-id">SEC0004021</span>
       <span class="sev high">High</span>
       <span class="ticket-status">Triaged by: Ethan Mercer</span>
     </div>
