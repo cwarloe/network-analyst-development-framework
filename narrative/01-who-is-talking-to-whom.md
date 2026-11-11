@@ -115,7 +115,7 @@ Someone stopped beside the desk. She carried a laptop under one arm and had the 
 
 That neatly transferred the impatience to me.
 
-Dana introduced us. Leah Moreno owned the application side of the Reporting Platform. I recognized her voice from a conversation I had overheard during my first week; this was the first time we had spoken directly. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much hard-won context that description concealed.
+This was Leah Moreno. I knew her from the plant review downstairs. She owned the application side of the Reporting Platform now. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much hard-won context that description concealed.
 
 “Did the finance export complete?” Leah asked.
 
@@ -169,7 +169,7 @@ She left us with the ticket still open on the screen.
 
 Once Leah headed back toward the development pods, I turned back to the capture to examine the second connection.
 
-The Zeek log showed the same source IP address and destination IP address, but the client was using a different [[ephemeral_port|ephemeral source port]]—42886 instead of 42876. The HTTP User-Agent string matched identically. This time, the client requested `/api/v2/admin/users`, and the server returned a `403 Forbidden`.
+The Zeek log showed the same source IP address and destination IP address, but the client was using a different [[ephemeral_port|ephemeral source port]], 42886 instead of 42876. The HTTP User-Agent string matched identically. This time, the client requested `/api/v2/admin/users`, and the server returned a `403 Forbidden`.
 
 “It’s the same client,” I said.
 
