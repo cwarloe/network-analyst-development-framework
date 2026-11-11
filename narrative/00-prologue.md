@@ -13,16 +13,16 @@
 
 ---
 
-I had been at Harrowmere eleven days when Dana let me take a ticket.
+I had been on this floor eleven days when Dana let me take a ticket.
 
-I want to be honest about what I thought the job was. I thought it was recognizing bad things. I had spent two years on a service desk in Portland resetting passwords and unsticking printers, and I had studied for this on my own time, and what I had studied was lists — ports, protocols, attack names, the shapes of things that were bad. I thought analysis was pattern-matching with a better vocabulary. I thought the people who were good at it had simply memorized more.
+The badge said Harrowmere Equipment Group. For twenty-two months mine had said Harrowmere Northwest, at the desk one floor down. I want to be honest about what I thought the job was. I thought it was recognizing bad things. I held Security+. What I had studied for it was lists: ports, protocols, attack names, the shapes of things that were bad. I thought analysis was pattern-matching with a better vocabulary. I thought the people who were good at it had simply memorized more.
 
 The ticket said:
 
 <div class="artifact">
   <div class="ticket-chrome">
     <div class="ticket-bar">
-      <span class="ticket-id">SEC-4021</span>
+      <span class="ticket-id">SEC0004021</span>
       <span class="sev high">High</span>
       <span class="ticket-status">Assigned: Ethan Mercer</span>
     </div>
@@ -39,13 +39,13 @@ The ticket said:
 Underneath were two lines from a [[zeek_conn_log|Zeek connection log (`conn.log`)]], and I understood almost none of it:
 
 <div class="artifact">
-  <figcaption>Zeek conn.log Telemetry — Attached to Ticket #SEC-4021</figcaption>
+  <figcaption>Zeek conn.log telemetry attached to Ticket #SEC0004021</figcaption>
   <pre class="console-body"><span class="cmt"># ts uid id.orig_h id.orig_p id.resp_h id.resp_p proto service duration orig_bytes resp_bytes conn_state history</span>
 1755681242.000104 CwlV971jSsZWObrEKd 192.0.2.10 42876 198.51.100.20 80 tcp http 0.004053 151 207 <span class="cmd">SF</span> ShADadfF
 1755681242.404288 C1f8K83tA9wX1qLmNp 192.0.2.10 42886 198.51.100.20 80 tcp http <span class="cmd">0.000184</span> 148 182 <span class="cmd">SF</span> ShADaFf</pre>
 </div>
 
-I had memorized port numbers on my own time for two years and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `[[conn_state_sf|SF]]` twice, about which I had nothing at all.
+I had memorized port numbers for the paper and could not pick them out of a row. There were numbers I took for byte counts, one I took for a duration except it was mostly zeros and I could not think of a unit that made it sensible, and a column called `connection.state` reading `[[conn_state_sf|SF]]` twice, about which I had nothing at all.
 
 Here is what I could actually read: both requests came from the same workstation to the same server, spaced four tenths of a second apart. The first was an HTTP `GET` request to an export [[api_endpoint|API endpoint]], and it returned `[[http_200|200 OK]]` with ninety bytes of [[json_payload|JSON payload]]. The second was an HTTP `GET` request to `/api/v2/admin/users`, and it returned `[[http_403|403 Forbidden]]` with forty-four bytes.
 
@@ -53,7 +53,9 @@ I knew what a `403 Forbidden` status code meant, and I understood what `admin` i
 
 I counted twenty-six pieces of information in front of me and built my answer out of the two I recognized, and I felt the small hot satisfaction of knowing something. Somebody had attempted to access an admin API endpoint, and the server had refused them. Because that matched the ticket's title, I assumed I was clearly right.
 
-I went and found Dana at her desk and said, "Someone's probing the admin API."
+I went and found Dana at her desk. I had known her first as *D. Shah*, the signature on a one-line reply from this floor when I still worked downstairs and could not have put a face to the name.
+
+I said, "Someone's probing the admin API."
 
 She didn't answer right away. She has a way of pausing that is neither rude nor warm. She simply looks at you with mild, steady interest, the way you might watch a bird doing something unexpected, and waits.
 
@@ -69,7 +71,7 @@ After about four seconds of that silence, I felt uncomfortable enough to keep ta
 
 I opened my mouth and closed it. I turned back toward my screen. It was not in the log. It was not in either of those two lines. It was in the ticket title, in the phrase *unauthorized access attempt*, and it had been sitting there before I opened the ticket. I had spent four minutes assembling a case for a conclusion that somebody I had never met handed me on the way in.
 
-That is the whole thing. Nobody tells you that on your first day. I want to be clear that I am not describing a mistake I made once and then stopped making. I still catch myself doing it. Everybody does. The difference is that now I go looking for the word.
+That is the whole thing. Nobody tells you that when you start. I want to be clear that I am not describing a mistake I made once and then stopped making. I still catch myself doing it. Everybody does. The difference is that now I go looking for the word.
 
 Dana came over and leaned on the back of my chair.
 
@@ -85,15 +87,15 @@ She moved on. "All right. Somebody's poking at an admin API endpoint. Who?"
 
 "Show me the user."
 
-I looked back at the log. The record showed source and destination IP addresses, port numbers, how many bytes traveled in each direction, and the total session duration. It did not list a user. There was no username, no person, no process name, and no recorded intent—only two machines exchanging a sequence of bytes.
+I looked back at the log. The record showed source and destination IP addresses, port numbers, how many bytes traveled in each direction, and the total session duration. It did not list a user. There was no username, no person, no process name, and no recorded intent, only two machines exchanging a sequence of bytes.
 
 "It's not in there," I said.
 
-"It's not in there," she agreed. "Keep hold of that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now — how long did the second one take?"
+"It's not in there," she agreed. "Keep hold of that. It comes up constantly." She reached past me and put a finger on the column I hadn't been able to make sense of. "This one's seconds. Now, how long did the second one take?"
 
 The value read zero point zero zero zero one eight four. I counted the decimal places twice to be sure. That was one hundred and eighty-four microseconds in the Zeek connection log's `[[duration_microsecond|duration]]` field.
 
-"So," she said, "if that were a human user, they would have had to read the previous page, decide to try an administrative URL, and type it into the browser—all in under a fifth of a millisecond." She stopped herself. "No. That's wrong, what I just said. I was about to walk you into another assumption."
+"So," she said, "if that were a human user, they would have had to read the previous page, decide to try an administrative URL, and type it into the browser, all in under a fifth of a millisecond." She stopped herself. "No. That's wrong, what I just said. I was about to walk you into another assumption."
 
 She was quiet for a second, and then: "Look at the [[user_agent_string|HTTP User-Agent string]] on both of them."
 
@@ -135,6 +137,6 @@ It took me forty minutes and it was the hardest piece of writing I have ever don
   <a href="#/lessons/01-what-the-analyst-is-for" class="bridge-btn">Start Lesson 01 →</a>
 </div>
 
-**If most of that log meant nothing to you, you read it correctly.** It meant nothing to him either, and Dana did not think that was the interesting part. Ports, byte counts, `connection.state`, the `SF` he had nothing at all about — those are a few weeks of exposure, and none of them was what went wrong on his first ticket.
+**If most of that log meant nothing to you, you read it correctly.** It meant nothing to him either, and Dana did not think that was the interesting part. Ports, byte counts, `connection.state`, and the `SF` he had nothing at all about are a few weeks of exposure, and none of them was what went wrong on his first ticket.
 
 In [lesson 02](../lessons/02-reading-a-conversation.md), you open this capture and establish what the two conversations show. It cannot answer whether the endpoint use is intended or happens every sync: those questions need owner evidence and history. `SF` is explained there in a sentence. The `403` is waiting for you.
