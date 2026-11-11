@@ -19,7 +19,7 @@
 
 Ethan Mercer sat in the threat hunting pod with a fresh 48-hour export of 500,000 connection records. His initial instinct—sorting by `source.bytes` to spot large data exfiltration streams—wasted forty-five minutes identifying Dave Henderson streaming 4K lathe maintenance videos and Priya Raman's automated Azure database backup worker.
 
-When Ethan flipped his query to search for the rarest destination IP addresses, the cluster returned **14,218 destinations that received exactly one connection**. Attempting to inspect each record manually resulted in immediate fatigue and false leads: legitimate developers compiling Rust libraries, temperature sensors pinging dead portals, and misconfigured NTP daemons.
+When Ethan flipped his query to search for the rarest destination IP addresses, the cluster returned **14,218 destinations that received exactly one connection**. Attempting to inspect each record manually cost him a day on one of those false leads: a 312-byte session with no DNS from Marcus Whitlock's development desktop, which was a Rust compiler reaching a community package mirror. Temperature sensors pinging dead portals and misconfigured NTP daemons filled the rest of the list.
 
 As Cal Rowan and Owen Kline demonstrated:
 1. **Adversaries do not shout:** Modern stealthy command-and-control software avoids high-volume spikes.

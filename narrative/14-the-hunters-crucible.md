@@ -71,6 +71,8 @@ I pivoted immediately into `ssl.log` and `x509.log` to inspect the transport-lay
 
 A surge of adrenaline hit my chest. I had isolated an active command-and-control beacon on an industrial engineering terminal.
 
+This time I opened the asset inventory before I wrote anything longer. Workstation `10.120.32.14` was not a development desktop, and `198.51.100.84` was not a community package mirror. The falsification conditions I had written did not fire.
+
 I treated it as the whole hunt. I spent hours tightening a finding around workstation `10.120.32.14` alone: the five-minute beacon, the false SNI, the Go fingerprint, and the quarantine I planned to recommend. I had that draft open when I reached for the internal phone to call Nia.
 
 But as my hand touched the receiver, Dana's words from our past debriefs echoed in my mind: *What can you responsibly say? What is the scope? If you disrupt before you understand the adversary's posture, you blind yourself to the rest of the intrusion.*
