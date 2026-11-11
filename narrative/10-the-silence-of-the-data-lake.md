@@ -20,7 +20,7 @@ Forty-two million conversations. Sixteen million DNS queries. Eight million TLS 
 
 No ticket. No alert. No assigned host.
 
-I sat back in my chair, feeling an unexpected wave of vertigo. In Lesson 02, sitting with Dana, reading a twenty-packet capture had felt like a puzzle with defined edges. Here, the edges had vanished. The entire enterprise—every branch office in Portland, the manufacturing floor in Chicago, the remote VPN workers, the building automation gateways—was flowing into this single repository every second.
+I sat back in my chair, feeling an unexpected wave of vertigo. Sitting with Dana, reading a twenty-packet capture had felt like a puzzle with defined edges. Here, the edges had vanished. The entire enterprise, every branch office in Portland, the manufacturing floor in Chicago, the remote VPN workers, the building automation gateways, was flowing into this single repository every second.
 
 I reached for the keyboard. I had to do *something*.
 
@@ -28,7 +28,7 @@ I clicked into the search bar, typed `destination.port: 443`, and pressed Enter.
 
 The query completed in 410 milliseconds. A waterfall of 29 million documents filled the screen.
 
-I clicked on a column header: `destination.ip`. The list rearranged itself into a dense column of public IP addresses. I picked one that looked unfamiliar—`52.84.120.45`—and filtered on it. Five hundred connections. I expanded a JSON document, scanned the TLS handshake metadata, opened another tab to search for `conn_state: S0`, and began rapidly clicking through hostnames in the search results.
+I clicked on a column header: `destination.ip`. The list rearranged itself into a dense column of public IP addresses. I picked one that looked unfamiliar, `52.84.120.45`, and filtered on it. Five hundred connections. I expanded a JSON document, scanned the TLS handshake metadata, opened another tab to search for `conn_state: S0`, and began rapidly clicking through hostnames in the search results.
 
 A faint clink sounded beside my desk.
 
@@ -74,7 +74,7 @@ I turned back to my screens. The 29 million records seemed to mock me.
 
 “You start from adversary tradecraft,” Cal said, sliding his stool closer and opening an empty text document on my left screen. “You don't start with raw fields. You start with a specific threat model. For example: *If an adversary has established persistence on an internal workstation, how must their software behave to maintain command and control without triggering our signature perimeter rules?*”
 
-“They can’t use known malicious domains,” I reasoned, remembering Lesson 07. “Our DNS filters would block them. And they can’t send massive data spikes, or the bandwidth alarms would trip.”
+“They can’t use known malicious domains,” I reasoned. “Our DNS filters would block them. And they can’t send massive data spikes, or the bandwidth alarms would trip.”
 
 “Exactly,” Cal agreed. “So what do they do? They communicate over encrypted channels like HTTPS. But what does that mean on the wire? In our `[[elastic_common_schema|Elastic Common Schema (ECS)]]` pipeline, every TLS session produces a `conn` record, an `ssl` record, and an `x509` record.”
 
@@ -107,23 +107,3 @@ He pushed the keyboard toward me.
 I looked at the blank document. 
 
 The silence in the room was still there. But the vertigo was gone. In its place was something far more familiar: a clean, disciplined question, waiting for an honest test.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Falsifiable Hunting Hypothesis](#term-falsifiable_hypothesis) | A structured proposition asserting that if a specific adversary behavior is occurring, named telemetry fields will exhibit an observable footprint—with explicit criteria that prove the hypothesis false. |
-| [Elastic Common Schema (ECS)](#term-elastic_common_schema) | An open-source specification that standardizes field names (such as `destination.ip`, `source.bytes`, `event.dataset`) across disparate log sources. |
-| [Least-Frequency Analysis (Long Tail)](#term-least_frequency_analysis) | A threat hunting technique that aggregates events by cardinality and sorts by lowest occurrence to surface the rarest 0.01% of outbound connections. |
-| [Terms Aggregation](#term-terms_aggregation) | An Elasticsearch multi-bucket query that groups documents by unique field values and calculates bucket metrics (e.g. unique host counts per IP). |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Hunt 01 — The Falsifiable Hypothesis</div>
-  <p class="bridge-desc">Step into the hunting pod with Cal Rowan: learn how to structure threat models using MITRE ATT&CK, construct disciplined Elastic KQL queries without crashing memory, and draft your first formal Hunt Package Specification.</p>
-  <a href="#/lessons/hunt-01-the-falsifiable-hypothesis/README" class="bridge-btn">Open Hunt 01 Workbench →</a>
-</div>

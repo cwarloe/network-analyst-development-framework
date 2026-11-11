@@ -1,16 +1,5 @@
 # Decide Before You Disrupt
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read before [Lesson 09 Capstone: Encrypted Outbound Traffic](../lessons/09-capstone-encrypted-outbound-traffic/README.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-22
-- **Time:** about 15 minutes
-- **Requires:** nothing. No tooling, capture, or account.
-- **Creates the question:** When an initially reasonable benign model is contradicted by new evidence during an active incident, how does an analyst visibly revise under operational pressure?
-
----
-
 The incident began on a Friday afternoon, thirty minutes after a scheduled software deployment.
 
 Harrowmere’s IT systems team had just rolled out a maintenance update to the fleet of engineering workstations, updating our internal client libraries and synchronizing package dependencies with Leah Moreno's HarrowSync application infrastructure.
@@ -30,7 +19,7 @@ I looked at the telemetry from `192.0.2.10`:
 1. The workstation was connecting to `198.51.100.24` every 4.2 seconds with under 2% timing variation.
 2. The TLS handshake negotiated TLS 1.3 using cipher suite `0x1302` (`TLS_AES_256_GCM_SHA384`).
 3. The Server Name Indication in the `ClientHello` requested `sync-telemetry.harrowmere-cloud.example`.
-4. Over forty minutes, the session had transferred a modest 48 kilobytes of client data and received 12 kilobytes of server responses.
+4. Over twenty-eight minutes, the session had transferred a modest 48 kilobytes of client data and received 12 kilobytes of server responses.
 5. The connection began at 15:14 UTC, precisely four minutes after the scheduled software update package finished installing on Marcus's machine.
 
 Every instinct I had developed since I came upstairs pointed toward an authorized workflow.
@@ -61,7 +50,7 @@ I pulled up the registration data. Cal was right. The IP address had no connecti
 
 “Wait,” I said, my voice dropping. “The SNI said `sync-telemetry.harrowmere-cloud.example`. Why would a server in that hosting block answer to our corporate domain?”
 
-“Anyone can send an SNI string requesting any domain they want,” Cal reminded me gently. “Remember Lesson 04? SNI is transmitted in the clear by the client before encryption begins. An adversary's implant can put whatever string it wants into the `ClientHello` to make the connection look like an authorized company service.”
+“Anyone can send an SNI string requesting any domain they want,” Cal reminded me gently. “SNI is transmitted in the clear by the client before encryption begins. An adversary's implant can put whatever string it wants into the `ClientHello` to make the connection look like an authorized company service.”
 
 My heart began to hammer against my ribs. 
 
@@ -105,34 +94,14 @@ Nia hit the network isolation trigger on her console.
 
 The SOC erupted into disciplined, rapid response.
 
-I stood by the operations desk, my hands trembling slightly from the rush of adrenaline, but my head clear. I had made an incorrect initial call. I had not clung to it, and I had not hidden the evidence. The host was isolated mid-compile. Two days of Marcus’s uncommitted builds were on that machine, and we would not know until the memory dump whether any of it could be recovered.
+I stood by the operations desk, my hands trembling slightly from the rush of adrenaline, but my head clear. The host was isolated mid-compile. Two days of Marcus’s uncommitted builds were on that machine, and we would not know until the memory dump whether any of it could be recovered.
 
-A hand rested on my shoulder.
+Dana was standing beside me. She closed her binder.
 
-I turned around. Dana was standing beside me. She closed her binder.
+“You almost waited twenty minutes,” Dana said. “For what?”
 
-“You didn’t defend the mistake,” Dana said.
-
-“I was wrong about the SNI,” I said.
+“To keep the first call,” I said.
 
 She nodded toward the whiteboards where the incident response team was mapping the supply-chain investigation.
 
 Across the room, the monitors were still active, the alerts were still tracking, and the supply-chain investigation was only beginning.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Staged C2 Channel](#term-staged_c2_channel) | A multi-phase command-and-control connection where initial check-ins use legitimate-looking domain names or small payloads to test egress filtering before escalating to active exfiltration. |
-| [Immediate Containment](#term-immediate_containment) | The rapid network isolation of an endpoint to sever active adversary communication while preserving volatile system memory (RAM) for forensic investigation. |
-| [Model Revision Out Loud](#term-model_revision) | The professional capability of an analyst to explicitly and publicly abandon a previous analytical hypothesis when new contradictory evidence invalidates its baseline assumptions. |
-| [Decoy SNI](#term-decoy_sni) | The adversary practice of crafting cleartext Server Name Indication fields in a `ClientHello` that spoof trusted corporate or vendor hostnames to blend into ordinary egress monitoring. |
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Lesson 09 — Encrypted Outbound Traffic Capstone</div>
-  <p class="bridge-desc">Put all six capability targets to the test: analyze initial encrypted outbound packets, commit to an initial assessment, receive contradictory endpoint and network telemetry, and execute a defensible model revision under operational pressure.</p>
-  <a href="#/lessons/09-capstone-encrypted-outbound-traffic/README" class="bridge-btn">Begin Capstone Performance →</a>
-</div>

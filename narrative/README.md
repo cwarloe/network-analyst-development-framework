@@ -108,6 +108,8 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 | 14 | [The Hunter's Crucible](14-the-hunters-crucible.md) | [Hunt 05 — The Whole-Fleet Crucible (Capstone)](../lessons/hunt-05-the-whole-fleet-crucible/README.md) |
 
 
+Vocabulary tables, At a glance blocks, and lesson bridge cards no longer sit in the chapter files. The table above and the [master glossary](../glossary.md) keep that map. A chapter should still read if every lesson title and number is stripped from it.
+
 The prologue plants four questions Dana counts off. [Lesson 02](../lessons/02-reading-a-conversation.md) first establishes what the same two conversations show; owner evidence and history are still needed to determine intended and habitual behavior. The immediate payoff is reconstruction, not a baseline or an authorization judgment.
 
 ## Author-only continuity

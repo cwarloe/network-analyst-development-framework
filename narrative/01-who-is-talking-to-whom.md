@@ -1,15 +1,6 @@
 # Who Is Talking to Whom?
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read after [lesson 01](../lessons/01-what-the-analyst-is-for.md) and before [lesson 02](../lessons/02-reading-a-conversation.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-22
-- **Time:** about 10 minutes
-- **Requires:** nothing. No tooling, capture, or account.
-- **Creates the question:** What does it mean to explain a network conversation rather than recognize fields in it?
-
-> Every technical value in this chapter comes from [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap), the same capture used in [lesson 02](../lessons/02-reading-a-conversation.md).
+> Every technical value in this chapter comes from [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap).
 
 ---
 
@@ -75,7 +66,7 @@ I had written a flawless grammatical description of a conversation I could not e
 
 I caught the qualification. “Only in this environment?”
 
-“Hold onto that question for when we talk about TLS,” she said. “Today we have plaintext.”
+“In this capture, yes,” she said. “If the session were encrypted, the body would not be on the wire for us to read. Today we have plaintext.”
 
 She pulled up the [[packet_capture|Wireshark packet capture (`.pcap`)]] on her secondary monitor, opened the file, and stepped aside so I had the keyboard.
 
@@ -115,7 +106,7 @@ Someone stopped beside the desk. She carried a laptop under one arm and had the 
 
 That neatly transferred the impatience to me.
 
-This was Leah Moreno. I knew her from the plant review downstairs. She owned the application side of the Reporting Platform now. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much hard-won context that description concealed.
+This was Leah Moreno. I knew her from the review downstairs in the fourth-floor conference room, with Nia on the bridge from Chicago. She owned the application side of the Reporting Platform now. I had filed her away as someone who knew what application traffic was supposed to look like. I had not understood how much hard-won context that description concealed.
 
 “Did the finance export complete?” Leah asked.
 
@@ -226,27 +217,3 @@ I opened a clean document and laid the evidence for the two conversations side b
 This time, I didn't reach for familiar jargon or guess at human intentions.
 
 I began with which host spoke first.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Packet Capture (.pcap)](#term-packet_capture) | A raw, byte-level file recording every frame that traversed a network interface or tap during the capture window. |
-| [TCP 3-Way Handshake](#term-tcp_handshake) | The SYN, SYN-ACK, ACK sequence establishing a reliable transport connection between client and server sockets. |
-| [TCP Stream](#term-tcp_stream) | The full bidirectional sequence of ordered TCP segments belonging to a single 4-tuple socket conversation. |
-| [Ephemeral Port](#term-ephemeral_port) | A short-lived, high-numbered client source port (typically 49152–65535) dynamically assigned by the OS. |
-| [403 Forbidden](#term-http_403) | Server-side refusal indicating the transport connection succeeded, but the application denied permission. |
-| [200 OK](#term-http_200) | Application status confirming the HTTP request was accepted and answered, independent of transport state. |
-| [Layer Independence](#term-layer_independence) | The principle that transport success (TCP) says nothing about application authorization (HTTP). |
-| [Client Demarcation](#term-client_demarcation) | Determining which host originated the conversation by identifying which socket sent the initial SYN frame. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Lesson 02 — Reading a Conversation</div>
-  <p class="bridge-desc">Open <code>02-conversation.pcap</code> in Wireshark and narrate both conversations: inspect the three-way handshake, evaluate layer independence between TCP and HTTP, and establish what the packets add to the Zeek log.</p>
-  <a href="#/lessons/02-reading-a-conversation" class="bridge-btn">Open Lesson 02 →</a>
-</div>

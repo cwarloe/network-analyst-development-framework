@@ -1,15 +1,6 @@
 # Prologue — The Word in the Ticket
 
-## At a glance
-
-- **Part of:** [the narrative track](README.md) · read before [lesson 01](../lessons/01-what-the-analyst-is-for.md)
-- **Version:** 0.1 — draft
-- **Date:** 2026-08-20
-- **Time:** about 10 minutes
-- **Requires:** nothing. No tooling, no capture, no account.
-- **Teaches:** nothing directly. It asks the question [lesson 01](../lessons/01-what-the-analyst-is-for.md) answers.
-
-> Every number in this chapter is real, read out of [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap), which you will open yourself in [lesson 02](../lessons/02-reading-a-conversation.md). Nothing here is invented for effect.
+> Every number in this chapter is real, read out of [`assets/pcaps/02-conversation.pcap`](../assets/pcaps/02-conversation.pcap). Nothing here is invented for effect.
 
 ---
 
@@ -112,31 +103,3 @@ I asked her what it actually was, then. Whether it was bad.
 "Some of it you can get from the traffic. Some of it you can't get from the traffic at any price, and knowing which is which is most of the job." She straightened up. "Here is what I actually want you to do instead of guessing an answer. Go write down what you *saw*, without using any of the words the ticket handed you. Then, separately, write down what you think those observations might mean. Keep those two things completely apart on the page. Once you have separated them, come find me."
 
 It took me forty minutes and it was the hardest piece of writing I have ever done, and it was six sentences long.
-
----
-
-### Vocabulary & Concepts
-
-| Term | Desk Translation |
-|---|---|
-| [Zeek conn.log](#term-zeek_conn_log) | The connection log in Zeek summarizing Layer 3/4 session facts (IPs, ports, protocol, duration, byte counts, and connection state). |
-| [API Endpoint](#term-api_endpoint) | A specific URI or path on a web server where client software sends structured requests to consume backend services. |
-| [JSON Payload](#term-json_payload) | A lightweight, text-based data format used to structure application responses between web servers and clients. |
-| [HTTP User-Agent string](#term-user_agent_string) | An HTTP header string sent by the client identifying its software application, version, and operating system. |
-| [connection.state: SF](#term-conn_state_sf) | Normal SYN/FIN completion in Zeek; both sides cleanly opened and closed the connection. |
-| [duration: 0.000184](#term-duration_microsecond) | Session elapsed time in seconds (184 microseconds), proving automated software speed rather than human typing. |
-| [403 Forbidden](#term-http_403) | HTTP status code where the server understood the request but actively refused to authorize it. |
-| [200 OK](#term-http_200) | HTTP status code indicating the web server successfully accepted and processed the request. |
-
----
-
-<div class="bridge-card">
-  <div class="bridge-label">Next Step in Curriculum</div>
-  <div class="bridge-title">Lesson 01 — What the Analyst Is For</div>
-  <p class="bridge-desc">Dana asked for Ethan's first writing assignment: keeping observation, interpretation, and judgment strictly separated on the page. Requires zero tools, takes about ninety minutes, and sets the foundation for your entire career as an analyst.</p>
-  <a href="#/lessons/01-what-the-analyst-is-for" class="bridge-btn">Start Lesson 01 →</a>
-</div>
-
-**If most of that log meant nothing to you, you read it correctly.** It meant nothing to him either, and Dana did not think that was the interesting part. Ports, byte counts, `connection.state`, and the `SF` he had nothing at all about are a few weeks of exposure, and none of them was what went wrong on his first ticket.
-
-In [lesson 02](../lessons/02-reading-a-conversation.md), you open this capture and establish what the two conversations show. It cannot answer whether the endpoint use is intended or happens every sync: those questions need owner evidence and history. `SF` is explained there in a sentence. The `403` is waiting for you.
