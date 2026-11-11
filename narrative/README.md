@@ -26,9 +26,35 @@ These are constraints, not style preferences. Breaking them makes the story cont
 
 > **Confidence note.** Rule 4 rests on a literature this project has not verified against sources — the build environment cannot reach them. It is stated as a design constraint because the downside is asymmetric: writing lean costs nothing if the effect is smaller than believed.
 
+**Exception (seductive details).** A personal cost to Ethan, a relationship that moves, or a Book 0 habit that helps or misleads him is not a seductive detail. Those details earn their place even when they do not change an analytical decision in the same beat. This settles NADF rule 4 against Portland cost-and-canon rule 5 (every chapter charges Ethan a personal cost). Do not use this rule to strip the residue of Book 0.
+
 **5. Episodes share work with lessons rather than duplicating it.** Chapters do not add competing exercises. The technical lesson owns the work product and feedback. Narrative may establish a prediction or initial claim when the lesson preserves and tests it.
 
 **6. The narrator never understands more than the reader.** If he reads a log fluently, a reader who cannot is being told they are behind before they start. He should be lost in the same places, name what he did not follow, and be told it does not matter yet. This is the cheapest defence against the material feeling abrupt, and it costs a sentence rather than a primer.
+
+
+## Cost and canon rules (shared with Portland Desk)
+
+NADF adopts Portland Desk's cost and canon rules 1-14. The numbering matches the Portland [Learning Narrative Framework](https://github.com/cwarloe/learning-narrative-kit/blob/main/docs/craft/learning-narrative-framework.md). Link that document rather than copying it, so the numbers cannot drift. The short forms below are a reminder; the framework is the source.
+
+These rules sit alongside the NADF-only rules above. They do not replace them.
+
+1. **No refunds.** A promotion, raise, or act of forgiveness may not offset any cost charged to Ethan in the same or the previous chapter. A relationship that moves through an action, with nothing said, is not a refund. A speech, a promotion, or a restored status is.
+2. **Not the center of the web.** Each act has at least one incident that belongs to someone else, which Ethan hears about secondhand, and at least one thing Ethan saves or prepares that turns out not to matter.
+3. **No narrator foreshadowing.** Cut lines such as "it would matter more than I knew."
+4. **Carry-forwards must change action.** A carry-forward counts only when it changes what someone does in a later scene. A grudge may not be restated in more than two chapters without moving.
+5. **Every chapter charges Ethan a personal cost** in time, money, opportunity, or standing, and nobody refunds it. Costs to other people are welcome but do not replace it. See the seductive-details exception under NADF-only rule 4 above.
+6. **Standing struggles.** Ethan's standing struggles are named in the Portland bible and they drive each of his wrong turns. Do not invent a new flaw for each chapter.
+7. **No repeated entrances.** No recurring character enters or exits with the same action, phrase, or device twice in an act. Each return opens on what changed since the last appearance.
+8. **Dates are checked.** Check every date and season against [narrative/author-bible/timeline.md](author-bible/timeline.md) before merge. Run `python3 tools/check_dates.py`. A `date-ok` marker must give its reason: `<!-- date-ok: back-reference to the June incident -->`.
+9. **Narrative file only.** A cost counts only if it is in the narrative file.
+10. **Names the way people use them.** Use a surname only on introduction or when it matters (a formal report, an email signature, a stern manager). Otherwise use first names.
+11. **No shared staging devices.** No two characters in the same act enter with the same staging device: an object carried "like" something, a burst into the aisle, or a phone ringing as the scene opens.
+12. **Rule conflicts.** When two cost and canon rules conflict, the lower-numbered rule wins unless an exception is written in this repository, in this file or in [AGENTS.md](../AGENTS.md). Do not leave an exception in a pull-request comment. (The seductive-details exception above is one such exception. Portland's own Exception 1, in the framework, still stands.)
+13. **Identifiers are canon.** Every identifier that encodes a date, a name, or a sequence (ticket, escalation, evidence tag, email address) must agree with the timeline and the cast list. Ticket, escalation, and evidence IDs carry no year. The SOC queue uses its own prefix and a fixed-width yearless counter in the style `SEC0004021`, unique and in chapter order. `tools/check_dates.py` checks this.
+14. **One surname per character.** Every named recurring character has one row in the [NADF cast registry](author-bible/cast-and-relationships.md#cast-registry-one-surname-per-character). Use only that surname. Book 0 names follow the Portland registry when they appear here.
+
+The cover test and "fiction lives at lesson boundaries" stay in the section below. They are NADF-only rules and they do not collide with 1-14.
 
 ## Canon and disclosure
 
@@ -56,7 +82,7 @@ Decided 2026-08-21, before any of it was built, so it is not re-argued later.
 
 ## Status
 
-**Ten chapters.** The complete narrative track spans Ethan's development from day one through the independent capstone: separating observation from interpretation, reading conversations, predicting name behaviors, bounding claims under encryption, reconciling vantage contradictions, classifying conversation failure states, competing explanations, proportionate handoffs under pressure, and visible model revision.
+**Fifteen chapters** (Book 1 is 00-09, Book 2 is 10-14). The complete narrative track spans Ethan's development from day one through the independent capstone: separating observation from interpretation, reading conversations, predicting name behaviors, bounding claims under encryption, reconciling vantage contradictions, classifying conversation failure states, competing explanations, proportionate handoffs under pressure, and visible model revision.
 
 | | Chapter | Leads into |
 |---|---|---|

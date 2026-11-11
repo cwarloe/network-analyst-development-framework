@@ -8,9 +8,10 @@ The internal component version headings are retained from the source snapshot. W
 
 ## Canon
 
-- [Cast and relationships](cast-and-relationships.md) — seven recurring-character bibles, relationship web, and team information topology
+- [Cast and relationships](cast-and-relationships.md) — seven recurring-character bibles, relationship web, team information topology, and the NADF cast registry
 - [Harrowmere history](harrowmere-history.md) — five years of organizational and relationship history before Ethan
 - [Page-one world state](page-one-world-state.md) — Day 1, Day 11, active tensions, power, assumptions, and disclosure constraints
+- [NADF timeline](timeline.md): author-only date, Security+, and ticket-ID anchors, including the working start date (about 9 August Year 4)
 - [Book 1 story Snowflake](book-1-story-snowflake.md) — story-level arc, movements, reversals, climax, and ending
 - [Book 1 causal beat matrix](book-1-causal-beat-matrix.md) — episode causality, trust, artifacts, continuity, debts, and pacing
 - [Book 1 episode cards](book-1-episode-cards.md) — all 14 episode-level designs

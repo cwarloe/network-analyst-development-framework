@@ -14,6 +14,32 @@ So: **do not add process.** No new governance documents, no decision records, no
 
 When in doubt, write a lesson instead.
 
+
+## Craft rules (shared with Portland Desk)
+
+NADF adopts Portland Desk's cost and canon rules 1-14. Numbering matches the Portland [Learning Narrative Framework](https://github.com/cwarloe/learning-narrative-kit/blob/main/docs/craft/learning-narrative-framework.md). Link that document; do not copy it into this repo. Short forms also live in [narrative/README.md](narrative/README.md). If a rule changes in the framework, the number here still refers to that rule.
+
+1. No promotion, raise, or forgiveness offsets any cost charged to Ethan in the same or the previous chapter. A relationship that moves through an action, with nothing said, is not a refund; a speech, promotion, or restored status is.
+2. Each act has one incident that belongs to someone else (Ethan hears about it secondhand) and one thing Ethan saves that does not matter.
+3. No narrator foreshadowing.
+4. A carry-forward must change action. A grudge may not be restated in more than two chapters without moving.
+5. Every chapter charges Ethan a personal cost that nobody refunds.
+6. Ethan's standing struggles, named in the Portland bible, drive his wrong turns.
+7. No recurring character enters or exits with the same action, phrase, or device twice in an act. Each return opens on what changed since the last appearance.
+8. Run `python3 tools/check_dates.py` before merge. Every `date-ok` marker gives a reason (`<!-- date-ok: why -->`). Anchors are in [narrative/author-bible/timeline.md](narrative/author-bible/timeline.md).
+9. A cost counts only if it is in the narrative file.
+10. Use a surname only on introduction or when it matters (formal report, email signature, a stern manager); otherwise first names.
+11. No two characters in the same act enter with the same staging device (an object carried "like" something, a burst into the aisle, a phone ringing as the scene opens).
+12. When two of these rules conflict, the lower number wins unless an exception is written in this repository (this file or [narrative/README.md](narrative/README.md)), not in a pull-request comment.
+13. Identifiers (tickets, escalations, evidence tags, email addresses) agree with the timeline and cast. Ticket, escalation, and evidence IDs carry no year and use one increasing counter per prefix (`SEC0004021` for the SOC queue), unique and in chapter order.
+14. Every named recurring character has one row in the [NADF cast registry](narrative/author-bible/cast-and-relationships.md#cast-registry-one-surname-per-character), and only that surname is used.
+
+**NADF-only rules** in [narrative/README.md](narrative/README.md) still apply and do not replace 1-14: the junior owns the conclusion, the mentor revises out loud, every number is real (from the committed captures), episodes share work with lessons, and the narrator never understands more than the reader. The cover test and "fiction lives at lesson boundaries" also stay.
+
+**Exception (seductive details).** A personal cost to Ethan, a relationship that moves, or a Book 0 habit that helps or misleads him is not a seductive detail. This settles NADF rule 4 (every beat does analytical work) against Portland rule 5. Write any further exception in this repo, not in a pull-request comment.
+
+The date and ID checker is a narrative continuity check, not a new governance process. It is the NADF counterpart of Portland's `tools/check_dates.py`.
+
 ## What to preserve
 
 - **The Standing Qualifications** in [docs/architecture.md](docs/architecture.md). Simplifying process does not license stronger claims. Specifically: no proficiency levels, scoring, mastery thresholds, or assessment-validity claims, anywhere.

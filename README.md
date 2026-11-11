@@ -30,7 +30,7 @@ New to Wireshark? A [two-minute primer](lessons/wireshark-first-look.md) before 
 
 ### A story running alongside
 
-There is also a [narrative track](narrative/README.md) — Ethan Mercer, a developing analyst at Harrowmere Equipment Group, mentored by Dana Shah. It teaches nothing directly; it exists to raise the question the lesson answers. **Three chapters are written**, starting with the [prologue](narrative/00-prologue.md), which takes ten minutes and leads into lesson 01. The track is optional and the lessons stand alone without it — see [Book 1](BOOK-1.md) for the working architecture.
+There is also a [narrative track](narrative/README.md): Ethan Mercer, a developing analyst at Harrowmere Equipment Group, mentored by Dana Shah. It teaches nothing directly; it exists to raise the question the lesson answers. **Fifteen chapters are written** (Book 1, chapters 00-09, and Book 2, chapters 10-14), starting with the [prologue](narrative/00-prologue.md), which takes ten minutes and leads into lesson 01. The track is optional and the lessons stand alone without it. See [Book 1](BOOK-1.md) for the working architecture.
 
 The argument for it is not engagement, it is time: prose can say *"three weeks ago you told me this was fine"* and a single-incident lesson cannot, which is the gap [R005](docs/research/R005-instructional-design-review.md), [R007](docs/research/R007-nice-role-mapping.md) and [R008](docs/research/R008-longitudinal-judgment.md) all reached from different directions.
 

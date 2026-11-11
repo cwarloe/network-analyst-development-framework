@@ -21,7 +21,7 @@
 ## Ethan Mercer — protagonist
 
 **Working age:** 23 turning 24 at the start of Book 1; 24 in Book 2.  
-**Background:** High school at 18 → up to two years in a restaurant job → about fourteen months on the non-technical graveyard dock at the Gresham distribution warehouse of Harrowmere Northwest Distribution & Services (a wholly owned subsidiary) → Ken's internal referral after the Line 4 fix → a six-month day-shift IT rotation at a slight pay cut → about two years on Jules Brooks's help desk at the subsidiary's Portland Regional Operations Center, ending in Tier 2 work (Portland Desk, Book 0) → Jules's referral when Nia asked her for a name. Some exposure to networking, identity, servers, and security. Certification/self-study-heavy: A+ (~10 months of study), Network+ (~13 months into IT), Security+ (~26 months into IT). His father is a retired precision machinist. First dedicated network/security analyst role, and his first job with the parent company. He is a partial outsider: new to the parent and to security work, but in the same building and known to many of the people. He stays in the Portland area; he never relocates.
+**Background:** High school at 18 → up to two years in a restaurant job → about fourteen months on the non-technical graveyard dock at the Gresham distribution warehouse of Harrowmere Northwest Distribution & Services (a wholly owned subsidiary) → Ken's internal referral after the Line 4 fix → a six-month day-shift IT rotation at a slight pay cut → about twenty-two months on Jules Brooks's help desk at the subsidiary's Portland Regional Operations Center, ending in Tier 2 work (Portland Desk, Book 0) → Jules's referral when Nia asked her for a name. Some exposure to networking, identity, servers, and security. Certification/self-study-heavy: A+ (about ten months of study), Network+ (about thirteen months into IT), Security+ (about twenty-nine months into IT; earned just after Book 0 Episode 12, off the page). He holds Security+ when Book 1 opens; treat it as a floor, not a skill. His father is a retired precision machinist. First dedicated network/security analyst role, and his first job with the parent company. He is a partial outsider: new to the parent and to security work, but in the same building and known to many of the people. He stays in the Portland area; he never relocates.
 
 **Starting condition:** Credential-literate / model-poor. Broad, uneven technical vocabulary and fragmented factual knowledge. He may remember that DNS uses port 53, HTTPS uses TLS, TCP has a three-way handshake, ARP maps IP to MAC, and 403 means Forbidden, yet struggle to predict actual sequences, distinguish actors from evidence, understand vantage limits, or transfer memorized facts into unfamiliar behavior.
 
@@ -204,8 +204,8 @@ Possible voice lines:
 
 ## Leah Moreno — Enterprise Applications Lead
 
-**Working age:** ~36 (35 in Book 0; she turns 36 just before Book 1).  
-**History:** Senior Controls & SCADA Technician at the Northwest subsidiary's Willamette River plant in Book 0. She moved up to the parent's Enterprise Applications team a few months ahead of Ethan to own the warehouse, plant, and finance sync. She is the one familiar face who made the same jump before him.
+**Working age:** 36 (35 in Book 0; she turns 36 in July of Year 4, so she is 36 when Book 1 opens).  
+**History:** Plant Operations Lead at the Northwest subsidiary's Willamette River plant in Book 0; she came up through controls and SCADA. She moved up to the parent's Enterprise Applications team a few weeks ahead of Ethan to own the warehouse, plant, and finance sync. They know each other; they are not close. A first ticket together is fine. A first meeting is not. She is the one familiar face who made the same jump before him.
 
 **Essence:** An experienced application owner who understands business processes, integrations, schedules, users, and compromises behind critical enterprise systems—and who must continually distinguish what the application is intended to do from what it is actually doing.
 
@@ -349,3 +349,24 @@ Owen for analyst workflow pain; Priya for placement/topology; Leah for ownership
 
 ---
 
+## Cast registry (one surname per character)
+
+`tools/check_dates.py` reads this table. Narrative, lessons, and docs in this repo may use only the surname listed here for a registered first name. Book 0 names that appear in NADF are included so the table does not contradict [Portland bible section 3.4](https://github.com/cwarloe/learning-narrative-kit/blob/main/docs/research/PORTLAND_AUTHOR_BIBLE.md). A character with no surname has "none".
+
+| First name | Surname | Role |
+|---|---|---|
+| Ethan | Mercer | Protagonist; parent-company security analyst in NADF |
+| Dana | Shah | Senior analyst and primary mentor |
+| Nia | Alvarez | Security Operations Manager (in Portland at Book 1 open) |
+| Owen | Kline | Experienced analyst |
+| Priya | Raman | Senior Network Engineer |
+| Leah | Moreno | Enterprise Applications Lead (Plant Operations Lead in Book 0) |
+| Cal | Rowan | Security Engineer |
+| Marcus | Whitlock | Developer; engineering desktop in Book 1 and Book 2 |
+| Dave | Henderson | Manufacturing fabrication (Book 2, Chapter 11) |
+| Jules | Brooks | Book 0 help desk lead; referred Ethan |
+| Ken | Vance | Book 0 Gresham dock supervisor |
+| Jared | Lindqvist | Book 0 network operations engineer |
+| Reggie | Castillo | Book 0 facilities field technician |
+
+Names that appear only in Book 0 stay in the Portland registry and do not need a second row here unless they appear in this repo.
