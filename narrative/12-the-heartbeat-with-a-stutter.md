@@ -1,7 +1,5 @@
 # Chapter 12 — The Heartbeat with a Stutter
 
-The morning sun reflected off the glass partitions of the threat hunting platform, cutting across three 32-inch displays that showed Harrowmere’s rolling telemetry window. In the bottom tray of my primary console, the cluster status indicator showed fifty-two million connection records indexed over the preceding seven days.
-
 Three weeks had passed since Nia Alvarez transferred me out of the reactive triage queue. I had spent that time learning how to construct falsifiable hypotheses with Cal Rowan and discovering that an empty ticket queue was far more demanding than an overflowing one. In the reactive queue, an alert provided an explicit starting point. Here, if you did not know how to interrogate the data lake, the data lake simply stared back at you.
 
 My assignment for Thursday morning was focused on egress persistence. Two days earlier, a threat intelligence bulletin had warned that manufacturing firms in our sector were being targeted by an intrusion group that established long-term footholds using lightweight, modular command implants. The implants did not exfiltrate gigabytes of files immediately. Instead, they sat quietly on internal endpoints, maintaining outbound communication channels back to adversary infrastructure while waiting for tasking.

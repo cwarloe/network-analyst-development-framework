@@ -1,14 +1,10 @@
 # Chapter 14 — The Hunter's Crucible
 
-The threat hunting pod was suspended in quiet concentration on Monday morning. Outside the floor-to-ceiling glass partition, the main security operations floor bustled with the steady cadence of Tier-1 alert triage, incoming shift handoffs, and ringing operational desk phones. Inside the pod, the only sound was the deep, rhythmic hum of the auxiliary cooling fans circulating chilled air across Cal Rowan’s server racks.
-
-On my desk, three 32-inch curved displays sat illuminated against the dim morning light. A single query window was open, displaying the summary metrics of a massive telemetry ingestion job that had concluded over the weekend:
+On Monday morning, the weekend ingest was complete:
 
 `10,482,914 connection records, 4,118,520 DNS queries, and 2,874,103 TLS sessions indexed across Portland, Chicago, and Corporate HQ.`
 
 Fourteen days of raw enterprise traffic. Over seventeen million events spanning every production boundary in the company: the automated manufacturing fabrication lines in Chicago, the logistics and distribution warehouse in Portland, and the executive and corporate network at headquarters.
-
-No tickets sat in my queue. No automated alerts had triggered. No red banners flashed across the top of the interface. The SIEM dashboard was an unblemished, serene green.
 
 The heavy glass door clicked open, and Nia Alvarez walked into the pod. Harrowmere’s Security Operations Manager was holding a thin manila folder. Behind her stood Dana Shah and Cal Rowan. Dana held a steaming mug of tea, while Cal carried his battered laptop, its screen displaying cluster node utilization graphs.
 
@@ -36,9 +32,7 @@ I was completely on my own.
 
 ---
 
-I stared at the blinking cursor in the Kibana search console. 
-
-The initial sensation was a familiar, cold prickle of vertigo. Ten million connection records. Where did an analyst begin when there were no tickets, no indicators of compromise, and no boundaries?
+I stared at the blinking cursor in the Kibana search console.
 
 My hands hovered over the keyboard. My earliest instincts from Tier-1 triage tried to reassert themselves: write a broad wildcard search, look for high-byte outbound transfers, or filter for known suspicious port numbers like 4444 or 3389. But I immediately caught myself. As Cal had taught me on my very first day in the hunting pod, browsing without an objective was nothing more than sightseeing in a digital graveyard.
 

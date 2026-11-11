@@ -1,8 +1,6 @@
 # Chapter 11 — The Long Tail
 
-The threat hunting pod was unusually quiet on Monday morning, save for the low hum of the auxiliary cooling fans circulating chilled air across Cal Rowan’s server racks.
-
-On my primary display, a new dataset sat staged in the Security Onion console. Nia Alvarez had signed off on my second hunting sprint the previous Friday, granting me access to a forty-eight-hour telemetry slice extracted directly from the corporate sensor taps: precisely five hundred thousand connection records spanning Harrowmere’s engineering design network and manufacturing control boundary.
+On Monday morning, a new dataset sat staged in the Security Onion console. Nia Alvarez had signed off on my second hunting sprint the previous Friday, granting me access to a forty-eight-hour telemetry slice extracted directly from the corporate sensor taps: precisely five hundred thousand connection records spanning Harrowmere’s engineering design network and manufacturing control boundary.
 
 My objective was clear. I was hunting for unauthorized outbound command-and-control communication that had bypassed our perimeter signature defenses.
 
