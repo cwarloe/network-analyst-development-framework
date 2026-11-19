@@ -22,6 +22,8 @@ In the Book 2 Capstone, the safety nets are removed:
 
 You are provided with 14 days of raw multi-campus enterprise telemetry across Harrowmere Equipment Group. Operating within the data lake, an advanced cyber espionage adversary has compromised infrastructure, moved laterally across inter-site IPsec tunnels, and staged intellectual property exfiltration.
 
+Return to the [Harrowmere site and network map](../../assets/harrowmere-network-map.svg) used in Hunt 01. The locations and subnet ranges are unchanged. The map provides orientation only; establish any connection, sensor vantage point, or campaign path from the telemetry itself.
+
 Your mission is to independently execute the 6-phase **Proactive Hunt Loop**:
 1. Formulate falsifiable hypotheses for each phase of the attack lifecycle.
 2. Execute disciplined, memory-bounded Elasticsearch queries.

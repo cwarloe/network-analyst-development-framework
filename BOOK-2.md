@@ -45,6 +45,12 @@ Threat Model & Intelligence
 
 The setting remains **Harrowmere Equipment Group**, now months into Ethan's tenure. Having proven his analytical discipline during the Book 1 capstone, Ethan transitions from the Tier-1/2 triage queue into Harrowmere's **Proactive Threat Hunting & Detection Engineering Pod**.
 
+### The workplace, across the hunts
+
+![Harrowmere's stable site and network reference: Portland warehouse, Chicago headquarters and manufacturing, plus an engineering segment whose physical site is unspecified](assets/harrowmere-network-map.svg)
+
+Keep this reference map available as the case moves between locations. It shows the site and subnet identities used by the [synthetic telemetry generator](lab/generate-hunt-telemetry.py), not observed traffic, physical connections, or sensor coverage. The map deliberately contains no incident clues; work those out from evidence.
+
 * **Ethan Mercer:** Now confident in reading individual packets and conversations, Ethan faces a new kind of vertigo: *scale*. Looking at 50 million rows of data, his old habit of opening a capture in Wireshark is impossible. He must learn to think statistically and query relationally.
 * **Cal Rowan (Security Engineer):** Takes on a primary mentorship role alongside Dana. Cal owns Harrowmere's Elasticsearch clusters, Zeek sensors, logstash pipelines, and Security Onion Hunt interfaces. Cal teaches Ethan how search engines actually index telemetry, why queries choke under scale, and how to write efficient aggregations.
 * **Owen Kline (Senior Analyst):** The institutional memory. When Ethan finds an anomaly with 1 event in 10 million and thinks he's found APT29, Owen is the reality check: *"That's just the heating control daemon in the Portland warehouse that hasn't been rebooted since 2018."*
