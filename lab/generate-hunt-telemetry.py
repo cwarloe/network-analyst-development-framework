@@ -26,6 +26,7 @@ import argparse
 import csv
 import datetime
 import gzip
+import io
 import json
 import math
 import os
@@ -91,10 +92,16 @@ def shannon_entropy(data_str: str) -> float:
 # Telemetry Generation Engine
 # -----------------------------------------------------------------------------
 class HarrowmereTelemetryGenerator:
-    def __init__(self, total_events=100000, days=14):
+    def __init__(self, total_events=100000, days=14, seed=None, start_time=None):
         self.total_events = total_events
         self.days = days
-        self.start_time = datetime.datetime.now() - datetime.timedelta(days=days)
+        self.rng = random.Random(seed)
+        # Explicit start + seed makes the same case replayable across sessions.
+        # Otherwise the rolling window keeps the original default behavior.
+        self.start_time = (
+            start_time if start_time is not None
+            else datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - datetime.timedelta(days=days)
+        )
         self.conn_logs = []
         self.dns_logs = []
         self.http_logs = []
@@ -103,11 +110,11 @@ class HarrowmereTelemetryGenerator:
         # Internal hosts pool (~1,800 machines across 3 campuses)
         self.internal_hosts = []
         for _ in range(1200):
-            self.internal_hosts.append(f"10.100.{random.randint(10, 80)}.{random.randint(2, 250)}")
+            self.internal_hosts.append(f"10.100.{self.rng.randint(10, 80)}.{self.rng.randint(2, 250)}")
         for _ in range(350):
-            self.internal_hosts.append(f"10.110.{random.randint(10, 30)}.{random.randint(2, 250)}")
+            self.internal_hosts.append(f"10.110.{self.rng.randint(10, 30)}.{self.rng.randint(2, 250)}")
         for _ in range(250):
-            self.internal_hosts.append(f"10.120.{random.randint(10, 40)}.{random.randint(2, 250)}")
+            self.internal_hosts.append(f"10.120.{self.rng.randint(10, 40)}.{self.rng.randint(2, 250)}")
 
     def generate_all(self):
         print(f"[*] Generating {self.total_events} events across {self.days}-day enterprise baseline...")
@@ -125,32 +132,32 @@ class HarrowmereTelemetryGenerator:
 
     def _random_timestamp(self, day_offset=None, hour=None):
         if day_offset is None:
-            day_offset = random.uniform(0, self.days)
+            day_offset = self.rng.uniform(0, self.days)
         base = self.start_time + datetime.timedelta(days=day_offset)
         if hour is not None:
-            base = base.replace(hour=hour, minute=random.randint(0, 59), second=random.randint(0, 59))
+            base = base.replace(hour=hour, minute=self.rng.randint(0, 59), second=self.rng.randint(0, 59))
         else:
             # Business hours skew (Pareto during 08:00 - 18:00)
-            if random.random() < 0.85:
-                base = base.replace(hour=random.randint(8, 17))
+            if self.rng.random() < 0.85:
+                base = base.replace(hour=self.rng.randint(8, 17))
             else:
-                base = base.replace(hour=random.choice(list(range(0, 8)) + list(range(18, 24))))
+                base = base.replace(hour=self.rng.choice(list(range(0, 8)) + list(range(18, 24))))
         return base.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
     def _generate_head_traffic(self):
         head_count = int(self.total_events * 0.90)
         for _ in range(head_count):
-            src_ip = random.choice(self.internal_hosts)
-            dest = random.choice(HEAD_DESTINATIONS)
+            src_ip = self.rng.choice(self.internal_hosts)
+            dest = self.rng.choice(HEAD_DESTINATIONS)
             ts = self._random_timestamp()
-            duration = round(random.expovariate(1.0 / 2.5) + 0.05, 4)
-            orig_bytes = random.randint(350, 4200)
-            resp_bytes = random.randint(1200, 85000)
+            duration = round(self.rng.expovariate(1.0 / 2.5) + 0.05, 4)
+            orig_bytes = self.rng.randint(350, 4200)
+            resp_bytes = self.rng.randint(1200, 85000)
             
             conn_entry = {
                 "@timestamp": ts,
                 "source.ip": src_ip,
-                "source.port": random.randint(49152, 65535),
+                "source.port": self.rng.randint(49152, 65535),
                 "destination.ip": dest["ip"],
                 "destination.port": dest["port"],
                 "network.transport": dest["proto"],
@@ -163,7 +170,7 @@ class HarrowmereTelemetryGenerator:
             self.conn_logs.append(conn_entry)
 
             if dest["service"] == "ssl":
-                ja4 = random.choice(JA4_HEAD)
+                ja4 = self.rng.choice(JA4_HEAD)
                 self.ssl_logs.append({
                     "@timestamp": ts,
                     "source.ip": src_ip,
@@ -175,11 +182,11 @@ class HarrowmereTelemetryGenerator:
                 })
             
             # Associated DNS query for destination domain
-            if random.random() < 0.35:  # Cache hit prevents lookup every time
+            if self.rng.random() < 0.35:  # Cache hit prevents lookup every time
                 self.dns_logs.append({
                     "@timestamp": ts,
                     "source.ip": src_ip,
-                    "destination.ip": random.choice(RESOLVERS),
+                    "destination.ip": self.rng.choice(RESOLVERS),
                     "dns.question.name": dest["domain"],
                     "dns.question.type": "A",
                     "dns.response.code": "NOERROR",
@@ -253,7 +260,7 @@ class HarrowmereTelemetryGenerator:
         # 1. Portland warehouse 2011 heating boiler controller (Tuesdays at 03:00, 128 bytes, no DNS)
         for t_day in [2, 9]:
             ts_boiler = (self.start_time + datetime.timedelta(days=t_day)).replace(
-                hour=3, minute=0, second=random.randint(2, 8)
+                hour=3, minute=0, second=self.rng.randint(2, 8)
             ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             self.conn_logs.append({
                 "@timestamp": ts_boiler,
@@ -298,7 +305,7 @@ class HarrowmereTelemetryGenerator:
         current_time = base_time
         end_time = base_time + datetime.timedelta(days=7)
         while current_time < end_time and len(self.conn_logs) < self.total_events + 700:
-            jitter = random.uniform(-0.20, 0.20)
+            jitter = self.rng.uniform(-0.20, 0.20)
             delta = 60.0 * (1.0 + jitter)  # 48.0 to 72.0 seconds
             current_time += datetime.timedelta(seconds=delta)
             ts = current_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
@@ -306,14 +313,14 @@ class HarrowmereTelemetryGenerator:
             self.conn_logs.append({
                 "@timestamp": ts,
                 "source.ip": target_ip,
-                "source.port": random.randint(49152, 65535),
+                "source.port": self.rng.randint(49152, 65535),
                 "destination.ip": dest_ip,
                 "destination.port": dest_port,
                 "network.transport": "tcp",
                 "service": "http",
-                "duration": round(random.uniform(0.18, 0.45), 4),
-                "source.bytes": random.randint(248, 312),
-                "destination.bytes": random.randint(140, 180),
+                "duration": round(self.rng.uniform(0.18, 0.45), 4),
+                "source.bytes": self.rng.randint(248, 312),
+                "destination.bytes": self.rng.randint(140, 180),
                 "conn_state": "SF"
             })
             self.http_logs.append({
@@ -333,19 +340,19 @@ class HarrowmereTelemetryGenerator:
         
         # 1,200 TLS sessions over CDN
         for i in range(1200):
-            ts = self._random_timestamp(day_offset=random.uniform(10, 14))
-            dest = random.choice(cdn_ips)
+            ts = self._random_timestamp(day_offset=self.rng.uniform(10, 14))
+            dest = self.rng.choice(cdn_ips)
             self.conn_logs.append({
                 "@timestamp": ts,
                 "source.ip": target_ip,
-                "source.port": random.randint(49152, 65535),
+                "source.port": self.rng.randint(49152, 65535),
                 "destination.ip": dest,
                 "destination.port": 443,
                 "network.transport": "tcp",
                 "service": "ssl",
-                "duration": round(random.uniform(0.2, 0.8), 4),
-                "source.bytes": random.randint(450, 920),
-                "destination.bytes": random.randint(1200, 2400),
+                "duration": round(self.rng.uniform(0.2, 0.8), 4),
+                "source.bytes": self.rng.randint(450, 920),
+                "destination.bytes": self.rng.randint(1200, 2400),
                 "conn_state": "SF"
             })
             self.ssl_logs.append({
@@ -360,15 +367,15 @@ class HarrowmereTelemetryGenerator:
         # 3,500 DNS tunneling queries with Base32/Alphanumeric high entropy
         b32_chars = "abcdefghijklmnopqrstuvwxyz234567-0189"
         for i in range(3500):
-            ts = self._random_timestamp(day_offset=random.uniform(10, 14))
+            ts = self._random_timestamp(day_offset=self.rng.uniform(10, 14))
             # Serialized encrypted payload label (62 chars)
-            subdomain = "".join(random.choice(b32_chars) for _ in range(62))
+            subdomain = "".join(self.rng.choice(b32_chars) for _ in range(62))
             fqdn = f"{subdomain}.data-relay.example"
             ent = shannon_entropy(subdomain)
             self.dns_logs.append({
                 "@timestamp": ts,
                 "source.ip": target_ip,
-                "destination.ip": random.choice(RESOLVERS),
+                "destination.ip": self.rng.choice(RESOLVERS),
                 "dns.question.name": fqdn,
                 "dns.question.type": "TXT",
                 "dns.response.code": "NOERROR",
@@ -388,32 +395,32 @@ class HarrowmereTelemetryGenerator:
         for day in [4, 5, 6]:
             for hour in [2, 3]:
                 ts_lat = (self.start_time + datetime.timedelta(days=day)).replace(
-                    hour=hour, minute=random.randint(10, 50), second=random.randint(0, 59)
+                    hour=hour, minute=self.rng.randint(10, 50), second=self.rng.randint(0, 59)
                 ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
                 self.conn_logs.append({
                     "@timestamp": ts_lat,
                     "source.ip": chicago_host,
-                    "source.port": random.randint(49152, 65535),
+                    "source.port": self.rng.randint(49152, 65535),
                     "destination.ip": portland_host,
                     "destination.port": 445,
                     "network.transport": "tcp",
                     "service": "smb",
-                    "duration": round(random.uniform(12.5, 84.0), 2),
-                    "source.bytes": random.randint(45000, 185000),
-                    "destination.bytes": random.randint(120000, 4800000),
+                    "duration": round(self.rng.uniform(12.5, 84.0), 2),
+                    "source.bytes": self.rng.randint(45000, 185000),
+                    "destination.bytes": self.rng.randint(120000, 4800000),
                     "conn_state": "SF"
                 })
 
         # Portland DNS exfiltration (data-sync-telemetry.net)
         b32_chars = "abcdefghijklmnopqrstuvwxyz234567-0189"
         for i in range(2500):
-            ts = self._random_timestamp(day_offset=random.uniform(7, 14), hour=random.randint(1, 4))
-            subdomain = "".join(random.choice(b32_chars) for _ in range(62))
+            ts = self._random_timestamp(day_offset=self.rng.uniform(7, 14), hour=self.rng.randint(1, 4))
+            subdomain = "".join(self.rng.choice(b32_chars) for _ in range(62))
             fqdn = f"{subdomain}.data-sync-telemetry.net"
             self.dns_logs.append({
                 "@timestamp": ts,
                 "source.ip": portland_host,
-                "destination.ip": random.choice(RESOLVERS),
+                "destination.ip": self.rng.choice(RESOLVERS),
                 "dns.question.name": fqdn,
                 "dns.question.type": "TXT",
                 "dns.response.code": "NOERROR",
@@ -540,9 +547,12 @@ class HarrowmereTelemetryGenerator:
         }
         for fname, dataset in files.items():
             fpath = os.path.join(out_dir, fname)
-            with gzip.open(fpath, "wt", encoding="utf-8") as gz:
-                for record in dataset:
-                    gz.write(json.dumps(record) + "\n")
+            # Suppress changing gzip timestamps and output-path names in the header.
+            with open(fpath, "wb") as raw:
+                with gzip.GzipFile(fileobj=raw, mode="wb", filename="", mtime=0) as compressed:
+                    with io.TextIOWrapper(compressed, encoding="utf-8", newline="\n") as gz:
+                        for record in dataset:
+                            gz.write(json.dumps(record) + "\n")
             print(f"    - {fname}: {os.path.getsize(fpath):,} bytes ({len(dataset):,} records)")
 
     # -------------------------------------------------------------------------
@@ -617,16 +627,26 @@ class HarrowmereTelemetryGenerator:
 # Main CLI Entrypoint
 # -----------------------------------------------------------------------------
 def main():
+    def start_date(value):
+        try:
+            return datetime.datetime.strptime(value, "%Y-%m-%d")
+        except ValueError as exc:
+            raise argparse.ArgumentTypeError("start date must be YYYY-MM-DD") from exc
+
     parser = argparse.ArgumentParser(description="NADF Book 2 Threat Hunting Telemetry Generator")
     parser.add_argument("--count", "-n", type=int, default=100000, help="Total events to generate (default: 100,000)")
     parser.add_argument("--days", "-d", type=int, default=14, help="Capture time window in days (default: 14)")
     parser.add_argument("--format", "-f", choices=["sqlite", "ndjson", "all"], default="all", help="Output format (default: all)")
     parser.add_argument("--out-dir", "-o", default="lab/hunt-data", help="Output directory (default: lab/hunt-data)")
     parser.add_argument("--verify", "-v", action="store_true", help="Run statistical discrimination test suite")
+    parser.add_argument("--seed", type=int, help="Random seed for replayable host and event generation")
+    parser.add_argument("--start-date", type=start_date, metavar="YYYY-MM-DD", help="First day of the synthetic case in UTC (pair with --seed to replay)")
 
     args = parser.parse_args()
 
-    gen = HarrowmereTelemetryGenerator(total_events=args.count, days=args.days)
+    gen = HarrowmereTelemetryGenerator(
+        total_events=args.count, days=args.days, seed=args.seed, start_time=args.start_date
+    )
     gen.generate_all()
 
     os.makedirs(args.out_dir, exist_ok=True)

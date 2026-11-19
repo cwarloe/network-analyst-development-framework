@@ -15,6 +15,8 @@
 
 ## The Situation: Why You Cannot Just "Browse"
 
+Harrowmere spans multiple workplaces. Keep the [same site and network map](../../assets/harrowmere-network-map.svg) beside your hunt notes as you decide which subnet and vantage point could answer a question. Its groupings are stable; it does **not** tell you which paths or sensors exist.
+
 Ethan Mercer sat in front of Harrowmere's primary Security Onion console. Across three 32-inch displays, the cluster held over **42 million connection documents**, **16 million DNS records**, and **8 million TLS handshakes** collected across the Portland, Chicago, and corporate network edges over the preceding seven days.
 
 There were no red alert banners. No high-priority tickets sat in his queue. The SIEM dashboard was green.

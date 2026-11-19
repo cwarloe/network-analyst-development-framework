@@ -40,6 +40,9 @@ python lab/generate-hunt-telemetry.py --count 100000 --verify --out-dir lab/hunt
 
 # Generate a fast 25,000-event practice slice for SQLite only
 python lab/generate-hunt-telemetry.py --count 25000 --format sqlite --out-dir lab/hunt-data
+
+# Replay exactly the same synthetic case in a different session
+python lab/generate-hunt-telemetry.py --count 25000 --seed 42 --start-date 2026-09-01 --out-dir lab/hunt-data
 ```
 
 ### CLI Options:
@@ -48,6 +51,10 @@ python lab/generate-hunt-telemetry.py --count 25000 --format sqlite --out-dir la
 * `--format, -f`: Output target (`sqlite`, `ndjson`, or `all`).
 * `--out-dir, -o`: Target output folder (default: `lab/hunt-data`).
 * `--verify, -v`: Runs automated mathematical audits asserting needle detectability ($CV < 0.20$, entropy $H > 4.5$, cardinality == 1).
+* `--seed`: Optional integer seed for the synthetic host and event choices.
+* `--start-date`: Optional case start date (`YYYY-MM-DD`, UTC midnight). **Use both `--seed` and `--start-date` to reproduce the exact records and output files.** Without a start date, the default case window rolls forward with the clock.
+
+The [Harrowmere network map](../assets/harrowmere-network-map.svg) is a reusable location reference for Book 2, not a diagram of the embedded campaigns or observed links.
 
 ---
 
