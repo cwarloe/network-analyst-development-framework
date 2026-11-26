@@ -63,7 +63,7 @@ Distribution Density
 
 ## 2. Elasticsearch Date Histogram & Interval Profiling
 
-In Kibana or Security Onion Hunt, calculate connection frequency across time using a `date_histogram` aggregation:
+In **Kibana Dev Tools** (or another Elasticsearch API client), calculate connection frequency across time using a `date_histogram` aggregation. The raw `POST` request below **does not run in the Security Onion Hunt search bar**, which accepts OQL rather than Elasticsearch request bodies:
 
 ```json
 POST /so-zeek-conn-*/_search
