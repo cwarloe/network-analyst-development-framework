@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 lab/check-links.py
+      - name: replayable synthetic hunt case regression
+        run: python3 -m unittest discover -s lab -p 'test_*.py' -v
 
   narrative-dates:
     name: narrative dates, IDs, and surnames
