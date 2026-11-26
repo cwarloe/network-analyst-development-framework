@@ -10,14 +10,15 @@ Generates realistic network telemetry modeling Harrowmere Equipment Group:
   3. Long Tail (0.01% volume): Administrative weirdness (Portland 2011 basement boiler NTP checks,
      HP LaserJet SNMP sweeps).
   4. Three Embedded Adversary Campaigns:
-     - Campaign 1 (Hunts 02 & 03): CAD workstation 10.100.14.88 / 10.42.18.91 beaconing over HTTPS
-       with User-Agent 'python-requests/2.28.1' and jittered delta-time (CV ~ 0.08 - 0.12).
+     - Campaign 1 (Hunts 02 & 03): distinct CAD hosts 10.100.14.88 (HTTP 8080)
+       and 10.42.18.91 (642 TLS sessions) with jittered 60-second beacons.
      - Campaign 2 (Hunt 04): Staging server 10.100.40.12 using domain fronting on Cloudflare CDN
        with Go JA4 fingerprint 't13d190800_2a27b87c7a10_e68c9e54a0f8' and 10,000+ high-entropy
        DNS tunneling queries (Shannon entropy H > 4.6 bits/symbol).
-     - Campaign 3 (Hunt 05 Capstone): Chicago workstation 10.120.32.14 lateral movement over IPsec
-       via native SMB/RPC pipes to Portland repository 10.110.16.5, followed by recursive DNS
-       exfiltration to 'data-sync-telemetry.net' (62-char subdomains, H = 4.86 bits/symbol).
+     - Campaign 3 (Hunt 05 Capstone): Chicago workstation 10.120.32.14 sends
+       3,840 TLS beacons, then 22 SMB/RPC sessions across IPsec to Portland
+       repository 10.110.16.5. Portland sends 62-character DNS TXT payloads;
+       --full-hunt05 emits all 142,890 learner-case queries.
 
 Zero external dependencies — standard library only (sqlite3, json, gzip, csv, math, random).
 """
@@ -92,10 +93,12 @@ def shannon_entropy(data_str: str) -> float:
 # Telemetry Generation Engine
 # -----------------------------------------------------------------------------
 class HarrowmereTelemetryGenerator:
-    def __init__(self, total_events=100000, days=14, seed=None, start_time=None):
+    def __init__(self, total_events=100000, days=14, seed=None, start_time=None,
+                 full_hunt05=False):
         self.total_events = total_events
         self.days = days
         self.rng = random.Random(seed)
+        self.full_hunt05 = full_hunt05
         # Explicit start + seed makes the same case replayable across sessions.
         # Otherwise the rolling window keeps the original default behavior.
         self.start_time = (
@@ -294,14 +297,14 @@ class HarrowmereTelemetryGenerator:
             })
 
     def _embed_campaign_1_beacon(self):
-        # Hunt 02 & Hunt 03: CAD Workstation 10.100.14.88 (also 10.42.18.91)
+        # Hunt 02: CAD Workstation 10.100.14.88, HTTP port 8080.
         # Jittered C2 Beacon: sleep = 60s, jitter = ±20% -> bounds: [48s, 72s], CV ~ 0.115
         base_time = self.start_time
         target_ip = "10.100.14.88"
         dest_ip = "198.51.100.84"
         dest_port = 8080
         
-        # 642 beacon connections across 7 days
+        # Bounded 60-second HTTP preview stream retained for Hunt 02.
         current_time = base_time
         end_time = base_time + datetime.timedelta(days=7)
         while current_time < end_time and len(self.conn_logs) < self.total_events + 700:
@@ -328,6 +331,36 @@ class HarrowmereTelemetryGenerator:
                 "source.ip": target_ip,
                 "destination.ip": dest_ip,
                 "user_agent.original": "python-requests/2.28.1"
+            })
+
+        # Hunt 03's authored case is a DIFFERENT engineering workstation.
+        # Its 642 TLS sessions form a ~11-hour cluster within a seven-day
+        # investigation window; do not confuse it with Hunt 02's HTTP stream.
+        current_time = base_time + datetime.timedelta(days=2, hours=8)
+        for _ in range(642):
+            current_time += datetime.timedelta(seconds=60 * self.rng.uniform(0.8, 1.2))
+            ts = current_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            self.conn_logs.append({
+                "@timestamp": ts,
+                "source.ip": "10.42.18.91",
+                "source.port": self.rng.randint(49152, 65535),
+                "destination.ip": dest_ip,
+                "destination.port": 443,
+                "network.transport": "tcp",
+                "service": "ssl",
+                "duration": round(self.rng.uniform(0.18, 0.45), 4),
+                "source.bytes": self.rng.randint(248, 312),
+                "destination.bytes": self.rng.randint(140, 180),
+                "conn_state": "SF"
+            })
+            self.ssl_logs.append({
+                "@timestamp": ts,
+                "source.ip": "10.42.18.91",
+                "destination.ip": dest_ip,
+                "destination.port": 443,
+                "server_name": "update-assistant.cdn-service.com",
+                "tls.ja4": "t13d1516h2_8daaf6152771_b5da04f6479a",
+                "tls.version": "1.3"
             })
 
     def _embed_campaign_2_domain_fronting(self):
@@ -390,32 +423,73 @@ class HarrowmereTelemetryGenerator:
         # Step 3: Portland 10.110.16.5 -> data-sync-telemetry.net DNS TXT exfil
         chicago_host = "10.120.32.14"
         portland_host = "10.110.16.5"
-        
-        # Lateral movement SMB sessions between Chicago and Portland across IPsec
-        for day in [4, 5, 6]:
-            for hour in [2, 3]:
-                ts_lat = (self.start_time + datetime.timedelta(days=day)).replace(
-                    hour=hour, minute=self.rng.randint(10, 50), second=self.rng.randint(0, 59)
-                ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-                self.conn_logs.append({
-                    "@timestamp": ts_lat,
-                    "source.ip": chicago_host,
-                    "source.port": self.rng.randint(49152, 65535),
-                    "destination.ip": portland_host,
-                    "destination.port": 445,
-                    "network.transport": "tcp",
-                    "service": "smb",
-                    "duration": round(self.rng.uniform(12.5, 84.0), 2),
-                    "source.bytes": self.rng.randint(45000, 185000),
-                    "destination.bytes": self.rng.randint(120000, 4800000),
-                    "conn_state": "SF"
-                })
 
-        # Portland DNS exfiltration (data-sync-telemetry.net)
+        # Exact case count and tight 300s rhythm from Hunt 05's narrative.
+        # A fixed 14-day window holds this ~13.34-day series. A 14-day
+        # baseline is required for the authored capstone; shorter synthetic
+        # windows are useful for smoke tests, not full case reproduction.
+        current_time = self.start_time + datetime.timedelta(minutes=5)
+        for _ in range(3840):
+            current_time += datetime.timedelta(seconds=300.2 + self.rng.uniform(-41.7, 41.7))
+            ts = current_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            self.conn_logs.append({
+                "@timestamp": ts,
+                "source.ip": chicago_host,
+                "source.port": self.rng.randint(49152, 65535),
+                "destination.ip": "198.51.100.84",
+                "destination.port": 443,
+                "network.transport": "tcp",
+                "service": "ssl",
+                "duration": round(self.rng.uniform(0.15, 0.5), 4),
+                "source.bytes": self.rng.randint(300, 420),
+                "destination.bytes": self.rng.randint(120, 180),
+                "conn_state": "SF"
+            })
+            self.ssl_logs.append({
+                "@timestamp": ts,
+                "source.ip": chicago_host,
+                "destination.ip": "198.51.100.84",
+                "destination.port": 443,
+                "server_name": "telemetry.microsoft-cdn.example",
+                "tls.ja4": "t13d1516h2_3d3c9e9a94fb_4c4d88d87933",
+                "tls.version": "1.3"
+            })
+        
+        # 22 distinct cross-campus sessions, beginning Day 4 at 02:14.
+        # SMB and RPC are both represented rather than implied by comments.
+        for i in range(22):
+            ts_lat = (self.start_time + datetime.timedelta(
+                days=4 + (i // 8), hours=2, minutes=14 + (i % 8) * 4
+            )).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            port = 135 if i % 4 == 3 else 445
+            self.conn_logs.append({
+                "@timestamp": ts_lat,
+                "source.ip": chicago_host,
+                "source.port": self.rng.randint(49152, 65535),
+                "destination.ip": portland_host,
+                "destination.port": port,
+                "network.transport": "tcp",
+                "service": "rpc" if port == 135 else "smb",
+                "duration": round(self.rng.uniform(12.5, 84.0), 2),
+                "source.bytes": self.rng.randint(45000, 185000),
+                "destination.bytes": self.rng.randint(120000, 4800000),
+                "conn_state": "SF"
+            })
+
+        # Default preview is intentionally cheap; full-fidelity capstone
+        # explicitly reproduces 142,890 DNS queries cited by the lessons.
+        # Select high-entropy simulated payloads in a narrow, documented
+        # band so the observed mean resembles the authored ~4.86 case.
+        # This is synthetic case construction, NOT evidence of real exfil.
         b32_chars = "abcdefghijklmnopqrstuvwxyz234567-0189"
-        for i in range(2500):
+        dns_count = 142890 if self.full_hunt05 else 2500
+        for i in range(dns_count):
             ts = self._random_timestamp(day_offset=self.rng.uniform(7, 14), hour=self.rng.randint(1, 4))
-            subdomain = "".join(self.rng.choice(b32_chars) for _ in range(62))
+            while True:
+                subdomain = "".join(self.rng.choices(b32_chars, k=62))
+                ent = shannon_entropy(subdomain)
+                if 4.82 <= ent <= 4.90:
+                    break
             fqdn = f"{subdomain}.data-sync-telemetry.net"
             self.dns_logs.append({
                 "@timestamp": ts,
@@ -425,7 +499,7 @@ class HarrowmereTelemetryGenerator:
                 "dns.question.type": "TXT",
                 "dns.response.code": "NOERROR",
                 "dns.answers": ["OK"],
-                "entropy": round(shannon_entropy(subdomain), 3)
+                "entropy": round(ent, 3)
             })
 
     # -------------------------------------------------------------------------
@@ -651,12 +725,14 @@ def main():
     parser.add_argument("--out-dir", "-o", default="lab/hunt-data", help="Output directory (default: lab/hunt-data)")
     parser.add_argument("--verify", "-v", action="store_true", help="Run statistical discrimination test suite")
     parser.add_argument("--seed", type=int, help="Random seed for replayable host and event generation")
+    parser.add_argument("--full-hunt05", action="store_true", help="Emit the exact 142,890 Hunt 05 TXT queries (default: 2,500-query fast preview)")
     parser.add_argument("--start-date", type=start_date, metavar="YYYY-MM-DD", help="First day of the synthetic case in UTC (pair with --seed to replay)")
 
     args = parser.parse_args()
 
     gen = HarrowmereTelemetryGenerator(
-        total_events=args.count, days=args.days, seed=args.seed, start_time=args.start_date
+        total_events=args.count, days=args.days, seed=args.seed,
+        start_time=args.start_date, full_hunt05=args.full_hunt05
     )
     gen.generate_all()
 
