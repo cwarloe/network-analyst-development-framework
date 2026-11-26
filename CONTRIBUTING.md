@@ -1,6 +1,12 @@
 # Contributing
 
-Open a pull request. That's the process.
+This is a one-person project. Follow the [working practice in AGENTS.md](AGENTS.md#working-practice): keep the work moving without an issue, assigned reviewer, or approval ceremony for every small change.
+
+- For **small, reversible, preauthorized internal engineering or mechanical corrections**, run the applicable checks and land the change on `main`. No pull request is required solely to create a review ceremony.
+- For **substantial changes where the diff is useful to inspect**, open a pull request and merge after CI succeeds. Do not wait for another person's approval unless the maintainer requested it or the change is hard to reverse.
+- **Stop for a real decision**, including new lesson or story canon, change of scope or audience, sensitive material, public-facing editorial decisions, or licensing/security implications. A green test cannot make those decisions.
+
+In every case, preserve the technical and instructional standards below.
 
 ## What gets reviewed
 
