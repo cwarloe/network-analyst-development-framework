@@ -64,7 +64,7 @@ $$\text{Cardinality}(S) = |\{ \text{source.ip} \in \text{Bucket} \}|$$
 
 ## 2. Elasticsearch Stacking Syntax
 
-In the Security Onion Hunt or Kibana Dev Tools console, execute the following multi-bucket aggregation against `http.log`:
+In **Kibana Dev Tools** (or another Elasticsearch API client), execute the following multi-bucket aggregation against `http.log`. **Do not paste this `POST` request into the Security Onion Hunt search bar**; Hunt accepts OQL, not raw Elasticsearch request bodies. For the equivalent Hunt-screen stacking workflow, see the [two-minute `groupby` primer](../security-onion-groupby-primer.md). Check [field names](../field-names.md) for your ingest source before running either version:
 
 ```json
 POST /so-zeek-http-*/_search
