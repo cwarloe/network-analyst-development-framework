@@ -10,6 +10,9 @@ from contextlib import redirect_stdout
 import io
 from pathlib import Path
 import runpy
+import subprocess
+import sys
+import tempfile
 import unittest
 
 
@@ -64,6 +67,19 @@ class HuntVerificationTest(unittest.TestCase):
         ]
         with self.assertRaisesRegex(AssertionError, "Benign DNS baseline"):
             self.verify(case)
+
+    def test_optimized_python_cannot_turn_off_verification(self):
+        # -O removes assert statements entirely. A zero-head case has no
+        # benign DNS baseline and must never print an unconditional PASS.
+        with tempfile.TemporaryDirectory() as output:
+            result = subprocess.run(
+                [sys.executable, "-O", str(Path(__file__).with_name("generate-hunt-telemetry.py")),
+                 "--count", "0", "--seed", "42", "--start-date", "2026-09-01",
+                 "--format", "ndjson", "--out-dir", output, "--verify"],
+                capture_output=True, text=True, timeout=60, check=False,
+            )
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Benign DNS baseline missing", result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
