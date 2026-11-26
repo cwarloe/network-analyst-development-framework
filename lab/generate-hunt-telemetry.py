@@ -579,12 +579,14 @@ class HarrowmereTelemetryGenerator:
         
         top_rare_ua = sorted_ua[0][0]
         assert top_rare_ua == "cargo/1.75.0 (x86_64-pc-windows-msvc)" or "python-requests" in top_rare_ua, "Outlier UA not isolated!"
+        assert len(ua_hosts[top_rare_ua]) == 1, "Host cardinality must be 1 for the rare User-Agent!"
         print("  -> PASS: Outlier User-Agent exhibits Cardinality == 1.")
 
         # 2. Audit Hunt 03: Beacon Delta-Time Distribution & Jitter
         print("\n[Audit 2: Beacon Timing Delta-Time & Jitter Profiling]")
         beacon_events = [r for r in self.conn_logs if r["source.ip"] == "10.100.14.88" and r["destination.ip"] == "198.51.100.84"]
         beacon_events.sort(key=lambda x: x["@timestamp"])
+        assert len(beacon_events) >= 2, "Beacon events missing or insufficient for jitter audit!"
         
         deltas = []
         for i in range(1, len(beacon_events)):
@@ -610,6 +612,7 @@ class HarrowmereTelemetryGenerator:
         print("\n[Audit 3: Shannon Entropy on DNS Tunneling Queries]")
         normal_queries = [r["entropy"] for r in self.dns_logs if "data-relay" not in r["dns.question.name"] and "data-sync" not in r["dns.question.name"]]
         tunnel_queries = [r["entropy"] for r in self.dns_logs if "data-relay" in r["dns.question.name"]]
+        assert normal_queries, "Benign DNS baseline missing; cannot verify entropy separation!"
         
         avg_normal_ent = sum(normal_queries) / len(normal_queries) if normal_queries else 0
         avg_tunnel_ent = sum(tunnel_queries) / len(tunnel_queries) if tunnel_queries else 0
